@@ -61,20 +61,29 @@
 6. 在 `模板試驗\` 做排版實驗。
 
 ## 4. 檔案地圖
+
+詳細地圖見 `FILE_STRUCTURE.md`。簡化版：
+
 ```
-notebookLM\
-├─ 原材料\                    原稿收件匣（課本節錄 PDF、教師講義 docx）
-├─ 初三講義\融合班講義練習\    18 單元成品（NN_單元名\ 每單元 4 檔）
-├─ 高一講義\ 高二講義\        高中各單元資料夾
-├─ inclusive-derivative-intro_高三數學\  高三導數系列
-├─ IEP第8-9點_*\              IEP 草稿（敏感；不上傳）
-├─ worksheet-tools\           四校聯考工作紙產生器
-├─ 模板試驗\                  排版試驗場
-└─ CLAUDE.md                  本手冊
+notebookLM/
+├─ 抽離教學_數學/                         主要教材庫（按學年）
+│  ├─ 初三數學/融合班講義練習/            ✅ 18 單元完整成品
+│  ├─ 新任務/                            📥 原材料收件匣
+│  └─ 高一/高二/高三數學/                ⏸ 備用（待需求補充）
+├─ math-test/                           💼 特別班教材
+├─ worksheet-tools/                     🔧 工具：四校聯考工作紙
+├─ math-inclusive-test-generator-new/   🔧 工具：融合班出題
+├─ math-visual-scaffold-generator-new/  🔧 工具：資訊圖表生成
+├─ inclusive-soil-teaching-deck/        🔧 工具：土壤教學簡報
+├─ notebookLM/                          ☁️ Google NotebookLM 同步
+├─ 模板試驗/                            🎨 排版實驗場
+├─ _archive/                            📦 舊版檔案歸檔
+└─ CLAUDE.md / CLAUDE-DETAILED.md / FILE_STRUCTURE.md
 ```
 
 ## 5. 相關文件
 - 詳細文件（環境事實、踩坑、品質標準）：`CLAUDE-DETAILED.md`
+- 完整檔案地圖：`FILE_STRUCTURE.md`
 - 版面規格：`~\.claude\skills\inclusive-math-worksheet-generator\references\house-style.md`
 - 教學設計庫：同資料夾 `teaching-designs.md`
 - 跨 session 經驗：`~\.claude\projects\C--Users-KongChiLok-notebookLM\memory\`
