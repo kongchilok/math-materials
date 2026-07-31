@@ -1,0 +1,34 @@
+# 暫存檔
+_tmp*
+_src*
+_verify*
+*.lock
+
+# 系統檔案
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# Node 模組（教學簡報用）
+node_modules/
+package-lock.json
+
+# IDE
+.vscode/
+.idea/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+
+# 圖片（大檔案）
+*.png
+*.jpg
+*.jpeg
+
+# 日誌
+*.log
