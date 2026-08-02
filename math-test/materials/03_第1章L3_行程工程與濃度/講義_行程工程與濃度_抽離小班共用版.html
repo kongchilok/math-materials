@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第1章 特殊數學應用專題．L3 行程、工程效率與濃度</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第1章 特殊數學應用專題．L3 行程、工程效率與濃度</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、這一課要做到的事</div>
+  <div>這一課有三種題目：行程（追車、相遇、追及）、工程效率（幾多日做完）、濃度（鹽水加水、兩種溶液混合）。三種題目的情境完全不同，但骨架是同一條——都是「率 × 量 ＝ 總量」。</div><div>行程題的率是速度，工程題的率是工作效率，濃度題的率是濃度。認出這一點之後，三種題目就不必分開背三套方法，只要每次問自己同樣的兩句話：「這一題的三個量是哪三個？」「這一題由頭到尾，哪一個量沒有變？」</div><div>第二句是本課的關鍵。列方程需要一條等式，那條等式就是從「不變的那個量」寫出來的：相遇題不變的是兩段路程的和，追及題不變的是兩段路程的差，工程題不變的是整項工程（當作 1），濃度題不變的是溶質（鹽、糖）的質量。</div><div>所以這一課的做法，是把每一題都填進一張三欄表：第①欄只做讀題（把已知抄出來、把不變量寫出來），第②欄只做列式（不計算），第③欄才動手算並反過來檢核。讀題、列式、計算三件事分開做，就不會一邊讀題一邊算而漏掉條件。</div>
+
+  <div class="section-h">二、三種題型，同一條骨架</div>
+  <div>下表左欄是題型，右欄是那一種題的三量關係與不變量。讀題之後第一件事，就是對照這張表認出自己在做哪一種。</div>
+  <table class="d-tbl dual-track">
+    <tr><th>這一課的三種題型</th><th>三量關係 → 這一題的不變量</th></tr>
+    <tr><td><div>行程題</div><div>（相遇、追及、分段行駛）</div></td><td><div>路程 ＝ 速度 × 時間</div><div>不變量：相遇 → 兩段路程的和 ＝ 全程；追及 → 兩段路程的差 ＝ 一開始的領先距離</div></td></tr><tr><td><div>工程效率題</div><div>（單獨做、合做、接力做）</div></td><td><div>工作量 ＝ 工作效率 × 日數</div><div>不變量：整項工程 ＝ 1；單獨 n 天做完，效率就是 \(\frac{1}{n}\)</div></td></tr><tr><td><div>濃度題</div><div>（加水、蒸發、混合）</div></td><td><div>溶質 ＝ 溶液 × 濃度</div><div>不變量：加水或蒸發時，溶質（鹽／糖）的質量不變；混合時，混合後的溶質 ＝ 兩邊溶質相加</div></td></tr>
+  </table>
+
+  <div class="section-h">三、關鍵字對譯</div>
+  <div>上半部是可以照字面翻成算式的說法；下半部的<span class="kw-trap">陷阱詞</span>不可以照字面翻，讀到時要在題目上劃雙底線，停一停再寫。</div>
+  <table class="d-tbl kw-table">
+    <tr><th>題目說…</th><th>就寫成…</th></tr>
+    <tr><td>速度 × 時間</td><td>＝ 路程。三個量知其中兩個，第三個就求得出</td></tr><tr><td>工作效率 × 日數</td><td>＝ 工作量。整項工程當作 1</td></tr><tr><td>濃度 × 溶液質量</td><td>＝ 溶質質量（鹽或糖本身的質量）</td></tr><tr><td>「同時出發、相向而行」</td><td>兩者一起縮短中間的距離 → 速度相加</td></tr><tr><td>「同向而行，去追前面的」</td><td>後者一點一點吃掉領先距離 → 速度相減</td></tr><tr><td>「單獨做要 n 天完成」</td><td>效率 ＝ \(\frac{1}{n}\)，即每日完成整項工程的 \(\frac{1}{n}\)</td></tr><tr><td>「加入清水」</td><td>溶質不變、溶液變多 → 濃度下降</td></tr><tr><td>「蒸發掉水分」</td><td>溶質不變、溶液變少 → 濃度上升</td></tr><tr class="trap"><td colspan="2">⚠ 陷阱詞（不可以照字面翻成算式）</td></tr><tr><td>「相遇」</td><td>是兩段路程的「和」等於全程，速度要相加；不要寫成相減</td></tr><tr><td>「追上」</td><td>是兩段路程的「差」等於領先距離，速度要相減；不要寫成相加</td></tr><tr><td>「甲先走 5 分鐘」</td><td>先算出他領先了多少距離（速度 × 5），不是把 5 分鐘從時間裡減掉</td></tr><tr><td>「兩隊合做」</td><td>把兩個「效率」相加；不可以把兩個「日數」相加，也不可以取平均</td></tr><tr><td>「甲 20 天、乙 30 天，合做要幾天」</td><td>答案一定比 20 更小（合做一定比任何一人單獨做快）；答 25 天必錯</td></tr><tr><td>「濃度 15% 的鹽水 200 克」</td><td>200 克是鹽水（溶液）的質量，不是鹽的質量；鹽 ＝ 200 × 15%</td></tr><tr><td>「加水稀釋」</td><td>分母（溶液）變大、分子（溶質）不變；不可以把兩個濃度相加</td></tr><tr><td>「兩種鹽水混合」</td><td>混合後的溶質 ＝ 兩邊溶質相加；濃度不是兩個濃度的平均</td></tr>
+  </table>
+
+  <div class="section-h page-break">四、範例A・行程：兩段路程的和</div>
+  <div class="problem">【範例A・行程】甲、乙兩地相距 360 公里。一輛客車由甲地開出，時速 80 公里；同時一輛貨車由乙地開出，時速 100 公里，兩車相向而行。問（a）幾小時後兩車相遇？（b）相遇處距甲地多少公里？</div>
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="580" height="84" viewBox="0 0 580 84" role="img"><rect width="580" height="84" fill="#ffffff"/><text x="84.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">一整條 ＝ 甲乙兩地全程；相遇時，兩段合起來剛好是全程</text><text x="74.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">全程</text><rect x="84.0" y="30.0" width="177.8" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="172.9" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">客車走的（80×2）</text><rect x="261.8" y="30.0" width="222.2" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="372.9" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">貨車走的（100×2）</text><path d="M 490.0 30 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="520.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">360 公里</text></svg>
+    <div class="cap">相遇時，客車走的那一段加貨車走的那一段，剛好是全程</div>
+  </div>
+  <table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td><div>已知：兩地相距 360 公里（全程）。</div><div>已知：客車 80 公里／小時，貨車 100 公里／小時。</div><div>已知：同時出發、相向而行。</div><div>所求：（a）相遇需時（b）相遇處距甲地的路程。</div><div>※ 這一題不變的是：兩車走的路程「和」＝ 全程 360 公里。</div></td><td><div>三量關係：路程 ＝ 速度 × 時間。</div><div>相向而行，兩車一起縮短中間的距離，速度可以合併：</div><div>合速度 ＝ \(80+100=180\)（公里／小時）。</div><div>設相遇需時 \(t\) 小時：</div><div>\(80t+100t=360\)，即 \(180t=360\)。</div><div>（b）相遇處距甲地 ＝ 客車走的路程 ＝ \(80t\)。</div></td><td><div>（a）\(t=\frac{360}{180}=2\)（小時）。</div><div>（b）距甲地 ＝ \(80 \times 2=160\)（公里）。</div><div>檢核：貨車走了 \(100 \times 2=200\) 公里；</div><div>\(160+200=360\)，與全程相符。</div><div>合理性：客車較慢，走得較少（160 小於 200），相遇點應該較接近甲地——與答案相符。</div></td></tr></table>
+  <div class="hint-card">※ 相遇題把兩輛車的速度加起來，是因為它們一起在縮短中間那段距離。追及題剛好相反：兩者同向，後面的每分鐘只吃掉「速度差」那麼多，所以速度要相減。</div>
+
+  <div class="section-h page-break">五、範例B・工程效率：整項工程當作 1</div>
+  <div class="problem">【範例B・工程效率】一項工程，甲隊單獨做 20 天完成，乙隊單獨做 30 天完成。甲隊先單獨做 5 天，之後兩隊一起做。問還要多少天才能完成？</div>
+  <table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td><div>已知：甲隊單獨 20 天完成整項工程。</div><div>已知：乙隊單獨 30 天完成整項工程。</div><div>已知：甲先做 5 天，之後兩隊合做。</div><div>所求：合做還需要的日數。</div><div>※ 題目由頭到尾沒有講工程有多少立方米、多少件——工程量沒有數值，這一類題把整項工程當作 1。</div><div>※ 這一題不變的是：整項工程 ＝ 1。</div></td><td><div>三量關係：工作量 ＝ 工作效率 × 日數。</div><div>甲的效率 ＝ \(\frac{1}{20}\)</div><div>乙的效率 ＝ \(\frac{1}{30}\)</div><div>甲先做 5 天：\(5 \times \frac{1}{20}=\frac{1}{4}\)</div><div>餘下：\(1-\frac{1}{4}=\frac{3}{4}\)</div><div>合做效率 ＝ \(\frac{1}{20}+\frac{1}{30}\)</div><div>　　　　＝ \(\frac{3}{60}+\frac{2}{60}=\frac{1}{12}\)</div><div>設還要 \(t\) 天：\(\frac{1}{12} \times t=\frac{3}{4}\)</div></td><td><div>\(t=\frac{3}{4}/\frac{1}{12}\)</div><div>　＝ \(\frac{3}{4} \times 12=9\)（天）。</div><div>檢核：這 9 天甲做了 \(\frac{9}{20}\)，</div><div>乙做了 \(\frac{9}{30}=\frac{3}{10}\)。</div><div>甲一共做了 \(\frac{5}{20}+\frac{9}{20}=\frac{7}{10}\)，</div><div>而 \(\frac{7}{10}+\frac{3}{10}=1\)，剛好做完。</div><div>合理性：若一開始就合做只需 12 天；本題甲自己先做了 5 天，總日數 \(5+9=14\) 天，比 12 天多——合理。</div></td></tr></table>
+  <div class="hint-card">※ 工程題不給工程量的數值，是故意的——因為答案與工程有多大無關。把整項工程當作 1，「單獨 n 天完成」就是每日完成 \(\frac{1}{n}\)，合做就把幾個 \(\frac{1}{n}\) 加起來。</div>
+
+  <div class="section-h page-break">六、範例C・濃度：鹽的質量不會變</div>
+  <div class="problem">【範例C・濃度】有 200 克濃度 15% 的鹽水。問（a）加入 50 克清水之後，鹽水的濃度變成多少？（b）若要把原來那 200 克鹽水的濃度降到 10%，應加入多少克清水？</div>
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="580" height="200" viewBox="0 0 580 200" role="img"><rect width="580" height="200" fill="#ffffff"/><text x="84.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">三條的「鹽」那一段一樣長——加水只令整條變長，鹽沒有變</text><text x="74.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">原來</text><rect x="84.0" y="30.0" width="40.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="104.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">鹽 30 克</text><rect x="124.0" y="30.0" width="226.7" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="237.3" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">水 170 克</text><path d="M 356.66666666666663 30 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="386.7" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">200 克</text><text x="74.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">加 50 克水</text><rect x="84.0" y="88.0" width="40.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="104.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">鹽 30 克</text><rect x="124.0" y="88.0" width="293.3" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="270.7" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">水 220 克</text><path d="M 423.33333333333337 88 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="453.3" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">250 克</text><text x="74.0" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">加 100 克水</text><rect x="84.0" y="146.0" width="40.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="104.0" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">鹽 30 克</text><rect x="124.0" y="146.0" width="360.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="304.0" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">水 270 克</text><path d="M 490.0 146 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="520.0" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">300 克</text></svg>
+    <div class="cap">三條的鹽段一樣長：加水只令整條變長，鹽的質量始終是 30 克</div>
+  </div>
+  <table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td><div>已知：鹽水 200 克，濃度 15%。</div><div>已知：（a）加入 50 克清水（b）目標濃度 10%。</div><div>所求：（a）新的濃度（b）要加入的清水質量。</div><div>※ 加入的是清水——沒有加鹽，也沒有拿走鹽。</div><div>※ 這一題不變的是：鹽（溶質）的質量。</div></td><td><div>三量關係：溶質 ＝ 溶液 × 濃度。</div><div>鹽的質量 ＝ \(200 \times 0.15=30\)（克）。這 30 克在（a）（b）兩問都不變。</div><div>（a）新溶液 ＝ \(200+50=250\)（克）；</div><div>　　新濃度 ＝ \(\frac{30}{250}\)。</div><div>（b）設加入 \(w\) 克清水，新溶液 ＝ \(200+w\)（克）：</div><div>　　\(\frac{30}{200+w}=0.1\)。</div></td><td><div>（a）\(\frac{30}{250}=0.12\)，即 12%。</div><div>（b）30 ÷ 0.1 ＝ 300，即 \(200+w=300\)，</div><div>　　所以 \(w=100\)（克）。</div><div>檢核（a）：\(250 \times 0.12=30\) 克鹽，與原來一樣。</div><div>檢核（b）：\(300 \times 0.1=30\) 克鹽，與原來一樣。</div><div>合理性：加水只會令濃度下降，15% → 12% → 10%，加得越多降得越多——與答案相符。</div></td></tr></table>
+  <div class="hint-card">※ 濃度題最常見的錯，是把題目給的溶液質量當成溶質質量。看到「濃度 15% 的鹽水 200 克」，先寫一句「鹽 ＝ 200 × 15% ＝ 30 克」，之後整題都用這個 30 克。</div>
+
+  <div class="section-h page-break">七、自己動手時的四個動作</div>
+  <div class="hint-card">動作 1　認出題型，先寫下三個量。行程題 → 路程／速度／時間；工程題 → 工作量／工作效率／日數；濃度題 → 溶質／溶液／濃度。三個位置先寫出來，再把題目給的數填進去，就看得出缺哪一個。</div><div class="hint-card">動作 2　找出不變量，寫在第①欄最後一行的 ※ 後面。相遇 → 路程的和；追及 → 路程的差；工程 → 整項工程 ＝ 1；濃度 → 溶質的質量。不變量就是等號的其中一邊。</div><div class="hint-card">動作 3　在第②欄列式，不要計算。用「率 × 量 ＝ 總量」把每一段寫出來，再用不變量把它們接成一條等式。這一欄只寫式，不寫答案。</div><div class="hint-card">動作 4　在第③欄算，算完反推檢核。把答案代回去，重新算一次那個不變量，看看是否等於題目給的數；再看一次答案大小合不合常理。</div>
+
+  <div class="section-h">八、接下來</div>
+  <div>請拿出《第1章 L3 行程、工程效率與濃度　課堂練習》，依照上面四個動作完成練習A、練習B、練習C。練習A 的三欄表第①②欄已經填了一半，補完之後在第③欄計算；練習B 的三欄全空，欄位還在；練習C 連欄位都沒有，請自己在作答空間畫出三欄再填。</div>
+
+  <div class="footer">高三數學．第1章 特殊數學應用專題．L3 行程、工程效率與濃度</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D4 三欄式引導工作紙——三欄固定為 ① 語意擷取 ② 關係式建構 ③ 運算與檢核</td></tr><tr><td>輔助設計</td><td>D1 條形／線段圖（只用於行程的相遇與濃度的加水稀釋兩處）、D8 關鍵字對譯表（一般對譯＋陷阱詞分開列）</td></tr><tr><td>選用理由</td><td>本課題源自題庫 A1 應用題文字題中的行程、工程效率與濃度類（約 29 題），與 L1、L2 同屬 teaching-designs.md 的 S1 文字應用題結構。但本課的認知瓶頸與前兩課不同：L1 卡在「讀不出比例關係」，L2 卡在「哪一個量是 100%」，本課卡在「三種情境要各自認出自己的三量關係，並先判斷哪一個量不變才列得出等式」。由於困難在「讀題→列式」這一段的程序本身，而不是缺一張圖，故主設計改用 S1 的備選 D4 三欄式引導，把讀題、列式、計算三種互相干擾的認知活動在版面上物理分開；同時這也是 L2 教師說明頁已寫明的 D1 褪除時程——D1 由主設計降為輔助，只保留在真正需要圖的兩處（相遇的路程和、加水稀釋時鹽段不變）。D8 沿用但改為完整重印一般對譯＋陷阱詞：本課一次過引入三種新情境，術語量比前兩課大（相遇／追及／效率／溶質／稀釋），需要重新給一次對譯表。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>三欄式（D4）：本課講義三個範例都是填好的三欄表 → 練習A 第①②欄已填一半、第③欄全空 → 練習B 三欄全空但欄位還在 → 練習C 只給題目，欄位由學生自己畫 → L4 起不再印欄位，只在題目旁留一句「先做第①欄」→ 之後完全移除。｜條形／線段圖（D1）：L1 給半成品圖、L2 給空白格線，本課起不再給任何圖框，只在行程與濃度題保留一句「請先在空白處畫線段圖」 → L4 移除該句。｜關鍵字對譯（D8）：本課講義給完整對譯表＋陷阱詞，並印成工具卡讓學生放桌面 → 練習A 的第①欄已把關鍵字抄進表格 → 練習B 由學生自己抄進第①欄 → 練習C 不提示 → L4 起只保留陷阱詞卡，一般對譯不再印。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天四件事：三量骨架 → 範例A 行程 → 範例B 工程 → 範例C 濃度）、F4 過程導向回饋與分步計分（第①欄的不變量判斷單獨給分；不變量判斷正確而後續算術筆誤者，不重複扣分——對應官方代碼 a7）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a5 放大字體、a6 增加行距、a7 調整計分標準（三欄各自給分，不以最後答案一刀切）</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度，未刪減內容。</td></tr><tr><td>與 L1、L2 的銜接</td><td>本課假設學生已完成《L1 比例與分配》與《L2 利潤、折扣與費率階梯》，已有「先畫圖／先定基準再列式」的習慣。本課把那個習慣制度化成三欄表。若學生未上過前兩課，可先用範例A 帶一次三欄表的填法再進入其餘兩個範例。</td></tr><tr><td>為何不另加自我核對清單（D12）</td><td>本課的核對動作已經內建在三欄式的第③欄「運算與檢核」，另外再加 D12 會令學生同時操作的外部工具超過「主 1＋輔 2」的上限，鷹架本身反而變成新的認知負荷。核對要求改為寫進第③欄的填寫規定。</td></tr><tr><td>配套文件</td><td>《第1章 L3 行程、工程效率與濃度　課堂練習》（練習A／B／C ＋參考答案）、《第1章 L3 行程、工程效率與濃度　工具卡》（三量關係卡、不變量卡、陷阱詞卡、解題四動作卡，學生剪下護貝放桌面）。</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

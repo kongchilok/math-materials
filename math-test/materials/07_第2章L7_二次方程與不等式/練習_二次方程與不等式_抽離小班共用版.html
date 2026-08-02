@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第2章 中學基礎數學應用．L7 一元二次方程與二次不等式</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .selfcheck, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .step-card.compact td:first-child { width: 100%; font-weight: 400; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L7 一元二次方程與二次不等式</span><span>類型：課堂練習</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="hint-card">動筆之前先認出題型：要解方程、求 x → 手順卡一（標準式／試分解／公式法）；問「根的情況」不要求解出根 → 手順卡二（抄 a、b、c／算 Δ／判正負零）；求 x 的範圍（&gt;、&lt;、≥、≤）→ 手順卡三（化正／求根／大於取兩邊、小於取中間）。</div>
+
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+<div>每一題下方標明了要用哪一張手順卡。作答時先寫標準式，再一步一步做。</div>
+
+<div class="problem"><div>1．解方程（因式分解法）：（a）\(x^2-7x+10=0\)　（b）\(x^2-9=0\)。</div><div class="hint-card">▍用手順卡一（解方程）：先確認一邊為 0，再試因式分解——(a) 找兩數之積 10、之和 7；(b) 是平方差 \(x^2-9\)。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>2．只用判別式判斷根的情況（不必解出根）：（a）\(x^2-4x+4=0\)　（b）\(2x^2-3x+5=0\)。</div><div class="hint-card">▍用手順卡二（判別式）：抄 a、b、c，算 \(\Delta =b^2-4ac\)，再看正負零判斷，不必解出根。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>&#9744; 方程已經化成一邊為 0 的標準式</div><div>&#9744; 因式分解後，每個括號都令它為 0，兩個根都寫了出來</div><div>&#9744; 判別式題有寫出 \(\Delta =b^2-4ac\) 的計算，不是只寫結論</div><div>&#9744; 每一題都有中間步驟，不是只寫一個答案</div></div>
+
+<div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+<div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+
+<div>由這一節開始不再標明用哪一張卡，要自己認出題型。三張卡的關鍵詞只在下面重印一次。</div>
+
+<table class="d-tbl step-card compact"><tr><th>三張手順卡（關鍵詞版）</th></tr><tr><td>什麼時候用：先認出題型，再照對應那一行做。</td></tr><tr><td>1. 解方程：化標準式（一邊為 0）→ 試因式分解 \((px+q)(rx+s)=0\) → 分解不到用公式法</td></tr><tr><td>2. 判別式判根：抄 a、b、c → 算 \(\Delta =b^2-4ac\) → 正兩根、零重根、負無根</td></tr><tr><td>3. 解二次不等式：化正（乘負數要轉向）→ 求兩根 → 大於取兩邊、小於取中間</td></tr></table>
+
+<div class="hint-card">※ 乘或除以負數，不等號一定要轉向；&gt; / &lt; 端點空心，≥ / ≤ 端點實心。</div>
+
+<div class="problem"><div>3．用公式法解 \(x^2-6x+2=0\)（答案化到最簡）。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>4．方程 \(x^2+6x+k=0\)。（a）k 為何值時有兩個相等實根？（b）k 在甚麼範圍時有兩個相異實根？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>&#9744; 公式法有先算判別式 Δ，\(-b\) 的負號沒有漏</div><div>&#9744; 根號有化到最簡（例如 \(\sqrt{28}\) 寫成 \(2\sqrt{7}\)），再與分母約簡</div><div>&#9744; 求參數 k 的題，兩個解或整個範圍都寫齊了</div><div>&#9744; 答案該帶根號的就帶根號，沒有硬湊成小數</div></div>
+
+<div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+<div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+
+<div>本節收起工具卡。不等式題（第 5 題）要自己先求根，再畫一條符號線（開口向上的拋物線草圖），標出兩根與正負，才寫解集；第 6 題是找錯題，先圈出錯的那一步，再寫出正確做法。</div>
+
+<div class="problem"><div>5．解二次不等式：（a）\(x^2-x-6 \le 0\)　（b）\(x^2-x-6 \gt 0\)。（先求根，再看拋物線；開口向上時大於取兩邊、小於取中間）</div><div>作答（先求根 → 畫符號線 → 按不等號取區間）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>6．（找錯題）某同學解 \(-x^2+4x-3 \ge 0\) 如下，請圈出錯在哪一步、改正，並寫出正確解集：「兩邊乘 −1：\(x^2-4x+3 \ge 0\)；因式分解 \((x-1)(x-3) \ge 0\)；取兩邊：\(x \le 1\) 或 \(x \ge 3\)。」</div><div>作答（圈出分歧步驟 → 改正 → 寫出正確解集）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>&#9744; 二次不等式先求出兩根，再判斷拋物線開口方向</div><div>&#9744; 用了「大於取兩邊、小於取中間」，而且看清楚含不含端點</div><div>&#9744; 有沒有乘負數？有的話不等號轉向了沒有</div><div>&#9744; 答案寫成 x 的範圍（區間），不是兩個點</div></div>
+
+<div class="section-h page-break">參考答案與詳解（教師用）</div>
+
+<div class="problem"><div style="font-weight:700">1．答案：（a）\(x=2\) 或 \(x=5\)　（b）\(x=3\) 或 \(x=-3\)</div><div>【考點】因式分解解方程：化成一邊為 0，再把左邊分解成兩個括號的乘積，令每個括號分別為 0。每個括號各給一個根，所以有兩個答案。</div><div>【公式／定理】積為 c、和為 −b 的兩數 → \(x^2-(和)x+(積)\)；平方差 \(x^2-a^2=(x-a)(x+a)\)。</div><div>【詳細步驟】</div><div>　（1）（a）第 1 步：已是標準式 \(x^2-7x+10=0\)。第 2 步：積 10、和 7 → 2 與 5，\(x^2-7x+10=(x-2)(x-5)\)。</div><div>　（2）（a）令 \((x-2)(x-5)=0\) → \(x=2\) 或 \(x=5\)。</div><div>　（3）（b）\(x^2-9\) 是平方差：\(x^2-9=(x-3)(x+3)\)，令其為 0 → \(x=3\) 或 \(x=-3\)。</div><div>　（4）檢核：\(2^2-7 \times 2+10=0\)、\(5^2-7 \times 5+10=0\)；\(( \pm 3)^2-9=0\)——都成立。</div><div class="hint-card">【易錯點提示】① 只寫一個根：\((x-2)(x-5)=0\) 要寫齊 \(x=2\) 和 \(x=5\)。② （b）把 \(x^2-9=0\) 寫成 \(x=9\)——應先開方或分解，得 \(x= \pm 3\)。③ 平方差看成完全平方，硬拆成 \((x-3)^2\)——\((x-3)^2=x^2-6x+9\)，不是 \(x^2-9\)。</div></div>
+
+<div class="problem"><div style="font-weight:700">2．答案：（a）兩個相等實根　（b）沒有實數根</div><div>【考點】判別式只判斷根的情況，不必把根解出來。\(\Delta =b^2-4ac\)：正 → 兩相異實根；零 → 兩相等實根（重根）；負 → 無實根。</div><div>【公式／定理】\(\Delta =b^2-4ac\)；\(\Delta  \gt 0\) 兩相異、\(\Delta =0\) 兩相等、\(\Delta  \lt 0\) 無實根。</div><div>【詳細步驟】</div><div>　（1）（a）\(a=1\)、\(b=-4\)、\(c=4\)。\(\Delta =(-4)^2-4 \times 1 \times 4=16-16=0\) → 兩個相等實根。</div><div>　（2）（a）佐證：\(x^2-4x+4=(x-2)^2\)，確實只得 \(x=2\) 一個重根，與 \(\Delta =0\) 相符。</div><div>　（3）（b）\(a=2\)、\(b=-3\)、\(c=5\)。\(\Delta =(-3)^2-4 \times 2 \times 5=9-40=-31 \lt 0\) → 沒有實數根。</div><div class="hint-card">【易錯點提示】① 把 \(\Delta =0\) 答成「無解／無根」——\(\Delta =0\) 是有一個重根（兩個相等實根）。② 抄係數漏了負號：\(b=-4\) 時 \(b^2=16\)，不是 \(-16\)（負數平方變正）。③ （b）算成 \(\Delta =9-40=31\)——\(9-40\) 是負數 \(-31\)，別把負號丟掉。</div></div>
+
+<div class="problem"><div style="font-weight:700">3．答案：\(x=3+\sqrt{7}\) 或 \(x=3-\sqrt{7}\)（即 \(x=3 \pm \sqrt{7}\)）</div><div>【考點】分解不到就用公式法。先算判別式確認有實根，再代公式，最後把根號化到最簡並與分母約簡。</div><div>【公式／定理】\(x=\frac{-b \pm \sqrt{b^2-4ac}}{2a}\)；\(\sqrt{mn}=\sqrt{m} \times \sqrt{n}\)。</div><div>【詳細步驟】</div><div>　（1）第 1 步（抄係數）：\(a=1\)、\(b=-6\)、\(c=2\)。</div><div>　（2）第 2 步（判別式）：\(\Delta =(-6)^2-4 \times 1 \times 2=36-8=28 \gt 0\)，兩相異實根。</div><div>　（3）第 3 步（代公式）：\(x=\frac{-(-6) \pm \sqrt{28}}{2 \times 1}=\frac{6 \pm \sqrt{28}}{2}\)。化簡根號：\(\sqrt{28}=\sqrt{4 \times 7}=2\sqrt{7}\)。</div><div>　（4）第 4 步（約簡）：\(x=\frac{6 \pm 2\sqrt{7}}{2}=3 \pm \sqrt{7}\)（分子兩項都除以 2）。</div><div>　（5）檢核（韋達）：和 \(=(3+\sqrt{7})+(3-\sqrt{7})=6=\frac{-b}{a}\)；積 \(=(3+\sqrt{7})(3-\sqrt{7})=9-7=2=\frac{c}{a}\)——相符。</div><div class="hint-card">【易錯點提示】① \(-b\) 漏負號：\(b=-6\)，所以 \(-b=6\)，不是 \(-6\)。② \(\sqrt{28}\) 不化簡就停手——要化成 \(2\sqrt{7}\)。③ 只把分子一項除以 2：\(\frac{6 \pm 2\sqrt{7}}{2}\) 要兩項都除，得 \(3 \pm \sqrt{7}\)，不是 \(3 \pm 2\sqrt{7}\)。</div></div>
+
+<div class="problem"><div style="font-weight:700">4．答案：（a）\(k=9\)　（b）\(k \lt 9\)</div><div>【考點】含參數的方程，用判別式把「根的情況」翻譯成對 k 的條件：兩相等實根 ⇔ \(\Delta =0\)；兩相異實根 ⇔ \(\Delta  \gt 0\)。</div><div>【公式／定理】\(\Delta =b^2-4ac\)；兩相等 ⇔ \(\Delta =0\)，兩相異 ⇔ \(\Delta  \gt 0\)。</div><div>【詳細步驟】</div><div>　（1）抄係數：\(a=1\)、\(b=6\)、\(c=k\)。\(\Delta =6^2-4 \times 1 \times k=36-4k\)。</div><div>　（2）（a）兩相等實根 ⇔ \(\Delta =0\)：\(36-4k=0\) → \(4k=36\) → \(k=9\)。佐證：\(k=9\) 時 \(x^2+6x+9=(x+3)^2=0\)，\(x=-3\) 重根。</div><div>　（3）（b）兩相異實根 ⇔ \(\Delta  \gt 0\)：\(36-4k \gt 0\) → \(4k \lt 36\) → \(k \lt 9\)。</div><div>　（4）檢核（b）：取 \(k=0\) → \(x^2+6x=0\) → \(x(x+6)=0\) → \(x=0\)、\(-6\) 兩相異根，而 \(0 \lt 9\) 在範圍內——相符。</div><div class="hint-card">【易錯點提示】① （a）(b) 混淆：相等用 \(\Delta =0\)、相異用 \(\Delta  \gt 0\)，不要對調。② 解 \(36-4k \gt 0\) 時移項忘了變號：\(-4k \gt -36\) 兩邊除以 −4 要轉向，得 \(k \lt 9\)。③ （b）把 \(k \lt 9\) 寫成 \(k \le 9\)——\(k=9\) 是相等（重根），不算相異，要用嚴格 \( \lt \)。</div></div>
+
+<div class="problem"><div style="font-weight:700">5．答案：（a）\(-2 \le x \le 3\)　（b）\(x \lt -2\) 或 \(x \gt 3\)</div><div>【考點】二次不等式：先解對應方程求兩根，判斷開口方向，再按不等號取區間。本題 \(x^2-x-6=(x-3)(x+2)\)，兩根 −2、3，開口向上。(a) 與 (b) 恰好互補，以兩根為分界。</div><div>【公式／定理】\(x^2-x-6=(x-3)(x+2)\)；開口向上時：大於取兩邊、小於取中間。</div><div>【詳細步驟】</div><div>　（1）第 1 步（求根）：\(x^2-x-6=(x-3)(x+2)=0\) → 兩根 \(x=-2\)、\(x=3\)（\(-2 \lt 3\)）。</div><div>　（2）第 2 步（看圖）：\(x^2\) 係數為正 → 開口向上；兩根之間在 x 軸下方（負），兩根外側在 x 軸上方（正）。</div><div>　（3）（a）要 \( \le 0\)（負或零）→ 取中間、含端點：\(-2 \le x \le 3\)。</div><div>　（4）（b）要 \( \gt 0\)（正、不含零）→ 取兩邊、不含端點：\(x \lt -2\) 或 \(x \gt 3\)。</div><div>　（5）檢核：\(x=0\) 代入得 \(-6\)（負），故屬 (a) 的解、不屬 (b)；\(x=4\) 代入得 \(6\)（正），故屬 (b) 的解——都相符。</div><div class="hint-card">【易錯點提示】① 把不等式當方程解，只答 \(x=-2\)、\(x=3\) 兩個點——答案是一段範圍。② 取錯區間：開口向上、要「小於 0」取中間，要「大於 0」取兩邊，不要弄反。③ 端點含不含搞錯：\( \le \) / \( \ge \) 含端點，\( \lt \) / \( \gt \) 不含。</div></div>
+
+<div class="problem"><div style="font-weight:700">6．答案：錯在第一步（乘 −1 沒有把 \( \ge \) 轉成 \( \le \)）；正確解集 \(1 \le x \le 3\)</div><div>【考點】兩邊乘或除以負數，不等號必須轉向。這一步一錯，後面全錯。改正後照手順卡三求根、取區間即可。</div><div>【公式／定理】乘／除負數 → 不等號轉向；開口向上時大於取兩邊、小於取中間。</div><div>【詳細步驟】</div><div>　（1）分歧步驟＝第一步。\(-x^2+4x-3 \ge 0\) 兩邊乘 −1，要把 \( \ge \) 轉成 \( \le \)，得 \(x^2-4x+3 \le 0\)（該同學漏了轉向）。</div><div>　（2）改正：\(x^2-4x+3 \le 0\) → \((x-1)(x-3) \le 0\)，兩根 1、3，開口向上，取中間、含端點 → \(1 \le x \le 3\)。</div><div>　（3）檢核（回代原式，不碰乘 −1）：\(x=2\) → \(-4+8-3=1 \ge 0\) ✓（2 在 [1,3] 內）；\(x=0\) → \(-3\)，不 \( \ge 0\) ✓（0 在解集外）。該同學的錯答 \(x \le 1\) 或 \(x \ge 3\) 會把 \(x=0\) 判為解，但 \(x=0\) 令原式 \(=-3 \lt 0\)，可見其錯。</div><div class="hint-card">【易錯點提示】① 只把式子乘 −1 而不轉向——這正是本題要抓的錯。② 改正後又取錯區間：\( \le 0\) 開口向上要取中間，不是兩邊。③ 圈錯分歧步驟：錯的是第一步（乘負數不轉向），因式分解那一步本身沒錯。</div></div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L7 一元二次方程與二次不等式</div>
+
+</div>
+</body>
+</html>

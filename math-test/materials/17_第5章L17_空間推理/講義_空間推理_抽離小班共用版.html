@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第5章 數理邏輯(三)．L17 空間推理</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第5章 數理邏輯(三)．L17 空間推理</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、這一課要做到的事</div>
+  <div>呢類題目（摺紙、正方體旋轉）唔靠死背，靠兩條「口訣」：一條處理「展開圖摺成正方體，邊兩個面相對」；另一條處理「正方體向邊度滾一下，頂面變咗邊個」。呢一課淨係得3題原題，但呢兩條口訣識用，同類型題目點變化都應付到。</div><div>兩條口訣都寫喺提示卡，做練習嗰陣隨時可以翻返去對，唔使死記。</div>
+
+  <div class="section-h">二、提示卡①：相對面法則</div>
+  <div class="ref-card">
+    <div style="font-weight:700">▍相對面法則</div>
+    <div>什麼時候翻我：題目畀你睇「展開圖」，問摺成正方體之後邊兩個面相對</div>
+    <div>喺展開圖入面，兩個方格如果喺同一條直線（橫排或直排）上、中間恰好相隔一格，摺成正方體之後呢兩個面就係相對面。</div>
+    <div>例：橫排 A－C－D－E 對應位置 1,2,3,4。A(位1)同D(位3)位置差 3−1＝2→相對；C(位2)同E(位4)位置差 4−2＝2→相對。</div>
+  </div>
+
+  <div class="section-h">三、提示卡②：翻滾方向法則</div>
+  <div class="hint-card">正方體攤平喺桌面，頂／前／右／左／後／底六個面已經固定。向某個方向「滾一下」（打側轉 90°），四個面會循環轉位，垂直於滾動方向嘅兩個面保持不變：</div>
+  <table class="d-tbl three-col">
+    <tr><th>方向</th><th>面嘅循環</th><th>備註</th></tr>
+    <tr><td>向右滾</td><td>頂→右，右→底，底→左，左→頂</td><td>（前／後不變）</td></tr><tr><td>向左滾</td><td>頂→左，左→底，底→右，右→頂</td><td>（前／後不變）</td></tr><tr><td>向前滾</td><td>頂→前，前→底，底→後，後→頂</td><td>（左／右不變）</td></tr><tr><td>向後滾</td><td>頂→後，後→底，底→前，前→頂</td><td>（左／右不變）</td></tr>
+  </table>
+
+  <div class="section-h">四、範例：完整走一次（圖文雙軌對照）</div>
+  <div class="problem">【範例】下面係一個十字形展開圖，六個面分別標住「頂B」「左A」「前C」「右D」「後E」「底F」。摺成正方體之後，邊個面同「前C」相對？</div>
+  <table class="d-tbl dual-track">
+    <tr><th>圖形上發生什麼</th><th>推理</th></tr>
+    <tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="270" viewBox="0 0 360 270" role="img"><rect width="360" height="270" fill="#ffffff"/><rect x="90.0" y="0.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="45.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">頂B</text><rect x="0.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="45.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">左A</text><rect x="90.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="135.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">前C</text><rect x="180.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="225.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">右D</text><rect x="270.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="315.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">後E</text><rect x="90.0" y="180.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="225.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">底F</text></svg></td><td>「前C」喺橫排 A－C－D－E 之中，係第 2 個位。</td></tr><tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="270" viewBox="0 0 360 270" role="img"><rect width="360" height="270" fill="#ffffff"/><rect x="90.0" y="0.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="45.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">頂B</text><rect x="0.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="45.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">左A</text><rect x="90.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="135.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">前C</text><rect x="180.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="225.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">右D</text><rect x="270.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="315.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">後E</text><rect x="90.0" y="180.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="225.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">底F</text></svg></td><td>跟返相對面法則：橫排入面相隔一格嘅兩格係相對面。第 2 位（C）同第 4 位（E）之間隔咗一格（D），所以 C 同 E 相對。</td></tr>
+  </table>
+  <div class="hint-card">核對答案：「前C」同「後E」相對。（呢個結果同物理常識一致——前面同後面本來就係相對面。）</div>
+
+  <div class="section-h">五、範例：翻滾方向</div>
+  <div class="problem">承上題個正方體：頂＝B、前＝C、右＝D、左＝A、後＝E、底＝F。如果將個正方體向右滾一下，新嘅頂面係邊個？</div>
+  <div>查提示卡②「向右滾」一行：頂→右，右→底，底→左，左→頂。</div>
+  <div>留意規律嘅方向：「左→頂」即係話，原本喺左邊嘅面，滾完之後變咗做頂面。</div>
+  <div>原本嘅左面係 A，所以新嘅頂面係 A。</div>
+  <div class="hint-card">答案：新嘅頂面係 A。</div>
+
+  <div class="section-h">六、接下來</div>
+  <div>請拿出《第5章 L17 空間推理　課堂練習》，善用兩張提示卡完成練習A、練習B、練習C。</div>
+
+  <div class="footer">高三數學．第5章 數理邏輯(三)．L17 空間推理</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D7 提示卡（相對面法則、翻滾方向法則）</td></tr><tr><td>輔助設計</td><td>D5 圖文雙軌對照</td></tr><tr><td>選用理由</td><td>本課題源自題庫第5章 B3 空間摺紙推理（2題）、B6 立體旋轉推理（1題），合共僅3題，屬全課題庫題量最少的一課。原稿 images 欄位全空、部分解答自承「未能獨立驗證視覺規律」，經使用者同意，本課自行重新設計同型全新題（詳見驗算檔 §0）。呢類題目嘅瓶頸唔係計算，而係「空間心像操作」——學生要喺腦入面摺紙或者轉正方體，呢個對好多學生（尤其空間能力較弱者）認知負荷極高。D7 提示卡將兩條可以直接查閱、毋須每次重新腦內模擬嘅「法則」白紙黑字寫低（相對面：同一直線相隔一格；翻滾：四個方向各自嘅頂/左/右/底/前/後對應表），學生做題時查卡代替腦內旋轉；D5 圖文雙軌逼學生將圖上嘅位置關係，同法則嘅文字推理逐步對照寫低，避免「睇個圖有感覺」但講唔出點推論。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>提示卡：兩張卡全程可查閱，本課題量極少（3題），唔設褪除——空間心像操作本身認知負荷高，屬於「長期可用嘅外部記憶輔助」而非需要拿走嘅暫時鷹架（同D2手順卡呢類「操作步驟」唔同性質）。｜圖文雙軌：講義範例全部展開 → 練習A/B 保留簡化版雙軌表 → 練習C 只給圖，推理步驟自己寫喺作答欄。</td></tr><tr><td>課堂實施流程</td><td>F1 師徒制對話四步（追問「呢個面同嗰個面之間隔幾多格？」）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距、b5 容許使用實物（如紙盒／骰子）輔助操作</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度。</td></tr><tr><td>題目來源特別說明</td><td>本課全部題目為自編（題庫原稿該類別缺圖，詳見《驗算_空間推理.md》§0）。</td></tr><tr><td>配套文件</td><td>《第5章 L17 空間推理　課堂練習》（練習A／B／C ＋參考答案）。建議課室準備實物紙盒／骰子，容許學生實際摺／轉來核對答案。</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

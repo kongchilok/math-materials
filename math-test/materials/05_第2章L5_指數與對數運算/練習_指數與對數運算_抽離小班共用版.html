@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第2章 中學基礎數學應用．L5 指數律與對數運算</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .step-card.compact td:first-child { width: 100%; font-weight: 400; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L5 指數律與對數運算</span><span>類型：課堂練習</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="hint-card">動筆之前先看一眼《四步卡》：1 同底　2 合併　3 標準式 \(\log _a N=k\)　4 還原成 \(a^k=N\) 並驗真數。凡是方程題，第 4 步的驗真數不可以省——沒有驗真數的答案等於沒有做完。</div>
+
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+<div>每一題旁邊都重印了四個步驟。第 1 題先判斷合不合法，不合法的要寫出違反《對數卡》上的第幾個特徵。</div>
+
+<div class="problem"><div>1．下列各式當中，哪些是有意義的對數？如果沒有意義，請寫出它違反了《對數卡》上的第幾個特徵；有意義的，請求出它的值。（a）\(\log _3 81\)　（b）\(\log _2(-8)\)　（c）\(\log _1 5\)　（d）\(\log _{40} 1\)</div><table class="d-tbl step-card compact"><tr><th>對數運算四步</th></tr><tr><td>什麼時候用：任何一條有 log 的題目，都由第 1 步做起。</td></tr><tr><td>1. 同底：把所有 log 化到同一個底</td></tr><tr><td>2. 合併：用運算律併成一個 log</td></tr><tr><td>3. 標準式：寫成 \(\log _a N=k\)</td></tr><tr><td>4. 還原成 \(a^k=N\)，解出來再驗真數</td></tr></table><div>作答（把最後的答案寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>2．計算下列各式的值。（a）\(\log  4+\log  25\)　（b）\(\log _2 8+\log _2 4\)</div><table class="d-tbl step-card compact"><tr><th>對數運算四步</th></tr><tr><td>什麼時候用：任何一條有 log 的題目，都由第 1 步做起。</td></tr><tr><td>1. 同底：把所有 log 化到同一個底</td></tr><tr><td>2. 合併：用運算律併成一個 log</td></tr><tr><td>3. 標準式：寫成 \(\log _a N=k\)</td></tr><tr><td>4. 還原成 \(a^k=N\)，解出來再驗真數</td></tr></table><div>作答（把最後的答案寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+
+<div>四個步驟只在下面重印一次，題目旁邊不再放。</div>
+
+<table class="d-tbl step-card compact"><tr><th>對數運算四步</th></tr><tr><td>什麼時候用：任何一條有 log 的題目，都由第 1 步做起。</td></tr><tr><td>1. 同底：把所有 log 化到同一個底</td></tr><tr><td>2. 合併：用運算律併成一個 log</td></tr><tr><td>3. 標準式：寫成 \(\log _a N=k\)</td></tr><tr><td>4. 還原成 \(a^k=N\)，解出來再驗真數</td></tr></table>
+
+<div class="problem"><div>3．（a）設 \(\log  2=a\)、\(\log  3=b\)，用 a 與 b 表示 \(\log  12\)。（b）求 \((\log _2 9)(\log _3 2)\) 的值。</div><div class="hint-card">⚠ 第（b）小題有一個常見陷阱：留意分數線是在 log 的裡面還是外面，兩者是完全不同的公式。</div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>4．解方程 \(\log (x+3)+\log  x=1\)。</div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+
+<div>本節收起工具卡，四個步驟也不再印。請自己由第 1 步做起；方程題最後仍然要驗真數（第 6 題不是方程，不必驗）。</div>
+
+<div class="problem"><div>5．解方程 \(4^{(x+4)}-2 \times 2^{(x+4)}=-1\)。</div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>6．（a）求 \(\log  \frac{5}{9}-\log  \frac{3}{14}+\log  \frac{27}{7}\) 的值。（b）如果把（a）式中的 \(\log  \frac{3}{14}\) 改成 \(\log  \frac{3}{7}\)，其餘不變，答案會變成多少？請先用一句話說出你的判斷理由，再算出來核對。</div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">參考答案與詳解（教師用）</div>
+
+<div class="problem"><div style="font-weight:700">1．答案：（a）有意義，值是 4　（b）沒有意義，違反特徵②　（c）沒有意義，違反特徵①　（d）有意義，值是 0</div><div>【考點】對數的定義與合法範圍。\(\log _a N\) 要成立，底數與真數都有限制：底數 \(a>0\) 且 \(a \ne 1\)（特徵①），真數 \(N>0\)（特徵②）。求值時回到定義問「底數的幾多次方等於真數」。</div><div>【公式／定理】\(\log _a N=k\) 等價於 \(a^k=N\)；特徵①底數 \(a>0\) 且 \(a \ne 1\)；特徵②真數 \(N>0\)。</div><div>【詳細步驟】</div><div>　（1）（a）底數 3 合格、真數 81 大於 0，合法。問「3 的幾多次方等於 81」：\(3^4=81\)，所以 \(\log _3 81=4\)。</div><div>　（2）（b）真數是 \(-8\)，小於 0，違反特徵②——負數沒有對數，本式沒有意義。</div><div>　（3）（c）底數是 1，違反特徵①。理由：1 的任何次方都等於 1，永遠得不到 5，所以找不到那個次方。</div><div>　（4）（d）底數 40 合格、真數 1 大於 0，合法。問「40 的幾多次方等於 1」：\(40^0=1\)，所以 \(\log _{40} 1=0\)。</div><div>　（5）檢核：把（a）（d）改寫成指數式核對——\(3^4=81\) 成立、\(40^0=1\) 成立。</div><div class="hint-card">【易錯點提示】① 見到 \(\log _2(-8)\) 就想「\(2^{(-3)}=\frac{1}{8}\)，所以答 \(-3\)」——\(2^{(-3)}\) 是正的 \(\frac{1}{8}\)，不是 \(-8\)；2 的任何次方都是正數，所以真數為負時根本無解，這正是特徵②的來源。② 把 \(\log _{40} 1\) 答成 1（把真數當成答案）——真數是 1 時答案一律是 0。③ 只答「沒有意義」而沒有寫違反第幾個特徵——本題要求指出特徵編號。</div></div>
+
+<div class="problem"><div style="font-weight:700">2．答案：（a）2　（b）5</div><div>【考點】對數運算律一（積）：兩個 log 相加，等於真數相乘之後的那一個 log。合併之後多數會出現 100、1000、32 這類「剛好是整次方」的真數，再回到定義求值。</div><div>【公式／定理】\(\log (MN)=\log  M+\log  N\)；沒有寫底數的 log 以 10 為底。</div><div>【詳細步驟】</div><div>　（1）（a）第 1 步同底：兩個都沒有寫底數，都是以 10 為底。</div><div>　（2）（a）第 2 步合併：\(\log  4+\log  25=\log (4 \times 25)=\log  100\)。</div><div>　（3）（a）第 3、4 步：\(\log _{10} 100=k\) 即 \(10^k=100\)，得 \(k=2\)。</div><div>　（4）（b）第 2 步合併：\(\log _2 8+\log _2 4=\log _2(8 \times 4)=\log _2 32\)。</div><div>　（5）（b）第 4 步：\(2^k=32\)，而 \(2^5=32\)，所以答案是 5。</div><div>　（6）檢核（b）：也可以分開求——\(\log _2 8=3\)、\(\log _2 4=2\)，\(3+2=5\)，與合併的做法一致。</div><div class="hint-card">【易錯點提示】① 把 \(\log  4+\log  25\) 算成 \(\log (4+25)=\log  29\)——log 相加對應真數相乘，不是相加（見講義第八節對比一）。② （b）兩個 log 的底數都是 2，合併之後底數仍然是 2，不要寫成以 10 為底。③ 合併之後忘記求值，把 \(\log  100\) 當成最終答案——題目問的是「值」。</div></div>
+
+<div class="problem"><div style="font-weight:700">3．答案：（a）\(\log  12=2a+b\)　（b）2</div><div>【考點】（a）用運算律把 12 拆成已知的 2 與 3：\(12=4 \times 3=2^2 \times 3\)，再用積與次方兩條運算律拆開。（b）兩個 log 底數不同，要用換底公式化到同一個底再約簡。本題的陷阱在於「log 除以 log」與「log 裡面是分數」是兩條不同的公式。</div><div>【公式／定理】\(\log (MN)=\log  M+\log  N\)；\(\log  M^p=p \log  M\)；換底 \(\log _a N=\frac{\log  N}{\log  a}\)。</div><div>【詳細步驟】</div><div>　（1）（a）把 12 拆成已知的因數：\(12=4 \times 3\)，而 \(4=2^2\)。</div><div>　（2）（a）用運算律一：\(\log  12=\log  4+\log  3\)。</div><div>　（3）（a）用運算律三：\(\log  4=\log  2^2=2\log  2=2a\)；而 \(\log  3=b\)。所以 \(\log  12=2a+b\)。</div><div>　（4）（b）換底，兩個都化到以 10 為底：\(\log _2 9=\frac{\log  9}{\log  2}\)，\(\log _3 2=\frac{\log  2}{\log  3}\)。</div><div>　（5）（b）相乘時 \(\log  2\) 對消，剩 \(\frac{\log  9}{\log  3}\)。</div><div>　（6）（b）再用運算律三：\(\log  9=\log  3^2=2\log  3\)，所以 \(\frac{2\log  3}{\log  3}=2\)。</div><div>　（7）檢核（a）：取 \(\log  2≈0.301\)、\(\log  3≈0.477\)，則 \(2a+b≈0.602+0.477=1.079\)；而 \(\log  12≈1.079\)——相符。</div><div class="hint-card">【易錯點提示】① （b）把 \(\frac{\log  9}{\log  2}\) 當成 \(\log  \frac{9}{2}\)——分數線在 log 外面是換底公式，在 log 裡面才是運算律二，兩者完全不同。② （a）把 \(\log  12\) 寫成 \(\log  2 \times \log  6\) 或 \(a \times \log  6\)——真數相乘對應的是兩個 log 相「加」，不是相乘。③ （a）把 \(\log  4\) 寫成 \(a^2\)——係數搬出來是 \(2\log  2\)，即 \(2a\)，不是 a 的平方。</div></div>
+
+<div class="problem"><div style="font-weight:700">4．答案：\(x=2\)</div><div>【考點】對數方程的完整四步，重點在第 4 步的驗真數。還原成指數式之後，原來「真數大於 0」的限制就消失了，所以解出來的答案必須逐個代回原式檢查。</div><div>【公式／定理】\(\log (MN)=\log  M+\log  N\)；\(\log _{10} N=k\) 等價於 \(N=10^k\)；真數必須大於 0。</div><div>【詳細步驟】</div><div>　（1）第 1 步（同底）：兩個 log 都沒有寫底數，都是以 10 為底，已經同底。</div><div>　（2）第 2 步（合併）：\(\log (x+3)+\log  x=\log [x(x+3)]\)，方程變成 \(\log [x(x+3)]=1\)。</div><div>　（3）第 3 步（標準式）：左邊一個 log、右邊一個數，即 \(\log _{10}(x^2+3x)=1\)。</div><div>　（4）第 4 步（還原）：\(x^2+3x=10^1=10\)，移項得 \(x^2+3x-10=0\)，因式分解 \((x+5)(x-2)=0\)，得 \(x=-5\) 或 \(x=2\)。</div><div>　（5）第 4 步（驗真數）：代 \(x=2\)——真數 \(x+3=5>0\)、\(x=2>0\)，兩個都合格，保留。</div><div>　（6）代 \(x=-5\)——真數 \(x+3=-2\) 與 \(x=-5\) 都小於 0，違反特徵②，捨棄。</div><div>　（7）所以解是 \(x=2\)。檢核：\(\log (2+3)+\log  2=\log  5+\log  2=\log  10=1\)，與原方程相符。</div><div class="hint-card">【易錯點提示】① 兩個根都寫上去當答案——\(x=-5\) 會令真數變成負數，一定要捨棄。② 只驗其中一個 log 的真數——原式有兩個 log，兩個真數都要大於 0 才算合格。③ 把右邊的 1 直接搬去左邊寫成 \(\log [x(x+3)]-1=0\) 之後不知怎樣做——1 要看成 \(10^1\) 的指數，用第 4 步還原，不是繼續在 log 裡面搬。</div></div>
+
+<div class="problem"><div style="font-weight:700">5．答案：\(x=-4\)</div><div>【考點】指數方程的換元法。\(4^{(x+4)}\) 與 \(2^{(x+4)}\) 底數不同，但 \(4=2^2\)，所以前者是後者的平方——化成同底之後設 \(t=2^{(x+4)}\)，整條方程就變成一元二次方程。</div><div>【公式／定理】\((a^m)^n=a^{(mn)}\)；\(a^0=1\)；換元後解一元二次方程再代回。</div><div>【詳細步驟】</div><div>　（1）第 1 步（同底）：\(4=2^2\)，所以 \(4^{(x+4)}=(2^2)^{(x+4)}=2^(2(x+4))=[2^{(x+4)}]^2\)。</div><div>　（2）第 2 步（換元）：設 \(t=2^{(x+4)}\)，則原方程變成 \(t^2-2t=-1\)。</div><div>　（3）第 3 步（解 t）：\(t^2-2t+1=0\)，即 \((t-1)^2=0\)，所以 \(t=1\)（重根）。</div><div>　（4）第 4 步（代回）：\(2^{(x+4)}=1\)。而 \(1=2^0\)，所以 \(x+4=0\)，得 \(x=-4\)。</div><div>　（5）檢核：代 \(x=-4\) 入原式——\(4^0-2 \times 2^0=1-2=-1\)，與右邊相同。</div><div>　（6）合理性：\((t-1)^2=0\) 只有一個重根，所以 x 也只有一個答案，不會像對數方程那樣多出一個要捨棄的根。</div><div class="hint-card">【易錯點提示】① 把 \(4^{(x+4)}\) 化成 \(2^{(2x+4)}\)——指數要整個乘 2，正確是 \(2^{(2x+8)}\)，也就是 \([2^{(x+4)}]^2\)。② 換元之後忘記代回，答成 \(t=1\) 就交卷——題目問的是 x。③ 由 \(2^{(x+4)}=1\) 直接寫 \(x+4=1\)——右邊的 1 要先寫成 \(2^0\)，同底之後才可以比較指數。</div></div>
+
+<div class="problem"><div style="font-weight:700">6．答案：（a）1　（b）\(\log  5\)（約 0.699）</div><div>【考點】運算律一、二的綜合運用：先把整條式合併成一個 log，再看真數約簡之後是否剛好是 10 的整次方。第（b）問考的是「先判斷再驗算」——改動一個真數之後，整體真數會怎樣變，可以在動筆之前先講出來。</div><div>【公式／定理】\(\log  M+\log  N=\log (MN)\)；\(\log  M-\log  N=\log  \frac{M}{N}\)。</div><div>【詳細步驟】</div><div>　（1）（a）第 2 步（合併）：相減的那一項變成除法，相加的變成乘法，整條式合併成一個 log，真數是 \(\frac{5}{9}÷\frac{3}{14} \times \frac{27}{7}\)。</div><div>　（2）（a）除以一個分數等於乘它的倒數：真數 \(=\frac{5}{9} \times \frac{14}{3} \times \frac{27}{7}\)。</div><div>　（3）（a）分子 \(5 \times 14 \times 27=1890\)，分母 \(9 \times 3 \times 7=189\)，真數 \(=\frac{1890}{189}=10\)。</div><div>　（4）（a）所以原式 \(=\log  10=1\)。</div><div>　（5）（b）先判斷：被減的真數由 \(\frac{3}{14}\) 變成 \(\frac{3}{7}\)，數值大了一倍；它是除數，除數大一倍，商就少一半，所以整個真數會由 10 變成 5，答案應該是 \(\log  5\)，比 1 小。</div><div>　（6）（b）再驗算：真數 \(=\frac{5}{9} \times \frac{7}{3} \times \frac{27}{7}\)；分子 \(5 \times 7 \times 27=945\)，分母 \(9 \times 3 \times 7=189\)，\(\frac{945}{189}=5\)。所以答案是 \(\log  5\)，與判斷相符。</div><div>　（7）檢核（b）：\(\log  5=\log  \frac{10}{2}=\log  10-\log  2≈1-0.301=0.699\)，確實小於（a）的 1。</div><div class="hint-card">【易錯點提示】① 把中間的減號當成真數相減（寫成 \(\frac{5}{9}-\frac{3}{14}\)）——log 相減對應真數相除。② 除以分數時忘記倒過來乘，直接把 \(\frac{3}{14}\) 乘上去。③ （b）只算不判斷——本題明確要求先寫出理由再計算，先判斷方向（會變大還是變小）可以在算錯時即時發現。</div></div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L5 指數律與對數運算</div>
+
+</div>
+</body>
+</html>

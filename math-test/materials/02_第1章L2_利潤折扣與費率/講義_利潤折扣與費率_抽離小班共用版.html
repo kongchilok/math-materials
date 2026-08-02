@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第1章 特殊數學應用專題．L2 利潤、折扣與費率階梯</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .d-tbl tr { break-inside: avoid; }
+  .keep { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第1章 特殊數學應用專題．L2 利潤、折扣與費率階梯</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、這一課要做到的事</div>
+  <div>上一課的題目，數字之間是「幾比幾」的關係。這一課的題目換成百分比：打折、加價、利潤、利率、階梯收費——算式看起來只是乘一個小數，真正會做錯的地方只有一個，就是「這個百分比，是拿誰當 100%」。</div><div>同一題裡的兩個百分比，基準往往不是同一個。範例A 的商品「按進價加價 40%」，那個 40% 的 100% 是進價；接著「按標價打八折」，那個 80% 的 100% 已經換成標價了。把基準看錯，後面每一步都對不了。</div><div>所以這一課的做法是：先把基準量畫成一整條，長度定為 100%；變化之後的量另外畫一條，長短照百分比。兩條並排一看，差多少、賺多少，全部都看得見。</div><div>階梯費率（電費、水費、稅、停車費）是同一個做法的變形：整條先按門檻切成幾段，每一段各自乘上該段的價，再把幾段加起來。</div>
+
+  <div class="section-h">二、先認出「一整條」是誰</div>
+  <div>下表左欄是題目的說法，右欄是那一題的基準量與算式。讀題時先對照這張表，把基準量圈起來，再開始畫圖。</div>
+  <table class="d-tbl dual-track">
+    <tr><th>題目這樣說…</th><th>那「一整條」是誰 → 怎麼算</th></tr>
+    <tr><td><div>題目說「打折」「折扣」「減價 p%」</div></td><td><div>一整條 ＝ 定價（標價）</div><div>售價 ＝ 定價 \( \times \) 折數</div></td></tr><tr><td><div>題目說「按進價加價 p%」「加成 p%」</div></td><td><div>一整條 ＝ 進價（成本）</div><div>標價 ＝ 進價 \( \times (1+p\%)\)</div></td></tr><tr><td><div>題目說「利潤是進價的 p%」「利潤率 p%」</div></td><td><div>一整條 ＝ 進價（成本）</div><div>利潤 ＝ 售價 － 進價 ＝ 進價 \( \times p\%\)</div></td></tr><tr><td><div>題目說「增加 p%」「增長率 p%」</div></td><td><div>一整條 ＝ 變化前的量</div><div>變化後 ＝ 變化前 \( \times (1+p\%)\)</div></td></tr><tr><td><div>題目說「首 N 度……超過的部分……」</div></td><td><div>整條按門檻切段，每段各乘自己的率</div><div>總費用 ＝ 各段費用相加</div></td></tr>
+  </table>
+
+  <div class="section-h">三、陷阱詞</div>
+  <div>這幾個說法不能照字面直接翻成算式，讀到時要在題目上劃<span class="kw-trap">雙底線</span>，停一停再寫。</div>
+  <table class="d-tbl kw-table">
+    <tr><th>題目說…</th><th>就寫成…</th></tr>
+    <tr class="trap"><td colspan="2">⚠ 陷阱詞（要想一下，不能直接照字面翻）</td></tr><tr><td>打八折</td><td>售價 ＝ 定價 \( \times 0.8\)（付原價的 80%），不是 \( \times 0.2\)</td></tr><tr><td>減價 15%</td><td>售價 ＝ 定價 \( \times 0.85\)；「減價」要先用 \(1-0.15\) 換成剩下的比例</td></tr><tr><td>先打八折，再減價 10%</td><td>兩次的基準不同，要相乘：\(0.8 \times 0.9=0.72\)；不可以寫成減 30%</td></tr><tr><td>按進價加價 40%</td><td>標價 ＝ 進價 \( \times 1.4\)；這裡的 100% 是進價</td></tr><tr><td>利潤是進價的 20%</td><td>利潤 ＝ 進價 \( \times 0.2\)；利潤率的分母是進價，不是售價</td></tr><tr><td>每度 1.1 元（第二段）</td><td>只有落在該段門檻之內的用量才乘 1.1，不是全部用量</td></tr><tr><td>增長率 8%</td><td>變化後 ＝ 變化前 \( \times 1.08\)；這裡的 100% 是變化前的量</td></tr>
+  </table>
+
+  <div class="section-h">四、範例A：同一題裡有兩個不同的基準</div>
+  <div class="problem">【範例A】一部電風扇的進價是 250 元。店主按進價加價 40% 定出標價，再按標價打八折出售。問（a）售價是多少元？（b）店主每部賺多少元？</div>
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="580" height="200" viewBox="0 0 580 200" role="img"><rect width="580" height="200" fill="#ffffff"/><text x="78.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">一整條 ＝ 進價（100%）；加價與打折各有各的基準</text><text x="68.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">進價</text><rect x="78.0" y="30.0" width="290.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="223.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">進價 250 元</text><text x="68.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">標價</text><rect x="78.0" y="88.0" width="290.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="223.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">進價的 100%</text><rect x="368.0" y="88.0" width="116.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="426.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">加 40%</text><path d="M 490.0 88 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="520.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">350 元</text><text x="68.0" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">售價</text><rect x="78.0" y="146.0" width="290.0" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="223.0" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">進價 250 元</text><rect x="368.0" y="146.0" width="34.8" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="385.4" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">賺</text><path d="M 408.79999999999995 146 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="438.8" y="167.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">280 元</text></svg>
+    <div class="cap">進價是加價的基準，標價是打折的基準——兩個基準不同</div>
+  </div>
+  <div>第 1 步　圈基準量。「按進價加價 40%」→ 這個 40% 的 100% 是進價；「按標價打八折」→ 這個 80% 的 100% 是標價。全題有兩個不同的基準。</div><div>第 2 步　畫條。進價畫成一整條（10 格代表 100%），標價在它後面再接 40%，售價是標價的 80%，畫成比標價短、比進價長的一條。</div><div>第 3 步　算標價。標價 ＝ \(250 \times 1.4=350\)（元）。</div><div>第 4 步　算售價。售價 ＝ \(350 \times 0.8=280\)（元）。這是（a）的答案。</div><div>第 5 步　算利潤。賺的就是圖上售價條超出進價條的那一小段：\(280-250=30\)（元）。這是（b）的答案。</div><div>第 6 步　反推檢核。利潤率 ＝ \(\frac{30}{250}=0.12\)，即進價的 12%；而 \(1.4 \times 0.8=1.12\)，售價正好是進價的 112%，兩邊吻合。</div>
+  <div class="hint-card">※ 圖上「售價條超出進價條」的那一小段，就是利潤。看得見這一段，就不會把利潤率的分母寫成售價。</div>
+
+  <div class="section-h">五、最常見的錯法（先看清楚，再做練習）</div>
+  <div>左欄是學生最常寫出來的式子，右欄是它錯在哪裡、正確要怎麼寫。四組錯法的病因其實是同一個：基準量拿錯了。</div>
+  <table class="d-tbl dual-track">
+    <tr><th>⚠ 常見的錯寫法（不要學）</th><th>▍正確的寫法</th></tr>
+    <tr><td><div>「先打八折，再減價 10%」</div><div>→ \(20\%+10\%=30\%\)</div><div>→ 售價 ＝ 定價 \( \times 0.7\)</div></td><td><div>第二次的 10% 是拿「打折後的價」當 100%，不是定價。</div><div>兩次要相乘：\(0.8 \times 0.9=0.72\)，售價 ＝ 定價 \( \times 0.72\)。</div></td></tr><tr><td><div>「利潤是進價的 20%」</div><div>→ 利潤 ＝ 售價 \( \times 0.2\)</div></td><td><div>利潤率的 100% 是進價。</div><div>利潤 ＝ 進價 \( \times 0.2\)；售價 ＝ 進價 \( \times 1.2\)。</div></td></tr><tr><td><div>「打八折」</div><div>→ 售價 ＝ 定價 \( \times 0.2\)</div></td><td><div>八折 ＝ 付原價的十分之八。</div><div>售價 ＝ 定價 \( \times 0.8\)；被減掉的才是 \( \times 0.2\)。</div></td></tr><tr><td><div>階梯電費用了 520 度</div><div>→ \(520 \times \) 最高一段的每度價</div></td><td><div>只有超過門檻的那一段才用最高價。</div><div>前面每一段各用自己的價，最後相加。</div></td></tr>
+  </table>
+
+  <div class="section-h">六、範例B：階梯費率——整條切成幾段</div>
+  <div class="problem">【範例B】某停車場按時段收費：首 2 小時每小時 8 元；第 3 至第 5 小時每小時 12 元；第 6 小時起每小時 15 元。問停 8 小時要付多少元？</div>
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="580" height="84" viewBox="0 0 580 84" role="img"><rect width="580" height="84" fill="#ffffff"/><text x="78.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">整條 ＝ 停車 8 小時；按門檻切三段，每段乘自己的收費</text><text x="68.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">8 小時</text><rect x="78.0" y="30.0" width="101.5" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="128.8" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">2h×8元</text><rect x="179.5" y="30.0" width="152.2" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="255.6" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">3h×12元</text><rect x="331.8" y="30.0" width="152.2" height="42.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="407.9" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">3h×15元</text><path d="M 490.0 30 q 12 0 12 10.5 q 0 10.5 12 10.5 q -12 0 -12 10.5 q 0 10.5 -12 10.5" fill="none" stroke="#1a1a1a" stroke-width="1.3"/><text x="520.0" y="51.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">共 97 元</text></svg>
+    <div class="cap">整條是 8 小時，按門檻切三段，每段各乘自己的收費</div>
+  </div>
+  <div>第 1 步　切段。8 小時落在三段裡：首 2 小時、第 3～5 小時（共 3 小時）、第 6～8 小時（共 3 小時）。先把時數加起來核一次：\(2+3+3=8\)，與題目相符。</div><div>第 2 步　每段各自乘。首段 \(2 \times 8=16\)（元）；第二段 \(3 \times 12=36\)（元）；第三段 \(3 \times 15=45\)（元）。</div><div>第 3 步　相加。\(16+36+45=97\)（元）。</div><div>第 4 步　反推檢核。若全部 8 小時都用最低價，只需 \(8 \times 8=64\) 元；全部用最高價要 \(8 \times 15=120\) 元。答案 97 落在 64 與 120 之間，合理。</div>
+  <div class="hint-card">※ 階梯題先做一件事：把各段的用量加起來，核對是否等於題目給的總用量。這一步做了，分段就不會多算或少算。</div>
+
+  <div class="section-h page-break">七、自己動手時的四個動作</div>
+  <div class="hint-card">動作 1　圈基準量。先問一句：「這個百分比，是拿誰當 100%？」把那個量圈起來（定價／進價／變化前的量）。一題出現兩個百分比，就要圈兩次。</div><div class="hint-card">動作 2　畫條。基準量畫成一整條；有門檻的（首 N 度、首 N 小時），就按門檻把整條切成幾段。</div><div class="hint-card">動作 3　一次變化畫一條。兩次變化就畫兩條，折數相乘，不可以把兩個百分比相加。</div><div class="hint-card">動作 4　反推檢核。把算出來的答案代回去求一次那個率或那個差，看是不是等於題目給的數。</div>
+
+  <div class="section-h">八、接下來</div>
+  <div>請拿出《第1章 L2 利潤、折扣與費率階梯　課堂練習》，依照上面四個動作完成練習A、練習B、練習C。練習A 只給空白格線，條要怎麼畫由自己決定；練習B 連格線都沒有，圖自己畫在空白處；練習C 的最後一題是找錯題——別人的解法錯在哪一步，由你圈出來並改正。</div>
+
+  <div class="footer">高三數學．第1章 特殊數學應用專題．L2 利潤、折扣與費率階梯</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D1 條形模型（Bar Model）——本課用「前後變化型」與「階梯分段型」兩種畫法</td></tr><tr><td>輔助設計</td><td>D8 關鍵字對譯表（本課只保留陷阱詞一欄）、D14 錯誤分析對比（正誤雙欄）</td></tr><tr><td>選用理由</td><td>本課題源自題庫 A1 應用題文字題中的利潤／折扣／費率類（約 24 題），與 L1 同屬 teaching-designs.md 的 S1 文字應用題結構，故主設計沿用 D1，讓上一課建立的畫圖習慣直接遷移過來，不必再學一套新工具。但本課的認知瓶頸與 L1 不同：L1 卡在「讀不懂比例關係」，本課卡在「基準量（誰是 100%）在同一題內會換人」。因此 D1 的用法由 L1 的「部分—整體型」換成「前後變化型」，並新增「階梯分段型」處理電費／稅／停車費這一類分段收費。D8 保留但只留陷阱詞一欄（一般對譯已在 L1 工具卡上，屬褪除路徑第 2 階）。新增 D14 的依據是 teaching-designs.md 對 D14 的觸發條件——本課有一個已知高頻的固定錯法：把兩次折扣相加、以及把利潤率的分母當成售價。D14 依規定排在範例A（正確版）之後、練習之前，不在學生見到正確版之前先給錯版。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>條形圖（D1）：L1 練習A 給半成品圖填數字 → 本課練習A 只給空白格線＋「請先畫圖」提示 → 本課練習B、C 連格線都不給，只留文字提示 → L3 起完全不提示。｜關鍵字對譯（D8）：L1 講義附完整表＋工具卡 → 本課只留陷阱詞一欄（一般對譯不再重印） → L3 只在課前口頭發一次 → L4 移除，改由學生自行在題目上做記號。｜錯誤分析（D14）：本課講義給完整正誤雙欄 → 練習C 第 6 題只給錯誤解法，由學生自己找出分歧步驟並改正 → L3 只留一句「這題有一個常見陷阱，是什麼」 → L4 移除。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天四件事：陷阱詞 → 範例A → 錯法對照 → 範例B）、F1 師徒制對話四步（追問「你這個百分比是拿誰當 100%」，這是本課唯一要學生講得出口的一句話）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a5 放大字體、a6 增加行距、a7 調整計分標準（分步給分；基準量判斷正確但後續算術筆誤者，不重複扣分）</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度，未刪減內容。</td></tr><tr><td>與 L1 的銜接</td><td>本課假設學生已完成《L1 比例與分配》，會畫條形圖並習慣「先畫圖再列式」。若學生未上過 L1，請先補畫圖的四個動作，再進入本課的基準量判斷。</td></tr><tr><td>配套文件</td><td>《第1章 L2 利潤、折扣與費率階梯　課堂練習》（練習A／B／C ＋參考答案）、《第1章 L2 利潤、折扣與費率階梯　工具卡》（基準量卡、陷阱詞卡，學生剪下護貝放桌面）。</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

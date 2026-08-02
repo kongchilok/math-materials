@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第2章 中學基礎數學應用．L12 三角函數</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  /* QB-20：範本的頁尾用固定定位＋白底，內文流到頁底會被它蓋住。
+     解法是把 @page 的下邊界撐大（內文區因此提早結束），再把頁尾用負的 bottom
+     推進那條新增的邊界裡。這裡刻意只覆寫 bottom，不重寫定位屬性——
+     QB-15c 驗收整份文件的那條定位規則要恰好出現一次，
+     連註解裡都不可以再寫一次那兩個關鍵字（範本本身也是這樣避開的）。 */
+  @page { margin-bottom: 1.5cm; }
+  .hint-card, .fig, .ref-card { break-inside: avoid; }
+  .teacher-notes .d-tbl { break-inside: auto; page-break-inside: auto; }
+  .teacher-notes .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  /* 列數多的表放寬為可跨頁、每列不可切開（L8 實測：整張 avoid 會推去下一頁留半頁白）；
+     提示卡與手順卡列數少，維持整張不切。 */
+  .d-tbl.three-col, .d-tbl.dual-track { break-inside: auto; page-break-inside: auto; }
+  .d-tbl.three-col tr, .d-tbl.dual-track tr,
+  .d-tbl.step-card tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl.step-card { break-inside: avoid; page-break-inside: avoid; }
+  .dual-track td:first-child { text-align: center; }
+  .dual-track svg, .cardfig svg { max-width: 100%; height: auto; }
+  .cardfig { text-align: center; margin: 6px 0; }
+  .cardfig svg { max-height: 5.4cm; width: auto; }
+  .spec-tbl td, .spec-tbl th { text-align: center; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L12 三角函數</span><span>類型：課堂講義</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="section-h">一、這一課要做到的事</div>
+
+<div>這一課的題目有一個共通點：算式本身都很短，短到兩三行就寫完；難的是「揀對那條公式」。三角函數的公式數量比之前任何一課都多——六個三角比、四個象限的正負、和角差角六條、二倍角三條、通解三條，全部加起來超過二十條。憑記憶去揀，揀錯的機會比揀對還高。</div>
+
+<div>所以這一課的主工具是五張「提示卡」。每張卡上除了公式，最重要的是第一行那句「什麼時候翻我」——卡片的價值不在於寫了什麼公式，而在於你看着題目就知道要翻哪一張。貼在牆上的公式海報之所以沒有人用，就是因為它們只有公式、沒有觸發條件。</div>
+
+<div>五張卡分別對付：直角三角形的六個比（卡一）、只知道一個值要判斷正負或象限（卡二）、15°、75°、105° 這些「不是特殊角」的角（卡三）、式子裡出現 \(2α\) 或者 \((\sin α + \cos α)^2\)（卡四）、問「通解」（卡五）。</div>
+
+<div>另外兩件事會幫你把卡揀對：① 卡一與卡二各配一張圖，右邊寫算式、左邊擺圖，逐行對照——「對邊」是哪一條、第三象限的 x 是正是負，這些是用眼睛看出來的，不是背出來的。② 卡三那一段的程序最長（要拆角、揀公式、代四個值、再化簡），所以額外配一張手順卡，把四個動作逐個列出來。</div>
+
+<div class="section-h page-break">二、六個三角比：先圈角，再標邊</div>
+
+<div>先講一件最容易被跳過、但錯得最多的事：「對邊」和「鄰邊」不是三角形的固有名稱，而是「相對於你正在看的那個角」而言的。同一條邊，看 ∠A 的時候是對邊，看 ∠B 的時候就變成鄰邊。斜邊是唯一不變的——它永遠是直角對面那一條，也永遠是三條之中最長的。</div>
+
+<div>所以做這一類題的第一個動作，不是套公式，而是先在圖上圈出「題目問的是哪個角」。圈完之後再標三條邊，標完才寫式子。跳過圈角這一步，\(\frac{3}{5}\) 與 \(\frac{4}{5}\) 就會互相調轉——這是本節唯一的失分來源。</div>
+
+<table class="d-tbl dual-track"><thead><tr><th>圖上看到什麼</th><th>算式上寫什麼</th></tr></thead><tbody><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="210" height="172" viewBox="0 0 210 172" role="img"><rect width="210" height="172" fill="#ffffff"/><polygon points="30.0,30.0 180.0,142.0 30.0,142.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><line x1="30.0" y1="131.0" x2="41.0" y2="131.0" stroke="#1a1a1a" stroke-width="1.2"/><line x1="41.0" y1="131.0" x2="41.0" y2="142.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="18.0" y="28.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">A</text><text x="192.0" y="144.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">B</text><text x="18.0" y="146.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">C</text><path d="M30.0,58.0 A28.0,28.0 0 0 0 46.8,52.4" fill="none" stroke="#1a1a1a" stroke-width="1.2"/><text x="50.0" y="64.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">∠A</text><text x="105.0" y="157.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">對邊</text><text font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle"><tspan x="14.0" y="76.9">鄰</tspan><tspan x="14.0" y="95.1">邊</tspan></text><text x="119.0" y="76.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">斜邊</text></svg></td><td>看 ∠A：對邊是底邊 \(a\)（＝CB），鄰邊是左邊那條 \(b\)（＝AC），斜邊是 \(c\)（＝AB）。於是 \(\sin A = \frac{\text{對邊}}{\text{斜邊}} = \frac{a}{c}\)、\(\cos A = \frac{\text{鄰邊}}{\text{斜邊}} = \frac{b}{c}\)、\(\tan A = \frac{\text{對邊}}{\text{鄰邊}} = \frac{a}{b}\)。</td></tr><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="210" height="172" viewBox="0 0 210 172" role="img"><rect width="210" height="172" fill="#ffffff"/><polygon points="30.0,30.0 180.0,142.0 30.0,142.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><line x1="30.0" y1="131.0" x2="41.0" y2="131.0" stroke="#1a1a1a" stroke-width="1.2"/><line x1="41.0" y1="131.0" x2="41.0" y2="142.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="18.0" y="28.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">A</text><text x="192.0" y="144.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">B</text><text x="18.0" y="146.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">C</text><path d="M152.0,142.0 A28.0,28.0 0 0 1 157.6,125.2" fill="none" stroke="#1a1a1a" stroke-width="1.2"/><text x="140.0" y="127.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">∠B</text><text x="105.0" y="157.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">鄰邊</text><text font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle"><tspan x="14.0" y="76.9">對</tspan><tspan x="14.0" y="95.1">邊</tspan></text><text x="119.0" y="76.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">斜邊</text></svg></td><td>同一個三角形，改看 ∠B：對邊變成 \(b\)、鄰邊變成 \(a\)，斜邊仍然是 \(c\)。\(\sin B = \frac{b}{c}\)、\(\cos B = \frac{a}{c}\)、\(\tan B = \frac{b}{a}\)。留意 \(\sin B = \cos A\)——兩個銳角互餘，所以一個的 sin 等於另一個的 cos。</td></tr><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="210" height="172" viewBox="0 0 210 172" role="img"><rect width="210" height="172" fill="#ffffff"/><polygon points="30.0,30.0 180.0,142.0 30.0,142.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><line x1="30.0" y1="131.0" x2="41.0" y2="131.0" stroke="#1a1a1a" stroke-width="1.2"/><line x1="41.0" y1="131.0" x2="41.0" y2="142.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="18.0" y="28.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">A</text><text x="192.0" y="144.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">B</text><text x="18.0" y="146.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">C</text><text x="105.0" y="157.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">8</text><text font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle"><tspan x="14.0" y="86.0">6</tspan></text><text x="119.0" y="76.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">10</text></svg></td><td>代進實際數字（\(AC = 6\)、\(CB = 8\)、\(AB = 10\)）：看 ∠A 時 \(\sin A = \frac{8}{10} = \frac{4}{5}\)、\(\cos A = \frac{6}{10} = \frac{3}{5}\)、\(\tan A = \frac{8}{6} = \frac{4}{3}\)。三個答案全部約到最簡才算完成。</td></tr></tbody></table>
+
+<div class="hint-card">※ 另外三個比只是把上面三個「倒轉」，不必另外背：\(\cot A = \frac{1}{\tan A} = \frac{\text{鄰邊}}{\text{對邊}}\)、\(\sec A = \frac{1}{\cos A} = \frac{\text{斜邊}}{\text{鄰邊}}\)、\(\csc A = \frac{1}{\sin A} = \frac{\text{斜邊}}{\text{對邊}}\)。⚠ 最易記錯的是 sec 與 csc 的配對：sec 配的是 cos（不是 sin），csc 配的是 sin。記法：兩個字的第三個字母——sec 的 c 對應 cos，csc 的 s 對應 sin。※ 只要知道兩條邊，第三條一定可以用畢氏定理 \(a^2 + b^2 = c^2\) 補回，所以「題目只給兩條邊」從來不是做不下去的理由。</div>
+
+<div class="ref-card"><div style="font-weight:700;font-size:13pt">卡一・直角三角形的六個三角比</div><div class="trigger">什麼時候翻我：題目給了一個直角三角形（或給了兩條邊長），問 sin、cos、tan 等於多少。</div><div class="cardfig"><svg xmlns="http://www.w3.org/2000/svg" width="210" height="172" viewBox="0 0 210 172" role="img"><rect width="210" height="172" fill="#ffffff"/><polygon points="30.0,30.0 180.0,142.0 30.0,142.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><line x1="30.0" y1="131.0" x2="41.0" y2="131.0" stroke="#1a1a1a" stroke-width="1.2"/><line x1="41.0" y1="131.0" x2="41.0" y2="142.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="18.0" y="28.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">A</text><text x="192.0" y="144.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">B</text><text x="18.0" y="146.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">C</text></svg></div><div>先圈出題目問的是哪一個角，再標「對邊／鄰邊／斜邊」，最後才寫分數。斜邊永遠是直角對面那一條；對邊與鄰邊隨着你看的角而對調。</div><div>\(\sin A = \frac{\text{對邊}}{\text{斜邊}}\)　\(\cos A = \frac{\text{鄰邊}}{\text{斜邊}}\)　\(\tan A = \frac{\text{對邊}}{\text{鄰邊}}\)　\(\csc A = \frac{\text{斜邊}}{\text{對邊}}\)　\(\sec A = \frac{\text{斜邊}}{\text{鄰邊}}\)　\(\cot A = \frac{\text{鄰邊}}{\text{對邊}}\)</div></div>
+
+<div class="problem">【範例A・六個三角比】（a）直角 \(△ABC\) 中 \(∠C = 90^{\circ}\)、\(AB = 13\)、\(AC = 5\)，求 \(\sin A\)、\(\cos A\)、\(\tan A\)、\(\cot A\)、\(\sec A\)、\(\csc A\)。　（b）\(△ABC\) 中 \(∠C = 90^{\circ}\)、\(BC = 3\)、\(AC = 4\)，求 \(\sin B\) 與 \(\tan A\)。</div>
+
+<div>（a）第一步：補回第三條邊。\(∠C = 90^{\circ}\) 所以 AB 是斜邊，\(BC = \sqrt{13^2 - 5^2} = \sqrt{169 - 25} = \sqrt{144} = 12\)。</div>
+
+<div>（a）第二步：圈出要看的角是 ∠A，然後標邊。對邊 ＝ BC ＝ 12（∠A 對面那一條）、鄰邊 ＝ AC ＝ 5、斜邊 ＝ AB ＝ 13。</div>
+
+<div>（a）第三步：照卡一逐個寫。\(\sin A = \frac{12}{13}\)、\(\cos A = \frac{5}{13}\)、\(\tan A = \frac{12}{5}\)；另外三個是它們的倒數：\(\cot A = \frac{5}{12}\)、\(\sec A = \frac{13}{5}\)、\(\csc A = \frac{13}{12}\)。</div>
+
+<div>（a）檢查：\(\sin ^2 A + \cos ^2 A = \frac{144}{169} + \frac{25}{169} = \frac{169}{169} = 1\) ✔ 這條恆等式對任何角都成立，是本節最好用的自我檢查。</div>
+
+<div>（b）先補斜邊：\(AB = \sqrt{3^2 + 4^2} = \sqrt{9 + 16} = 5\)。看 ∠B 時，對邊是 AC ＝ 4（∠B 對面），斜邊是 AB ＝ 5，所以 \(\sin B = \frac{4}{5}\)。</div>
+
+<div>（b）換看 ∠A：對邊是 BC ＝ 3、鄰邊是 AC ＝ 4，所以 \(\tan A = \frac{3}{4}\)。同一題問兩個不同的角，兩次都要重新圈角、重新標邊——這正是本題的考點。</div>
+
+<div class="hint-card">※ (b) 最常見的錯法：看到 \(BC = 3\) 就寫 \(\sin B = \frac{3}{5}\)。錯在把「B 這個字母旁邊的邊」當成 ∠B 的對邊。對邊是「角對面那一條」，∠B 在右下角，它對面那一條是左邊的 AC ＝ 4。對策：圈完角之後，用筆由那個角向對面畫一箭頭，箭頭指到的才是對邊。※ 為什麼 \(\sin B = \cos A\)：兩個銳角加起來是 90°，∠B 的對邊剛好就是 ∠A 的鄰邊。所以互餘角的 sin 與 cos 會對調——\(\sin 30^{\circ} = \cos 60^{\circ} = \frac{1}{2}\) 就是同一件事。這條關係在檢查答案時很好用。※ (a) 那條 \(\sin ^2 A + \cos ^2 A = 1\) 值得每題做一次：把你算出的 sin 與 cos 各自平方再相加，加不到 1 就表示至少有一個寫錯了，比重新做一次快得多。</div>
+
+<div class="section-h page-break">三、角超過 90° 之後：象限決定正負</div>
+
+<div>上一節的角都在直角三角形裡，一定是銳角，六個比全部是正數。一旦角可以超過 90°（例如 135°、210°），就要用坐標的方式重新定義：在角的終邊上取一點 \(P(x, y)\)，它與原點的距離是 \(r\)（\(r\) 永遠是正數），那麼 \(\sin θ = \frac{y}{r}\)、\(\cos θ = \frac{x}{r}\)、\(\tan θ = \frac{y}{x}\)。</div>
+
+<div>因為 \(r\) 永遠是正數，三個比的正負就完全由 \(x\) 與 \(y\) 的正負決定，而 \(x\)、\(y\) 的正負又完全由「P 落在哪個象限」決定。所以「判斷正負」這件事根本不需要背——看圖就看得出來。</div>
+
+<div>把四個象限逐個看一次，就得出下面這張表；看完之後你會發現只需要記一句：一全正、二 sin 正、三 tan 正、四 cos 正。</div>
+
+<table class="d-tbl dual-track"><thead><tr><th>圖上看到什麼</th><th>算式上寫什麼</th></tr></thead><tbody><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="186" height="197" viewBox="0 0 186 197" role="img"><rect width="186" height="197" fill="#ffffff"/><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><circle cx="93.0" cy="93.0" r="46.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><circle cx="93.0" cy="93.0" r="2.6" fill="#1a1a1a"/><line x1="93.0" y1="93.0" x2="128.6" y2="64.2" stroke="#1a1a1a" stroke-width="1.9"/><line x1="128.6" y1="64.2" x2="128.6" y2="93.0" stroke="#1a1a1a" stroke-width="1.6" stroke-dasharray="4,3"/><line x1="16.0" y1="93.0" x2="172.0" y2="93.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="178.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><line x1="93.0" y1="181.5" x2="93.0" y2="14.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="92.0" y="7.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">y</text><circle cx="128.6" cy="64.2" r="4.2" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.6"/><text x="137.6" y="53.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">P</text><text x="59.6" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">x 是正</text><text x="126.4" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">y 是正</text><text x="104.8" y="72.6" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">r</text></svg></td><td>第一象限：\(x  \gt  0\)、\(y  \gt  0\)。\(\sin θ = \frac{y}{r}\) 正、\(\cos θ = \frac{x}{r}\) 正、\(\tan θ = \frac{y}{x}\) 正 → 三個全部是正。</td></tr><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="186" height="197" viewBox="0 0 186 197" role="img"><rect width="186" height="197" fill="#ffffff"/><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><circle cx="93.0" cy="93.0" r="46.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><circle cx="93.0" cy="93.0" r="2.6" fill="#1a1a1a"/><line x1="93.0" y1="93.0" x2="57.4" y2="64.2" stroke="#1a1a1a" stroke-width="1.9"/><line x1="57.4" y1="64.2" x2="57.4" y2="93.0" stroke="#1a1a1a" stroke-width="1.6" stroke-dasharray="4,3"/><line x1="16.0" y1="93.0" x2="172.0" y2="93.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="178.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><line x1="93.0" y1="181.5" x2="93.0" y2="14.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="92.0" y="7.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">y</text><circle cx="57.4" cy="64.2" r="4.2" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.6"/><text x="48.4" y="53.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">P</text><text x="59.6" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">x 是負</text><text x="126.4" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">y 是正</text><text x="81.2" y="72.6" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">r</text></svg></td><td>第二象限：\(x  \lt  0\)、\(y  \gt  0\)。\(\sin θ\) 正（\(y\) 正）、\(\cos θ\) 負（\(x\) 負）、\(\tan θ\) 負（正 ÷ 負）→ 只有 sin 是正。</td></tr><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="186" height="197" viewBox="0 0 186 197" role="img"><rect width="186" height="197" fill="#ffffff"/><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><circle cx="93.0" cy="93.0" r="46.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><circle cx="93.0" cy="93.0" r="2.6" fill="#1a1a1a"/><line x1="93.0" y1="93.0" x2="57.4" y2="121.8" stroke="#1a1a1a" stroke-width="1.9"/><line x1="57.4" y1="121.8" x2="57.4" y2="93.0" stroke="#1a1a1a" stroke-width="1.6" stroke-dasharray="4,3"/><line x1="16.0" y1="93.0" x2="172.0" y2="93.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="178.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><line x1="93.0" y1="181.5" x2="93.0" y2="14.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="92.0" y="7.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">y</text><circle cx="57.4" cy="121.8" r="4.2" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.6"/><text x="48.4" y="110.8" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">P</text><text x="59.6" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">x 是負</text><text x="126.4" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">y 是負</text><text x="81.2" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">r</text></svg></td><td>第三象限：\(x  \lt  0\)、\(y  \lt  0\)。\(\sin θ\) 負、\(\cos θ\) 負、\(\tan θ\) 正（負 ÷ 負）→ 只有 tan 是正。</td></tr><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="186" height="197" viewBox="0 0 186 197" role="img"><rect width="186" height="197" fill="#ffffff"/><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><circle cx="93.0" cy="93.0" r="46.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><circle cx="93.0" cy="93.0" r="2.6" fill="#1a1a1a"/><line x1="93.0" y1="93.0" x2="128.6" y2="121.8" stroke="#1a1a1a" stroke-width="1.9"/><line x1="128.6" y1="121.8" x2="128.6" y2="93.0" stroke="#1a1a1a" stroke-width="1.6" stroke-dasharray="4,3"/><line x1="16.0" y1="93.0" x2="172.0" y2="93.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="178.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><line x1="93.0" y1="181.5" x2="93.0" y2="14.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="92.0" y="7.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">y</text><circle cx="128.6" cy="121.8" r="4.2" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.6"/><text x="137.6" y="110.8" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">P</text><text x="59.6" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">x 是正</text><text x="126.4" y="164.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">y 是負</text><text x="104.8" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">r</text></svg></td><td>第四象限：\(x  \gt  0\)、\(y  \lt  0\)。\(\sin θ\) 負、\(\cos θ\) 正、\(\tan θ\) 負（負 ÷ 正）→ 只有 cos 是正。</td></tr></tbody></table>
+
+<div class="hint-card">※ 由第一象限逆時針數過去，「是正的那一個」依次是：全部 → sin → tan → cos。這四個字的次序就是整張表，記住次序就不必逐格背。※ 另一個常用方向：題目給了兩個條件（例如 \(\sin θ  \gt  0\) 且 \(\tan θ  \lt  0\)），要反過來求象限。做法是各自列出可能的象限再取交集：\(\sin θ  \gt  0\) → 一或二；\(\tan θ  \lt  0\) → 二或四；兩者共同的只有第二象限。⚠ 不要只看其中一個條件就作答——那是本節最貴的錯。</div>
+
+<div class="ref-card"><div style="font-weight:700;font-size:13pt">卡二・象限符號盤（判斷正負／判斷象限）</div><div class="trigger">什麼時候翻我：題目只給了一個三角函數的值（尤其是負值），或者出現「θ 在第幾象限」「\(\sin θ  \times  \tan θ  \lt  0\)」這類符號條件。</div><div class="cardfig"><svg xmlns="http://www.w3.org/2000/svg" width="259" height="259" viewBox="0 0 259 259" role="img"><rect width="259" height="259" fill="#ffffff"/><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><circle cx="129.6" cy="129.6" r="48.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><circle cx="129.6" cy="129.6" r="2.6" fill="#1a1a1a"/><line x1="16.0" y1="129.6" x2="245.2" y2="129.6" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="251.2" y="130.6" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><line x1="129.6" y1="243.2" x2="129.6" y2="14.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="128.6" y="7.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">y</text><text x="198.0" y="61.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">一：全部正</text><text x="61.2" y="61.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">二：只有 sin 正</text><text x="61.2" y="198.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">三：只有 tan 正</text><text x="198.0" y="198.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">四：只有 cos 正</text></svg></div><div>在角的終邊上取點 \(P(x, y)\)，\(r\) 是它到原點的距離（永遠是正數）。\(\sin θ = \frac{y}{r}\)、\(\cos θ = \frac{x}{r}\)、\(\tan θ = \frac{y}{x}\)——正負只由 x、y 決定。由第一象限逆時針數：全正 → sin 正 → tan 正 → cos 正。</div><div>\(\sin ^2 θ + \cos ^2 θ = 1\)　\(\tan θ = \frac{\sin θ}{\cos θ}\)　已知一個值求另一個時用這兩條，正負由象限決定</div></div>
+
+<div class="problem">【範例B・判斷象限】（a）若 \(\cos θ ÷ \tan θ  \lt  0\)，θ 在哪些象限？　（b）若 \(\sin θ ÷ \tan θ  \gt  0\)，θ 在哪些象限？　（c）已知 \(\cos α = -\frac{3}{5}\)，且 \(α\) 在第二象限，求 \(\sin α\) 與 \(\tan α\)。</div>
+
+<div>（a）不要急着逐個象限試。先把式子化簡：\(\cos θ ÷ \tan θ = \cos θ ÷ \frac{\sin θ}{\cos θ} = \cos θ  \times  \frac{\cos θ}{\sin θ} = \frac{\cos ^2 θ}{\sin θ}\)。</div>
+
+<div>（a）分子 \(\cos ^2 θ\) 是平方，必定大於 0（θ 不等於 90°、270° 時）。所以整個式子的正負只由分母 \(\sin θ\) 決定。式子 &lt; 0 就表示 \(\sin θ  \lt  0\) → 翻卡二：sin 是負的象限是第三與第四。</div>
+
+<div>（b）同樣先化簡：\(\sin θ ÷ \tan θ = \sin θ  \times  \frac{\cos θ}{\sin θ} = \cos θ\)（\(\sin θ ≠ 0\) 時）。式子 &gt; 0 就是 \(\cos θ  \gt  0\) → 翻卡二：cos 是正的象限是第一與第四。</div>
+
+<div>（c）第一步，用 \(\sin ^2 α + \cos ^2 α = 1\) 求出 sin 的大小：\(\sin ^2 α = 1 - (-\frac{3}{5})^2 = 1 - \frac{9}{25} = \frac{16}{25}\)，所以 \(\sin α\) 的絕對值是 \(\frac{4}{5}\)。</div>
+
+<div>（c）第二步，用卡二定正負：α 在第二象限，sin 是正的，所以 \(\sin α = \frac{4}{5}\)（不是 \(-\frac{4}{5}\)）。第三步：\(\tan α = \frac{\sin α}{\cos α} = \frac{4}{5} ÷ (-\frac{3}{5}) = -\frac{4}{3}\)。</div>
+
+<div>（c）檢查：第二象限應該只有 sin 是正 —— 算出來 \(\sin α\) 正、\(\cos α\) 負、\(\tan α\) 負 ✔ 完全對得上卡二。</div>
+
+<div class="hint-card">※ (a)(b) 兩題長得很像，但答案完全不同（三或四 vs 一或四），原因是化簡之後剩下的東西不同：(a) 剩 \(\frac{\cos ^2 θ}{\sin θ}\)、(b) 剩 \(\cos θ\)。所以這一類題的關鍵動作是「先化簡再判斷」，不是逐個象限代數字去試——代數字要試四次，而且很易漏其中一個。※ (c) 開方之後一定要停下來想正負，這是本節最常漏的一步。\(\sqrt{\frac{16}{25}}\) 的結果本身只給你 \(\frac{4}{5}\) 這個大小，正負要另外由象限決定。對策：算出大小之後，先在旁邊寫「第幾象限」四個字，再翻卡二填正負。※ 為什麼 \(\cos ^2 θ\) 一定大於 0 而不是「大於等於 0」：如果 \(\cos θ = 0\)，原式的 tan 本身就沒有定義了，所以題目已經隱含 θ 不在那些位置。</div>
+
+<div class="section-h page-break">四、不是特殊角的角：拆開來算</div>
+
+<div>考試裡經常要求 \(\sin 15^{\circ}\)、\(\cos 75^{\circ}\)、\(\tan 105^{\circ}\) 這些值。它們不是特殊角，計算機以外沒有辦法直接讀出來——但它們全部都可以拆成兩個特殊角的和或差：\(15^{\circ} = 45^{\circ} - 30^{\circ}\)、\(75^{\circ} = 45^{\circ} + 30^{\circ}\)、\(105^{\circ} = 60^{\circ} + 45^{\circ}\)。</div>
+
+<div>拆開之後用和角差角公式，就把一個不會的角換成兩個會的角。所以這一節真正要練的不是背公式（公式在卡三上），而是「看到一個角，想得出它可以怎樣拆」。能用的零件只有四個：30°、45°、60°、90°。</div>
+
+<div>反方向也要認得：題目有時直接給你一串\(\cos 29^{\circ} \cos 31^{\circ} - \sin 29^{\circ} \sin 31^{\circ}\)，要你認出這就是 \(\cos (29^{\circ} + 31^{\circ}) = \cos 60^{\circ}\)。認得出的話一行就完，認不出就只能逐個查表——但表上根本沒有 29°。</div>
+
+<div class="ref-card"><div style="font-weight:700;font-size:13pt">卡三・和角差角公式 ＋ 特殊角值表</div><div class="trigger">什麼時候翻我：題目要求的角不是 30°／45°／60°／90°（例如 15°、75°、105°），或者式子長成「\(\sin A \cos B ± \cos A \sin B\)」的樣子。</div><div>先把角拆成兩個特殊角的和或差，再代公式。⚠ 最易錯的一點：cos 的公式中間那個符號跟括號裡的相反（括號加，中間減；括號減，中間加），sin 則是一樣。</div><div>\(\sin (α \pm β) = \sin α \cos β  \pm  \cos α \sin β\)　\(\cos (α \pm β) = \cos α \cos β  \mp  \sin α \sin β\)　\(\tan (α \pm β) = \frac{\tan α  \pm  \tan β}{1  \mp  \tan α \tan β}\)</div></div>
+
+<div>卡三配套的特殊角值表（拆角之後要代的四個值全部在這裡）：</div>
+
+<table class="d-tbl spec-tbl"><thead><tr><th>角度</th><th>\(\sin \)</th><th>\(\cos \)</th><th>\(\tan \)</th></tr></thead><tbody><tr><td>30°</td><td>\(\frac{1}{2}\)</td><td>\(\frac{\sqrt{3}}{2}\)</td><td>\(\frac{\sqrt{3}}{3}\)</td></tr><tr><td>45°</td><td>\(\frac{\sqrt{2}}{2}\)</td><td>\(\frac{\sqrt{2}}{2}\)</td><td>1</td></tr><tr><td>60°</td><td>\(\frac{\sqrt{3}}{2}\)</td><td>\(\frac{1}{2}\)</td><td>\(\sqrt{3}\)</td></tr><tr><td>90°</td><td>1</td><td>0</td><td>沒有定義</td></tr></tbody></table>
+
+<table class="d-tbl step-card"><tr><th colspan="2">▍手順卡・求一個「不是特殊角」的三角值</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：題目要求 15°、75°、105° 這些角的 sin／cos／tan。</td></tr><tr><td>1. 把角拆成兩個特殊角的和或差</td><td class="pitfall">※ 能用的零件只有 30°、45°、60°、90° 四個。105° ＝ 60° ＋ 45°</td></tr><tr><td>2. 翻卡三，揀出對應那一條公式</td><td class="pitfall">※ sin 揀 sin 那條、cos 揀 cos 那條。cos 的中間符號與括號裡相反</td></tr><tr><td>3. 四個特殊角的值逐個代進去</td><td class="pitfall">※ 一條 sin 或 cos 公式要代四個值，漏其中一個是本節最常見的失分</td></tr><tr><td>4. 通分、化簡；tan 的結果要有理化</td><td class="pitfall">※ 分母不可以留根號。\(\frac{1}{\sqrt{3}}\) 要寫成 \(\frac{\sqrt{3}}{3}\)</td></tr></table>
+
+<div class="problem">【範例C・和角差角】（a）求 \(\sin 15^{\circ}\)。　（b）求 \(\cos 105^{\circ}\)。　（c）求 \(\cos 29^{\circ} \cos 31^{\circ} - \sin 29^{\circ} \sin 31^{\circ}\) 的值。</div>
+
+<div>（a）第一步（手順卡）：\(15^{\circ} = 45^{\circ} - 30^{\circ}\)。第二步：要求的是 sin，而且是「差」，所以揀 \(\sin (α-β) = \sin α \cos β - \cos α \sin β\)。</div>
+
+<div>（a）第三步：代四個值——\(\sin 45^{\circ} = \frac{\sqrt{2}}{2}\)、\(\cos 30^{\circ} = \frac{\sqrt{3}}{2}\)、\(\cos 45^{\circ} = \frac{\sqrt{2}}{2}\)、\(\sin 30^{\circ} = \frac{1}{2}\)。\(\sin 15^{\circ} = \frac{\sqrt{2}}{2}  \times  \frac{\sqrt{3}}{2} - \frac{\sqrt{2}}{2}  \times  \frac{1}{2}\)。</div>
+
+<div>（a）第四步：\(= \frac{\sqrt{6}}{4} - \frac{\sqrt{2}}{4} = \frac{\sqrt{6} - \sqrt{2}}{4}\)。檢查：\(\sqrt{6} ≈ 2.449\)、\(\sqrt{2} ≈ 1.414\)，所以答案 \(≈ \frac{1.035}{4} ≈ 0.259\)。15° 是很小的角，sin 應該接近 0 而且是正數 ✔ 合理。</div>
+
+<div>（b）第一步：\(105^{\circ} = 60^{\circ} + 45^{\circ}\)。第二步：要求 cos，而且是「和」，所以揀 \(\cos (α+β) = \cos α \cos β - \sin α \sin β\)——留意括號裡是加號，中間卻是減號。</div>
+
+<div>（b）第三、四步：\(\cos 105^{\circ} = \frac{1}{2}  \times  \frac{\sqrt{2}}{2} - \frac{\sqrt{3}}{2}  \times  \frac{\sqrt{2}}{2} = \frac{\sqrt{2}}{4} - \frac{\sqrt{6}}{4} = \frac{\sqrt{2} - \sqrt{6}}{4}\)。檢查：105° 在第二象限，卡二說第二象限的 cos 是負的；\(\sqrt{2}  \lt  \sqrt{6}\) 所以答案確實是負數 ✔</div>
+
+<div>（c）這一題是反方向用。式子的形狀是「\(\cos A \cos B - \sin A \sin B\)」，對照卡三就知道它等於 \(\cos (A + B)\)（中間是減號 → 括號裡是加號）。所以 \(= \cos (29^{\circ} + 31^{\circ}) = \cos 60^{\circ} = \frac{1}{2}\)。</div>
+
+<div class="hint-card">※ (b) 那句「括號加、中間減」是本課最貴的一條規則。把它寫錯的話，\(\cos 105^{\circ}\) 會變成 \(\frac{\sqrt{2} + \sqrt{6}}{4} ≈ 0.966\)——一個正數，但 105° 明明在第二象限、cos 一定是負的。所以做完 cos 的和角差角，順手用卡二檢查一次正負，符號寫反的話當場就攔得住。※ (c) 這種「反方向」的題目在考試中比正方向更常見，因為它一眼看上去像要逐個查表，其實一行就完。認法：見到兩個乘積相加或相減、而且四個因子剛好是「兩個角的 sin 與 cos」，就翻卡三反過來讀。※ 中間符號與括號符號的關係，三條公式各不相同，值得在卡三上劃線：sin 是「一樣」（括號加，中間加）；cos 是「相反」；tan 的分子跟括號一樣、分母相反。只要記住「只有 cos 和 tan 的分母會反」，三條就都對了。</div>
+
+<div class="section-h page-break">五、式子裡出現 2α：二倍角</div>
+
+<div>二倍角公式其實不是新公式，是把和角公式裡的 β 換成 α 而已：\(\sin 2α = \sin (α + α) = \sin α \cos α + \cos α \sin α = 2 \sin α \cos α\)。cos 的一樣：\(\cos 2α = \cos ^2 α - \sin ^2 α\)。</div>
+
+<div>cos 的二倍角有三個等價寫法，因為可以用 \(\sin ^2 α + \cos ^2 α = 1\) 把其中一項換掉：\(\cos 2α = \cos ^2 α - \sin ^2 α = 1 - 2 \sin ^2 α = 2 \cos ^2 α - 1\)。三條都對，揀哪一條看題目給了什麼——題目給 sin 就用中間那條，給 cos 就用最後那條，這樣可以完全避開開方與判斷正負。</div>
+
+<div>另外有一個變形，本課考得最多，一定要認得：\((\sin α + \cos α)^2 = \sin ^2 α + 2 \sin α \cos α + \cos ^2 α = 1 + \sin 2α\)。所以題目給你 \(\sin α + \cos α\) 的值、問 \(\sin 2α\)，動作只有一個：兩邊平方，然後減 1。</div>
+
+<div class="ref-card"><div style="font-weight:700;font-size:13pt">卡四・二倍角公式</div><div class="trigger">什麼時候翻我：式子裡出現 \(2α\)、\(2θ\)（例如問 \(\sin 2α\)），或者題目給了 \(\sin α + \cos α\) 的值。</div><div>cos 的三條是同一條，用 \(\sin ^2 α + \cos ^2 α = 1\) 互換而已。題目給 sin 就用 \(1 - 2 \sin ^2 α\)、給 cos 就用 \(2 \cos ^2 α - 1\)，可以避開開方。</div><div>\(\sin 2α = 2 \sin α \cos α\)　\(\cos 2α = \cos ^2 α - \sin ^2 α = 1 - 2 \sin ^2 α = 2 \cos ^2 α - 1\)　\((\sin α + \cos α)^2 = 1 + \sin 2α\)</div></div>
+
+<div class="problem">【範例D・二倍角】（a）已知 \(\sin α = \frac{5}{13}\)，\(α ∈ (\frac{π}{2}, π)\)，求 \(\sin 2α\) 與 \(\cos 2α\)。　（b）若 \(\sin α + \cos α = \frac{1}{3}\)，求 \(\sin 2α\)。</div>
+
+<div>（a）第一步：\(\sin 2α\) 需要 \(\cos α\)，題目沒有給，要自己補。\(\cos ^2 α = 1 - (\frac{5}{13})^2 = 1 - \frac{25}{169} = \frac{144}{169}\)，所以大小是 \(\frac{12}{13}\)。</div>
+
+<div>（a）第二步（翻卡二）：\(α ∈ (\frac{π}{2}, π)\) 即第二象限，cos 是負的，所以 \(\cos α = -\frac{12}{13}\)。這一步不能省——省了的話下一步的答案會連正負都錯。</div>
+
+<div>（a）第三步：\(\sin 2α = 2 \sin α \cos α = 2  \times  \frac{5}{13}  \times  (-\frac{12}{13}) = -\frac{120}{169}\)。</div>
+
+<div>（a）第四步：\(\cos 2α\) 揀「給 sin 用」那一條，就不必再用剛才那個負數：\(\cos 2α = 1 - 2 \sin ^2 α = 1 - 2  \times  \frac{25}{169} = 1 - \frac{50}{169} = \frac{119}{169}\)。</div>
+
+<div>（b）認出這是 \((\sin α + \cos α)^2 = 1 + \sin 2α\) 那個變形。兩邊平方：\((\frac{1}{3})^2 = \frac{1}{9}\)，即 \(1 + \sin 2α = \frac{1}{9}\)。所以 \(\sin 2α = \frac{1}{9} - 1 = -\frac{8}{9}\)。</div>
+
+<div class="hint-card">※ (a) 的第二步是本題的分水嶺。跳過象限判斷、直接寫 \(\cos α = \frac{12}{13}\) 的話，會得出 \(\sin 2α = \frac{120}{169}\)——大小完全正確、正負完全相反，而且自己看不出有問題。對策：凡是「由一個三角值求另一個」，開方之後立刻寫下象限，再定正負。※ (a) 第四步示範了「揀公式可以省工夫」：三條 cos 二倍角公式都答得出 \(\frac{119}{169}\)，但用 \(\cos ^2 α - \sin ^2 α\) 要先處理那個負數、用 \(2 \cos ^2 α - 1\) 也要，只有 \(1 - 2 \sin ^2 α\) 直接用題目給的 sin。揀公式之前先看題目給了什麼，這個習慣能省掉一半的計算錯誤。※ (b) 如果不認得那個變形，就要先解一條聯立方程求出 sin 與 cos 各自的值，而且會得出兩組答案、還要再判斷象限——長很多倍，還未必做得完。認得變形與否，是這一題的全部。⚠ (b) 順帶一提：\(\sin 2α = -\frac{8}{9}\) 是負數，而 \(\sin α + \cos α = \frac{1}{3}\) 是正數，兩者並不矛盾——\(2α\) 與 \(α\) 是兩個不同的角。</div>
+
+<div class="section-h page-break">六、給值求角：通解</div>
+
+<div>前面幾節都是「給角求值」，這一節反過來：「給值求角」。麻煩的地方是這種題有無限多個答案——\(\sin x = \frac{1}{2}\) 的解有 30°、150°、390°、510°⋯ 一直數不完，所以答案要寫成一條含 \(n\) 的公式，叫做「通解」。</div>
+
+<div>三條通解公式的形狀不一樣，要分開記，而分別的來源是圖：sin 在一個 \(2π\) 週期裡有兩個解、而且它們對稱於 \(\frac{π}{2}\)，所以用 \((-1)^n\) 這個「一次正一次負」的寫法把兩個解合成一條；cos 的兩個解對稱於 \(x\) 軸，所以用 \(±\)；tan 的週期只有 \(π\)，一個週期裡只有一個解，所以最簡單。</div>
+
+<div>考試多數是選擇題，四個選項的形狀就已經在提示你答案是哪一族：見到 \((-1)^n\) 就是 sin、見到 \(2nπ ±\) 就是 cos、見到 \(nπ +\) 而且沒有其他裝飾就是 tan。認清形狀之後，只需要算出那個 arc 值就完成了。</div>
+
+<div class="ref-card"><div style="font-weight:700;font-size:13pt">卡五・三角方程的通解</div><div class="trigger">什麼時候翻我：題目出現「通解」「一般解」，或者答案的選項裡有 \(n\)（例如 \(2nπ ± \frac{π}{4}\)）。</div><div>\(n\) 是任意整數。先看是 sin、cos 還是 tan，揀出對應那一條，再把 \(arc\) 值算出來代入。\(arc\) 值就是「第一個想得到的那個角」——\(\arcsin \frac{1}{2} = \frac{π}{6}\)、\(\arccos \frac{1}{2} = \frac{π}{3}\)。</div><div>\(\sin x = k → x = nπ + (-1)^n \arcsin k\)　\(\cos x = k → x = 2nπ ± \arccos k\)　\(\tan x = k → x = nπ + \arctan k\)</div></div>
+
+<div class="problem">【範例E・通解】（a）求 \(\sin x = 0\) 的通解。　（b）求 \(\cos x = \frac{\sqrt{2}}{2}\) 的通解。　（c）求 \(\sin x = -0.5\) 的通解。</div>
+
+<div>（a）是 sin，揀 \(x = nπ + (-1)^n \arcsin k\)。\(\arcsin 0 = 0\)，代進去：\(x = nπ + (-1)^n  \times  0 = nπ\)。檢查：\(n = 0, 1, 2\) 依次給出 \(0、π、2π\)，這些角的 sin 確實全部是 0 ✔</div>
+
+<div>（b）是 cos，揀 \(x = 2nπ ± \arccos k\)。\(\arccos \frac{\sqrt{2}}{2} = \frac{π}{4}\)（因為 \(\cos 45^{\circ} = \frac{\sqrt{2}}{2}\)），所以 \(x = 2nπ ± \frac{π}{4}\)。</div>
+
+<div>（b）檢查：\(n = 0\) 給出 \(\frac{π}{4}\) 與 \(-\frac{π}{4}\)，即 45° 與 −45°。兩者的 cos 都是 \(\frac{\sqrt{2}}{2}\) ✔ （cos 是偶函數，正負角的值相同，這正是公式用 \(±\) 的原因。）</div>
+
+<div>（c）是 sin，而且 \(k\) 是負數。\(\arcsin (-0.5) = -\frac{π}{6}\)——arcsin 的值可以是負的，代表順時針量的角。代進去：\(x = nπ + (-1)^n  \times  (-\frac{π}{6})\)。</div>
+
+<div>（c）把負號併進去：\((-1)^n  \times  (-1) = (-1)^{(n+1)}\)，所以 \(x = nπ + (-1)^{(n+1)} \frac{π}{6}\)。檢查：\(n = 1\) 給出 \(π + \frac{π}{6} = \frac{7π}{6}\)，即 210°；\(\sin 210^{\circ} = -\frac{1}{2}\) ✔</div>
+
+<div class="hint-card">※ (c) 那一步「把負號併進 \((-1)^n\)」是選擇題的關鍵。四個選項通常會同時出現 \((-1)^n\) 與 \((-1)^{(n+1)}\) 兩種寫法，而 \(x = nπ + (-1)^n(-\frac{π}{6})\) 與 \(x = nπ + (-1)^{(n+1)} \frac{π}{6}\) 是同一個答案的兩種樣子。如果選項裡找不到你算出來的形狀，先試把負號搬進指數再看一次。※ 三條公式最容易混的是 sin 與 cos：sin 用 \(nπ\) 配 \((-1)^n\)、cos 用 \(2nπ\) 配 \(±\)。記法：cos 的兩個解「一正一負」，所以用 \(±\)；sin 的兩個解不是一正一負（是 30° 與 150°），所以要用 \((-1)^n\) 這種交替的寫法。※ 這一節不必記 arcsin、arccos 的完整定義，只需要會用卡三的特殊角值表反過來查：\(\cos ? = \frac{1}{2}\) → 表上 60° 那一行的 cos 是 \(\frac{1}{2}\) → \(\arccos \frac{1}{2} = \frac{π}{3}\)。</div>
+
+<div class="section-h page-break">七、五張卡速查（做每一題之前掃一眼）</div>
+
+<div>先認出題目屬於哪一行，才決定翻哪一張卡。認錯行的話，後面的計算做得再仔細都沒有用——這一課的失分有一半在這裡。</div>
+
+<table class="d-tbl three-col"><thead><tr><th>題目長成這樣</th><th>翻哪一張卡</th><th>一句話記法</th></tr></thead><tbody><tr><td>給了直角三角形或兩條邊，問 sin／cos／tan</td><td>卡一・六個三角比</td><td>先圈角、再標「對邊／鄰邊／斜邊」、最後才寫分數。斜邊永遠是直角對面那條</td></tr><tr><td>只給一個三角值（尤其負值），或問「在第幾象限」</td><td>卡二・象限符號盤</td><td>一全正、二 sin 正、三 tan 正、四 cos 正。開方之後一定要先定象限再定正負</td></tr><tr><td>要求 15°、75°、105° 這些角，或見到兩個乘積相加減</td><td>卡三・和角差角</td><td>拆成兩個特殊角。cos 的中間符號跟括號裡相反，sin 的一樣</td></tr><tr><td>式子裡有 \(2α\)，或給了 \(\sin α + \cos α\)</td><td>卡四・二倍角</td><td>\(\sin 2α = 2 \sin α \cos α\)；給 sin 就用 \(1 - 2 \sin ^2 α\)</td></tr><tr><td>問「通解」，或選項裡有 \(n\)</td><td>卡五・通解</td><td>sin 配 \(nπ + (-1)^n\)、cos 配 \(2nπ ±\)、tan 配 \(nπ +\)</td></tr></tbody></table>
+
+<div class="section-h">八、接下來</div>
+
+<div>請拿出《第2章 L12 三角函數　課堂練習》，並把《工具卡》剪下放在桌面。練習A 每題下方會重印該用的那張卡的公式列（觸發條件與圖不再印）；練習B 只告訴你翻第幾張卡；練習C 兩者都不給，而且同一題裡要連續換兩至三張卡。</div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L12 三角函數</div>
+
+<div class="teacher-notes"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl"><tr><td>本份採用的主設計</td><td>D7 提示卡——五張（六個三角比／象限符號盤／和角差角＋特殊角值表／二倍角／三角方程通解）。照 teaching-designs.md 對 D7 的規格施工：每張卡第一行必定是「什麼時候翻我」的觸發條件，卡一與卡二另外配圖，構成「文字敘述＋圖＋代數符號」三件套。版面上每張卡之後緊接一個用該卡走完的範例，卡不是印完就算，而是在正文裡實際被翻五次</td></tr><tr><td>輔助設計</td><td>D5 圖文雙軌——只用在真正有圖可對照的兩處：第二節（同一個直角三角形，focus 由 ∠A 換成 ∠B，三條邊的身份全部對調）與第三節（四個象限各一列，左欄是終邊上一點 P 與 x、y 的正負，右欄是三個比的正負）。左右逐列橫向對齊，QB-V5 會目視查這一項。其餘三節（和角差角／二倍角／通解）沒有可對照的圖，刻意不硬套——硬加一張示意圖只是裝飾，不是設計、D2 手順卡——只有一張，管第四節（求非特殊角的三角值）那一段程序。這一段是本課唯一「步驟長到會在工作記憶中崩潰」的地方：拆角 → 揀公式 → 代四個值 → 通分有理化，而且第三步一次要代四個數，漏其中一個是最常見的失分。其餘四節每節只有一至兩個動作，不需要手順卡</td></tr><tr><td>選用理由</td><td>本課取 A5 三角函數 39 題（去重後 20 個獨立題型），涵蓋五個題群：直角三角形六個三角比、象限符號判斷、和角差角公式（含逆用）、二倍角公式、三角方程通解。對照 MATH-031／043／044／050／069、MOCK2-027／028／037／038／039／049／063／064／065／074／087／089／097／098／108／119／120／121／122／139／142／143／145／146／147／177 等題。數學結構橫跨兩種：三角比與象限屬 teaching-designs.md §1 的 S5（幾何定理與推理，核心瓶頸是「需同時提取多個定理，記憶檢索失敗」），和角差角／二倍角／通解屬 S2（多步驟程序運算，§1 的典型單元欄明列「三角恆等變形」）。依 §1 表下的規則取瓶頸較前端的一個為主設計——本課學生真正卡住的地方在動筆之前：公式超過二十條，揀錯公式的失分遠多於算錯數，正是 S5 的 D7 提示卡所針對的「記憶檢索失敗」。S5 的建議輔助欄剛好就是 D5 圖文雙軌與 D2 手順卡，本課按題群的實際性質把兩者各自安放到合適的節次，而不是全課通用。三種設計＝主 D7 ＋ 輔 D5、D2，未超過「主1＋輔2」上限；刻意沒有加 D12 自我核對——本課的檢查動作已經內建在卡一（\(\sin ^2 + \cos ^2 = 1\)）與卡二（用象限覆核正負）裡面，再加一張核對清單就是第四套外部工具，違反上限</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>提示卡（D7，主設計，褪除分四級）：講義印五張完整卡（觸發條件＋敘述＋公式＋圖）並在範例中逐張示範 → 練習A 每題下方重印該用的那張卡的公式列（觸發條件與圖不再印）→ 練習B 只給卡號（「第 3 題用卡三」），公式要自己想得起來 → 練習C 完全移除，工具卡收起 → 之後只留一句「先想清楚這題屬於哪一類」→ 完全移除。｜圖文雙軌（D5）：講義的雙軌表左右全滿 → 練習A 左欄圖已給、右欄留空讓學生填算式 → 練習B 只給圖不給表格欄位 → 練習C 兩者皆無，圖要自己畫。｜手順卡（D2）：講義印完整卡（動作＋※易錯點）→ 練習A 第 3 題旁重印精簡版（只留四個動作）→ 練習B 只寫「四步」→ 練習C 移除。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天五件事：卡一＋圖＋範例A → 卡二＋圖＋範例B → 卡三＋手順卡＋範例C → 卡四＋範例D → 卡五＋範例E → 練習A／B／C）、F2 番茄鐘分段（「看圖說話」（卡一、卡二，本課唯一有圖的兩節）、「拆角與代值」（卡三、卡四）、「通解」（卡五）三塊各自是一段；練習的兩個核對點與這三段對齊，配震動計時器使用）、F1 師徒制對話四步（建議用在第二節與第三節：「這條邊為什麼是對邊」「第三象限的 tan 為什麼是正」都是講得出才算懂的東西，適合用不准動筆的口述環節。尤其第二節的 ∠A → ∠B 對調，一定要學生用自己的話講一次）、F4 過程導向回饋與分步計分（每題把「認出題型／翻對卡」「拆角或標邊」「代值」「化簡與檢查正負」分四步各給分。本課學生最常見的情況是卡揀對、大小算對、只錯正負，與完全不會做要分開評價，對應官方代碼 a7）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點（五張提示卡即為此項；本課的失分集中在「揀錯公式」，若獲准帶入測考，建議把提示卡寫進 IEP 第 9 點——本課是本學年最需要公式卡的一課）、a5 放大字體（卡一與卡二的圖放大不會破版，可單獨放大給視覺搜尋困難的學生）、a6 增加行距／放大作答欄、a7 調整計分標準（認題型／標邊或拆角／代值／化簡檢查分步給分；「只錯正負」建議給部分分）</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度，未刪減內容。</td></tr><tr><td>符號寫法（本課定案，之後幾課沿用）</td><td>①三角函數名一律正體（sin、cos、tan），不用斜體——斜體 sin 看起來像 s×i×n 三個變數相乘，對容易把符號讀成字母的學生特別致命。②角度制與弧度制兩種都會出現（題庫兩種都有）：涉及特殊角時用角度制（15°、105°）較直觀，涉及通解與區間時用弧度制（\(2nπ ± \frac{π}{4}\)、\(α ∈ (\frac{π}{2}, π)\)）因為考卷就是這樣印。講義兩種並用並在範例中互相對照（例如範例E(c) 明講 \(\frac{7π}{6}\) 即 210°），不要為了統一而把其中一種消滅——學生兩種都要認得。③負分數一律寫成 \(-\frac{24}{25}\)，不寫成分子帶負號的形式。</td></tr><tr><td>與前幾課的銜接</td><td>①卡一的畢氏定理與 L8 直線與圓的距離公式是同一件事，上課時值得指出來——\(\sqrt{3^2 + 4^2} = 5\) 在兩課都出現過。②卡二「兩個條件取交集」的做法與 L7 二次不等式的解集取交集同一個動作，學生若在 L7 做得順，這裡可以直接借用。③本課的 \((-1)^n\) 與 L11 二項式定理的 \((-1)^r\) 是同一個東西，都是「一次正一次負」的開關。</td></tr><tr><td>刻意避開的內容</td><td>①MOCK2-148（\(∠ABC = 90^{\circ}\)、求 \(\sin ∠CAD\)）：標準解法要用向量外積或坐標法，超出本課範圍；而且原稿的圖已缺失，D、C 的相對位置只能由文字推斷。②MOCK2-149：原稿的角度範圍是 \(45^{\circ}  \lt  β  \lt  90^{\circ}\)，但 \(\sin β = \frac{\sqrt{2}}{2}\) 在此開區間內無解（唯一解 45° 落在邊界外），疑為 OCR 把 ≤ 讀成 &lt;。③MATH-032（\(\cos α = -\frac{3}{5}\) 求 \(\sin 2α\)）：原題沒有給象限，\(\cos α  \lt  0\) 只確定 α 在第二或第三象限，兩種情況的答案正負相反，實際有兩解。題庫已補上「\(α ∈ (0, π)\)」的假設，但補假設的題目不適合當練習——本課改用有明確象限的 MOCK2-028。教學上這題其實很有價值（示範「沒有象限就沒有唯一答案」），建議留到綜合演練當討論題。④MOCK2-144（\(\sin 159^{\circ} \sin 21^{\circ} + \cos 159^{\circ} \cos 21^{\circ}\)）：化簡後得 \(\cos 138^{\circ}\)，138° 不是特殊角，答案只能寫成 \(-\cos 42^{\circ}\) 或者查計算機取近似值，與本課「拆成特殊角」的訓練目標相反。⑤MATH-070／MOCK2-140（\(\sin α + \sin β = 1\)、\(\cos α + \cos β = 0\)，求 \(\cos (α+β)\)）：要先平方相加、再解聯立三角方程，步驟遠超本課的 1.25 小時，而且中間用到積化和差的思路。以上五項已列入交付摘要的剔除清單。</td></tr><tr><td>題量說明</td><td>本課練習共 6 題（練習A／B／C 各 2 題），合共 13 個小問，五張提示卡每張至少被用到兩次：卡一（第 1 題三個小問）、卡二（第 2 題、第 4(a) 題、第 6(a) 題）、卡三（第 3 題、第 5(a) 題）、卡四（第 4 題、第 5(b) 題、第 6(a) 題）、卡五（第 6(b) 題）。第 5、6 兩題各自要在同一題內連續換兩至三張卡（第 5 題：卡三求出 \(\sin 105^{\circ}\) 與 \(\cos 105^{\circ}\)，再用卡四的二倍角求 \(\sin 210^{\circ}\)；第 6 題：卡二定 \(\sin α\) 的正負 → 卡四求二倍角 → 卡五求通解），這是練習C 的難度來源，不是靠數字變大。</td></tr><tr><td>配套文件</td><td>《第2章 L12 三角函數　課堂練習》（練習A／B／C ＋ 參考答案）、《第2章 L12 三角函數　工具卡》（五張提示卡 ＋ 一張手順卡，剪下護貝放桌面）。本課的工具卡是全學年最值得長期保留的一張——三角函數的公式在之後的綜合演練仍然會用到。</td></tr></table></div>
+
+</div>
+</body>
+</html>

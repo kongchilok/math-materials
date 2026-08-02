@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第1章 特殊數學應用專題．L3 行程、工程效率與濃度</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .three-col td { vertical-align: top; }
+  /* 練習B 三欄全空：範本的 .fill 只有 2.2cm，三欄式的作答空間不夠寫一整題 */
+  .d-tbl td.fill-lg { height: 5.6cm; vertical-align: top; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第1章 特殊數學應用專題．L3 行程、工程效率與濃度</span><span>類型：課堂練習</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="hint-card">動筆之前先做兩件事：（一）認出這是行程題、工程題還是濃度題，寫下它的三個量；（二）問自己「這一題由頭到尾，哪一個量沒有變」。把答案寫在第①欄最後一行的 ※ 後面，再開始列式。不確定就翻《課堂講義》第二節的骨架表，或桌面上的三量關係卡。</div>
+
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+<div>三欄表的第①②欄已經填了一半，請先把空格補完，再在第③欄計算並檢核。行程題與濃度題可以在題框旁邊的空白處先畫一張線段圖或條形圖。</div>
+
+<div class="problem"><div>1．甲、乙兩地相距 480 公里。一輛快車由甲地開出，時速 90 公里；同時一輛慢車由乙地開出，時速 70 公里，兩車相向而行。問（a）幾小時後兩車相遇？（b）相遇處距乙地多少公里？</div><table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td><div>已知：全程 ＿＿＿ 公里。</div><div>已知：快車 ＿＿＿ 公里／小時。</div><div>已知：慢車 ＿＿＿ 公里／小時。</div><div>已知：同時出發、相向而行。</div><div>所求：（a）＿＿＿＿</div><div>　　　（b）＿＿＿＿</div><div>※ 不變的是：兩車路程的</div><div>　（和／差）＝ ＿＿＿</div></td><td><div>路程 ＝ ＿＿＿ × ＿＿＿</div><div>相向而行 → 合速度</div><div>　＝ 90 ＋ 70 ＝ ＿＿＿</div><div>設相遇需時 \(t\) 小時：</div><div>　＿＿＿ × \(t\) ＝ ＿＿＿</div><div>（b）距乙地 ＝ 慢車路程</div><div>　＝ ＿＿＿ × \(t\)</div><div>（先在旁邊空白處畫線段圖）</div></td><td class="fill-lg"></td></tr></table><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>2．有糖水 300 克，濃度是 20%。現在要加入清水，把它稀釋成濃度 12% 的糖水。問應加入多少克清水？</div><table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td><div>已知：糖水 ＿＿＿ 克。</div><div>已知：濃度 ＿＿＿。</div><div>已知：加入的是清水。</div><div>已知：稀釋後濃度 ＿＿＿。</div><div>所求：＿＿＿＿</div><div>※ 不變的是：＿＿＿ 的質量。</div></td><td><div>溶質 ＝ ＿＿＿ × ＿＿＿</div><div>糖的質量</div><div>　＝ 300 × 20% ＝ ＿＿＿ 克</div><div>設加入 \(w\) 克清水，</div><div>　新溶液 ＝ ＿＿＿ 克</div><div>列式：＿＿＿ ÷ \(300+w\)</div><div>　　　＝ 12%</div><div>（先在旁邊空白處畫條形圖）</div></td><td class="fill-lg"></td></tr></table><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+
+<div>三欄全部留空，欄位還在。請由第①欄開始，逐欄往右填，不要跳去第③欄先算。</div>
+
+<div class="problem"><div>3．一項工程，甲隊單獨做 15 天完成，乙隊單獨做 10 天完成。問（a）兩隊一起做，多少天可以完成整項工程？（b）兩隊一起做，多少天可以完成整項工程的 \(\frac{5}{6}\)？</div><table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td class="fill-lg"></td><td class="fill-lg"></td><td class="fill-lg"></td></tr></table><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>4．小杰每分鐘走 60 公尺，小美每分鐘走 80 公尺。小杰先出發，5 分鐘之後小美才由同一地點出發去追他。問（a）小美出發後多少分鐘追上小杰？（b）追上時，兩人距離出發點多少公尺？</div><table class="d-tbl three-col"><tr><th>① 語意擷取（圈已知、劃所求）</th><th>② 關係式建構</th><th>③ 運算與檢核</th></tr><tr><td class="fill-lg"></td><td class="fill-lg"></td><td class="fill-lg"></td></tr></table><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+
+<div>本節不再印欄位。請自己在作答空間先畫出三欄（①語意擷取　②關係式建構　③運算與檢核），再依次填寫。</div>
+
+<div class="problem"><div>5．一輛汽車由甲地到乙地共行駛 580 公里，用了 6 小時。途中一部分路段是高速公路，時速 120 公里；另一部分是普通公路，時速 80 公里。問（a）汽車在高速公路上行駛了多少小時？（b）高速公路那一段有多少公里？</div><div>作答（請自己畫出三欄）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>6．把甲、乙兩種鹽水混合，得到濃度 15% 的鹽水。已知甲鹽水的濃度是 9%、質量 5 千克，乙鹽水的質量是 10 千克。問（a）乙鹽水的濃度是多少？（b）把混合後的鹽水蒸發掉一部分水，使濃度變成 25%，要蒸發多少千克水？</div><div>作答（請自己畫出三欄）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">參考答案與詳解（教師用）</div>
+
+<div class="problem"><div style="font-weight:700">1．答案：（a）3 小時後相遇　（b）相遇處距乙地 210 公里</div><div>【考點】相遇問題：由出發到相遇，兩車走的路程「和」等於全程——這就是本題的不變量。相向而行時兩車一起縮短中間的距離，所以速度相加。</div><div>【公式／定理】路程 ＝ 速度 × 時間；相遇時間 ＝ 全程 ÷（兩車速度之和）。</div><div>【詳細步驟】</div><div>　（1）第①欄：已知全程 480 公里、快車 90、慢車 70、同時相向出發；不變量是兩車路程的和 ＝ 480 公里。</div><div>　（2）第②欄：合速度 ＝ \(90+70=160\)（公里／小時）；設相遇需時 \(t\) 小時，則 \(90t+70t=480\)，即 \(160t=480\)。</div><div>　（3）第③欄（a）：\(t=\frac{480}{160}=3\)（小時）。</div><div>　（4）第③欄（b）：相遇處距乙地 ＝ 慢車走的路程 ＝ \(70 \times 3=210\)（公里）。</div><div>　（5）檢核：快車走了 \(90 \times 3=270\) 公里，\(270+210=480\) 公里，與全程相符。</div><div>　（6）合理性：慢車較慢，走得較少（210 小於 270），相遇點應較接近乙地——相符。</div><div class="hint-card">【易錯點提示】把速度相減（\(90-70=20\)）——那是追及題的做法。相遇是兩車面對面一起縮短距離，追及是同向去追，兩者的圖完全不同，畫一次線段圖就分得清。另外（b）問的是距「乙地」，要用慢車走的路程，不是快車。</div></div>
+
+<div class="problem"><div style="font-weight:700">2．答案：應加入 200 克清水</div><div>【考點】稀釋問題：加入的是清水，糖（溶質）的質量由頭到尾不變——這就是本題的不變量。變的只有溶液總質量與濃度。</div><div>【公式／定理】溶質 ＝ 溶液 × 濃度；稀釋前的溶質 ＝ 稀釋後的溶質。</div><div>【詳細步驟】</div><div>　（1）第①欄：已知糖水 300 克、濃度 20%，稀釋後濃度 12%；不變量是糖的質量。</div><div>　（2）第②欄：糖的質量 ＝ \(300 \times 0.2=60\)（克）。設加入 \(w\) 克清水，新溶液 ＝ \(300+w\)（克），則 \(\frac{60}{300+w}=0.12\)。</div><div>　（3）第③欄：60 ÷ 0.12 ＝ 500，即 \(300+w=500\)，所以 \(w=500-300=200\)（克）。</div><div>　（4）檢核：新糖水 500 克，含糖 \(500 \times 0.12=60\) 克，與原來的 60 克一樣。</div><div>　（5）合理性：加水令濃度由 20% 降到 12%，濃度下降——與「加水稀釋」相符。</div><div class="hint-card">【易錯點提示】① 把 300 克當成糖的質量（300 克是糖水，糖只有 60 克）；② 用 \(20-12=8\) 這種「濃度相減」的做法去求水量——濃度是比值，不可以直接相減；③ 求出新溶液 500 克之後忘記減去原來的 300 克，答成 500 克。</div></div>
+
+<div class="problem"><div style="font-weight:700">3．答案：（a）6 天　（b）5 天</div><div>【考點】工程效率問題：工程量沒有給數值，把整項工程當作 1；「單獨 n 天完成」的效率就是 \(\frac{1}{n}\)。合做時把效率相加，不是把日數相加。</div><div>【公式／定理】工作量 ＝ 工作效率 × 日數；合做效率 ＝ 各人效率之和。</div><div>【詳細步驟】</div><div>　（1）第①欄：已知甲單獨 15 天、乙單獨 10 天完成整項工程；不變量是整項工程 ＝ 1。</div><div>　（2）第②欄：甲的效率 ＝ \(\frac{1}{15}\)，乙的效率 ＝ \(\frac{1}{10}\)；合做效率 ＝ \(\frac{1}{15}+\frac{1}{10}=\frac{2}{30}+\frac{3}{30}=\frac{1}{6}\)。</div><div>　（3）第③欄（a）：設需 \(t\) 天，\(\frac{1}{6} \times t=1\)，得 \(t=6\)（天）。</div><div>　（4）第③欄（b）：設需 \(s\) 天，\(\frac{1}{6} \times s=\frac{5}{6}\)，得 \(s=5\)（天）。</div><div>　（5）檢核（a）：6 天內甲做了 \(\frac{6}{15}=\frac{2}{5}\)，乙做了 \(\frac{6}{10}=\frac{3}{5}\)，\(\frac{2}{5}+\frac{3}{5}=1\)，剛好做完。</div><div>　（6）檢核（b）：5 天內兩隊合共做了 \(\frac{5}{15}+\frac{5}{10}=\frac{1}{3}+\frac{1}{2}=\frac{5}{6}\)，相符。</div><div class="hint-card">【易錯點提示】① 把日數相加（\(15+10=25\) 天）或取平均（12.5 天）——合做一定比任何一人單獨做快，答案必須小於 10 天，25 或 12.5 一看就不合理；② 第（b）問把 \(\frac{5}{6}\) 當成日數的 \(\frac{5}{6}\)——它是工程量的 \(\frac{5}{6}\)，要先用工作量除以效率才變成日數（本題數字剛好也是 5，但推理不可以跳過）。</div></div>
+
+<div class="problem"><div style="font-weight:700">4．答案：（a）小美出發後 15 分鐘追上　（b）追上時距出發點 1200 公尺</div><div>【考點】追及問題：兩人同向而行，後面的每分鐘只縮短「速度差」那麼多距離。不變量是兩人走的路程之「差」＝ 一開始的領先距離。</div><div>【公式／定理】領先距離 ＝ 先出發者的速度 × 先走的時間；追及時間 ＝ 領先距離 ÷（速度之差）。</div><div>【詳細步驟】</div><div>　（1）第①欄：已知小杰 60 公尺／分、小美 80 公尺／分，小杰先走 5 分鐘；不變量是兩人路程的差 ＝ 小杰一開始的領先距離。</div><div>　（2）第②欄：領先距離 ＝ \(60 \times 5=300\)（公尺）；速度差 ＝ \(80-60=20\)（公尺／分）；設小美出發後 \(t\) 分鐘追上，則 \(20t=300\)。</div><div>　（3）第③欄（a）：\(t=\frac{300}{20}=15\)（分鐘）。</div><div>　（4）第③欄（b）：距出發點 ＝ 小美走的路程 ＝ \(80 \times 15=1200\)（公尺）。</div><div>　（5）檢核：小杰由頭到尾走了 \(5+15=20\) 分鐘，路程 \(60 \times 20=1200\) 公尺，與小美的 1200 公尺相同——兩人在同一點，確實追上了。</div><div>　（6）合理性：小美每分鐘只快 20 公尺，要追回 300 公尺，需時 15 分鐘，數量級合理。</div><div class="hint-card">【易錯點提示】① 把速度相加（\(80+60=140\)）——那是相遇題；② 把「先出發 5 分鐘」直接當成 5 公尺或直接從時間裡減掉——要先換算成領先「距離」300 公尺；③ 第（b）問用小美的時間乘小杰的速度（\(60 \times 15=900\)）——那是小杰在這 15 分鐘走的路程，不是他由出發點算起的總路程。</div></div>
+
+<div class="problem"><div style="font-weight:700">5．答案：（a）高速公路上行駛 2.5 小時　（b）高速公路那一段有 300 公里</div><div>【考點】分段行駛問題：兩段用不同速度，但總時間與總路程都是給定的。不變量有兩個（總時間 6 小時、總路程 580 公里），設其中一段的時間為未知數，另一段就用「6 －（那一段）」表示。</div><div>【公式／定理】總路程 ＝ 速度甲 × 時間甲 ＋ 速度乙 × 時間乙；時間甲 ＋ 時間乙 ＝ 總時間。</div><div>【詳細步驟】</div><div>　（1）第①欄：已知總路程 580 公里、總時間 6 小時、高速 120 公里／小時、普通 80 公里／小時；不變量是總時間與總路程。</div><div>　（2）設高速公路上行駛 \(t\) 小時，則普通公路上行駛 \(6-t\) 小時。</div><div>　（3）第②欄：\(120t+80(6-t)=580\)。</div><div>　（4）第③欄：\(120t+480-80t=580\)，即 \(40t=100\)，\(t=2.5\)（小時）。</div><div>　（5）第③欄（b）：高速段路程 ＝ \(120 \times 2.5=300\)（公里）。</div><div>　（6）檢核：普通公路 \(6-2.5=3.5\) 小時，路程 \(80 \times 3.5=280\) 公里；\(300+280=580\) 公里，與總路程相符；時間 \(2.5+3.5=6\) 小時，也相符。</div><div>　（7）合理性：若全程都走 80，只有 480 公里；全程都走 120，有 720 公里；580 落在兩者之間，所以兩段都有——合理。</div><div class="hint-card">【易錯點提示】① 用平均速度 \(\frac{580}{6}\) 去算——兩段的時間不相等，平均速度不是兩個速度的平均；② 設高速段的「路程」為未知數也可以做，但列式時要用路程除以速度換成時間，很多人會漏了這一步而把路程與時間混在同一條式裡；③ 忘記檢查兩段時間加起來是否等於 6 小時。</div></div>
+
+<div class="problem"><div style="font-weight:700">6．答案：（a）乙鹽水的濃度是 18%　（b）要蒸發 6 千克水</div><div>【考點】混合與蒸發：混合時，混合後的溶質 ＝ 兩邊溶質相加（濃度不是兩個濃度的平均）；蒸發時，溶質不變、溶液變少，所以濃度上升。兩問的不變量都是鹽的質量。</div><div>【公式／定理】溶質 ＝ 溶液 × 濃度；混合後溶質 ＝ 甲的溶質 ＋ 乙的溶質。</div><div>【詳細步驟】</div><div>　（1）第①欄：已知甲 5 千克、濃度 9%；乙 10 千克、濃度未知；混合後濃度 15%。不變量是鹽的總質量。</div><div>　（2）第②欄：混合後的鹽水 ＝ \(5+10=15\)（千克），其中的鹽 ＝ \(15 \times 0.15=2.25\)（千克）。</div><div>　（3）甲的鹽 ＝ \(5 \times 0.09=0.45\)（千克）；設乙的濃度為 \(x\)，乙的鹽 ＝ \(10x\)；列式 \(0.45+10x=2.25\)。</div><div>　（4）第③欄（a）：\(10x=1.8\)，\(x=0.18\)，即 18%。</div><div>　（5）第③欄（b）：蒸發水，鹽仍然是 2.25 千克。設蒸發後的鹽水為 \(y\) 千克，則 \(0.25y=2.25\)，\(y=9\)（千克）；蒸發掉的水 ＝ \(15-9=6\)（千克）。</div><div>　（6）檢核（a）：\(5 \times 0.09+10 \times 0.18=0.45+1.8=2.25\)，與混合後的鹽相符。</div><div>　（7）檢核（b）：9 千克鹽水含鹽 \(9 \times 0.25=2.25\) 千克，與蒸發前一樣——鹽沒有跑掉。</div><div>　（8）合理性：乙的濃度 18% 高於混合後的 15%，而甲的 9% 低於 15%，混合後的濃度應該落在兩者之間——相符。</div><div class="hint-card">【易錯點提示】① 把兩個濃度取平均求乙的濃度（\((9+15)/2\)）——只有兩邊質量相等時平均才成立，本題甲 5 千克、乙 10 千克，乙的份量重一倍，混合濃度會偏向乙；② 第（b）問把「濃度變成 25%」誤解為溶液不變而鹽增加——蒸發的是水，鹽不會變；③ 求出蒸發後的鹽水 9 千克就當成答案——問的是蒸發掉的水，要用 \(15-9=6\)。</div></div>
+
+<div class="footer">高三數學．第1章 特殊數學應用專題．L3 行程、工程效率與濃度</div>
+
+</div>
+</body>
+</html>

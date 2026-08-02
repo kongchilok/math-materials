@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第1章 特殊數學應用專題．L2 利潤、折扣與費率階梯</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第1章 特殊數學應用專題．L2 利潤、折扣與費率階梯</span><span>類型：課堂練習</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="hint-card">動手之前先做一件事：把題目裡每一個百分比圈起來，問自己「這個百分比是拿誰當 100%」。基準量判斷對了，這一課的題目就只剩下乘除法。不確定就翻《課堂講義》第二節的對照表。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div>本節只給空白格線，條要分幾格、每格代表什麼，全部由自己決定。動筆之前先勾出這一題的基準量。</div>
+  <div class="problem"><div>1．某電器店一部座地風扇的定價是 800 元。店慶期間全場先打八折，會員憑卡再減價 5%。問會員買一部風扇實付多少元？</div><div class="hint-card">這一題的「一整條」（基準量）是哪一個？先勾一個再動筆：　☐ 定價（標價）　　☐ 進價（成本）　　☐ 變化前的量　　☐ 每一段各自的用量</div><div>條形圖作答區（請先畫圖）：</div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="468" height="166" viewBox="0 0 468 166" role="img"><rect width="468" height="166" fill="#ffffff"/><line x1="6.0" y1="6.0" x2="6.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="44.0" y1="6.0" x2="44.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="82.0" y1="6.0" x2="82.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="120.0" y1="6.0" x2="120.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="158.0" y1="6.0" x2="158.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="196.0" y1="6.0" x2="196.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="234.0" y1="6.0" x2="234.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="272.0" y1="6.0" x2="272.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="310.0" y1="6.0" x2="310.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="348.0" y1="6.0" x2="348.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="386.0" y1="6.0" x2="386.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="424.0" y1="6.0" x2="424.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="462.0" y1="6.0" x2="462.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="6.0" x2="462.0" y2="6.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="44.0" x2="462.0" y2="44.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="82.0" x2="462.0" y2="82.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="120.0" x2="462.0" y2="120.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="158.0" x2="462.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><rect x="6.0" y="6.0" width="456.0" height="152.0" rx="0" fill="none" stroke="#1a1a1a" stroke-width="1.4"/></svg></div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>2．一件外套的進價是 240 元。店主想在每件外套上賺取進價 35% 的利潤。問售價應該定為多少元？</div><div class="hint-card">這一題的「一整條」（基準量）是哪一個？先勾一個再動筆：　☐ 定價（標價）　　☐ 進價（成本）　　☐ 變化前的量　　☐ 每一段各自的用量</div><div>條形圖作答區（請先畫圖）：</div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="468" height="166" viewBox="0 0 468 166" role="img"><rect width="468" height="166" fill="#ffffff"/><line x1="6.0" y1="6.0" x2="6.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="44.0" y1="6.0" x2="44.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="82.0" y1="6.0" x2="82.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="120.0" y1="6.0" x2="120.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="158.0" y1="6.0" x2="158.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="196.0" y1="6.0" x2="196.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="234.0" y1="6.0" x2="234.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="272.0" y1="6.0" x2="272.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="310.0" y1="6.0" x2="310.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="348.0" y1="6.0" x2="348.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="386.0" y1="6.0" x2="386.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="424.0" y1="6.0" x2="424.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="462.0" y1="6.0" x2="462.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="6.0" x2="462.0" y2="6.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="44.0" x2="462.0" y2="44.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="82.0" x2="462.0" y2="82.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="120.0" x2="462.0" y2="120.0" stroke="#888888" stroke-width="0.7"/><line x1="6.0" y1="158.0" x2="462.0" y2="158.0" stroke="#888888" stroke-width="0.7"/><rect x="6.0" y="6.0" width="456.0" height="152.0" rx="0" fill="none" stroke="#1a1a1a" stroke-width="1.4"/></svg></div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div>本節連格線都沒有了。請先畫圖，圖畫在題目下方的空白處，再列式計算。</div>
+  <div class="problem"><div>3．某商品按進價加價 25% 定出標價，後來以標價打九折出售，結果每件仍賺 35 元。問這件商品的進價是多少元？</div><div>請先畫圖，再作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>4．某地住宅用電按階梯收費：每月首 200 度，每度 0.8 元；第 201 至第 400 度，每度 1.1 元；超過 400 度的部分，每度 1.5 元。某住戶某月用電 520 度，問該月電費共多少元？</div><div>請先畫圖，再作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+  <div>本節不給任何鷹架。第 6 題是找錯題：別人的解法錯在哪一步，由你圈出來並改正。</div>
+  <div class="problem"><div>5．某商品每件進價 270 元。商店訂出標價之後，以標價的九折出售，結果每件的利潤仍然是進價的 20%。問每件的標價是多少元？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>6．一件商品的定價是 500 元，商店先打八折，再從打折後的價錢減價 10%。問售價是多少元？</div><div>小明的解法：</div><div>　第一步　八折就是減價 20%。</div><div>　第二步　兩次減價合共 \(20\%+10\%=30\%\)。</div><div>　第三步　售價 ＝ \(500 \times (1-0.3)=350\)（元）。</div><div>問：（a）小明從哪一步開始錯？（b）把它改正，並算出正確的售價。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>☐ 每一題都先寫出「這一題的 100% 是誰」。</div><div>☐ 同一題出現兩個百分比時，有分別確認過它們的基準是不是同一個。</div><div>☐ 兩次折扣是用相乘處理的，沒有相加。</div><div>☐ 階梯題有把各段的用量加起來，核對等於題目給的總用量。</div><div>☐ 答案有反推檢核過一次，也有寫單位（元／度）。</div></div>
+
+  <div class="section-h page-break">參考答案與詳解（教師用）</div>
+  <div class="problem"><div style="font-weight:700">1．答案：608 元</div><div>【考點】連續折扣：第二次折扣的基準是「第一次打折之後的價」，不是原定價，所以兩次要相乘。</div><div>【公式／定理】實付 ＝ 定價 \( \times \) 第一次的比例 \( \times \) 第二次的比例；打八折就是乘 \(0.8\)，減價 5% 就是乘 \(0.95\)。</div><div>【詳細步驟】</div><div>　（1）圈基準量。第一個百分比（八折）的 100% 是定價 800 元；第二個百分比（減價 5%）的 100% 是打八折之後的價。兩個基準不同。</div><div>　（2）打八折之後：\(800 \times 0.8=640\)（元）。</div><div>　（3）再減價 5%，即付這 640 元的 95%：\(640 \times 0.95=608\)（元）。</div><div>　（4）反推檢核：\(0.8 \times 0.95=0.76\)，\(800 \times 0.76=608\)，與上面一致。</div><div class="hint-card">【易錯點提示】把兩次折扣加起來算成「共減 25%」而寫出 \(800 \times 0.75=600\)。少算的 8 元就是「第二次的 5% 應該以 640 元為基準、卻誤用 800 元」造成的差額。</div></div><div class="problem"><div style="font-weight:700">2．答案：324 元</div><div>【考點】利潤率的基準是進價：利潤 ＝ 進價 \( \times \) 利潤率，售價 ＝ 進價 ＋ 利潤。</div><div>【公式／定理】售價 ＝ 進價 \( \times (1+r)\)，其中 \(r\) 是利潤率（本題 \(r=0.35\)）。</div><div>【詳細步驟】</div><div>　（1）圈基準量。「賺取進價 35% 的利潤」→ 這個 35% 的 100% 是進價 240 元。</div><div>　（2）畫圖：進價畫成一整條，利潤是接在它後面的一小段。</div><div>　（3）利潤 ＝ \(240 \times 0.35=84\)（元）。</div><div>　（4）售價 ＝ \(240+84=324\)（元）；也可以一步寫成 \(240 \times 1.35=324\)。</div><div>　（5）反推檢核：\(324-240=84\)，\(\frac{84}{240}=0.35\)，即 35%，相符。</div><div class="hint-card">【易錯點提示】把利潤率的分母當成售價，寫成「售價 \( \times 0.35=\) 利潤」。只要記住利潤率的那一整條是進價，這個錯就不會發生。</div></div><div class="problem"><div style="font-weight:700">3．答案：280 元</div><div>【考點】逆推：兩次變化都以進價為統一基準表達，再用「利潤 ＝ 售價 － 進價」列一條方程。</div><div>【公式／定理】標價 ＝ 進價 \( \times 1.25\)；售價 ＝ 標價 \( \times 0.9\) ＝ 進價 \( \times 1.125\)；利潤 ＝ 售價 － 進價 ＝ 進價 \( \times 0.125\)。</div><div>【詳細步驟】</div><div>　（1）設進價為 \(c\) 元（把進價畫成一整條，長度定為 100%）。</div><div>　（2）加價 25% 定標價：標價 ＝ \(1.25c\)。</div><div>　（3）標價打九折出售：售價 ＝ \(1.25c \times 0.9=1.125c\)。</div><div>　（4）利潤 ＝ 售價 － 進價 ＝ \(1.125c-c=0.125c\)，題目說這等於 35 元：\(0.125c=35\)。</div><div>　（5）\(c=\frac{35}{0}.125=280\)（元）。</div><div>　（6）反推檢核：進價 280 → 標價 \(280 \times 1.25=350\) → 打九折 \(350 \times 0.9=315\) → 利潤 \(315-280=35\)，與題目相符。</div><div class="hint-card">【易錯點提示】① 把打九折的基準當成進價（寫成 \(c \times 0.9\)）——打折的基準永遠是標價；② 直接用 \(\frac{35}{0}.25=140\) 求進價，那是把「加價 25%」當成最後的利潤率，但中間還打了一次九折，實際利潤率只有 12.5%。</div></div><div class="problem"><div style="font-weight:700">4．答案：560 元</div><div>【考點】階梯費率：整條按門檻切段，每段只用該段自己的單價，最後相加；不是全部用量乘同一個價。</div><div>【公式／定理】總費用 ＝ Σ（該段用量 \( \times \) 該段單價）。</div><div>【詳細步驟】</div><div>　（1）切段。520 度落在三段：首 200 度、第 201～400 度（共 200 度）、超過 400 度的部分（\(520-400=120\) 度）。</div><div>　（2）核對用量：\(200+200+120=520\)（度），與題目相符。</div><div>　（3）第一段：\(200 \times 0.8=160\)（元）。</div><div>　（4）第二段：\(200 \times 1.1=220\)（元）。</div><div>　（5）第三段：\(120 \times 1.5=180\)（元）。</div><div>　（6）總電費 ＝ \(160+220+180=560\)（元）。</div><div>　（7）反推檢核：全部用最低價只需 \(520 \times 0.8=416\) 元，全部用最高價要 \(520 \times 1.5=780\) 元；560 落在兩者之間，合理。</div><div class="hint-card">【易錯點提示】① 用 \(520 \times 1.5=780\)，把超過門檻那一段的單價套到全部用量；② 第二段的度數寫成 400 度（那是累計到 400 度，不是第二段本身的用量，第二段只有 \(400-200=200\) 度）。</div></div><div class="problem"><div style="font-weight:700">5．答案：360 元</div><div>【考點】一題兩個基準：利潤率以進價為 100%（先求售價），折扣以標價為 100%（再逆推標價）。</div><div>【公式／定理】售價 ＝ 進價 \( \times (1+r)\)（\(r\) 為利潤率）；標價 ＝ 售價 除以 折數。</div><div>【詳細步驟】</div><div>　（1）圈基準量。「利潤是進價的 20%」→ 基準是進價；「標價的九折」→ 基準是標價。</div><div>　（2）先求售價（用進價這一條）：售價 ＝ \(270 \times 1.2=324\)（元）。</div><div>　（3）再逆推標價（用標價那一條）：標價 \( \times 0.9=324\)。</div><div>　（4）標價 ＝ \(\frac{324}{0}.9=360\)（元）。</div><div>　（5）反推檢核：\(360 \times 0.9=324\)；利潤 \(324-270=54\)；\(\frac{54}{270}=0.2\)，即 20%，相符。</div><div class="hint-card">【易錯點提示】① 把 20% 直接加在標價上（寫成 標價 ＝ \(270 \times 1.2 \times 0.9\)），順序一顛倒就把兩個基準混在一起；② 求標價時用乘 0.9 而不是除以 0.9——打折是從標價「變小」到售價，逆推回去要除。</div></div><div class="problem"><div style="font-weight:700">6．答案：（a）第二步開始錯　（b）正確售價 360 元</div><div>【考點】錯在把兩次折扣的百分比相加。第二次的 10% 是拿「打折後的 400 元」當 100%，不是原定價 500 元；基準不同的百分比不能相加。</div><div>【公式／定理】售價 ＝ 定價 \( \times 0.8 \times 0.9\)；兩次變化相乘，不是相加。</div><div>【詳細步驟】</div><div>　（1）第一步「八折就是減價 20%」——這一步是對的，可以照用。</div><div>　（2）第二步「兩次減價合共 30%」——錯在這裡。第一次的 20% 以 500 元為基準，第二次的 10% 以打折後的 400 元為基準，兩個百分比的「一整條」不一樣，不能相加。</div><div>　（3）改正：打八折後 ＝ \(500 \times 0.8=400\)（元）。</div><div>　（4）再減價 10%，即付這 400 元的 90%：\(400 \times 0.9=360\)（元）。</div><div>　（5）反推檢核：\(0.8 \times 0.9=0.72\)，\(500 \times 0.72=360\)，與上面一致。</div><div>　（6）小明的答案 350 元比正確答案少 10 元，差額正是 \(500 \times (0.72-0.7)=10\)（元）——就是基準看錯造成的。</div><div class="hint-card">【易錯點提示】這一題的第一步是對的，錯的是第二步；不少學生會把整個解法都劃掉重做，反而看不出錯在哪一個環節。找錯題要逐步比對，找出「從哪一步開始分歧」，而不是只判斷最後答案對不對。</div></div>
+
+  <div class="footer">高三數學．第1章 特殊數學應用專題．L2 利潤、折扣與費率階梯</div>
+
+</div>
+</body>
+</html>

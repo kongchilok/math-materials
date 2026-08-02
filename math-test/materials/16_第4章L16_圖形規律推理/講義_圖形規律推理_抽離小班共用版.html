@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第4章 數理邏輯(二)．L16 圖形規律推理</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第4章 數理邏輯(二)．L16 圖形規律推理</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、這一課要做到的事</div>
+  <div>呢類題目（圖形規律推理）好多同學一睇就有「感覺」，但一叫佢哋講出「點解揀呢個答案」，就講唔出，變咗靠直覺撞。呢一課嘅做法係逼自己將每一步嘅變化講成一句話——「由呢格到嗰格，邊度變咗、點樣變」，講得出嚟先揀答案。</div><div>睇圖案序列嘅時候，一格一格編號（①②③④），每次只比較相鄰兩格，唔好一次過睇成串圖案，會眼花。</div>
+
+  <div class="section-h">二、範例：完整走一次（圖文雙軌對照）</div>
+  <div class="problem">下面四格圖案有規律，格④應該係咩？</div>
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="538" height="144" viewBox="0 0 538 144" role="img"><rect width="538" height="144" fill="#ffffff"/><rect x="0.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(0,0)"><polygon points="59.0,19.0 93.6,79.0 24.4,79.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="59.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">①</text><text x="129.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="140.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(140,0)"><polygon points="59.0,19.0 99.0,59.0 59.0,99.0 19.0,59.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="199.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">②</text><text x="269.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="280.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(280,0)"><polygon points="59.0,19.0 97.0,46.6 82.5,91.4 35.5,91.4 21.0,46.6" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="339.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">③</text><text x="409.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="420.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="479.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="42" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">？</text><text x="479.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">④</text></svg></div>
+
+  <table class="d-tbl dual-track">
+    <tr><th>圖形上發生什麼</th><th>文字描述規律</th></tr>
+    <tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="118" height="144" viewBox="0 0 118 144" role="img"><rect width="118" height="144" fill="#ffffff"/><rect x="0.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(0,0)"><polygon points="59.0,19.0 93.6,79.0 24.4,79.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="59.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">①</text></svg></td><td>格①：三角形，3 條邊，空心。</td></tr><tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="258" height="144" viewBox="0 0 258 144" role="img"><rect width="258" height="144" fill="#ffffff"/><rect x="0.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(0,0)"><polygon points="59.0,19.0 93.6,79.0 24.4,79.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="59.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">①</text><text x="129.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="140.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(140,0)"><polygon points="59.0,19.0 99.0,59.0 59.0,99.0 19.0,59.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="199.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">②</text></svg></td><td>由①到②：邊數 3→4，多咗 1 條邊，變咗做四邊形；填色冇變，仍然空心。</td></tr><tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="398" height="144" viewBox="0 0 398 144" role="img"><rect width="398" height="144" fill="#ffffff"/><rect x="0.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(0,0)"><polygon points="59.0,19.0 93.6,79.0 24.4,79.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="59.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">①</text><text x="129.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="140.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(140,0)"><polygon points="59.0,19.0 99.0,59.0 59.0,99.0 19.0,59.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="199.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">②</text><text x="269.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="280.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(280,0)"><polygon points="59.0,19.0 97.0,46.6 82.5,91.4 35.5,91.4 21.0,46.6" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="339.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">③</text></svg></td><td>由②到③：邊數 4→5，再多 1 條邊，變咗五邊形；填色再冇變。</td></tr><tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="118" height="144" viewBox="0 0 118 144" role="img"><rect width="118" height="144" fill="#ffffff"/><rect x="0.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="59.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="42" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">？</text><text x="59.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">④</text></svg></td><td>跟返「邊數每格 +1」嘅規律，格④嘅邊數應該係 \(5+1=6\)，即六邊形；填色跟返前面全部都係空心，所以答案係「空心六邊形」。</td></tr>
+  </table>
+
+  <div>核對答案：</div>
+  <div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="538" height="144" viewBox="0 0 538 144" role="img"><rect width="538" height="144" fill="#ffffff"/><rect x="0.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(0,0)"><polygon points="59.0,19.0 93.6,79.0 24.4,79.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="59.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">①</text><text x="129.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="140.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(140,0)"><polygon points="59.0,19.0 99.0,59.0 59.0,99.0 19.0,59.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="199.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">②</text><text x="269.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="280.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(280,0)"><polygon points="59.0,19.0 97.0,46.6 82.5,91.4 35.5,91.4 21.0,46.6" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="339.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">③</text><text x="409.0" y="59.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="22" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">→</text><rect x="420.0" y="0.0" width="118.0" height="118.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><g transform="translate(420,0)"><polygon points="59.0,19.0 93.6,39.0 93.6,79.0 59.0,99.0 24.4,79.0 24.4,39.0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.6"/></g><text x="479.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">④</text></svg><div class="cap">格④＝空心六邊形（6 條邊）</div></div>
+
+  <div class="hint-card">※ 每次淨係比較「上一格」同「呢一格」，寫低邊度變咗（邊數／填色／方向……），唔好一次過睇成串圖案。</div>
+
+  <div class="section-h">三、接下來</div>
+  <div>請拿出《第4章 L16 圖形規律推理　課堂練習》，用返「一次淨係比較相鄰兩格」嘅方法完成練習A、練習B、練習C。練習A 雙軌表已經填咗一半；練習B 雙軌表得返標題，兩欄都要自己諗；練習C 完全冇雙軌表，規律要自己講出嚟。</div>
+
+  <div class="footer">高三數學．第4章 數理邏輯(二)．L16 圖形規律推理</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D5 圖文雙軌對照</td></tr><tr><td>輔助設計</td><td>D11 標記對應法</td></tr><tr><td>選用理由</td><td>本課題源自題庫第4章 B2 圖形規律推理（26題）。題庫原稿該類別 images 欄位全部為空、只有文字描述圖形，且部分解答自承「圖案解析度不足／未能獨立驗證視覺規律」——原題無法安全直接印給學生，已徵得使用者同意，本課自行重新設計同型全新題（保留「圖案序列找規律」呢個題型結構同難度分層，題目本身唔源自題庫）。呢類題目唔屬於 S1~S10 既有數學結構，真正瓶頸係「睇得出圖但講唔出規律」——學生可以憑直覺揀啱答案，但講唔出轉變邏輯，換一條類似題就撞唔中。D5 圖文雙軌逼學生將圖案嘅視覺轉變逐格寫成一句文字描述，唔可以淨係「感覺」；D11 標記對應（①②③④）將圖入面第幾格同描述入面講緊嘅第幾格扣連，避免「睇緊呢格、講緊嗰格」錯位。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>圖文雙軌表：講義範例四行全部展開，每一步都示範好文字描述 → 練習A 雙軌表只填一半（圖案已畫好，文字描述欄要學生自己填）→ 練習B 雙軌表得返標題列，兩欄都要自己填 → 練習C 完全唔提供雙軌表，得返圖案序列，規律要由學生自己講出嚟並寫喺作答欄。｜標記①②③④：全程保留（呢個設計本身唔需要褪除，係固定嘅溝通符號）。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今日規則：一次淨係比較相鄰兩格）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a5 放大字體、a6 增加行距</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度。</td></tr><tr><td>題目來源特別說明</td><td>本課全部題目為自編（題庫原稿該類別缺圖，不適合直接使用），詳見《驗算_圖形規律推理.md》§0。</td></tr><tr><td>配套文件</td><td>《第4章 L16 圖形規律推理　課堂練習》（練習A／B／C ＋參考答案）。本課設計無需獨立桌面工具卡，雙軌表已內嵌於練習紙。</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第2章 中學基礎數學應用．L9 解析幾何（二）圓錐曲線</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .selfcheck, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .step-card.compact td:first-child { width: 100%; font-weight: 400; }
+  .qfig { text-align: center; margin: 6px 0; }
+  .qfig svg { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L9 解析幾何（二）圓錐曲線</span><span>類型：課堂練習</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="hint-card">動筆之前永遠先做同一件事：認出這是哪一種曲線。兩項相加 = 1 → 橢圓（翻提示卡一）；兩項相減 = 1 → 雙曲線（提示卡二）；只有一個變數是二次 → 拋物線（提示卡三）。認出來之後，該用哪一條式、a 是誰、c 是加還是減，卡上都寫齊了。</div>
+
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+<div>每題下方標明了該翻哪一張提示卡。第 2 題附了已畫好的圖，先在圖上量一量，再用公式算，兩邊要對得上。</div>
+
+<div class="problem"><div>1．判斷下列各方程（或條件）代表哪一種曲線，並寫出你的理由：（a）\(\frac{x^2}{36}+\frac{y^2}{16}=1\)　（b）\(y^2-\frac{x^2}{4}=1\)　（c）\(y=3x^2+2x-1\)　（d）某曲線的離心率 \(e=1.5\)。</div><div class="hint-card">▍(a) 相加 → 翻提示卡一；(b) 相減 → 提示卡二（注意 \(y^2\) 的分母是 1，沒有寫出來）；(c) 只有 x 是二次 → 提示卡三；(d) 只給離心率 → 三張卡的離心率那一欄比一比。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>2．已知橢圓 \(\frac{x^2}{100}+\frac{y^2}{64}=1\)（圖已畫好，可以在圖上量）。（a）求 a、b 與長軸的方向。（b）求 c。（c）求離心率 e。</div><div class="qfig"><svg xmlns="http://www.w3.org/2000/svg" width="240" height="208" viewBox="0 0 240 208" role="img"><rect width="240" height="208" fill="#ffffff"/><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="24.0" y1="184.0" x2="24.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="32.0" y1="184.0" x2="32.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="40.0" y1="184.0" x2="40.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="48.0" y1="184.0" x2="48.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="56.0" y1="184.0" x2="56.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="64.0" y1="184.0" x2="64.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="72.0" y1="184.0" x2="72.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="80.0" y1="184.0" x2="80.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="88.0" y1="184.0" x2="88.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="96.0" y1="184.0" x2="96.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="104.0" y1="184.0" x2="104.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="112.0" y1="184.0" x2="112.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="120.0" y1="184.0" x2="120.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="128.0" y1="184.0" x2="128.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="136.0" y1="184.0" x2="136.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="144.0" y1="184.0" x2="144.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="152.0" y1="184.0" x2="152.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="160.0" y1="184.0" x2="160.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="168.0" y1="184.0" x2="168.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="176.0" y1="184.0" x2="176.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="184.0" y1="184.0" x2="184.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="192.0" y1="184.0" x2="192.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="200.0" y1="184.0" x2="200.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="208.0" y1="184.0" x2="208.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="216.0" y1="184.0" x2="216.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="184.0" x2="216.0" y2="184.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="176.0" x2="216.0" y2="176.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="168.0" x2="216.0" y2="168.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="160.0" x2="216.0" y2="160.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="152.0" x2="216.0" y2="152.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="144.0" x2="216.0" y2="144.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="136.0" x2="216.0" y2="136.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="128.0" x2="216.0" y2="128.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="120.0" x2="216.0" y2="120.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="112.0" x2="216.0" y2="112.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="104.0" x2="216.0" y2="104.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="96.0" x2="216.0" y2="96.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="88.0" x2="216.0" y2="88.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="80.0" x2="216.0" y2="80.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="72.0" x2="216.0" y2="72.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="64.0" x2="216.0" y2="64.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="56.0" x2="216.0" y2="56.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="48.0" x2="216.0" y2="48.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="40.0" x2="216.0" y2="40.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="32.0" x2="216.0" y2="32.0" stroke="#d0d0d0" stroke-width="0.7"/><line x1="24.0" y1="24.0" x2="216.0" y2="24.0" stroke="#d0d0d0" stroke-width="0.7"/><ellipse cx="120.0" cy="104.0" rx="80.0" ry="64.0" fill="none" stroke="#1a1a1a" stroke-width="1.9"/><line x1="16.0" y1="104.0" x2="226.0" y2="104.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="232.0" y="105.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><line x1="120.0" y1="192.0" x2="120.0" y2="14.0" stroke="#1a1a1a" stroke-width="1.5" marker-end="url(#ar)"/><text x="119.0" y="7.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">y</text><line x1="24.0" y1="101.0" x2="24.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="24.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−12</text><line x1="40.0" y1="101.0" x2="40.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="40.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−10</text><line x1="56.0" y1="101.0" x2="56.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="56.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−8</text><line x1="72.0" y1="101.0" x2="72.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="72.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−6</text><line x1="88.0" y1="101.0" x2="88.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="88.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−4</text><line x1="104.0" y1="101.0" x2="104.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="104.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−2</text><line x1="136.0" y1="101.0" x2="136.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="136.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">2</text><line x1="152.0" y1="101.0" x2="152.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="152.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">4</text><line x1="168.0" y1="101.0" x2="168.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="168.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">6</text><line x1="184.0" y1="101.0" x2="184.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="184.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">8</text><line x1="200.0" y1="101.0" x2="200.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="200.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">10</text><line x1="216.0" y1="101.0" x2="216.0" y2="107.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="216.0" y="117.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">12</text><line x1="117.0" y1="184.0" x2="123.0" y2="184.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="184.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−10</text><line x1="117.0" y1="168.0" x2="123.0" y2="168.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="168.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−8</text><line x1="117.0" y1="152.0" x2="123.0" y2="152.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="152.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−6</text><line x1="117.0" y1="136.0" x2="123.0" y2="136.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="136.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−4</text><line x1="117.0" y1="120.0" x2="123.0" y2="120.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="120.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">−2</text><line x1="117.0" y1="88.0" x2="123.0" y2="88.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="88.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">2</text><line x1="117.0" y1="72.0" x2="123.0" y2="72.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="72.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">4</text><line x1="117.0" y1="56.0" x2="123.0" y2="56.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="56.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">6</text><line x1="117.0" y1="40.0" x2="123.0" y2="40.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="40.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">8</text><line x1="117.0" y1="24.0" x2="123.0" y2="24.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="110.0" y="24.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">10</text><text x="108.0" y="118.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">O</text></svg></div><div class="hint-card">▍翻提示卡一（橢圓）：\(a^2\) 是較大的分母，長軸跟着大分母那個變數走；\(c^2=a^2-b^2\)（「相減」）；\(e=\frac{c}{a}\)。圖上量一量再算，兩邊要對得上。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+
+<div>由這一節開始不再標明翻哪一張卡，要自己認出是哪一種曲線；圖也不再畫好，建議先在旁邊畫個大概再算。兩張手順卡的關鍵詞只在下面重印一次。</div>
+
+<table class="d-tbl step-card compact"><tr><th>兩張手順卡（關鍵詞版）</th></tr><tr><td>什麼時候用：先認出是哪一種曲線，再照對應那一行做。</td></tr><tr><td>1. 橢圓求各量：化標準式（右邊 = 1）→ 大分母是 \(a^2\)、長軸跟着它走 → \(c=\sqrt{a^2-b^2}\)（「減」）→ \(e=\frac{c}{a}\)、兩準線距離 \(\frac{2a^2}{c}\)</td></tr><tr><td>2. 共同漸近線：右邊的 1 換成 k → 代入題目給的點求 k → 兩邊除以 k 化回標準式 → 檢查點代得返、新舊漸近線相同</td></tr></table>
+
+<div class="hint-card">※ 橢圓 \(c^2=a^2-b^2\)（相減、\(c \lt a\)）、雙曲線 \(c^2=a^2+b^2\)（相加、\(c \gt a\)），兩條不要對調；算完用離心率檢查：橢圓 \(e \lt 1\)、雙曲線 \(e \gt 1\)。※ 橢圓的 a 看分母「大小」，雙曲線的 a 看減號「位置」。</div>
+
+<div class="problem"><div>3．已知橢圓 \(25x^2+9y^2=225\)。（a）求半長軸 a 與長軸的方向。（b）求 c 與離心率 e。（c）求兩準線間的距離。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>4．已知雙曲線 \(\frac{x^2}{9}-\frac{y^2}{16}=1\)。（a）求 a、b、c 與漸近線方程。（b）若 P 在雙曲線上、到一個焦點的距離是 2，求 P 到另一個焦點的距離。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+
+<div>本節收起工具卡。第 5 題三個小題都要自己畫草圖（先定頂點或圓心，再定開口方向或半徑），草圖畫在作答區的上半部；第 6 題代入後算出的 k 是負數，不要以為自己做錯——照手順卡二第 3 步做下去就對。</div>
+
+<div class="problem"><div>5．寫出下列各曲線的種類、開口方向（如果是拋物線）與頂點／圓心，並在空白處畫出草圖：（a）\(y=-x^2+2\)　（b）\(y^2=-8x\)　（c）\(\frac{x^2}{4}+\frac{y^2}{4}=1\)。</div><div>作答（上半畫三個小草圖 → 下半寫種類、開口方向與頂點／圓心）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>6．求經過點 \(P(3,4\sqrt{2})\)、且與 \(\frac{x^2}{9}-\frac{y^2}{16}=1\) 有共同漸近線的雙曲線方程。</div><div>作答（設 k 族 → 代點求 k → 除以 k 化標準式 → 檢查）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">參考答案與詳解（教師用）</div>
+
+<div class="problem"><div style="font-weight:700">1．答案：（a）橢圓　（b）雙曲線（縱向）　（c）拋物線　（d）雙曲線</div><div>【考點】由方程或離心率認出曲線種類。看三件事：兩項是相加還是相減、是不是只有一個變數是二次、離心率落在哪一段。</div><div>【公式／定理】相加 = 1 → 橢圓（\(0 \lt e \lt 1\)）；相減 = 1 → 雙曲線（\(e \gt 1\)）；一個變數二次 → 拋物線（\(e=1\)）；兩個分母相同的「相加 = 1」→ 圓。</div><div>【詳細步驟】</div><div>　（1）（a）兩項相加等於 1、兩個分母都是正數 → 橢圓。（36 &gt; 16 且大分母在 x 下面 → 長軸沿 x 軸，\(a=6\)、\(b=4\)。）</div><div>　（2）（b）把分母寫齊就是 \(\frac{y^2}{1}-\frac{x^2}{4}=1\)：兩項相減等於 1 → 雙曲線。減號前面是 \(y^2\)，所以是縱向的（開口上下），\(a=1\)、\(b=2\)。</div><div>　（3）（c）x 是二次、y 是一次 → 拋物線；\(x^2\) 係數 3 &gt; 0 → 開口向上。</div><div>　（4）（d）\(e=1.5 \gt 1\) → 雙曲線。（\(0 \lt e \lt 1\) 才是橢圓，\(e=1\) 是拋物線。）</div><div class="hint-card">【易錯點提示】① (b) 因為看不到分母就認不出是雙曲線——\(y^2\) 的分母是 1，補寫出來就清楚。② (b) 答成「橫向雙曲線」：減號「前面」是 y，所以是縱向。③ (d) 記錯離心率的分段：橢圓 \(0 \lt e \lt 1\)、拋物線 \(e=1\)、雙曲線 \(e \gt 1\)，三段沒有重疊，不要背混。</div></div>
+
+<div class="problem"><div style="font-weight:700">2．答案：（a）\(a=10\)、\(b=8\)、長軸沿 x 軸　（b）\(c=6\)　（c）\(e=0.6\)</div><div>【考點】由橢圓標準式讀出四個量。a² 是較大的分母、長軸跟着它走；c 由 a、b 相減求出；離心率 \(e=\frac{c}{a}\)。</div><div>【公式／定理】\(\frac{x^2}{a^2}+\frac{y^2}{b^2}=1\)；\(c^2=a^2-b^2\)；\(e=\frac{c}{a}\)。</div><div>【詳細步驟】</div><div>　（1）（a）分母 100 &gt; 64，大分母在 x 下面 → 長軸沿 x 軸；\(a^2=100\) → \(a=10\)；\(b^2=64\) → \(b=8\)。圖上檢核：橢圓與 x 軸交於 \(( \pm 10,0)\)、與 y 軸交於 \((0, \pm 8)\) ✔</div><div>　（2）（b）\(c^2=a^2-b^2=100-64=36\) → \(c=6\)，焦點 \(( \pm 6,0)\) 在長軸上。</div><div>　（3）（c）\(e=\frac{c}{a}=\frac{6}{10}=\frac{3}{5}=0.6\)，落在 0 與 1 之間 ✔ 確實是橢圓。</div><div>　（4）檢核：6-8-10 是 3-4-5 的兩倍，直角三角形 ✔；\(c=6 \lt 10=a\)，焦點確實落在橢圓內部 ✔</div><div class="hint-card">【易錯點提示】① 把 \(a=100\) 寫下去——分母是 \(a^2\)，要開方。② \(c^2\) 用了相加（\(100+64\)）：那是雙曲線的式，橢圓是相減。③ 離心率算成 \(\frac{a}{c}=\frac{10}{6}\)——是 \(\frac{c}{a}\)，而且橢圓的 e 一定小於 1。</div></div>
+
+<div class="problem"><div style="font-weight:700">3．答案：（a）\(a=5\)、長軸沿 y 軸　（b）\(c=4\)、\(e=0.8\)　（c）12.5</div><div>【考點】題目給的不是標準式，第一步一定是化成「右邊 = 1」。化完之後大分母在 y 下面，長軸就沿 y 軸——這一題考的正是「長軸方向不一定是 x」。</div><div>【公式／定理】化標準式：整條式除以常數項；\(c^2=a^2-b^2\)；\(e=\frac{c}{a}\)；兩準線距離 \(=\frac{2a^2}{c}\)。</div><div>【詳細步驟】</div><div>　（1）先化標準式：\(25x^2+9y^2=225\) 兩邊除以 225 → \(\frac{25x^2}{225}+\frac{9y^2}{225}=1\) → \(\frac{x^2}{9}+\frac{y^2}{25}=1\)。</div><div>　（2）（a）分母 25 &gt; 9 且大分母在 y 下面 → 長軸沿 「y 軸」；\(a^2=25\) → \(a=5\)（\(b^2=9\) → \(b=3\)）。</div><div>　（3）（b）\(c^2=25-9=16\) → \(c=4\)，焦點 \((0, \pm 4)\)；\(e=\frac{4}{5}=0.8\)。</div><div>　（4）（c）準線 \(y= \pm \frac{a^2}{c}= \pm \frac{25}{4}\)，兩準線間的距離 \(=\frac{2a^2}{c}=\frac{50}{4}=12.5\)。</div><div>　（5）檢核：原式代 \((0,5)\)：\(25(0)+9(25)=225\) ✔（長軸端點在 y 軸上）；代 \((3,0)\)：\(25(9)+0=225\) ✔（短軸端點在 x 軸上）。另：準線一定在橢圓外面，\(\frac{a^2}{c}=6.25 \gt 5=a\) ✔</div><div class="hint-card">【易錯點提示】① 不化標準式就直接讀係數，把 25 當成 \(a^2\)。② 化的時候把係數搬去分母搬錯：\(\frac{25x^2}{225}=\frac{x^2}{9}\)，不是 \(\frac{x^2}{25}\)。③ 看到 x 在前面就寫「長軸沿 x 軸」——要看「大分母」在哪一個變數下面。④ 準線距離只寫了一半（\(\frac{a^2}{c}=6.25\)）——題目問的是兩條之間的距離，要乘 2。</div></div>
+
+<div class="problem"><div style="font-weight:700">4．答案：（a）\(a=3\)、\(b=4\)、\(c=5\)、漸近線 \(y= \pm \frac{4}{3}x\)　（b）8</div><div>【考點】雙曲線的 a 看減號位置（不看大小），c 由 a、b 「相加」求出；焦半徑用定義：到兩焦點距離之差的絕對值等於 2a。</div><div>【公式／定理】\(\frac{x^2}{a^2}-\frac{y^2}{b^2}=1\)；\(c^2=a^2+b^2\)；漸近線 \(y= \pm \frac{b}{a}x\)；\(|d_1-d_2|=2a\)。</div><div>【詳細步驟】</div><div>　（1）（a）減號前面是 x → 橫向雙曲線；\(a^2=9\) → \(a=3\)；\(b^2=16\) → \(b=4\)。（注意：\(b \gt a\) 完全正常，雙曲線的 a 不是「較大的」。）</div><div>　（2）（a）\(c^2=a^2+b^2=9+16=25\) → \(c=5\)（「相加」）；漸近線 \(y= \pm \frac{b}{a}x= \pm \frac{4}{3}x\)。順帶 \(e=\frac{5}{3}≈1.67 \gt 1\) ✔</div><div>　（3）（b）由定義 \(|d_1-d_2|=2a=6\)。\(d_1=2\) → \(d_2=2+6=8\)，或 \(d_2=2-6=-4\)（距離不能是負數，捨去）。所以 \(d_2=8\)。</div><div>　（4）檢核（第二條路）：焦點到最近頂點的距離 \(=c-a=5-3=2\)，剛好等於題目給的 \(d_1=2\)，即 P 就是頂點 \((3,0)\)。那麼 P 到另一個焦點 \((-5,0)\) 的距離 \(=3-(-5)=8\) ✔ 而且 \(8=c+a=5+3\) ✔ 兩條路完全吻合。</div><div class="hint-card">【易錯點提示】① \(c^2\) 用了相減（\(9-16\)）——開不出方根就該發現用錯式，雙曲線是相加。② 因為 \(b=4 \gt 3=a\) 就把 \(a\) 當成 4：雙曲線的 a 看減號「前面」那一項，不看大小。③ 漸近線寫成 \(y= \pm \frac{a}{b}x\)——橫向雙曲線是 \(\frac{b}{a}\)。④ (b) 答成 \(d_2=-4\) 或者兩個都寫：距離不能是負數。</div></div>
+
+<div class="problem"><div style="font-weight:700">5．答案：（a）拋物線、開口向下、頂點 \((0,2)\)　（b）拋物線、開口向左、頂點 \((0,0)\)　（c）圓、圓心 \((0,0)\)、半徑 2</div><div>【考點】拋物線先看哪個變數是二次（x 二次 → 上下、y 二次 → 左右），再看係數正負（正 → 上／右，負 → 下／左）。(c) 是陷阱題：兩項相加等於 1，但「兩個分母相同」，化簡後是圓不是橢圓。</div><div>【公式／定理】\(y=ax^2+k\) 上下開口；\(x=ay^2\) 左右開口；\(\frac{x^2}{r^2}+\frac{y^2}{r^2}=1\) ⇔ \(x^2+y^2=r^2\)（圓）。</div><div>【詳細步驟】</div><div>　（1）（a）x 是二次 → 上下開口；係數 \(-1 \lt 0\) → 開口向下；頂點 \((0,2)\)。檢核：令 \(y=0\) 得 \(x^2=2\)，\(x= \pm \sqrt{2}≈ \pm 1.41\)，圖上與 x 軸交於 \(( \pm \sqrt{2},0)\) ✔</div><div>　（2）（b）y 是二次 → 左右開口；係數 \(-8 \lt 0\) → 開口向左；頂點 \((0,0)\)。檢核：取 \(y=2\) → \(4=-8x\) → \(x=-0.5\)；取 \(y=4\) → \(16=-8x\) → \(x=-2\)。兩點都在 y 軸左邊 ✔</div><div>　（3）（c）兩個分母相同（都是 4），乘開得 \(x^2+y^2=4\) → 圓，圓心 \((0,0)\)、半徑 2。（此時 \(a=b\)，\(c=0\)、\(e=0\)。）檢核：\(( \pm 2,0)\)、\((0, \pm 2)\) 四點到原點的距離都是 2 ✔</div><div class="hint-card">【易錯點提示】① (b) 看到 \(y^2\) 仍然畫成上下開口——是 y 二次，開口在左右。② (b) 只看到負號就答「開口向下」：左右開口的負號是「向左」。③ (c) 見到「相加 = 1」就寫橢圓——先看兩個分母是不是相同。④ (a) 頂點答成 \((0,-2)\)：\(y=-x^2+2\) 的常數項是 \(+2\)。</div></div>
+
+<div class="problem"><div style="font-weight:700">6．答案：\(\frac{y^2}{16}-\frac{x^2}{9}=1\)</div><div>【考點】共同漸近線 ⇔ 左邊兩個分母不變、只有右邊的常數不同。所以設 \(\frac{x^2}{9}-\frac{y^2}{16}=k\)，代點求 k，再除以 k 化回標準式。本題 k 是負數，曲線會由橫向轉成縱向。</div><div>【公式／定理】同漸近線族 \(\frac{x^2}{A}-\frac{y^2}{B}=k\)（\(k \ne 0\)）；橫向漸近線 \(y= \pm \frac{b}{a}x\)，縱向漸近線 \(y= \pm \frac{a}{b}x\)。</div><div>【詳細步驟】</div><div>　（1）第 1 步：設同漸近線族 \(\frac{x^2}{9}-\frac{y^2}{16}=k\)（左邊分母不動）。</div><div>　（2）第 2 步：代入 \(P(3,4\sqrt{2})\)：\(\frac{3^2}{9}-\frac{(4\sqrt{2})^2}{16}=\frac{9}{9}-\frac{32}{16}=1-2=-1\)，所以 \(k=-1\)。（\((4\sqrt{2})^2=16 \times 2=32\)，根號先平方掉。）</div><div>　（3）第 3 步：\(\frac{x^2}{9}-\frac{y^2}{16}=-1\) 兩邊除以 −1，「每一項都要變號」 → \(-\frac{x^2}{9}+\frac{y^2}{16}=1\)，整理成 \(\frac{y^2}{16}-\frac{x^2}{9}=1\)。</div><div>　（4）第 4 步（檢查）：① 代 P：\(\frac{32}{16}-\frac{9}{9}=2-1=1\) ✔ ② 新曲線是縱向（減號前面是 y），\(a=4\)、\(b=3\)，漸近線 \(y= \pm \frac{a}{b}x= \pm \frac{4}{3}x\)；原曲線橫向、\(a=3\)、\(b=4\)，漸近線 \(y= \pm \frac{b}{a}x= \pm \frac{4}{3}x\) ✔ 相同。</div><div class="hint-card">【易錯點提示】① 見到 \(k=-1\) 就以為做錯——k 是負數很正常，只代表曲線轉了 90 度。② 除以 −1 時只變其中一項的號。③ 代入時 \((4\sqrt{2})^2\) 算成 \(4 \times 2=8\) 或 \(8\)——要 \(16 \times 2=32\)。④ 檢查漸近線時用錯式：縱向雙曲線是 \(\frac{a}{b}\)，橫向才是 \(\frac{b}{a}\)。</div></div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L9 解析幾何（二）圓錐曲線</div>
+
+</div>
+</body>
+</html>

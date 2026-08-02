@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>工具卡：第2章 中學基礎數學應用．L14 集合、行列式、統計與數論</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+
+  @page { margin-bottom: 1.8cm; }
+  /* minmax(0, 1fr) 而不是 1fr：1fr 的最小寬度是「內容寬度」，
+     卡一那種長行會把左欄撐到滿版、右欄被擠成一條窄柱（本課實測踩過）。 */
+  .tc-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+             gap: 0; margin-top: 6px; }
+  .tc { border: 1px dashed #444; padding: 8px 10px; min-height: 6.0cm;
+        break-inside: avoid; page-break-inside: avoid; overflow-wrap: anywhere; }
+  .tc .t { font-weight: 700; font-size: 12.5pt; }
+  .tc .g { font-size: 9.5pt; color: #333; margin: 2px 0 5px; }
+  .tc .i { font-size: 9.5pt; line-height: 1.4; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L14 集合、行列式、統計與數論</span><span>類型：工具卡（剪下沿虛線，護貝後放桌面）</span></div>
+
+<div class="tc-grid"><div class="tc"><div class="t">▍卡一・集合運算與容斥</div><div class="g">出現 ｛｝、∪、∩，或者「多少人兩者都⋯」「多少人兩者都不⋯」。</div><div class="i">・∪（聯集）＝ 或 ＝ 兩邊的元素全部收，重複只寫一次</div><div class="i">・∩（交集）＝ 且 ＝ 只收兩邊都有的</div><div class="i">・有括號先做括號裡的，不是由左至右</div><div class="i">・兩集合：\(|A  \cup  B| = |A| + |B| - |A  \cap  B|\)</div><div class="i">・三集合：三個單獨 － 三個兩兩相交 ＋ 一個三者相交</div><div class="i">※ 見到「兩者都不」先算「全部 − 它」＝ 聯集人數，才套公式</div><div class="i">※ 填文氏圖由正中間向外填；七格總和要等於全部人數</div></div><div class="tc"><div class="t">▍卡二・行列式求值（連手順五步）</div><div class="g">兩條直立線夾住一個數字方陣，叫你求值或求未知數。</div><div class="i">・\(\begin{vmatrix}a & b \\ c & d\end{vmatrix} = ad - bc\)（主減副）</div><div class="i">① 先掃一次，找 0 最多的一行／列</div><div class="i">② 寫低該行／列的棋盤符號（左上角 ＋，往右往下逐格變號）</div><div class="i">③ 逐個元素劃走它的整條列與整條行，剩下的就是子行列式</div><div class="i">④ 每項 ＝ 棋盤符號 × 元素 × 子行列式</div><div class="i">⑤ 加起來，再換一行／列覆核</div><div class="i">※ 棋盤符號由位置決定，跟數字的正負無關——兩個負號分開寫</div><div class="i">※ 第 \(i\) 列第 \(j\) 行：\(i + j\) 雙數就 ＋、單數就 －</div></div><div class="tc"><div class="t">▍卡三・統計圖表判讀</div><div class="g">題目附了折線圖、長條圖或圓形圖。</div><div class="i">・先看兩條軸：是什麼、單位是什麼、縱軸由幾開始</div><div class="i">・縱軸不由 0 開始 → 高度差看起來被放大，要讀數字不要憑感覺</div><div class="i">・「均」「皆」「同時」＝ 兩個條件都要成立</div><div class="i">・「等於或高於 6」＝ \( \ge  6\)；「超過 6」＝ \( \gt  6\)</div><div class="i">・逐個項目打勾，不要用眼掃</div><div class="i">※ 「高於自己的平均」與「高於對方」是兩件事</div></div><div class="tc"><div class="t">▍卡四・統計量</div><div class="g">出現平均數／中位數／眾數／全距／標準差。</div><div class="i">・平均數 ＝ 總和 ÷ 個數</div><div class="i">・中位數 ＝ 排好序後取正中間（雙數個就取中間兩個的平均）</div><div class="i">・眾數 ＝ 出現最多次的數（可以有多過一個，也可以沒有）</div><div class="i">・標準差 ＝ 散開程度，愈大愈分散</div><div class="i">※ 整組平移 → 標準差不變</div><div class="i">※ 整組乘 \(k\) → 標準差乘 \(k\)；全部數相同 → 標準差 ＝ 0</div><div class="i">※ 中位數之前一定要排序</div></div><div class="tc"><div class="t">▍卡五・數論（因數與倍數）</div><div class="g">出現因數／倍數／整除／質數／餘數／公因數／公倍數。</div><div class="i">・第一步永遠是質因數分解：由 2 開始逐個質數試，不要跳</div><div class="i">・\(N = 2^a  \times  3^b  \times  5^c\) → 正因數個數 \(= (a+1)(b+1)(c+1)\)</div><div class="i">・「A 是 B 的因數」＝ B ÷ A 除得盡（A 比較細）</div><div class="i">・「A 是 B 的倍數」＝ A ÷ B 除得盡（A 比較大）</div><div class="i">・「N 的因數之中同時是 X 的倍數」→ 設它是 \(X k\)，數 \(N  \div  X\) 的因數</div><div class="i">※ 那個「加 1」最易漏：指數可以揀 0</div><div class="i">※ 1 不是質數。質數由 2 開始</div></div><div class="tc"><div class="t">▍卡六・陷阱詞速查（每做完一題掃一眼）</div><div class="g">本課八個真正的讀題坑，全部都是「錯了自己不知道」那一種。</div><div class="i">・（R ∪ M）∩ N → 先做括號裡的</div><div class="i">・「兩者都不」→ 在兩個圓以外，套公式前要先減走</div><div class="i">・「A 是 B 的因數」對「倍數」→ 方向相反（2 是 6 的因數）</div><div class="i">・「超過三年以上」→「超過」是 \( \gt  3\)、「以上」是 \( \ge  3\)，註明採用哪一種</div><div class="i">・「均等於或高於 6」→ 兩條線都要 \( \ge  6\)，包括剛好等於 6</div><div class="i">・行列式的棋盤 ＋ － → 由位置決定，與數字正負無關</div><div class="i">・「皆答對 12 人」→ 已包含全對的人；填文氏圖要減、套公式不減</div><div class="i">・數字大 ≠ 標準差大 → 整組平移標準差不變</div></div></div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L14 集合、行列式、統計與數論</div>
+
+</div>
+</body>
+</html>

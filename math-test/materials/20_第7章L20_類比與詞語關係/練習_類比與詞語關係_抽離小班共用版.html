@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第7章 語文與邏輯推理(二)．L20 類比與詞語關係</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第7章 語文與邏輯推理(二)．L20 類比與詞語關係</span><span>類型：課堂練習</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="hint-card">動手之前：先講得出已知嗰對詞係咩關係類型，先至揀選項。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div>每題旁邊都印住精簡關係類型表。</div>
+  <div class="problem"><div>1．若航海對羅盤，則生命對？<br>A．靈魂　B．夢想　C．經驗　D．活力</div><table class="d-tbl kw-table"><tr><th>關係類型</th><th>說明</th></tr><tr><td>反義／近義</td><td>意思相反／相似</td></tr><tr><td>類別：實例</td><td>大類 vs 個別例子</td></tr><tr><td>工具：目的</td><td>用嚟做啲咩</td></tr><tr><td>新舊替代</td><td>後者升級取代前者</td></tr><tr><td>窮盡互斥</td><td>同一類別下僅有嘅兩個值</td></tr></table><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>2．金屬：鐵　與　？：單車<br>A．交通工具　B．車輪　C．摩托車　D．以上皆不是</div><table class="d-tbl kw-table"><tr><th>關係類型</th><th>說明</th></tr><tr><td>反義／近義</td><td>意思相反／相似</td></tr><tr><td>類別：實例</td><td>大類 vs 個別例子</td></tr><tr><td>工具：目的</td><td>用嚟做啲咩</td></tr><tr><td>新舊替代</td><td>後者升級取代前者</td></tr><tr><td>窮盡互斥</td><td>同一類別下僅有嘅兩個值</td></tr></table><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div>關係類型表唔再逐題附，唔記得就自己諗返。</div>
+  <div class="problem"><div>3．羽毛：鋼筆　與　火炬：？<br>A．燃燒　B．書寫　C．燈籠　D．火焰</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>4．峰迴路轉　山窮水盡；以下邊一句與上述意思相同？<br>A．安居樂業　四海為家<br>B．比比皆是　一成不變<br>C．沉默寡言　豪言壯語<br>D．囫圇吞棗　融匯貫通</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+  <div>完全冇關係類型表提示，自己判斷。</div>
+  <div class="problem"><div>5．男：女：性別，同下面邊項係同等關係？<br>A．北磁極，南磁極，磁極　B．北，南，方向　C．黑，白，顏色　D．以上不是</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>6．錯誤：『？』／『？』：建設（分別為「錯誤」同「建設」各配一個相關詞）<br>A．正確／建造　B．過失／設置　C．紕漏（只得一個詞）　D．謬誤／毀壞</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>☐ 我講得出已知嗰對詞係咩關係類型。</div><div>☐ 我逐個選項核對係咪同一種關係。</div><div>☐ 如果有兩個選項都似，我有再諗清楚邊個先係結構完全一致。</div><div>☐ 答案代返去題目讀一次，通唔通順。</div></div>
+
+  <div class="section-h page-break">參考答案與詳解（教師用）</div>
+  <div class="problem"><div style="font-weight:700">1．答案：B．夢想</div><div>【關係類型】工具／方向指引：目的</div><div>【解釋】航海需要羅盤指引方向；生命同樣需要一個方向指引——「夢想」正正扮演呢個角色。</div><div class="hint-card">【剔除其餘選項】A靈魂、C經驗、D活力都唔係「方向指引」嘅角色，同羅盤嘅功能唔對應。</div></div><div class="problem"><div style="font-weight:700">2．答案：A．交通工具</div><div>【關係類型】類別：實例</div><div>【解釋】「金屬：鐵」係「大類：個別例子」關係（鐵是一種金屬）；同理，「單車」所屬嘅大類係「交通工具」。</div><div class="hint-card">【剔除其餘選項】B車輪、C摩托車都唔係「單車」所屬嘅大類（車輪係部件，摩托車係另一種交通工具，唔係單車嘅類別）。</div></div><div class="problem"><div style="font-weight:700">3．答案：C．燈籠</div><div>【關係類型】新舊替代（技術升級）</div><div>【解釋】羽毛筆（舊式書寫工具）被鋼筆（升級版書寫工具）取代；同理，火炬（原始照明工具）被燈籠（更方便安全嘅照明工具）取代。</div><div class="hint-card">【剔除其餘選項】A燃燒、D火焰係火炬產生嘅現象，B書寫係動作，都唔係「另一件工具」。</div></div><div class="problem"><div style="font-weight:700">4．答案：D．囫圇吞棗　融匯貫通</div><div>【關係類型】反義對照（成語配對）</div><div>【解釋】「峰迴路轉」（漸見轉機）對「山窮水盡」（陷入絕境），係「困頓↔清晰」嘅反義對照。「囫圇吞棗」（食而不化）對「融匯貫通」（透徹理解），同樣係「不解↔透徹」嘅反義對照，結構一致。</div><div class="hint-card">【剔除其餘選項】A著重居住穩定與否、C著重言語風格，都唔係「困惑—清晰」呢組對照；B兩詞無明顯反義關係。</div></div><div class="problem"><div style="font-weight:700">5．答案：A．北磁極，南磁極，磁極</div><div>【關係類型】窮盡互斥（類別僅有兩個值）</div><div>【解釋】「男、女」係「性別」呢個類別下僅有嘅 \(2\) 個值。「北磁極、南磁極」同樣係「磁極」呢個類別僅有嘅 \(2\) 個值（磁鐵只有兩極）。</div><div class="hint-card">【剔除其餘選項】「方向」唔止得南北（仲有東西），「顏色」唔止得黑白（仲有好多種），呢兩個類別唔係「僅有兩個值」，同「性別」呢種窮盡互斥性質唔同。</div></div><div class="problem"><div style="font-weight:700">6．答案：A．正確／建造</div><div>【關係類型】關係類型要一致（反義配反義，或近義配近義）</div><div>【解釋】「正確」係「錯誤」嘅反義詞，「建造」係「建設」嘅近義詞——雖然兩個配對類型唔同（一反義一近義），但每一組本身都準確、清晰。</div><div class="hint-card">【剔除其餘選項】D「謬誤（錯誤嘅近義）／毀壞（建設嘅反義）」——兩個配對嘅關係類型（近義vs反義）自相矛盾唔工整；B「過失」同「錯誤」意思有落差、「設置」同「建設」意思唔夠貼近，冇A咁準確。</div></div>
+
+  <div class="footer">高三數學．第7章 語文與邏輯推理(二)．L20 類比與詞語關係</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第1章 特殊數學應用專題．L4 雞兔同籠、年齡、時鐘、數位與幾何應用</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .step-card.compact td:first-child { width: 100%; font-weight: 400; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第1章 特殊數學應用專題．L4 雞兔同籠、年齡、時鐘、數位與幾何應用</span><span>類型：課堂練習</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="hint-card">動筆之前先做一件事：認出這是五種當中的哪一種題（雞兔同籠／年齡／時鐘／數位／幾何應用），再翻桌面上對應的那一張卡。認錯題型，之後每一步都會錯。四個動作：1 認題型　2 設未知數（連單位）　3 照卡上的設定式列方程　4 代回題目原文檢核。</div>
+
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+<div>每一題的題框下方已經標明要翻哪一張卡，並重印了四個動作。請照着做：先寫出你認出的題型，再寫「設⋯為 x」，然後才列式。</div>
+
+<table class="d-tbl step-card compact"><tr><th>解題四個動作</th></tr><tr><td>什麼時候用：每一題都由動作 1 做起。</td></tr><tr><td>1. 認題型，翻對應的那一張卡</td></tr><tr><td>2. 設未知數，連單位一齊寫</td></tr><tr><td>3. 照卡上的設定式列方程</td></tr><tr><td>4. 解出來，再代回題目原文檢核</td></tr></table>
+
+<div class="problem"><div>1．農場的雞和兔關在同一個籠裡，數一數共有 20 個頭、56 隻腳。問雞、兔各有多少隻？</div><div class="hint-card">▍這一題翻《雞兔同籠卡》。兩種東西、兩個總量（頭與腳），列兩條式。　四個動作：1 認題型　2 設未知數　3 照卡上的設定式列方程　4 代回題目原文檢核。</div><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>2．今年母親 38 歲，女兒 10 歲。問幾年之後，母親的年齡剛好是女兒年齡的 3 倍？</div><div class="hint-card">▍這一題翻《年齡卡》。先寫出今年的年齡差，它由頭到尾不會變。　四個動作：1 認題型　2 設未知數　3 照卡上的設定式列方程　4 代回題目原文檢核。</div><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>3．一個長方形的周長是 36 厘米，長比寬多 4 厘米。求這個長方形的面積。</div><div class="hint-card">▍這一題翻《幾何應用卡（平面）》。周長先換成「長 ＋ 寬」，再用和差公式。　四個動作：1 認題型　2 設未知數　3 照卡上的設定式列方程　4 代回題目原文檢核。</div><div>作答（把最後的答案連單位寫在下面）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+
+<div>由這一節開始不再標明翻哪一張卡，要自己認題型。四個動作只在下面重印一次，題目旁邊不再放。</div>
+
+<table class="d-tbl step-card compact"><tr><th>解題四個動作</th></tr><tr><td>什麼時候用：每一題都由動作 1 做起。</td></tr><tr><td>1. 認題型，翻對應的那一張卡</td></tr><tr><td>2. 設未知數，連單位一齊寫</td></tr><tr><td>3. 照卡上的設定式列方程</td></tr><tr><td>4. 解出來，再代回題目原文檢核</td></tr></table>
+
+<div class="problem"><div>4．求 4 時 20 分時，時針與分針所夾的角是多少度？</div><div class="hint-card">⚠ 這一題有一個常見陷阱，動筆前先想清楚：兩根針當中，哪一根不是停着不動的？</div><div>作答（先寫出題型，再作答）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>5．一個兩位數，它的十位數字與個位數字之和是 9。把這兩個數字對調之後，所得的新數比原數大 45。求原數。</div><div>作答（先寫出題型，再作答）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>6．一場演出售出成人票與學生票共 80 張。成人票每張 60 元，學生票每張 25 元，票款共收 3050 元。問成人票售出多少張？</div><div>作答（先寫出題型，再作答）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+
+<div>本節收起工具卡，四個動作也不再印。請自己由認題型做起；第一行先寫出「這是⋯題，我設⋯為 x」，之後才動筆計算。</div>
+
+<div class="problem"><div>7．一個長方體的長是 12 厘米、寬是 8 厘米，表面積是 312 平方厘米。（a）求它的體積。（b）另有一個正方體，稜長是 8 厘米。它的體積與表面積，分別比（a）的長方體大還是小？請先各寫一句你的理由，再算出來核對你的判斷。</div><div>作答（第一行先寫出你設的未知數是甚麼）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>8．一個鐘每小時快 5 分鐘。今天早上 8 時 00 分把它校準到正確時間，之後這個鐘的鐘面顯示 11 時 15 分。（a）由校準到現在，實際經過了多少分鐘？（b）現在的正確時間是幾時幾分？（c）由校準起計，實際再經過多久之後，這個鐘會比正確時間快足 1 小時？</div><div>作答（第一行先寫出你設的未知數是甚麼）：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">參考答案與詳解（教師用）</div>
+
+<div class="problem"><div style="font-weight:700">1．答案：雞 12 隻、兔 8 隻</div><div>【考點】雞兔同籠：兩種東西、兩個總量（頭的總數與腳的總數），列兩條二元一次方程。核心是把「每一個的量」（兔 4 隻腳、雞 2 隻腳）與「個數」分開來數。</div><div>【公式／定理】個數：\(x+y=n\)；總量：\(ax+by=T\)。快捷法：全部當成腳較少的那一種，與實際腳數的差額，除以兩者每個相差的腳數。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：給了頭的總數與腳的總數，問兩種動物各有多少——雞兔同籠題。</div><div>　（2）動作 2（設未知數）：設兔有 \(x\) 隻、雞有 \(y\) 隻。</div><div>　（3）動作 3（列方程）：① \(x+y=20\)（頭）　② \(4x+2y=56\)（腳）。</div><div>　（4）動作 4（解）：由①得 \(y=20-x\)，代入②：\(4x+2(20-x)=56\)，即 \(2x+40=56\)，\(2x=16\)，\(x=8\)；雞 ＝ \(20-8=12\)（隻）。</div><div>　（5）快捷法核對：全部當成雞，腳只有 \(2 \times 20=40\) 隻，比 56 少 16 隻；每把一隻雞換成兔就多 2 隻腳，所以兔 ＝ 16 ÷ 2 ＝ 8（隻）——兩種做法一致。</div><div>　（6）檢核（代回題目原文）：頭 \(8+12=20\) 個，腳 \(8 \times 4+12 \times 2=56\) 隻，全部相符。</div><div class="hint-card">【易錯點提示】① 把「20 個頭」當成 20 隻雞或 20 隻兔——20 是兩種加起來的總數；② 列腳數那條式時把 4 和 2 調轉（兔 4 隻腳、雞 2 隻腳）；③ 解出 \(x=8\) 就當成答案交出去——題目問的是「雞、兔各有多少隻」，兩個都要答。</div></div>
+
+<div class="problem"><div style="font-weight:700">2．答案：4 年之後</div><div>【考點】年齡問題：兩人的年齡差永遠不變。時間走了 n 年，兩個人都要同時加 n，不可以只加其中一個。</div><div>【公式／定理】設 n 年之後：母親 \(38+n\) 歲，女兒 \(10+n\) 歲；「是 3 倍」寫成 \(38+n=3(10+n)\)。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：出現「幾年之後」與「是⋯的 3 倍」——年齡題。</div><div>　（2）動作 2（設未知數）：設 n 年之後母親的年齡剛好是女兒的 3 倍。那時母親 \(38+n\) 歲、女兒 \(10+n\) 歲。</div><div>　（3）動作 3（列方程）：\(38+n=3(10+n)\)。</div><div>　（4）動作 4（解）：\(38+n=30+3n\)，\(38-30=3n-n\)，\(2n=8\)，\(n=4\)（年）。</div><div>　（5）用年齡差再核一次：年齡差 ＝ \(38-10=28\)（歲），永遠不變。當母親是女兒的 3 倍時，年齡差剛好等於女兒年齡的 2 倍，所以女兒 ＝ 28 ÷ 2 ＝ 14（歲），即 \(14-10=4\) 年之後——與上面一致。</div><div>　（6）檢核（代回題目原文）：4 年後母親 \(38+4=42\) 歲、女兒 \(10+4=14\) 歲，而 \(42=3 \times 14\)——相符。</div><div class="hint-card">【易錯點提示】① 只把 n 加在母親身上（寫成 \(38+n=3 \times 10\)）——時間對兩個人是一樣的；② 用「38 ÷ 10 ＝ 3.8 倍，所以再等 0.8 年」這種比例做法——倍數不是按比例遞減的；③ 答成「女兒 14 歲」——題目問的是「幾年之後」，要答 4 年。</div></div>
+
+<div class="problem"><div style="font-weight:700">3．答案：面積是 77 平方厘米</div><div>【考點】幾何應用＋和差問題：周長先換成「長 ＋ 寬」，題目另外給了「長 − 寬」，有了和與差就可以直接求出兩個量。</div><div>【公式／定理】長方形周長 ＝ \(2(a+b)\)，面積 ＝ \(ab\)；和差公式：大 ＝ \(\frac{S+D}{2}\)，小 ＝ \(\frac{S-D}{2}\)。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：出現「周長」「面積」「長比寬多」——幾何應用題（平面）。</div><div>　（2）動作 2（設未知數）：本題不必設未知數，因為和與差都拿得到。</div><div>　（3）動作 3（列式）：由周長 36 厘米得 長 ＋ 寬 ＝ \(\frac{36}{2}=18\)（厘米）；題目給 長 − 寬 ＝ 4（厘米）。</div><div>　（4）動作 4（解）：長 ＝ \(\frac{18+4}{2}=11\)（厘米），寬 ＝ \(\frac{18-4}{2}=7\)（厘米）；面積 ＝ \(11 \times 7=77\)（平方厘米）。</div><div>　（5）檢核（代回題目原文）：周長 ＝ \(2(11+7)=36\) 厘米——相符；\(11-7=4\) 厘米——「長比寬多 4」也相符。</div><div class="hint-card">【易錯點提示】① 把周長 36 直接當成「長 ＋ 寬」——周長是兩個長加兩個寬，要先除以 2；② 求出長與寬就當成答案——題目問的是面積；③ 面積寫成「77 厘米」——面積的單位是平方厘米。</div></div>
+
+<div class="problem"><div style="font-weight:700">4．答案：夾角是 10°</div><div>【考點】時鐘角度：分針每分鐘走 6°，時針每分鐘走 0.5°。時針不會停在整點刻度上，過了幾分鐘就已經離開。位置一律由「12」量起，順時針方向。</div><div>【公式／定理】h 時 m 分：分針 ＝ \(6m\)°，時針 ＝ \(30h+0.5m\)°；夾角 ＝ \(|30h-5.5m|\)°（若大於 180°，用 360° 減）。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：出現「時針」「分針」「夾角」——時鐘題。</div><div>　（2）動作 2：本題不必設未知數，直接算兩根針的位置。</div><div>　（3）動作 3（列式）：分針 ＝ \(20 \times 6=120\)°；時針 ＝ \(30 \times 4+0.5 \times 20=130\)°（4 個整點共 120°，再加 20 分鐘走的 \(0.5 \times 20=10\)°）。</div><div>　（4）動作 4（算）：夾角 ＝ \(130-120=10\)°。</div><div>　（5）檢核（用公式再算一次）：\(|30 \times 4-5.5 \times 20|=|120-110|=10\)°——兩種算法一致。</div><div>　（6）合理性：4 時 20 分時分針指住 4，時針也在 4 附近但已經略為過了頭，兩根針幾乎重疊，夾角應該很小——10° 合理。</div><div class="hint-card">【易錯點提示】① 以為時針停在 4，答 \(4 \times 30=120\)° 而得夾角 0°——時針 20 分鐘裡已經走了 10°；② 把分針當成每分鐘 1 格就算成 20°——一格是 6°；③ 兩個角度相減之後得負數就直接照抄——夾角取絕對值，且不超過 180°。</div></div>
+
+<div class="problem"><div style="font-weight:700">5．答案：原數是 27</div><div>【考點】數位問題：兩位數要先寫成「10 × 十位數字 ＋ 個位數字」才列得出方程。對調前後兩個數的差一定是 9 的倍數。</div><div>【公式／定理】兩位數 ＝ \(10a+b\)，對調後 ＝ \(10b+a\)；兩者之差 ＝ \(9(a-b)\)，兩者之和 ＝ \(11(a+b)\)。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：出現「兩位數」「十位數字」「個位數字」「對調」——數位題。</div><div>　（2）動作 2（設未知數）：設十位數字為 \(a\)、個位數字為 \(b\)；原數 ＝ \(10a+b\)，新數 ＝ \(10b+a\)。</div><div>　（3）動作 3（列方程）：① \(a+b=9\)　② \((10b+a)-(10a+b)=45\)，化簡得 \(9(b-a)=45\)，即 \(b-a=5\)。</div><div>　（4）動作 4（解）：①＋②得 \(2b=14\)，\(b=7\)；代回①得 \(a=9-7=2\)。原數 ＝ \(10 \times 2+7=27\)。</div><div>　（5）檢核（代回題目原文）：27 的兩個數字之和 \(2+7=9\)——相符；對調後是 72，\(72-27=45\)——也相符。</div><div class="hint-card">【易錯點提示】① 把兩位數寫成 \(a \times b\) 或 \(a+b\)——那不是那個數，一定要寫 \(10a+b\)；② 差的方向寫反（寫成 \(9(a-b)=45\)）——題目說新數「大」45，所以是新數減原數，得 \(b-a=5\)；③ 求出 \(a=2\)、\(b=7\) 就交答案——題目問的是原數 27。</div></div>
+
+<div class="problem"><div style="font-weight:700">6．答案：成人票售出 30 張</div><div>【考點】與雞兔同籠同一張卡：兩種東西（成人票、學生票）、兩個總量（票數總和、票款總額）。把「每張的價錢」當成「每隻的腳數」，做法完全一樣。</div><div>【公式／定理】個數：\(x+y=80\)；總量：\(60x+25y=3050\)。快捷法：全部當成較便宜的那一種，票款的差額除以兩者每張的差價。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：兩種票、兩個總量（張數與票款），問其中一種有多少張——雞兔同籠題的變式。</div><div>　（2）動作 2（設未知數）：設成人票 \(x\) 張、學生票 \(y\) 張。</div><div>　（3）動作 3（列方程）：① \(x+y=80\)　② \(60x+25y=3050\)。</div><div>　（4）動作 4（解）：由①得 \(y=80-x\)，代入②：\(60x+25(80-x)=3050\)，即 \(35x+2000=3050\)，\(35x=1050\)，\(x=30\)（張）。</div><div>　（5）快捷法核對：全部當成學生票，票款只有 \(25 \times 80=2000\) 元，比 3050 元少 1050 元；每把一張學生票換成成人票就多 \(60-25=35\) 元，所以成人票 ＝ 1050 ÷ 35 ＝ 30（張）——兩種做法一致。</div><div>　（6）檢核（代回題目原文）：成人票 30 張收 \(30 \times 60=1800\) 元，學生票 \(80-30=50\) 張收 \(50 \times 25=1250\) 元，合共 \(1800+1250=3050\) 元——相符。</div><div class="hint-card">【易錯點提示】① 看見「元」就以為是利潤題而去找成本與售價——本題沒有成本，只是兩種單價；② 把 80 當成其中一種票的張數；③ 用平均票價 \(\frac{3050}{80}\) 去推算——兩種票的張數不相等，平均價推不出張數。</div></div>
+
+<div class="problem"><div style="font-weight:700">7．答案：（a）體積是 288 立方厘米　（b）正方體的體積與表面積都比長方體大（體積 512 對 288，表面積 384 對 312）</div><div>【考點】立體幾何應用：由表面積反推出未知的高，再代進體積公式。第（b）問要先判斷再驗算——判斷的依據是三邊的長短，不是憑感覺。</div><div>【公式／定理】長方體（長 a、寬 b、高 c）：表面積 ＝ \(2(ab+bc+ca)\)，體積 ＝ \(abc\)；正方體（稜長 a）：表面積 ＝ \(6a^2\)，體積 ＝ \(a^3\)。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：出現「長方體」「表面積」「體積」——幾何應用題（立體）。</div><div>　（2）動作 2（設未知數）：設高為 \(c\) 厘米。</div><div>　（3）動作 3（列方程）：表面積 ＝ \(2(12 \times 8+8c+12c)=312\)，即 \(2(96+20c)=312\)。</div><div>　（4）動作 4（解）：\(96+20c=156\)，\(20c=60\)，\(c=3\)（厘米）；體積 ＝ \(12 \times 8 \times 3=288\)（立方厘米）。</div><div>　（5）檢核（a）：表面積 ＝ \(2(96+24+36)=2 \times 156=312\) 平方厘米——與題目相符。</div><div>　（6）（b）先判斷：長方體的三條邊是 12、8、3，其中高只有 3 厘米，非常扁；正方體的三條邊都是 8。三邊相乘時，那條只有 3 的邊拖低了整個體積，所以估計正方體的體積較大。表面積方面，長方體被壓扁之後側面變得很窄，估計表面積也較小。</div><div>　（7）（b）再驗算：正方體體積 ＝ \(8^3=512\)（立方厘米）＞ 288；正方體表面積 ＝ \(6 \times 8^2=384\)（平方厘米）＞ 312。兩項判斷都正確。</div><div class="hint-card">【易錯點提示】① 表面積公式漏了乘 2，或者只算了四個面（長方體有六個面，三對）；② 求出高 \(c=3\) 就當成答案——題目問的是體積；③ 第（b）問只憑「長方體有一條邊長 12，比 8 長」就斷定長方體較大——體積是三條邊相乘，一條特別短的邊足以把整體拉低。</div></div>
+
+<div class="problem"><div style="font-weight:700">8．答案：（a）實際經過 180 分鐘　（b）正確時間是 11 時 00 分　（c）由校準起計實際再經過 720 分鐘（12 小時），即當天 20 時 00 分</div><div>【考點】快慢鐘：鐘面顯示的時間與實際時間成固定比例。實際走 60 分鐘，這個快 5 分鐘的鐘會顯示 65 分鐘，所以「實際 : 顯示 ＝ 60 : 65」。</div><div>【公式／定理】實際分鐘 : 鐘面顯示的分鐘 ＝ 60 :（60 加上每小時快的分鐘數）；快足 T 分鐘所需的實際小時數 ＝ T ÷（每小時快的分鐘數）。</div><div>【詳細步驟】</div><div>　（1）動作 1（認題型）：出現「每小時快 5 分鐘」——時鐘題的快慢鐘型。</div><div>　（2）動作 2（設未知數）：設由校準到現在，實際經過 \(t\) 分鐘。</div><div>　（3）動作 3（列方程）：鐘面由 8 時 00 分行到 11 時 15 分，顯示經過了 \(3 \times 60+15=195\) 分鐘。實際與顯示的比是 60 : 65，所以 \(\frac{t}{195}=\frac{60}{65}\)。</div><div>　（4）動作 4（解）：\(t=195 \times \frac{60}{65}=180\)（分鐘）。</div><div>　（5）（b）180 分鐘 ＝ 3 小時，所以正確時間是 \(8+3=11\) 時 00 分。</div><div>　（6）檢核（代回題目原文）：實際過了 180 分鐘 ＝ 3 小時，這個鐘每小時快 5 分鐘，3 小時共快 \(3 \times 5=15\) 分鐘，所以鐘面顯示 \(180+15=195\) 分鐘 ＝ 3 小時 15 分，即 11 時 15 分——與題目相符。</div><div>　（7）（c）鐘每 1 個實際小時快 5 分鐘，要快足 60 分鐘需要 \(\frac{60}{5}=12\) 個實際小時，即 \(12 \times 60=720\) 實際分鐘；由早上 8 時起計，就是當天 20 時 00 分。</div><div>　（8）檢核（c）：12 小時 × 每小時快 5 分鐘 ＝ 60 分鐘——正好快足 1 小時。</div><div class="hint-card">【易錯點提示】① 直接答「顯示 195 分鐘，減去快的 15 分鐘」——這個 15 分鐘要用實際時間去算，不是先假設答案再減；比例做法才不會繞圈；② 把比例寫反成 65 : 60，會得出比 195 更大的實際時間——鐘走得快，實際時間一定比顯示的少，這一點可以先用常識擋一次；③ 第（c）問算成「快 60 分鐘 ÷ 5 ＝ 12 分鐘」——12 的單位是小時，不是分鐘。</div></div>
+
+<div class="footer">高三數學．第1章 特殊數學應用專題．L4 雞兔同籠、年齡、時鐘、數位與幾何應用</div>
+
+</div>
+</body>
+</html>

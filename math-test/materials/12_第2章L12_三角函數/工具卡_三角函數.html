@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>工具卡：第2章 中學基礎數學應用．L12 三角函數</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+
+  @page { margin-bottom: 1.5cm; }
+  .tc-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 8px; }
+  .tc { border: 1px dashed #444; padding: 10px 12px; min-height: 6.4cm;
+        break-inside: avoid; page-break-inside: avoid; }
+  .tc .t { font-weight: 700; font-size: 14pt; }
+  .tc .g { font-size: 10.5pt; color: #333; margin: 2px 0 6px; }
+  .tc .i { font-size: 10.5pt; line-height: 1.5; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L12 三角函數</span><span>類型：工具卡（剪下沿虛線，護貝後放桌面）</span></div>
+
+<div class="tc-grid"><div class="tc"><div class="t">▍卡一・六個三角比</div><div class="g">給了直角三角形或兩條邊，問 sin／cos／tan。</div><div class="i">① 先圈出題目問的是哪一個角</div><div class="i">② 標「對邊／鄰邊／斜邊」：斜邊永遠是直角對面</div><div class="i">③ \(\sin  = \frac{\text{對}}{\text{斜}}\)　\(\cos  = \frac{\text{鄰}}{\text{斜}}\)　\(\tan  = \frac{\text{對}}{\text{鄰}}\)</div><div class="i">④ 倒數：csc 配 sin、sec 配 cos、cot 配 tan</div><div class="i">※ 換一個角就要重新標邊；缺邊用 \(a^2 + b^2 = c^2\) 補</div></div><div class="tc"><div class="t">▍卡二・象限符號盤</div><div class="g">只給一個三角值（尤其負值），或問「在第幾象限」。</div><div class="i">① 一：全部正</div><div class="i">② 二：只有 sin 正</div><div class="i">③ 三：只有 tan 正</div><div class="i">④ 四：只有 cos 正</div><div class="i">※ 開方求出大小之後，先寫下象限再定正負</div><div class="i">※ 給兩個條件 → 各自列象限再取交集</div></div><div class="tc"><div class="t">▍卡三・和角差角</div><div class="g">要求 15°、75°、105°，或見到兩個乘積相加減。</div><div class="i">① \(\sin (α \pm β) = \sin α \cos β  \pm  \cos α \sin β\)</div><div class="i">② \(\cos (α \pm β) = \cos α \cos β  \mp  \sin α \sin β\)</div><div class="i">③ \(\tan (α \pm β) = \frac{\tan α  \pm  \tan β}{1  \mp  \tan α \tan β}\)</div><div class="i">④ 特殊角 30°：\(\frac{1}{2}\)、\(\frac{\sqrt{3}}{2}\)、\(\frac{\sqrt{3}}{3}\)</div><div class="i">⑤ 45°：\(\frac{\sqrt{2}}{2}\)、\(\frac{\sqrt{2}}{2}\)、1；60°：\(\frac{\sqrt{3}}{2}\)、\(\frac{1}{2}\)、\(\sqrt{3}\)</div><div class="i">※ cos 的中間符號跟括號裡相反；sin 的一樣</div></div><div class="tc"><div class="t">▍卡四・二倍角</div><div class="g">式子裡有 \(2α\)，或給了 \(\sin α + \cos α\)。</div><div class="i">① \(\sin 2α = 2 \sin α \cos α\)</div><div class="i">② \(\cos 2α = \cos ^2 α - \sin ^2 α\)</div><div class="i">③ 給 sin 就用 \(1 - 2 \sin ^2 α\)</div><div class="i">④ 給 cos 就用 \(2 \cos ^2 α - 1\)</div><div class="i">⑤ \((\sin α + \cos α)^2 = 1 + \sin 2α\)</div><div class="i">※ 算完用卡二覆核 \(2α\) 落在哪個象限</div></div><div class="tc"><div class="t">▍卡五・通解</div><div class="g">題目出現「通解」，或選項裡有 n。</div><div class="i">① \(\sin x = k → x = nπ + (-1)^n \arcsin k\)</div><div class="i">② \(\cos x = k → x = 2nπ  \pm  \arccos k\)</div><div class="i">③ \(\tan x = k → x = nπ + \arctan k\)</div><div class="i">④ arc 值用卡三的特殊角表反過來查</div><div class="i">※ k 是負數時，負號可以併進 \((-1)^n\) 變成 \((-1)^{(n+1)}\)</div></div><div class="tc"><div class="t">▍手順卡・求非特殊角的三角值</div><div class="g">要求 15°、75°、105° 這些角的值。</div><div class="i">① 拆成兩個特殊角的和或差</div><div class="i">② 翻卡三，揀出對應那一條公式</div><div class="i">③ 四個特殊角的值逐個代進去</div><div class="i">④ 通分、化簡；tan 要有理化</div><div class="i">※ 第三步一次要代四個值，漏一個是最常見的失分</div><div class="i">※ 分母留了根號就是未做完</div></div></div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L12 三角函數</div>
+
+</div>
+</body>
+</html>

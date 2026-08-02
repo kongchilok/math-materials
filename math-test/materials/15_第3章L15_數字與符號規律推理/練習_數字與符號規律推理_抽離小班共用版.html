@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第3章 數理邏輯(一)．L15 數字與符號規律推理</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第3章 數理邏輯(一)．L15 數字與符號規律推理</span><span>類型：課堂練習</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="hint-card">動手之前想返四個步驟：觀察相鄰 → 分組 → 假設 → 驗證晒全部已知項。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div>每一題旁邊都印住精簡版手順卡，跟住做。</div>
+  <div class="problem"><div>A1．4　3　1　12　9　3　17　5　＿＿＿，求空格數字。〔B1 數字規律推理〕</div><div class="step-card"><div style="font-weight:700">規律偵測四步（精簡版）</div><table class="d-tbl"><tr><td>1. 觀察相鄰項（加減乘除、平方立方）</td></tr><tr><td>2. 唔得就試分組（隔一個／連續幾個一組）</td></tr><tr><td>3. 揀一個假設</td></tr><tr><td>4. 代返去驗證晒全部已知項先落答案</td></tr></table></div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>A2．13　21　34　55　＿＿＿，求空格數字。〔B1 數字規律推理〕</div><div class="step-card"><div style="font-weight:700">規律偵測四步（精簡版）</div><table class="d-tbl"><tr><td>1. 觀察相鄰項（加減乘除、平方立方）</td></tr><tr><td>2. 唔得就試分組（隔一個／連續幾個一組）</td></tr><tr><td>3. 揀一個假設</td></tr><tr><td>4. 代返去驗證晒全部已知項先落答案</td></tr></table></div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>A3．下列選項其中一個和其餘四個並不同類，試選出這個不同類的項：<br>A．香蕉　B．蘋果　C．冬瓜　D．雪梨　E．西瓜〔B7 分類歸納推理〕</div><div class="step-card"><div style="font-weight:700">規律偵測四步（精簡版）</div><table class="d-tbl"><tr><td>1. 觀察相鄰項（加減乘除、平方立方）</td></tr><tr><td>2. 唔得就試分組（隔一個／連續幾個一組）</td></tr><tr><td>3. 揀一個假設</td></tr><tr><td>4. 代返去驗證晒全部已知項先落答案</td></tr></table></div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>A4．「庚」字常用作表示順序的第（　）位？<br>A．五　B．六　C．七　D．八〔B5 常識性排序〕</div><div class="step-card"><div style="font-weight:700">規律偵測四步（精簡版）</div><table class="d-tbl"><tr><td>1. 觀察相鄰項（加減乘除、平方立方）</td></tr><tr><td>2. 唔得就試分組（隔一個／連續幾個一組）</td></tr><tr><td>3. 揀一個假設</td></tr><tr><td>4. 代返去驗證晒全部已知項先落答案</td></tr></table></div><div>作答：</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div>呢一節題目唔再附手順卡——唔記得步驟就翻工具卡。</div>
+  <div class="problem"><div>B1．625　49　576　47　＿＿＿　45　484，求空格數字。〔B1 數字規律推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>B2．12　10　＿＿＿　12　6　14　3，求空格數字。〔B1 數字規律推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>B3．「648：拾：4」相對下列哪組？<br>A．846：千：4　B．754：百：4　C．496：百：4　D．485：拾：4〔B4 文字符號規律推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>B4．甲、乙、丙、丁四人參加棋賽，賽後排名沒有並列。已知：①甲的名次排在丙前面；②乙的名次不比丁後。根據以上兩個條件，哪一個組合一定不會奪得第一名？<br>A．甲和乙　B．丙和丁　C．甲和丙　D．乙和丁〔B5 常識性排序・自編題〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+  <div>呢一節完全唔提供手順卡，自己決定點試。C5 係開放題，冇固定答案。</div>
+  <div class="problem"><div>C1．0　1　2　4　4　9　6　16　8　＿＿＿，求空格數字。〔B1 數字規律推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>C2．1　1　8　2　＿＿＿　3　64　4　125　5，求空格數字。〔B1 數字規律推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>C3．下列方格內三組數字互有關係，問漏去的數字：<br>第一欄（由上至下）：12、4、3<br>第二欄（由上至下）：15、？、5<br>第三欄（由上至下）：28、7、4〔B1 數字規律推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>C4．下列選項其中一個和其餘四個並不同類，試選出這個不同類的項：<br>A．西遊記　B．紅樓夢　C．水滸傳　D．三國演義　E．阿Q正傳〔B7 分類歸納推理〕</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>【開放題】請你自己出一條同類型嘅數字規律題（4～8個數字，中間留一個空格），寫低你自己設計嘅規律同答案，然後拎去同同學交換做。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>☐ 我試過相鄰項嘅加減乘除同平方立方。</div><div>☐ 我試過兩種分組法（隔一個／連續幾個一組）。</div><div>☐ 我嘅假設代返去，全部已知項都啱。</div><div>☐ 答案有揀返對應嘅選項。</div></div>
+
+  <div class="section-h page-break">參考答案與詳解（教師用）</div>
+  <div class="problem"><div style="font-weight:700">A1．答案：C．12</div><div>【考點】連續三個一組，組內第一數減第二數等於第三數。</div><div>【規律／關係式】每組 (a, b, c) 符合 \(a-b=c\)。</div><div>【詳細步驟】</div><div>　（1）分組：(4,3,1)、(12,9,3)、(17,5,?)。</div><div>　（2）驗證第一組：\(4-3=1\)✓；第二組：\(12-9=3\)✓。</div><div>　（3）套用去第三組：\(17-5=12\)。</div><div class="hint-card">【易錯點提示】以為規律係「三個一組加埋」（4+3=7≠1），冇試埋減法。</div></div><div class="problem"><div style="font-weight:700">A2．答案：B．89</div><div>【考點】斐波那契式規律：每項＝前兩項之和。</div><div>【規律／關係式】\(a_n=a_{n-1}+a_{n-2}\)。</div><div>【詳細步驟】</div><div>　（1）驗證：\(13+21=34\)✓；\(21+34=55\)✓。</div><div>　（2）套用：\(34+55=89\)。</div><div class="hint-card">【易錯點提示】淨係睇差值（8,13,21……）冇發現差值本身都係加返兩項，其實直接加返前兩項最快。</div></div><div class="problem"><div style="font-weight:700">A3．答案：C．冬瓜</div><div>【考點】分類要搵返「共通屬性」，例外項通常違反其中一個屬性。</div><div>【詳細步驟】</div><div>　（1）香蕉、蘋果、雪梨、西瓜皆屬「一般認知中嘅水果」。</div><div>　（2）冬瓜屬瓜類蔬菜，唔係水果，故為不同類項。</div><div class="hint-card">【易錯點提示】按「有籽 / 有核」呢類次要特徵分類（例如西瓜多籽），冇搵最大公因嘅「水果 vs 蔬菜」呢個分類。</div></div><div class="problem"><div style="font-weight:700">A4．答案：C．七</div><div>【考點】十天干順序要背熟：甲乙丙丁戊己庚辛壬癸＝1至10。</div><div>【詳細步驟】</div><div>　（1）十天干：甲1、乙2、丙3、丁4、戊5、己6、庚7、辛8、壬9、癸10。</div><div>　（2）「庚」係第 7 位。</div><div class="hint-card">【易錯點提示】同十二地支（子丑寅卯……）混淆，或漏數/多數一個字。</div></div><div class="problem"><div style="font-weight:700">B1．答案：B．529</div><div>【考點】交錯數列：奇數位與偶數位分別各自成一條規律，唔可以當成一條數列睇。</div><div>【規律／關係式】奇數位（第1、3、5、7位）：\(25^2,24^2,?,22^2\)（底數遞減1）；偶數位（第2、4、6位）：公差 −2 等差數列。</div><div>【詳細步驟】</div><div>　（1）位置標號：625(1) 49(2) 576(3) 47(4) ?(5) 45(6) 484(7)。</div><div>　（2）奇數位：\(25^{2}=625\)、\(24^{2}=576\)、\(22^{2}=484\)——底數 25,24,?,22 遞減1，所以第5位底數＝23，即 \(23^{2}=529\)。</div><div>　（3）偶數位：49,47,45 公差 −2，獨立成立、唔影響答案，但可用嚟確認「交錯」呢個假設冇錯。</div><div class="hint-card">【易錯點提示】淨係將成串數字當一條數列去試相鄰關係，8條位置摻埋一齊試極都試唔出規律。</div></div><div class="problem"><div style="font-weight:700">B2．答案：C．9</div><div>【考點】交錯數列，兩條規律都係等差，但公差方向唔同。</div><div>【規律／關係式】奇數位（1,3,5,7位）：公差 −3；偶數位（2,4,6位）：公差 +2。</div><div>【詳細步驟】</div><div>　（1）位置標號：12(1) 10(2) ?(3) 12(4) 6(5) 14(6) 3(7)。</div><div>　（2）奇數位：12, ?, 6, 3——公差 −3：\(12-3=9\)，驗證 \(9-3=6\)✓、\(6-3=3\)✓。</div><div>　（3）偶數位：10, 12, 14——公差 +2，獨立驗證通過，確認交錯假設成立。</div><div class="hint-card">【易錯點提示】見到 12 喺第1位又喺第4位出現，誤以為成串數字循環重複，冇留意兩個 12 分別屬於奇數位同偶數位、係兩條唔同嘅規律。</div></div><div class="problem"><div style="font-weight:700">B3．答案：C．496：百：4</div><div>【考點】規律係「[數字] : [位名] : 該位嘅數字」，要逐個選項核對三個位。</div><div>【詳細步驟】</div><div>　（1）648 嘅拾位（十位）數字係 4，符合原式。</div><div>　（2）A．846 只係三位數，冇「千位」，不成立。</div><div>　（3）B．754 嘅百位係 7，唔係 4，不成立。</div><div>　（4）C．496 嘅百位係 4，符合，成立。</div><div>　（5）D．485 嘅拾位係 8，唔係 4，不成立。</div><div class="hint-card">【易錯點提示】淨係睇最後嗰個數字「4」岩唔岩，冇連埋位名（千／百／拾）一齊核對；648 係三位數但問嘅係「拾位」（十位），要留意題目本身唔要求判斷有冇「千位」，位名同位數要分開睇。</div></div><div class="problem"><div style="font-weight:700">B4．答案：B．丙和丁</div><div>【考點】排名比較題：先將文字條件轉做「較前 / 較後」關係，用反證法逐一檢查邊個唔可能係第一。</div><div>【規律／關係式】設名次數字越細代表越前。條件①：\(甲<丙\)；條件②：「乙不比丁後」即 \(乙<丁\)（賽果冇並列，故為嚴格較前）。</div><div>【詳細步驟】</div><div>　（1）假設丙攞第一（丙＝1）：由條件①\(甲<丙\)，甲嘅名次要細過 1，冇可能，矛盾。所以丙唔可能第一。</div><div>　（2）假設丁攞第一（丁＝1）：由條件②\(乙<丁\)，乙嘅名次要細過 1，冇可能，矛盾。所以丁唔可能第一。</div><div>　（3）甲、乙兩人冇任何條件話佢哋唔可能排第一，故唔可以排除。</div><div>　（4）結論：一定唔會攞第一嘅組合係「丙和丁」。</div><div class="hint-card">【易錯點提示】淨係將「甲喺丙前面」理解成「甲一定係第一」，冇考慮甲前面仲有冇其他人（本題冇話甲同乙邊個更前）；答案問嘅係「肯定唔係第一」，唔係「肯定係第一」。</div></div><div class="problem"><div style="font-weight:700">C1．答案：B．25</div><div>【考點】交錯數列：一條係等差，另一條係完全平方數。</div><div>【規律／關係式】奇數位（1,3,5,7,9位）：公差 +2 等差；偶數位（2,4,6,8,10位）：\(1^2,2^2,3^2,4^2,?\)。</div><div>【詳細步驟】</div><div>　（1）位置標號：0(1) 1(2) 2(3) 4(4) 4(5) 9(6) 6(7) 16(8) 8(9) ?(10)。</div><div>　（2）奇數位：0,2,4,6,8——公差 +2，獨立成立。</div><div>　（3）偶數位：1,4,9,16,?＝\(1^2,2^2,3^2,4^2,?\)——底數 1,2,3,4,?遞增1，第10位底數＝5，即 \(5^{2}=25\)。</div><div class="hint-card">【易錯點提示】見到 4 呢個數字出現咗兩次（第4、5位），以為係抄錯或者要對齊，其實係兩條唔同規律岩岩喺呢兩個位置撞埋一齊，屬巧合唔係錯誤。</div></div><div class="problem"><div style="font-weight:700">C2．答案：A．27</div><div>【考點】交錯數列：一條係序數（1,2,3,4,5），另一條係立方數。</div><div>【規律／關係式】偶數位（2,4,6,8,10位）：1,2,3,4,5（序數）；奇數位（1,3,5,7,9位）：\(1^3,2^3,?,4^3,5^3\)。</div><div>【詳細步驟】</div><div>　（1）位置標號：1(1) 1(2) 8(3) 2(4) ?(5) 3(6) 64(7) 4(8) 125(9) 5(10)。</div><div>　（2）偶數位：1,2,3,4,5——就係序數本身，獨立成立。</div><div>　（3）奇數位：1,8,?,64,125＝\(1^3,2^3,?,4^3,5^3\)——底數 1,2,?,4,5，第5位（即整條數列第5位）底數＝3，即 \(3^{3}=27\)。</div><div class="hint-card">【易錯點提示】睇到序數 1,2,3,4,5 就以為空格都係序數（估答案係 3），冇留意空格所在嘅位置（第5個位）其實屬於「立方」嗰條規律，唔係「序數」嗰條。</div></div><div class="problem"><div style="font-weight:700">C3．答案：D．3</div><div>【考點】逐欄（直行）觀察關係，唔係逐列（橫行）。</div><div>【規律／關係式】每欄：上 ÷ 中 ＝ 下。</div><div>【詳細步驟】</div><div>　（1）第一欄核對：\(\frac{12}{4}=3\)，與第三數 3 相符 ✓。</div><div>　（2）第三欄核對：\(\frac{28}{7}=4\)，與第三數 4 相符 ✓。</div><div>　（3）套用去第二欄：\(15/?=5\) → \(?=\frac{15}{5}=3\)。</div><div class="hint-card">【易錯點提示】逐列（橫向）搵關係（12,15,28 之間、4,?,7 之間），呢條題嘅規律其實喺直欄入面，橫向搵極都搵唔到。</div></div><div class="problem"><div style="font-weight:700">C4．答案：E．阿Q正傳</div><div>【考點】分類要搵返「共通屬性」——呢度係「中國古典四大名著」。</div><div>【詳細步驟】</div><div>　（1）西遊記、紅樓夢、水滸傳、三國演義為中國古典四大名著。</div><div>　（2）阿Q正傳係魯迅所著嘅現代短篇小說，唔屬於四大名著，故為不同類項。</div><div class="hint-card">【易錯點提示】按「有冇改編電視劇」「係咪長篇小說」呢類次要特徵分類，阿Q正傳都係長篇小說改編過，但關鍵分類屬性係「是否四大名著之一」。</div></div><div class="problem"><div style="font-weight:700">C5．答案：（開放題，教師逐份核對）</div><div>【考點】出題者要親自驗算自己條規律至少兩次先算完成。</div><div>【詳細步驟】</div><div>　（1）建議格式：4～8個數字，中間留一個空格。</div><div>　（2）出題者要寫低（a）規律講法、（b）正確答案、（c）驗證用咗嘅方法（相鄰／分組／假設驗證）。</div><div class="hint-card">【易錯點提示】出嘅規律唔夠精確，同一串數字可以砌出兩種唔同答案都啱——呢種情況要退返去改到規律得一個答案先算過關。</div></div>
+
+  <div class="footer">高三數學．第3章 數理邏輯(一)．L15 數字與符號規律推理</div>
+
+</div>
+</body>
+</html>

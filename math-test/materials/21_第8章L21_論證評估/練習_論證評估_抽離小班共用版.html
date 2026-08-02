@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第8章 語文與邏輯推理(三)．L21 論證評估</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第8章 語文與邏輯推理(三)．L21 論證評估</span><span>類型：課堂練習</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="hint-card">動手之前：搵出結論同論據，逐個選項問「支持／削弱／無關」。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）——我們做</div>
+  <div>同老師一齊核對，做完一齊對答案先入第二題。</div>
+  <div class="problem"><div>1．茶餐廳老闆話：「今個月生意額上升咗兩成，證明我哋間鋪嘅出品越嚟越受歡迎。」以下邊項如果為真，最能削弱佢嘅講法？<br>A．呢個月茶記啲食物全部加咗價一成<br>B．老闆每日都準時開鋪<br>C．呢條街嘅其他舖頭裝修翻新咗<br>D．老闆用緊嘅食材同上個月一樣</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>2．有兩個電訊計劃：A電訊，每日上限500MB，不能累積使用；B電訊，數據無限。以下邊句廣告最符合A電訊？<br>A．每日最低12蚊<br>B．30蚊10日有5GB任用<br>C．五種計劃總有一個啱你<br>D．7日全城最低</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）——你做</div>
+  <div>獨立完成，唔使再一齊核對。</div>
+  <div class="problem"><div>3．某市某繁華街道「十字路口可見度改善工程」竣工後，有兩份調查報告：第一份話工程減少咗交通事故；第二份話工程完工後每週交通事故反而增加咗，所以工程增加咗事故發生嘅機率。以下邊項對評估第二份報告最有用？<br>A．工程完工後，值勤交警平均值勤時間係幾多<br>B．工程完工後，呢個十字路口嘅車流量改變情況如何<br>C．鄰近城鎮喺改善路段可見度方面採取咗咩措施<br>D．工程完工後，該十字路口係咪唔便於行人通行</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）——你做</div>
+  <div>最後兩題，第5題係開放題。</div>
+  <div class="problem"><div>4．研究人員話搵到一種用咖啡因控制糖尿病人血糖濃度嘅新方法。佢哋對患糖尿病嘅小鼠做實驗，攝取咖啡因嘅小鼠血糖控制能力較好。研究人員認為，未來注射胰島素嘅方法可以被攝取咖啡因取代。以下邊項最能支持呢個結論？<br>A．呢個研究成果發表喺全球頂尖醫學期刊上<br>B．每日注射胰島素對病人嚟講比較麻煩<br>C．研究證明咖啡因可以降低直腸癌同黑色素瘤嘅發病風險<br>D．小鼠同人類體內嘅腎臟細胞吸收咖啡因會促進胰島素嘅產生</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>5．【開放題】請你自己設計一條支持／削弱論證題：寫一句包含「結論」同「論據」嘅陳述，再設計4個選項（1個真正支持、1個真正削弱、2個無關），寫低你嘅答案同理由，然後同同學交換做。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>☐ 我搵出咗結論同論據，唔係得個大概印象。</div><div>☐ 我逐個選項都判斷咗係支持/削弱/無關。</div><div>☐ 我講得出點解淨返嗰個選項先啱，其餘點解唔啱。</div></div>
+
+  <div class="section-h page-break">參考答案與詳解（教師用）</div>
+  <div class="problem"><div style="font-weight:700">1．答案：A．食物全部加咗價一成</div><div>【判斷】削弱——提供咗一個「其他解釋」：營業額上升可以純粹係加價造成，唔一定係顧客量增加或者出品變得更受歡迎。</div><div class="hint-card">【剔除其餘選項】B、C、D都同「營業額上升嘅原因」冇直接關係，唔提供任何支持或削弱嘅理由，屬於「無關」選項。</div></div><div class="problem"><div style="font-weight:700">2．答案：A．每日最低12蚊</div><div>【判斷】評估（符合特徵）——A電訊嘅核心特徵係「按日計、每日500MB上限、唔可以累積」，「每日最低12蚊」正正扣連「按日」計費呢個特點。</div><div class="hint-card">【剔除其餘選項】B「10日5GB任用」——平均每日 \(5000/10=500\) MB數值啱，但「任用」暗示10日內可以跨日彈性運用（即可以累積），同「不能累積使用」呢個核心限制矛盾；C、D都係空泛廣告詞，無法對應A電訊嘅具體特徵。</div></div><div class="problem"><div style="font-weight:700">3．答案：B．車流量改變情況如何</div><div>【判斷】評估（搵出混淆變數）——第二份報告淨係憑「事故數增加」就話「工程令事故機率上升」，但忽略咗車流量呢個混淆變數：如果車流量本身大幅上升，事故總數自然可能上升，未必係工程嘅過錯（甚至事故率／每車次事故機率可能其實下降咗）。</div><div class="hint-card">【剔除其餘選項】A交警值勤時間、C鄰近城鎮嘅措施、D是否便於行人通行，都同「工程是否真係導致事故機率上升」呢個因果判斷關聯薄弱。</div></div><div class="problem"><div style="font-weight:700">4．答案：D．小鼠同人類嘅腎臟細胞吸收咖啡因會促進胰島素產生</div><div>【判斷】支持（搭橋）——論點同論據之間缺嘅係「咖啡因點樣喺人體內實際發揮類似胰島素嘅降血糖機制」呢座橋樑。D直接搭建咗「咖啡因」同「胰島素分泌」之間嘅因果橋樑，並將小鼠實驗結果類推去人類生理機制，具體加強咗論點嘅可信度。</div><div class="hint-card">【剔除其餘選項】A訴諸期刊權威，唔能夠證明結論本身成立；B淨係話注射麻煩，同「可唔可以被取代」冇關；C咖啡因降低其他癌症風險，同血糖控制、取代胰島素無關；三項皆屬「無關」。</div></div><div class="problem"><div style="font-weight:700">5．答案：（開放題，教師逐份核對）</div><div>【判斷】出題者要確保四個選項入面，真正支持同真正削弱嘅各得一個，唔可以模稜兩可。</div><div class="hint-card">【剔除其餘選項】出題者要親自驗算：畀第二個人做，睇佢揀嘅同你心目中嘅答案是否一致。</div></div>
+
+  <div class="footer">高三數學．第8章 語文與邏輯推理(三)．L21 論證評估</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第1章 特殊數學應用專題．L4 雞兔同籠、年齡、時鐘、數位與幾何應用</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+  .hint-card, .fig, .ref-card, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .ref-card .fig { margin: 6px 0; }
+  .ref-card .fig svg { max-width: 100%; height: auto; }
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第1章 特殊數學應用專題．L4 雞兔同籠、年齡、時鐘、數位與幾何應用</span><span>類型：課堂講義</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="section-h">一、這一課要做到的事</div>
+
+<div>這一課把第1章餘下的五種經典應用題一次過收齊：雞兔同籠、年齡、時鐘角度、數位（兩位數的十位與個位）、幾何應用。它們的情境完全不同，考試時卻常常混在一起出現。</div>
+
+<div>前三課的困難在「讀不懂題目在講什麼」——題目長、情境厚，所以要畫圖、要填三欄表。這一課的困難不同：題目通常很短，也讀得懂，難在「認不出這是哪一種題，於是取不出那一種題固定要用的設定式」。</div>
+
+<div>所以本課不是再學五套解題方法，而是每一種題型配一張卡。卡上寫明兩件事：什麼時候翻它（觸發語），以及這一種題固定要怎樣設未知數、怎樣列式。認出題型、翻對卡，題目就已經解決了一半。</div>
+
+<div>五張題型卡之外，另有一張《解題四個動作》，五種題型共用同一套流程：認題型 → 設未知數 → 照卡上的設定式列方程 → 解出來再代回題目原文檢核。所有卡片都會另外印成《工具卡》，請剪下來放在桌面；做題時用手指指住正在做的那一步。</div>
+
+<div class="section-h page-break">二、五種題型，六張卡</div>
+
+<div>每一張卡的第一行都是「什麼時候翻我」。讀完題目之後，先在這六行觸發語裡找出對得上的那一張，再看卡上的設定式。</div>
+
+<div class="ref-card"><div style="font-weight:700">▍雞兔同籠卡</div><div class="trigger">什麼時候翻我：題目給出兩種東西的「總個數」，同時給出另一個總量（腳的數目、票款總額、分數總和），問兩種東西各有多少。</div><div>兩種東西、兩個總量，就列兩條式：一條數「個數」，一條數「量」。設較容易數的那一種為 x，另一種用「總數 減 x」表示，就只剩一個未知數。</div><div>① 個數：\(x+y=n\)（n ＝ 總個數）　② 總量：\(ax+by=T\)（a、b ＝ 每一個的量，T ＝ 總量）。※ 快捷法：先當成全部都是「量較小」的那一種，算出來的總量比實際少多少，就除以兩者每個相差的量。</div></div>
+
+<div class="ref-card"><div style="font-weight:700">▍年齡卡</div><div class="trigger">什麼時候翻我：題目出現「幾年前」「幾年後」「是⋯的幾倍」「年齡之和」「年齡之差」。</div><div>兩個人的年齡差永遠不變——今年差幾多歲，十年前、十年後都差同樣多。時間走了 n 年，兩個人的年齡都要同時加 n（或減 n），不可以只改其中一個。</div><div>設今年甲 \(x\) 歲、乙 \(y\) 歲。n 年後是 \(x+n\) 與 \(y+n\)；n 年前是 \(x-n\) 與 \(y-n\)；年齡差 \(x-y\) 由頭到尾不變。</div></div>
+
+<div class="ref-card"><div style="font-weight:700">▍時鐘卡</div><div class="trigger">什麼時候翻我：題目出現「時針」「分針」「夾角」，或者「這個鐘每小時快／慢多少分鐘」。</div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="320" height="312" viewBox="0 0 320 312" role="img"><rect width="320" height="312" fill="#ffffff"/><circle cx="150" cy="150" r="112" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><line x1="150.0" y1="38.0" x2="150.0" y2="52.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="206.0" y1="53.0" x2="201.5" y2="60.8" stroke="#1a1a1a" stroke-width="1.4"/><line x1="247.0" y1="94.0" x2="239.2" y2="98.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="262.0" y1="150.0" x2="248.0" y2="150.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="247.0" y1="206.0" x2="239.2" y2="201.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="206.0" y1="247.0" x2="201.5" y2="239.2" stroke="#1a1a1a" stroke-width="1.4"/><line x1="150.0" y1="262.0" x2="150.0" y2="248.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="94.0" y1="247.0" x2="98.5" y2="239.2" stroke="#1a1a1a" stroke-width="1.4"/><line x1="53.0" y1="206.0" x2="60.8" y2="201.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="38.0" y1="150.0" x2="52.0" y2="150.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="53.0" y1="94.0" x2="60.8" y2="98.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="94.0" y1="53.0" x2="98.5" y2="60.8" stroke="#1a1a1a" stroke-width="1.4"/><text x="150.0" y="68.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">12</text><text x="191.0" y="79.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">1</text><text x="221.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">2</text><text x="232.0" y="150.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">3</text><text x="221.0" y="191.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">4</text><text x="191.0" y="221.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">5</text><text x="150.0" y="232.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">6</text><text x="109.0" y="221.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">7</text><text x="79.0" y="191.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">8</text><text x="68.0" y="150.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">9</text><text x="79.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">10</text><text x="109.0" y="79.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">11</text><line x1="150.0" y1="150.0" x2="212.0" y2="150.0" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="150.0" y1="150.0" x2="150.0" y2="244.0" stroke="#1a1a1a" stroke-width="2.4"/><line x1="150.0" y1="150.0" x2="209.9" y2="166.0" stroke="#1a1a1a" stroke-width="5.0"/><circle cx="150" cy="150" r="4.5" fill="#1a1a1a"/><text x="222.0" y="130.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">虛線＝3 的刻度</text><text x="200.0" y="190.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">時針</text><text x="150.0" y="288.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">分針</text></svg><div class="cap">圖中是 3 時 30 分：分針指住 6，時針已經由 3 向 4 走了一半，不在虛線那條刻度上</div></div><div>分針每分鐘走 6°（一圈 360° 分給 60 分鐘）；時針每分鐘走 0.5°（一小時 30° 分給 60 分鐘）。時針不會停在整點刻度上——只要分鐘數不是 0，它就已經離開了。</div><div>h 時 m 分：分針 ＝ \(6m\)°，時針 ＝ \(30h+0.5m\)°，夾角 ＝ \(|30h-5.5m|\)°（若大於 180°，用 360° 減）。快慢鐘用比例：實際分鐘 : 鐘面顯示的分鐘 ＝ 60 :（60 加上快的分鐘數，或減去慢的分鐘數）。</div></div>
+
+<div class="ref-card"><div style="font-weight:700">▍數位卡</div><div class="trigger">什麼時候翻我：題目出現「個位」「十位」「百位」「兩位數」「三位數」「把數字對調」。</div><div>「數字」與「數」不是同一件事：兩位數的十位數字只是 0 到 9 當中的一個數字，整個兩位數才是那個數。一定要先把數寫成「10 × 十位數字 ＋ 個位數字」，才列得出方程。</div><div>兩位數 ＝ \(10a+b\)（a ＝ 十位數字，1 到 9；b ＝ 個位數字，0 到 9）；對調後 ＝ \(10b+a\)。兩者之差 ＝ \(9(a-b)\)（一定是 9 的倍數）；兩者之和 ＝ \(11(a+b)\)。三位數 ＝ \(100a+10b+c\)。</div></div>
+
+<div class="ref-card"><div style="font-weight:700">▍幾何應用卡（平面）</div><div class="trigger">什麼時候翻我：題目出現「周長」「面積」「邊長」「內角」，或者「長比寬多⋯」。</div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="560" height="210" viewBox="0 0 560 210" role="img"><rect width="560" height="210" fill="#ffffff"/><polygon points="60,160 250,160 210,70 100,70" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><line x1="155.0" y1="70.0" x2="155.0" y2="160.0" stroke="#1a1a1a" stroke-width="1.3" stroke-dasharray="4 4"/><text x="155.0" y="58.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">上底 a</text><text x="155.0" y="176.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">下底 b</text><text x="163.0" y="115.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">高 h</text><text x="155.0" y="198.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">梯形面積 ＝（a ＋ b）÷ 2 × h</text><rect x="340.0" y="78.0" width="180.0" height="82.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="430.0" y="66.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">長 a</text><text x="532.0" y="119.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">寬 b</text><text x="430.0" y="198.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="14" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">周長 ＝ 2（a ＋ b）　面積 ＝ a × b</text></svg><div class="cap">梯形的高一定是垂直距離，不是斜邊</div></div><div>先看單位就知道問的是甚麼：厘米＝長度，平方厘米＝面積，立方厘米＝體積。若題目給的是兩個量的「和」與「差」，先用和差公式求出兩個量，再代進面積公式。</div><div>長方形：周長 ＝ \(2(a+b)\)，面積 ＝ \(ab\)。梯形面積 ＝ \(\frac{a+b}{2} \times h\)。圓：周長 ＝ \(2 \times \pi  \times r\)，面積 ＝ \(\pi  \times r^2\)。三角形內角和 ＝ 180°。※ 和差公式：大 ＝ \(\frac{S+D}{2}\)，小 ＝ \(\frac{S-D}{2}\)（S ＝ 和，D ＝ 差）。</div></div>
+
+<div class="ref-card"><div style="font-weight:700">▍幾何應用卡（立體）</div><div class="trigger">什麼時候翻我：題目出現「表面積」「體積」「長方體」「正方體」「稜長」「邊長」。</div><div>立體題最常見的做法，是由表面積或體積其中一個反推出未知的那一條邊，再代進另一條公式。先把長、寬、高三個位置寫出來，把已知的填進去，就看得出缺哪一個。</div><div>長方體（長 a、寬 b、高 c）：表面積 ＝ \(2(ab+bc+ca)\)，體積 ＝ \(abc\)。正方體（稜長 a）：表面積 ＝ \(6a^2\)，體積 ＝ \(a^3\)。</div></div>
+
+<div class="section-h page-break">三、解題四個動作</div>
+
+<div>五種題型共用同一套流程。做題時用手指指住正在做的那一個動作，做完一個才做下一個，不要跳去先算。</div>
+
+<table class="d-tbl step-card"><tr><th colspan="2">解題四個動作（五種題型共用）</th></tr><tr><td colspan="2">什麼時候用：每一題都由動作 1 做起，做完一個動作才做下一個。</td></tr><tr><td>1. 認題型：讀完題目先問「這是五種當中的哪一種」，然後翻對應的那一張卡。</td><td class="pitfall">※ 沒有認題型就直接動筆，是本課失分最多的一步。卡上的觸發語就是用來認題型的，認不出就把五張卡的觸發語逐張讀一次。</td></tr><tr><td>2. 設未知數：把「設⋯為 x」整句寫出來，連單位一齊寫。</td><td class="pitfall">※ 設錯對象會令式子變複雜。雞兔題設「腳較多的那一種」、年齡題設「年紀較小的那一個」，通常最快。</td></tr><tr><td>3. 列方程：照卡上的設定式抄下來，再把題目的數字填進去，不要憑記憶改。</td><td class="pitfall">※ 數位題一定要寫成 10a ＋ b；把「十位數字」與「個位數字」直接相乘或相加就錯了。</td></tr><tr><td>4. 解出來之後，代回題目原文檢核，再看答案大小合不合常理。</td><td class="pitfall">※ 代回自己列的式一定對得上，錯了也看不出來。要用題目那句話重新數一次（例如重新數一次腳的總數）。</td></tr><tr><td colspan="2">（教師）褪除：詳細四動作卡 → 只留四個關鍵詞（認、設、列、檢）→ 只留「這題有四步」→ 完全移除。</td></tr></table>
+
+<div class="section-h">四、範例A・雞兔同籠：兩種東西、兩條式</div>
+
+<div class="problem">【範例A・雞兔同籠】一個籠裡關住雞和兔，數一數共有 12 個頭、40 隻腳。問雞、兔各有多少隻？</div>
+
+<div>動作 1（認題型）：題目給了「頭的總數」與「腳的總數」，問兩種動物各有多少——這是雞兔同籠題，翻《雞兔同籠卡》。</div>
+
+<div>動作 2（設未知數）：設兔有 \(x\) 隻、雞有 \(y\) 隻。</div>
+
+<div>動作 3（列方程）：照卡上兩條式——① 個數：\(x+y=12\)（頭）　② 總量：\(4x+2y=40\)（腳，兔 4 隻腳、雞 2 隻腳）。</div>
+
+<div>動作 4（解與檢核）：由①得 \(y=12-x\)，代入②：\(4x+2(12-x)=40\)，即 \(2x+24=40\)，\(2x=16\)，\(x=8\)；雞 ＝ \(12-8=4\)（隻）。</div>
+
+<div>檢核（代回題目原文）：兔 8 隻、雞 4 隻，頭共 \(8+4=12\) 個；腳共 \(8 \times 4+4 \times 2=40\) 隻——與題目完全相符。</div>
+
+<div>另一條路（卡上的快捷法）：先當成 12 隻全部是雞，腳只有 \(2 \times 12=24\) 隻，比實際的 40 隻少 16 隻；每把一隻雞換成一隻兔就多 2 隻腳，所以兔 ＝ 16 ÷ 2 ＝ 8（隻）。</div>
+
+<div class="hint-card">※ 這一類題不一定講雞和兔。「成人票與學生票」「五元硬幣與兩元硬幣」「答對得 4 分、答錯扣 1 分」全部是同一張卡：兩種東西、兩個總量、兩條式。認題型時看的是結構，不是故事。</div>
+
+<div class="section-h">五、範例B・年齡：年齡差永遠不變</div>
+
+<div class="problem">【範例B・年齡】16 年前，父親的年齡是阿達的 3 倍；現在父親的年齡是阿達的 2 倍。問阿達今年幾歲？</div>
+
+<div>動作 1（認題型）：題目出現「16 年前」與「是⋯的幾倍」——這是年齡題，翻《年齡卡》。</div>
+
+<div>動作 2（設未知數）：設阿達今年 \(x\) 歲。由「現在是 2 倍」，父親今年 \(2x\) 歲。</div>
+
+<div>動作 3（列方程）：16 年前，兩個人都要減 16——阿達 \(x-16\) 歲，父親 \(2x-16\) 歲。當時父親是阿達的 3 倍：\(2x-16=3(x-16)\)。</div>
+
+<div>動作 4（解與檢核）：\(2x-16=3x-48\)，\(48-16=3x-2x\)，\(x=32\)（歲）；父親今年 \(2 \times 32=64\) 歲。</div>
+
+<div>檢核（代回題目原文）：16 年前阿達 \(32-16=16\) 歲、父親 \(64-16=48\) 歲，而 \(48=3 \times 16\)——「3 倍」成立；現在 \(64=2 \times 32\)——「2 倍」也成立。</div>
+
+<div>再用卡上的不變量核一次：年齡差今年是 \(64-32=32\) 歲，16 年前是 \(48-16=32\) 歲，兩者相同——年齡差確實沒有變。</div>
+
+<div class="hint-card">※ 年齡題的檢核有一招特別好用：算一次年齡差。只要你的答案令「今年的年齡差」與「n 年前的年齡差」不相等，那條方程就一定列錯了。</div>
+
+<div class="section-h page-break">六、範例C・時鐘角度：時針每分鐘也在走</div>
+
+<div class="problem">【範例C・時鐘角度】求 3 時 30 分時，時針與分針所夾的角是多少度？</div>
+
+<div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="320" height="312" viewBox="0 0 320 312" role="img"><rect width="320" height="312" fill="#ffffff"/><circle cx="150" cy="150" r="112" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><line x1="150.0" y1="38.0" x2="150.0" y2="52.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="206.0" y1="53.0" x2="201.5" y2="60.8" stroke="#1a1a1a" stroke-width="1.4"/><line x1="247.0" y1="94.0" x2="239.2" y2="98.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="262.0" y1="150.0" x2="248.0" y2="150.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="247.0" y1="206.0" x2="239.2" y2="201.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="206.0" y1="247.0" x2="201.5" y2="239.2" stroke="#1a1a1a" stroke-width="1.4"/><line x1="150.0" y1="262.0" x2="150.0" y2="248.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="94.0" y1="247.0" x2="98.5" y2="239.2" stroke="#1a1a1a" stroke-width="1.4"/><line x1="53.0" y1="206.0" x2="60.8" y2="201.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="38.0" y1="150.0" x2="52.0" y2="150.0" stroke="#1a1a1a" stroke-width="2.6"/><line x1="53.0" y1="94.0" x2="60.8" y2="98.5" stroke="#1a1a1a" stroke-width="1.4"/><line x1="94.0" y1="53.0" x2="98.5" y2="60.8" stroke="#1a1a1a" stroke-width="1.4"/><text x="150.0" y="68.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">12</text><text x="191.0" y="79.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">1</text><text x="221.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">2</text><text x="232.0" y="150.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">3</text><text x="221.0" y="191.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">4</text><text x="191.0" y="221.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">5</text><text x="150.0" y="232.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">6</text><text x="109.0" y="221.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">7</text><text x="79.0" y="191.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">8</text><text x="68.0" y="150.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">9</text><text x="79.0" y="109.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">10</text><text x="109.0" y="79.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="15" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">11</text><line x1="150.0" y1="150.0" x2="212.0" y2="150.0" stroke="#1a1a1a" stroke-width="1.5" stroke-dasharray="5 4"/><line x1="150.0" y1="150.0" x2="150.0" y2="244.0" stroke="#1a1a1a" stroke-width="2.4"/><line x1="150.0" y1="150.0" x2="209.9" y2="166.0" stroke="#1a1a1a" stroke-width="5.0"/><circle cx="150" cy="150" r="4.5" fill="#1a1a1a"/><text x="222.0" y="130.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">虛線＝3 的刻度</text><text x="200.0" y="190.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">時針</text><text x="150.0" y="288.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">分針</text></svg><div class="cap">3 時 30 分：虛線是「3」的刻度，時針（實線）已經離開了它</div></div>
+
+<div>動作 1（認題型）：題目出現「時針」「分針」「夾角」——這是時鐘題，翻《時鐘卡》。</div>
+
+<div>動作 2（設未知數）：本題不必設未知數，直接用卡上的兩個速率算出兩根針的位置。位置一律由「12」量起，順時針方向。</div>
+
+<div>動作 3（列式）：分針 ＝ \(30 \times 6=180\)°（每分鐘 6°，走了 30 分鐘）；時針 ＝ \(30 \times 3+0.5 \times 30=105\)°（3 個整點共 \(3 \times 30=90\)°，再加 30 分鐘走的 \(0.5 \times 30=15\)°）。</div>
+
+<div>動作 4（算與檢核）：夾角 ＝ \(180-105=75\)°。</div>
+
+<div>檢核（用卡上的公式再算一次）：\(|30h-5.5m|\)，代入 h ＝ 3、m ＝ 30：\(|30 \times 3-5.5 \times 30|=|90-165|=75\)°——兩種算法一致。</div>
+
+<div class="hint-card">※ 上圖的虛線是「3」那一條刻度。時針（實線）明顯已經離開了虛線，因為 30 分鐘裡它走了 15°。凡是題目給的分鐘數不是 0，時針就一定不在整點刻度上——這是本課最多人錯的一步，第九節會再用正誤對照講一次。</div>
+
+<div class="section-h page-break">七、範例D・數位：先寫成 10a ＋ b</div>
+
+<div class="problem">【範例D・數位】一個兩位數，它的十位數字與個位數字之和是 9。把這兩個數字對調之後，所得的新數比原數大 45。求原數。</div>
+
+<div>動作 1（認題型）：題目出現「兩位數」「十位數字」「個位數字」「對調」——這是數位題，翻《數位卡》。</div>
+
+<div>動作 2（設未知數）：設十位數字為 \(a\)、個位數字為 \(b\)。則原數 ＝ \(10a+b\)，對調後的新數 ＝ \(10b+a\)。</div>
+
+<div>動作 3（列方程）：① 兩個數字之和：\(a+b=9\)　② 新數比原數大 45：\((10b+a)-(10a+b)=45\)，化簡成 \(9(b-a)=45\)，即 \(b-a=5\)。</div>
+
+<div>動作 4（解與檢核）：①＋②：\(2b=14\)，\(b=7\)；代回①：\(a=9-7=2\)。原數 ＝ \(10 \times 2+7=27\)。</div>
+
+<div>檢核（代回題目原文）：27 的兩個數字之和 \(2+7=9\)——相符；對調之後是 72，而 \(72-27=45\)——也相符。</div>
+
+<div class="hint-card">※ 卡上寫「兩者之差一定是 9 的倍數」，這一句可以拿來預先檢查題目：本題的差是 45，而 \(45=9 \times 5\)，所以 b 與 a 相差 5——寫下 \(b-a=5\) 之後，其實已經不必再展開一次。</div>
+
+<div class="section-h page-break">八、範例E・幾何應用：先看單位，再看和差</div>
+
+<div class="problem">【範例E・幾何應用】（a）一塊梯形田的面積是 90 平方米，上底 7 米、下底 11 米，求它的高。（b）一個長方形的長與寬之和是 18 厘米，長比寬多 2 厘米，求它的面積。</div>
+
+<div>動作 1（認題型）：（a）出現「面積」「上底」「下底」，（b）出現「長與寬之和」「長比寬多」——兩問都是幾何應用題，翻《幾何應用卡（平面）》。</div>
+
+<div>動作 2（設未知數）：（a）設高為 \(h\) 米。（b）不必設未知數，因為題目直接給了「和」與「差」，可以用卡上的和差公式。</div>
+
+<div>動作 3（列式）：（a）梯形面積 ＝ \(\frac{7+11}{2} \times h\)，題目說它等於 90，即 \(\frac{18}{2} \times h=90\)，也就是 \(9h=90\)。</div>
+
+<div>動作 4（算與檢核）：（a）\(h=10\)（米）。檢核：\(\frac{7+11}{2} \times 10=90\) 平方米——相符。</div>
+
+<div>（b）用和差公式：長 ＝ \(\frac{18+2}{2}=10\)（厘米），寬 ＝ \(\frac{18-2}{2}=8\)（厘米）；面積 ＝ \(10 \times 8=80\)（平方厘米）。</div>
+
+<div>檢核（代回題目原文）：\(10+8=18\)——「和是 18」相符；\(10-8=2\)——「長比寬多 2」也相符。</div>
+
+<div class="hint-card">※ 和差公式不必背成兩條，記住一句就夠：把「差」補上去再對半分，得大的那一個；把「差」扣掉再對半分，得小的那一個。這一招在幾何題、年齡題、雞兔題都用得上。</div>
+
+<div class="section-h page-break">九、最容易錯的兩步</div>
+
+<div>下面兩個對比，左欄是很多人會寫出來的做法，右欄是正確做法。兩欄逐行對齊，只有一行不同——請先自己找出是哪一行，再看下面的說明。</div>
+
+<div class="problem">【對比一】求 3 時 30 分時，時針與分針所夾的角。</div><table class="d-tbl dual-track"><tr><th>常見寫法</th><th>正確寫法</th></tr><tr><td>分針：\(30 \times 6=180\)°</td><td style="font-weight:700">分針：\(30 \times 6=180\)°</td></tr><tr><td>時針：指住 3，所以 \(3 \times 30=90\)°</td><td style="font-weight:700">時針：\(30 \times 3+0.5 \times 30=105\)°</td></tr><tr><td>夾角：\(180-90=90\)°</td><td style="font-weight:700">夾角：\(180-105=75\)°</td></tr></table><div class="hint-card">※ 差在這裡（第 2 列）：時針不會停在整點刻度上。過了 30 分鐘，它已經由「3」向「4」走了 \(0.5 \times 30=15\)°，所以是 105° 而不是 90°。只要題目給的分鐘數不是 0，時針就一定已經離開整點——先加那一小段，再算夾角。</div>
+
+<div class="problem">【對比二】16 年前父親的年齡是阿達的 3 倍，現在是 2 倍，求阿達今年幾歲。</div><table class="d-tbl dual-track"><tr><th>常見寫法</th><th>正確寫法</th></tr><tr><td>設阿達今年 \(x\) 歲，父親 \(2x\) 歲</td><td style="font-weight:700">設阿達今年 \(x\) 歲，父親 \(2x\) 歲</td></tr><tr><td>16 年前：\(2x-16=3x\)</td><td style="font-weight:700">16 年前：\(2x-16=3(x-16)\)</td></tr><tr><td>解得 \(x=-16\)（年齡是負數，不合理）</td><td style="font-weight:700">\(2x-16=3x-48\)，解得 \(x=32\)（歲）</td></tr></table><div class="hint-card">※ 差在這裡（第 2 列）：時間倒退 16 年，父親與阿達兩個人都要減 16。只把父親那一邊減 16，等於偷偷把兩人的年齡差改掉了。左邊那個做法算出負數，正好就是「年齡差被改掉」的後果——答案一出現負數或者小數，先回頭看有沒有漏減。</div>
+
+<div class="section-h">十、接下來</div>
+
+<div>請拿出《第1章 L4 雞兔同籠、年齡、時鐘、數位與幾何應用　課堂練習》，並把《工具卡》剪下來放在桌面。練習A 的三題已經在題框下方標明要翻哪一張卡，旁邊也重印了四個動作；練習B 的三題不再標，要自己認題型；練習C 的兩題連四個動作的提示都沒有，全部自己來。</div>
+
+<div class="footer">高三數學．第1章 特殊數學應用專題．L4 雞兔同籠、年齡、時鐘、數位與幾何應用</div>
+
+<div class="teacher-notes"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl"><tr><td>本份採用的主設計</td><td>D7 提示卡——雞兔同籠、年齡、時鐘、數位、幾何應用（平面／立體）各一張，每張寫明「什麼時候翻我」（觸發語）＋該題型固定的設定式，另附示意圖</td></tr><tr><td>輔助設計</td><td>D2 手順卡——五種題型共用的《解題四個動作》（認題型 → 設未知數 → 照卡列式 → 代回題目原文檢核），每一動作附 ※ 易錯點、D14 錯誤分析對比——只針對本課兩個真實高頻錯法：時鐘題以為時針停在整點刻度、年齡題只把年數減在其中一個人身上</td></tr><tr><td>選用理由</td><td>本課收齊題庫 A1 應用題文字題餘下的五類經典題型（雞兔同籠與同型的兩種東西分配、年齡、時鐘與快慢鐘、數位、幾何應用，合計約 30 題）。與 L1～L3 同屬 teaching-designs.md 的 S1 文字應用題結構，但認知瓶頸不同：前三課的題目長、情境厚，卡在語義解碼；本課的題目短、學生讀得懂，卡在「認不出這是哪一種題，於是取不出那一種題固定要用的設定式」，屬記憶檢索失敗。teaching-designs.md §4 對 D7 的問題陳述正是這一點，並要求卡片必須寫觸發語（什麼時候翻我），因此主設計取 D7，而不是 S1 慣用的 D1 條形模型或 D4 三欄式。D2 作輔助，為五種題型提供同一條外部程序軌道，避免學生每換一種題型就要重學流程；D14 作輔助，把本課兩個真實高頻錯法外顯化——本課屬統考複習性質而非新授課，且兩個對比都排在對應範例之後，符合 D14「不可用於全新概念第一次教學」的使用條件。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>提示卡（D7）：本課講義印出六張完整卡，另出《工具卡》讓學生剪下放桌面 → 練習A 在每題題框下方標明「這一題翻哪一張卡」→ 練習B 不再標，由學生自己認題型翻卡 → 練習C 收起卡片，只在作答區留一句「先寫出你設的未知數是甚麼」→ 第21節綜合演練只保留時鐘卡與數位卡（兩個設定式最容易忘）→ 之後完全移除。｜手順卡（D2）：本課講義給完整四動作＋易錯點 → 練習A 每題旁重印精簡版（1 認 2 設 3 列 4 檢）→ 練習B 只在區塊開頭印一次 → 練習C 不印 → 之後只口頭提示「四步」→ 移除。｜錯誤分析對比（D14）：本課給完整正誤雙欄 → 練習B 第 4 題只提示「這題有一個常見陷阱」→ 練習C 不提示 → 訂正課時改由學生自己指出分歧步驟在第幾行 → 移除。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天四件事：五張題型卡 → 五個範例 → 兩個最易錯的步驟 → 練習A／B／C）、F2 番茄鐘分段（本課題型多，建議每做完一個練習區塊停一次，讓學生把用過的卡片放回桌面固定位置，下一題重新認題型再翻）、F4 過程導向回饋與分步計分（「認出題型」與「設未知數」兩步單獨給分；題型認對而後續算術筆誤者不重複扣分——對應官方代碼 a7）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點（題型卡即為此項，若獲准帶入測考需寫入 IEP 第 9 點）、a5 放大字體、a6 增加行距、a7 調整計分標準（認題型／設未知數／列式／計算分步給分）</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度，未刪減內容。</td></tr><tr><td>與 L1～L3 的銜接</td><td>本課是第1章的最後一課。L3 的三欄式（D4）依其褪除路徑，本課起不再印欄位；但《解題四個動作》的動作 1、2 保留了原第①欄的讀題與第②欄的列式動作，所以三欄式養成的習慣不會斷。L1、L2 的條形圖（D1）本課已完全移除。</td></tr><tr><td>為何不沿用 D1 或 D4</td><td>本課五種題型的數量關係本身很短，兩條式就列完；畫條形圖或填三欄表會比題目本身還長。teaching-designs.md 對 D4 明確寫「不要用在兩步以內就算完的短題」。真正的困難在題型辨識與設定式提取，那是 D7 處理的問題。</td></tr><tr><td>題量說明</td><td>本課練習做五個題型全覆蓋，共 8 題（練習A 3 題、練習B 3 題、練習C 2 題），比 Tier 2 的標準題量（各 2 題共 6 題）多 2 題，以免有題型「只講不練」。若課堂時間不足，可先做練習A 全部與練習B 第 4、5 題，練習C 留作課後。</td></tr><tr><td>配套文件</td><td>《第1章 L4 雞兔同籠、年齡、時鐘、數位與幾何應用　課堂練習》（練習A／B／C ＋ 參考答案）、《第1章 L4 雞兔同籠、年齡、時鐘、數位與幾何應用　工具卡》（五張題型卡 ＋ 解題四動作卡，學生剪下護貝放桌面）。</td></tr></table></div>
+
+</div>
+</body>
+</html>

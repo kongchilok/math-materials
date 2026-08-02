@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第6章 語文與邏輯推理(一)．L18 命題排列邏輯</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第6章 語文與邏輯推理(一)．L18 命題排列邏輯</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、這一課要做到的事</div>
+  <div>呢類題目（邊個排第幾、邊個坐邊度、邊間屋係咩顏色）唔難喺「計算」，難喺「多個條件同時要記住」——讀完第3個條件，已經唔記得返第1個講咩，要由頭讀多次。</div><div>呢一課嘅方法係唔靠腦記，靠「排位工作區」：讀一個條件，即刻喺工作區度畫低／寫低，讀晒所有條件先至一次過睇晒個排位圖，唔使成個腦記住晒。</div>
+
+  <div class="section-h">二、範例：完整走一次（排位工作區）</div>
+  <div class="problem">
+    <div>【範例】小明、小華、小芳、小強、小玲五人測驗，名次無並列。已知：</div>
+    <div>① 小明贏咗小華。</div><div>② 小芳贏咗小明，但輸咗小強。</div><div>③ 小強輸畀小玲。</div>
+    <div>邊個排第三（由高至低計）？</div>
+  </div>
+  <div>條件①：小明 &gt; 小華（用「&gt;」表示名次較前）。工作區暫時寫：小明－小華（小明喺前）。</div><div>條件②：小芳 &gt; 小明，同時小強 &gt; 小芳。將呢兩個關係接落去原本嘅鏈：小強 &gt; 小芳 &gt; 小明 &gt; 小華。</div><div>條件③：小玲 &gt; 小強。接埋去鏈嘅最前面：小玲 &gt; 小強 &gt; 小芳 &gt; 小明 &gt; 小華。</div><div>五個人嘅名次已經全部連成一條鏈——5個人之間有 \(5-1=4\) 個「&gt;」關係，冇缺位、冇矛盾，可以直接讀出排位：</div>
+  <table class="d-tbl quadrant"><tr><td><div class="qlabel">第1(最快)</div></td><td><div class="qlabel">第2</div></td></tr><tr><td><div class="qlabel">第3</div></td><td><div class="qlabel">第4</div></td></tr><tr><td><div class="qlabel">第5(最慢)</div></td><td><div class="qlabel">檢查：5個條件全部用咗未？</div></td></tr></table>
+  <div class="hint-card">答案：由高至低 小玲、小強、小芳、小明、小華——排第三嘅係「小芳」。</div>
+  <div>覆核：條件①小明&gt;小華 ✓；條件②小芳&gt;小明 ✓ 且 小強&gt;小芳 ✓；條件③小玲&gt;小強 ✓。全部條件仍然成立，答案確定。</div>
+
+  <div class="section-h">三、做練習前，自己核對一次</div>
+  <div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>☐ 每一個條件我都喺工作區度記低咗，冇淨係喺腦入面諗。</div><div>☐ 五個（或幾個）人嘅名次連成一條鏈，冇兩個人卡住定唔到邊個前邊個後。</div><div>☐ 我讀返晒全部條件，一個都冇漏用。</div><div>☐ 答案代返去逐個條件檢查，全部條件都仍然成立。</div></div>
+
+  <div class="section-h">四、接下來</div>
+  <div>請拿出《第6章 L18 命題排列邏輯　課堂練習》，用返「讀一條、填一格」嘅方法完成練習A、練習B、練習C。</div>
+
+  <div class="footer">高三數學．第6章 語文與邏輯推理(一)．L18 命題排列邏輯</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D9 草稿分區卡（排位工作區）</td></tr><tr><td>輔助設計</td><td>D12 自我核對清單</td></tr><tr><td>選用理由</td><td>本課處理題庫 C1 命題邏輯入面嘅「排列組合式邏輯謎題」子結構（人物名次、座位、顏色屋等），同 C1 入面另一種「條件式命題推理」（若P則Q）性質完全不同——後者另立 L19 處理。呢類排列謎題嘅瓶頸係工作記憶負荷：條件通常有3至5個，讀到後面已經唔記得前面，唔係唔識邏輯推理本身。D9 草稿分區卡將「排位」呢個過程外部化——讀一個條件就即刻寫落工作區，唔使淨係靠腦記住成串條件，讀晒先一次過睇晒個結果；D12 自我核對確保學生冇漏用任何一個條件、答案有代返去驗證。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>草稿分區：講義範例完整示範點樣逐條件填工作區 → 練習A/B 印有工作區格仔，跟住填 → 練習C 唔提供工作區格仔，自己喺白紙度畫。｜自我核對清單：全程保留（確保條件冇漏用嘅習慣，唔設褪除）。</td></tr><tr><td>課堂實施流程</td><td>F2 番茄鐘分段（一個條件一次停頓，寫低先再讀下一個）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距、a7 調整計分標準（分步給分）</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度。</td></tr><tr><td>題目來源</td><td>部分題目改編自題庫 C1 命題邏輯（排列子結構），部分為結構相同之自編題，逐題親自驗算，詳見《驗算_命題排列邏輯.md》。</td></tr><tr><td>配套文件</td><td>《第6章 L18 命題排列邏輯　課堂練習》（練習A／B／C ＋參考答案）。</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

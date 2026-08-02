@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第2章 中學基礎數學應用．L10 排列與組合</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+
+  .hint-card, .fig, .selfcheck, .d-tbl tr { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L10 排列與組合</span><span>類型：課堂練習</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="hint-card">動筆之前永遠先做同一件事：在題目上圈出關鍵字，再查對譯表。次序固定三步——① 圈關鍵字 → ② 決定用哪一招 → ③ 才計算。本份練習的提示會一節比一節少：練習A 已用引號把關鍵字標出，並寫明查到哪一條；練習B 只重印五個觸發語；練習C 完全不提示。</div>
+
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+<div>題幹裡已用引號把關鍵字標出，每題下方寫明了查到對譯表哪一條、該翻哪一張提示卡。先照着做一次，感受一下三步的節奏。</div>
+
+<div class="problem"><div>1．（a）甲、乙、丙三人到速食店用餐。該店只提供三種套餐，三人「每人各點一套餐」，共有多少種點餐方式？　（b）有一樂團計畫到甲、乙兩國巡迴表演。甲國有三個城市要表演、乙國有四個城市要表演。若「先」完成甲國的演出，「再」到乙國完成演出，則巡迴路線的規劃有多少種可能？</div><div class="hint-card">▍(a) 圈到的是「每人各點一個」→ 查表得「每個人獨立選一次 → 連乘」。三個人各自有 3 種選擇，互不影響。不肯定就先畫兩層樹：甲有 3 個分枝，每個分枝下面乙再分 3 枝。▍(b) 圈到的是「先…再…」→ 查表得「分步 → 相乘」。另外留意「巡迴路線」＝去城市的先後次序不同就是不同的規劃，所以每一國「內部」還要排先後。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>2．將甲、乙、丙、丁四人排成一列，試求下列的排列數：（1）四人任意排列　（2）「甲排首位」　（3）「乙不排末位」。</div><div class="hint-card">▍(2) 圈到「排首位」→ 翻提示卡一（特殊位置優先）：先把甲固定在第一位，其餘的人才排。▍(3) 圈到「不排末位」→ 同樣是提示卡一，但走反面：全部 −（乙排末位的排法）。「不」字幾乎一定用減。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+
+<div class="hint-card">由這一節開始不再標明該翻哪一張卡，要自己圈關鍵字。五張卡的觸發語重印一次：▍卡一：「必須站在頭／尾／中間」，或「不站在某位置」。▍卡二：「必須相鄰」「坐在一起」「不能分開」。▍卡三：「不相鄰」「不能挨着」「要隔開」。▍卡四：要排的東西裡面有一模一樣的。▍卡五：「至少一個」「不都是」「並非全部」。※ 沒有踩到以上五條的題目，就是普通的加、乘、\(P(n,r)\)、\(C(n,r)\)，回到《動筆前的三個問題》那三步就夠。</div>
+
+<div class="problem"><div>3．從 1、2、3、4、5 中任選三個數字，排成三位數，數字不可重複，則：（1）可得幾個不同的三位數？　（2）其中有幾個是奇數？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>4．（a）某青年創業開餐廳，擬設計一份有 5 種菜色的菜單。若在原始構思的 7 種菜色中有 2 種為必選，則有幾種不同菜單？　（b）6 人排成一排照相，甲不站在頭（左），有多少種排法？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+
+<div>本節收起工具卡，題幹也不再標關鍵字，要自己圈出來。動筆之前先走完《動筆前的三個問題》：① 加還是乘 → ② \(P(n,r)\) 還是 \(C(n,r)\) → ③ 有沒有附加條件。</div>
+
+<div class="problem"><div>5．把 5 塊不同的蛋糕，任意分給 A、B、C 三人，試求下列方法數：（1）任意分（蛋糕一定要分完）　（2）C 至少拿到一塊蛋糕。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="problem"><div>6．（a）從 6 人中選 4 人圍圓桌而坐，方法有幾種？　（b）已知 \(C(10,R+4)=C(10,R-2)\)，求 R 的值。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+<div class="section-h page-break">參考答案與詳解（教師用）</div>
+
+<div class="problem"><div style="font-weight:700">1．答案：（a）27 種　（b）144 種</div><div>【考點】乘法原理（分步計數）的兩種形態：(a) 是「每個人各自獨立選一次」，(b) 是「兩個階段先後完成，而且每個階段內部還要排先後」。同樣用相乘，但相乘的是什麼並不一樣。</div><div>【公式／定理】分步 → 各步的方法數相乘；n 件不同的東西全部排成一列 ＝ \(n!\)。</div><div>【詳細步驟】</div><div>　（1）（a）三個人是分得開的，每人各自從 3 種套餐中選 1 種，互不影響。甲有 3 種選擇、乙有 3 種、丙有 3 種 → 3 × 3 × 3 ＝ \(3^3 = 27\) 種。</div><div>　（2）（a）檢核：把三人的選擇寫成（甲, 乙, 丙）三個位置，每個位置填 1 至 3，數一數合共 \(3^3 = 27\) 組 ✔</div><div>　（3）（b）「巡迴路線」是指去城市的先後次序，次序不同就是不同的規劃。甲國三個城市的次序有 \(3! = 6\) 種。</div><div>　（4）（b）乙國四個城市的次序有 \(4! = 24\) 種。甲國全部演完才到乙國，兩段都要完成 → 分步相乘 ＝ 6 × 24 ＝ 144 種。</div><div class="hint-card">【易錯點提示】① (a) 誤以為是排列 \(P(3,3)=6\)——那是「三人各點不同套餐」才對，題目沒有這個限制，三人可以都點同一款。② (b) 只寫 3 × 4 ＝ 12：那是「甲國揀一個城市、乙國揀一個城市」，但題目說三個與四個城市「都要去」，要排次序。③ (b) 寫成 \(7! = 5040\)：七個城市不是自由排列，甲國三個一定排在乙國四個之前。</div></div>
+
+<div class="problem"><div style="font-weight:700">2．答案：（1）24　（2）6　（3）18</div><div>【考點】直線排列，加上「指定位置」與「不在某位置」兩種限制（提示卡一）。(3) 是本課「『不』字走反面」的最基本一題。</div><div>【公式／定理】n 人排成一列 ＝ \(n!\)；指定某人在某位置 → 其餘 \((n-1)!\)；某人不在某位置 ＝ \(n!\) − \((n-1)!\)。</div><div>【詳細步驟】</div><div>　（1）小問 (1)：四人任意排成一列 ＝ \(4! = 4 \times 3 \times 2 \times 1 = 24\) 種。</div><div>　（2）小問 (2)：「甲排首位」是指定位置：甲固定在第一位，其餘三人（乙、丙、丁）任意排 ＝ \(3! = 6\) 種。</div><div>　（3）小問 (3)：「乙不排末位」走反面：全部 24 種，減去「乙排末位」的排法。乙固定在末位，其餘三人任意排 ＝ \(3! = 6\) 種 → 24 − 6 ＝ 18 種。</div><div>　（4）小問 (3) 檢核（正面直接算）：末位有 3 個人可站（乙以外），末位定了之後其餘三個位置由剩下三人任意排 \(3! = 6\) → 3 × 6 ＝ 18 ✔ 兩條路吻合。</div><div class="hint-card">【易錯點提示】① (3) 算成 24 − 1 ＝ 23 或 24 − 3 ＝ 21：要減的是「乙排末位」的完整排法數 \(3! = 6\)，不是 1 種，也不是 3 種。② (2) 答成 \(4! = 24\)：甲已經固定在首位，不可以再參與排列。③ 以為 (2) 與 (3) 的答案加起來會等於 (1)：兩者不是互補關係，與 (3) 互補的是「乙排末位」的 6 種。</div></div>
+
+<div class="problem"><div style="font-weight:700">3．答案：（1）60 個　（2）36 個</div><div>【考點】有位置意義的排列（三位數，換位置就是另一個數），以及「限制落在個位」時要先排有限制的那個位置。</div><div>【公式／定理】\(P(n,r)\) ＝ 由 n 開始連乘 r 個因數；有限制的位置先排。</div><div>【詳細步驟】</div><div>　（1）小問 (1)：從 5 個數字中選 3 個排成三位數，百位、十位、個位是三個不同的位置，換了位置就是另一個數 → 用排列。\(P(5,3)=5 \times 4 \times 3=60\) 個。</div><div>　（2）小問 (2)：「奇數」的限制落在個位：個位必須是 1、3、5 其中一個 → 3 種選擇。</div><div>　（3）小問 (2) 續：個位定了之後，百位與十位由剩下的 4 個數字選 2 個排列 ＝ \(P(4,2)=4 \times 3=12\) 種。分步相乘：3 × 12 ＝ 36 個。</div><div>　（4）檢核：偶數（個位是 2 或 4）＝ 2 × \(P(4,2)\) ＝ 2 × 12 ＝ 24 個；36 ＋ 24 ＝ 60，與 (1) 的總數吻合 ✔</div><div class="hint-card">【易錯點提示】① (1) 用了組合 \(C(5,3)=10\)：三位數換了位置就是另一個數，必須用排列。② (2) 先排百位、十位，最後才排個位：有限制的位置要先排，否則會出現「剩下的數字剛好沒有奇數」這種算不下去的情況。③ (2) 直接把 60 除以 2 得 30：5 個數字裡奇數有 3 個、偶數只有 2 個，不是一半一半。</div></div>
+
+<div class="problem"><div style="font-weight:700">4．答案：（a）10 種　（b）600 種</div><div>【考點】(a) 是「必選」型組合——已定的部分先扣走，只算真正要決定的那幾個；(b) 是「不在某位置」的排列（提示卡一的反面走法）。</div><div>【公式／定理】\(C(n,r)=\frac{P(n,r)}{r!}\)；某人不在某位置 ＝ \(n!\) − \((n-1)!\)。</div><div>【詳細步驟】</div><div>　（1）（a）菜單要 5 種菜色，其中 2 種已經必選、沒有選擇餘地。真正要決定的只是「剩下的 3 個名額由哪些菜色補上」。</div><div>　（2）（a）從其餘 7 − 2 ＝ 5 種菜色中選 3 種；菜單上的菜色沒有先後之分 → 用組合。\(C(5,3)=\frac{5 \times 4 \times 3}{3 \times 2 \times 1}=\frac{60}{6}=10\) 種。</div><div>　（3）（b）六人任意排成一列 ＝ \(6! = 720\) 種；甲站在排頭時，其餘五人任意排 ＝ \(5! = 120\) 種。</div><div>　（4）（b）甲不站排頭 ＝ 720 − 120 ＝ 600 種。檢核（正面）：排頭有 5 個人可站，其餘五個位置 \(5! = 120\) → 5 × 120 ＝ 600 ✔</div><div class="hint-card">【易錯點提示】① (a) 算成 \(C(7,5)=21\)：那是「7 種隨便選 5 種」，完全沒有用上「2 種必選」這個條件。② (a) 在 10 之上再乘 2 或加 2：必選的兩種只有一種擺法，不會產生額外的選擇。③ (b) 答成 \(5! = 120\)：那是「甲站排頭」的排法，題目問的是相反。④ (b) 寫成 \(6!\) − 5 ＝ 715：要減的是完整排法數 \(5! = 120\)。</div></div>
+
+<div class="problem"><div style="font-weight:700">5．答案：（1）243 種　（2）211 種</div><div>【考點】(1) 是「每件物品各自獨立選一個去向」的分配（不是排列也不是組合）；(2) 是「至少一件」，用補集（提示卡五）。</div><div>【公式／定理】m 件不同的東西分給 n 個人（容許有人分不到）＝ \(n^m\)；至少一個 ＝ 全部 −（一個都沒有）。</div><div>【詳細步驟】</div><div>　（1）小問 (1)：每一塊蛋糕各自有 3 個去向（給 A、給 B 或給 C），五塊蛋糕互不影響 → 3 × 3 × 3 × 3 × 3 ＝ \(3^5 = 243\) 種。</div><div>　（2）小問 (2)：「C 至少拿到一塊」的相反只有一種情況——「C 一塊都拿不到」，即五塊蛋糕全部只分給 A、B 兩人。</div><div>　（3）小問 (2) 續：此時每塊蛋糕只有 2 個去向 → \(2^5 = 32\) 種。相減：243 − 32 ＝ 211 種。</div><div>　（4）檢核：211 比 243 略少，合理——「C 完全拿不到」本來就是少數情況。另一條路（正面）：C 恰好拿 1 塊 \(C(5,1) \times 2^4=5 \times 16=80\)、恰好 2 塊 \(C(5,2) \times 2^3=10 \times 8=80\)、恰好 3 塊 \(C(5,3) \times 2^2=10 \times 4=40\)、恰好 4 塊 \(C(5,4) \times 2=5 \times 2=10\)、五塊全拿 1，合共 80 ＋ 80 ＋ 40 ＋ 10 ＋ 1 ＝ 211 ✔ 答案相同，但寫了五行。</div><div class="hint-card">【易錯點提示】① (1) 算成 \(3! = 6\) 或 \(C(5,3)\)：蛋糕不同、人也不同，而且一個人可以拿多塊，這既不是排列也不是組合，是「每件物品各自選一個去向」。② (1) 底數與指數對調寫成 \(5^3 = 125\)：底數是「去向數 3」，指數是「物品數 5」。③ (2) 減錯數：要減的是「只分給 A、B」的 \(2^5 = 32\)，不是 \(3^4\) 也不是 2 × 5。④ (2) 逐項相加時漏了「乘上其餘蛋糕的去向」——詳細步驟第 4 點示範了正面走法為何比補集長很多。</div></div>
+
+<div class="problem"><div style="font-weight:700">6．答案：（a）90 種　（b）R ＝ 4</div><div>【考點】(a) 是「先組合、後圓排列」的兩步題；(b) 考組合數的對稱性質 \(C(n,r)=C(n,n-r)\)（講義範例B (c) 出現過）。</div><div>【公式／定理】n 人的圓排列 ＝ \((n-1)!\)；\(C(n,r)=C(n,n-r)\)。</div><div>【詳細步驟】</div><div>　（1）（a）第一步：從 6 人中選出 4 個人。誰跟誰一組沒有先後之分 → 用組合。\(C(6,4)=C(6,2)=\frac{6 \times 5}{2 \times 1}=15\) 種。</div><div>　（2）（a）第二步：選中的 4 人圍圓桌坐。圓桌沒有頭尾，整體轉一格算同一種 → 圓排列 ＝ \((4-1)!\) ＝ \(3! = 6\) 種。</div><div>　（3）（a）兩步都要做完才坐得成 → 分步相乘：15 × 6 ＝ 90 種。</div><div>　（4）（b）兩邊的總數都是 10，選出的個數分別是 R ＋ 4 與 R − 2。兩個組合數相等只有兩種可能：選出的個數相同，或者兩個選出的個數「相加等於總數 10」。前者 R ＋ 4 ＝ R − 2 得 4 ＝ −2，不成立；所以（R ＋ 4）＋（R − 2）＝ 10 → 2R ＋ 2 ＝ 10 → R ＝ 4。</div><div>　（5）（b）檢核：R ＝ 4 時 R ＋ 4 ＝ 8、R − 2 ＝ 2，\(C(10,8)=C(10,2)=45\)，兩邊相等 ✔ 而且 8 與 2 都落在 0 至 10 之間，是合法的選取個數。</div><div class="hint-card">【易錯點提示】① (a) 只算了 \(C(6,4)=15\) 或只算了 \(3! = 6\)：兩步都要做才坐得成。② (a) 把圓排列當成直排 \(4! = 24\)，答案變成 360——圓桌轉一格是同一種坐法，要用 \((n-1)!\)。③ (b) 只寫「兩個選出的個數相等」一條路就收工：一定要同時檢查「相加等於總數」那一條，本題正是靠它。④ (b) 求出 R 之後沒有回頭檢查 R ＋ 4 與 R − 2 是否落在 0 至 10 之間；超出範圍的解要捨去。</div></div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L10 排列與組合</div>
+
+</div>
+</body>
+</html>

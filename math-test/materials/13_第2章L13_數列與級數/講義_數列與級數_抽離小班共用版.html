@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：第2章 中學基礎數學應用．L13 數列與級數</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+<style>
+
+  /* QB-20：範本的頁尾用固定定位＋白底，內文流到頁底會被它蓋住。
+     把 @page 的下邊界撐大，內文區就會提早結束，頁尾自然落在內文之下。
+     （L12 實測定案；比逐頁調行數可靠，而且不影響 QB-15c。） */
+  @page { margin-bottom: 1.5cm; }
+  .hint-card, .fig { break-inside: avoid; }
+  .section-h { break-after: avoid; }
+  .d-tbl.three-col { break-inside: auto; page-break-inside: auto; }
+  .d-tbl.three-col tr, .d-tbl.step-card tr,
+  .d-tbl.frayer tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl.step-card, .d-tbl.frayer { break-inside: avoid; page-break-inside: avoid; }
+  /* D13 弗雷爾：2×2 四象限，四格等寬等高，位置固定不要換 */
+  .frayer td { width: 50%; vertical-align: top; }
+  .frayer .fh { font-weight: 700; background: #f0f0f0; padding: 2px 5px;
+                margin: -6px -9px 5px; font-size: 11pt; }
+  /* 教師說明頁的表比一頁還長，整張 avoid 會被忽略而由中間切開，
+     最後一列的最後一行剛好壓到頁尾（QB-20）。放寬成可跨頁、每列不可切開。 */
+  .teacher-notes .d-tbl { break-inside: auto; page-break-inside: auto; }
+  .teacher-notes .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+
+</style>
+</head>
+<body>
+<div class="page">
+
+<div class="masthead"><span>科目：高三數學</span><span>單元：第2章 中學基礎數學應用．L13 數列與級數</span><span>類型：課堂講義</span></div>
+
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+<div class="section-h">一、這一課要做到的事</div>
+
+<div>數列就是「一串有規律排下去的數」。本課只處理兩種規律：每次「加同一個數」的（等差），和每次「乘同一個數」的（等比）。兩種各有一條通項公式、一條求和公式，合共四條，再加上一個證明工具（數學歸納法），這一課就完了。</div>
+
+<div>四條公式本身都不難記，難的地方只有兩個。第一，把兩種數列搞混——把等比題套進等差公式，算出來的數字看上去很正常，自己完全看不出錯。第二，項數 \(n\) 數少了一個——由第 3 項數到第 8 項是 6 項不是 5 項，這個「＋1」漏掉的次數，比所有其他錯誤加起來還多。</div>
+
+<div>所以這一課先做一件事：把「等差」與「等比」兩個概念用四個格子並排寫清楚（定義、公式、是的例、不是的例），特別是第四格「不是的例」——只看正面例子的話，兩個概念的邊界永遠模糊。分清楚之後，才輪到四張手順卡。</div>
+
+<div>四張卡分別對付：等差的通項（卡一）、等差的求和（卡二）、等比的通項與求和（卡三）、以及數學歸納法（卡四）。每張卡把一種題型拆成三至四個「單一動作」，每個動作旁邊寫明這一步最常出的錯。做題時把卡放在旁邊，用手指指住正在做的那一步。</div>
+
+<div class="section-h page-break">二、先分清楚：等差還是等比</div>
+
+<div>下面兩張卡各有四格。① 定義用自己的話講、② 公式、③ 是的例、④ 不是的例。第四格最重要——只看正面例子，兩個概念的邊界永遠模糊。</div>
+
+<table class="d-tbl frayer"><tr><th colspan="2">▍等差數列（Arithmetic Sequence）</th></tr><tr><td><div class="fh">① 定義（用自己的話）</div>每一項減去前一項，差都是同一個數。這個固定的差叫「公差」，寫成 \(d\)。換句話說：由一項走到下一項，動作是「加 d」。</td><td><div class="fh">② 公式</div>通項：\(a_n = a_1 + (n-1)d\)　求和：\(S_n = \frac{n(a_1 + a_n)}{2}\)　項數：\(n = \frac{a_n - a_1}{d} + 1\)</td></tr><tr><td><div class="fh">③ 是的例</div>3, 7, 11, 15, …（\(d = 4\)）　−15, −5, 5, 15, …（\(d = 10\)）　5, 5, 5, 5, …（\(d = 0\)，仍然是等差）</td><td><div class="fh">④ 不是的例</div>2, 6, 18, 54, …（差是 4、12、36，不固定 → 不是等差，是等比）　1, 4, 9, 16, …（差是 3、5、7，愈來愈大 → 兩種都不是）</td></tr></table>
+
+<table class="d-tbl frayer"><tr><th colspan="2">▍等比數列（Geometric Sequence）</th></tr><tr><td><div class="fh">① 定義（用自己的話）</div>每一項除以前一項，商都是同一個數。這個固定的商叫「公比」，寫成 \(r\)。換句話說：由一項走到下一項，動作是「乘 r」。</td><td><div class="fh">② 公式</div>通項：\(a_n = a_1 r^{(n-1)}\)　求和：\(S_n = \frac{a_1(r^n - 1)}{r - 1}\)（\(r  \ne  1\)）　公比：\(r = \frac{a_{(m+1)}}{a_m}\)</td></tr><tr><td><div class="fh">③ 是的例</div>2, 6, 18, 54, …（\(r = 3\)）　−8, 4, −2, 1, …（\(r = -\frac{1}{2}\)，正負交替就是公比為負）　6561, 4374, 2916, …（\(r = \frac{2}{3}\)，項愈來愈小）</td><td><div class="fh">④ 不是的例</div>3, 7, 11, 15, …（商是 \(\frac{7}{3}\)、\(\frac{11}{7}\)，不固定 → 是等差不是等比）　\(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\), \(\frac{1}{8}\), …（商是 \(\frac{1}{2}\)、\(\frac{2}{3}\)、\(\frac{3}{4}\)，不固定 → 兩種都不是）</td></tr></table>
+
+<div class="hint-card">※ 第四格「不是的例」是這兩張卡最重要的一格，也是最多人略過的一格。只看正面例子的話，「等差」與「等比」兩個概念的邊界永遠模糊；看過反例之後，你會知道 \(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\), \(\frac{1}{8}\) 這種「分母在變」的數列兩種都不是——它的分母 2, 4, 6, 8 才是等差，通項是 \(\frac{1}{2n}\)。⚠ 最貴的一個陷阱：\(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{8}\)（分母 2、4、8）是等比；\(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\)（分母 2、4、6）是「分母成等差」。兩者第二項完全一樣，只差在第三項——所以判斷規律一定要看到第三項為止，看兩項就落筆是不夠的。※ 判斷方法（三十秒做完）：拿相鄰兩項相減，再拿另外相鄰兩項相減，兩個差相同就是等差；不同就改成相除，兩個商相同就是等比；都不同就是兩種都不是。</div>
+
+<div class="problem">【範例A・先認出是哪一種】（a）數列 \(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\), \(\frac{1}{8}\), ⋯ 的通項公式是什麼？　（b）數列 −8, 4, −2, 1, ⋯ 是等差還是等比？求它的第 10 項。</div>
+
+<div>（a）先照上面那個三十秒方法試：相減——\(\frac{1}{4} - \frac{1}{2} = -\frac{1}{4}\)、\(\frac{1}{6} - \frac{1}{4} = -\frac{1}{12}\)，兩個差不同 → 不是等差。</div>
+
+<div>（a）再相除——\(\frac{1}{4} ÷ \frac{1}{2} = \frac{1}{2}\)、\(\frac{1}{6} ÷ \frac{1}{4} = \frac{2}{3}\)，兩個商不同 → 不是等比。兩種都不是，那就要另外找規律。</div>
+
+<div>（a）分子全部是 1，所以規律在分母：2, 4, 6, 8, ⋯ 這一串才是等差（\(d = 2\)），第 n 項是 \(2n\)。所以原數列的通項是 \(a_n = \frac{1}{2n}\)。</div>
+
+<div>（a）檢查：\(n = 1\) 給 \(\frac{1}{2}\) ✔　\(n = 4\) 給 \(\frac{1}{8}\) ✔ 與題目給的四項完全相符。</div>
+
+<div>（b）相減：\(4 - (-8) = 12\)、\(-2 - 4 = -6\)，不同 → 不是等差。相除：\(4 ÷ (-8) = -\frac{1}{2}\)、\((-2) ÷ 4 = -\frac{1}{2}\)、\(1 ÷ (-2) = -\frac{1}{2}\)，三個商都相同 → 是等比，\(r = -\frac{1}{2}\)。</div>
+
+<div>（b）翻卡三：\(a_{10} = a_1 r^9 = -8  \times  (-\frac{1}{2})^9\)。\((-\frac{1}{2})^9 = -\frac{1}{512}\)（9 是奇數，所以結果是負）。\(a_{10} = -8  \times  (-\frac{1}{512}) = \frac{8}{512} = \frac{1}{64}\)。</div>
+
+<div>（b）檢查正負：公比是負數時，各項正負交替——第 1 項負、第 2 項正、第 3 項負⋯ 單數項是負、雙數項是正。第 10 項是雙數項，所以應該是正數 ✔ 與 \(\frac{1}{64}\) 相符。</div>
+
+<div class="hint-card">※ (a) 最常見的錯：看到 \(\frac{1}{2}\), \(\frac{1}{4}\) 就斷定是等比（公比 \(\frac{1}{2}\)），然後答 \(a_n = (\frac{1}{2})^n\)。代 \(n = 3\) 得 \(\frac{1}{8}\)，但題目第三項是 \(\frac{1}{6}\)——只要肯代一個數回去檢查，這個錯當場就抓得到。「代回去檢查」是本課最便宜的保險，每題花十秒。※ (b) 第二常見的錯：算 \((-\frac{1}{2})^9\) 時把負號丟掉，得出 \(-\frac{1}{64}\)。口訣：負數的奇次方是負、偶次方是正；而 \(a_{10}\) 用的是 \(r^9\)，指數是 9 不是 10——這一點跟卡三第二步的易錯點是同一句話。※ 為什麼 \(a_n = a_1 r^{(n-1)}\) 的指數是 \(n-1\) 不是 \(n\)：由第 1 項走到第 10 項，只走了 9 步，每步乘一次 r。等差的 \((n-1)d\) 同一個道理。這是本課兩條通項公式共通的地方，記住「走了幾步」就不會再寫錯指數。</div>
+
+<div class="section-h page-break">三、手順卡一 ＋ 範例B・等差數列</div>
+
+<table class="d-tbl step-card"><tr><th colspan="2">手順卡一・等差數列（求某一項、求首項、求公差）</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：相鄰兩項的「差」固定；題目出現「等差數列」「公差」，或者給了幾項要你找規律而相減之後差相同。</td></tr><tr><td>1. 先定 \(a_1\) 與 \(d\)：首項是幾、每次加幾</td><td class="pitfall">※ \(d\) 由「後一項減前一項」求得，不要調轉。\(7 - 3 = 4\) 才對</td></tr><tr><td>2. 寫出通項 \(a_n = a_1 + (n-1)d\)</td><td class="pitfall">※ 括號裡是 \(n-1\) 不是 \(n\)——由第 1 項走到第 n 項只走了 \(n-1\) 步</td></tr><tr><td>3. 題目要哪一項就代哪個 \(n\)</td><td class="pitfall">※ 「第 20 項」的 \(n\) 是 20；已知某一項的值要反過來解方程求 \(n\)</td></tr><tr><td>4. 代一個已知項回去檢查</td><td class="pitfall">※ 代 \(n = 1\) 應該得回首項。得不到就是 \(d\) 的正負或者 \(n-1\) 寫錯了</td></tr></table>
+
+<div class="problem">【範例B・等差數列】有四個數成等差數列，它們的和為 82，而第四項比第二項大 14，求首項。</div>
+
+<div>照卡一走。第一步：\(a_1\) 與 \(d\) 都不知道，但題目給了兩個條件，剛好可以列兩條式。</div>
+
+<div>第二步：先用「第四項比第二項大 14」這一句。\(a_4 = a_1 + 3d\)、\(a_2 = a_1 + d\)，相減：\(a_4 - a_2 = (a_1 + 3d) - (a_1 + d) = 2d\)。所以 \(2d = 14\)，\(d = 7\)。</div>
+
+<div>第三步：再用「和為 82」。四項分別是 \(a_1\)、\(a_1 + d\)、\(a_1 + 2d\)、\(a_1 + 3d\)，加起來是 \(4a_1 + 6d = 82\)。代入 \(d = 7\)：\(4a_1 + 42 = 82\)，\(4a_1 = 40\)，\(a_1 = 10\)。</div>
+
+<div>第四步（檢查）：四個數是 10、17、24、31。和 ＝ \(10 + 17 + 24 + 31 = 82\) ✔ 第四項減第二項 ＝ \(31 - 17 = 14\) ✔ 兩個條件都對得上。</div>
+
+<div class="hint-card">※ 為什麼 \(a_4 - a_2 = 2d\) 而不是 \(4d\) 或者 \(3d\)：由第 2 項走到第 4 項只走了 \(4 - 2 = 2\) 步。這個「相減之後指數／倍數是兩個編號之差」的想法，在卡三第三步（\(\frac{a_8}{a_3} = r^5\)）會再用一次——等差是「相減得 \(2d\)」，等比是「相除得 \(r^2\)」，同一個結構。※ 四項的和為什麼是 \(4a_1 + 6d\)：\(a_1 + (a_1+d) + (a_1+2d) + (a_1+3d)\)，\(a_1\) 有四個、\(d\) 的係數是 \(0+1+2+3 = 6\)。也可以直接用卡二的求和公式：\(S_4 = \frac{4(a_1 + a_4)}{2} = 2(2a_1 + 3d)\)，代入 \(d = 7\) 得 \(4a_1 + 42 = 82\)，同一條式 ✔※ 最常見的錯：把「第四項比第二項大 14」讀成「公差是 14」，直接寫 \(d = 14\)。對策是卡一第一步——先把兩項各自用 \(a_1\) 與 \(d\) 寫出來，再相減，不要心算。</div>
+
+<div class="section-h page-break">四、手順卡二 ＋ 範例C・等差級數</div>
+
+<table class="d-tbl step-card"><tr><th colspan="2">手順卡二・等差級數（把一串等差數加起來）</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：題目出現「求和」「總和」，或者算式長成 \(3 + 7 + 11 + ⋯ + 79\) 這樣。</td></tr><tr><td>1. 先數清楚有幾項：\(n = \frac{\text{末項} - \text{首項}}{d} + 1\)</td><td class="pitfall">※ ※ 那個「＋1」最易漏。由 30 數到 235、每次加 5，是 42 項不是 41 項</td></tr><tr><td>2. 寫出求和公式 \(S_n = \frac{n(a_1 + a_n)}{2}\)</td><td class="pitfall">※ 括號裡是「首項加末項」，不是「首項加公差」</td></tr><tr><td>3. 代數字、計算</td><td class="pitfall">※ 先算括號、再乘 \(n\)、最後除 2。三個動作分開做，不要一次過心算</td></tr><tr><td>4. 用「平均數 × 項數」覆核</td><td class="pitfall">※ 等差級數的和 ＝ (首＋末)÷2 × 項數。算出來不同就是哪裡錯了</td></tr></table>
+
+<div class="problem">【範例C・等差級數】（a）試求 \((-15) + (-5) + 5 + ⋯ + 35\) 的和。　（b）計算 \(30 + 35 + 40 + 45 + ⋯ + 235\)。</div>
+
+<div>（a）照卡二走。第一步：先數項數。\(a_1 = -15\)、末項 \(a_n = 35\)、\(d = (-5) - (-15) = 10\)。\(n = \frac{35 - (-15)}{10} + 1 = \frac{50}{10} + 1 = 5 + 1 = 6\)。共 6 項。</div>
+
+<div>（a）第二步、第三步：\(S_6 = \frac{6(-15 + 35)}{2} = \frac{6  \times  20}{2} = \frac{120}{2} = 60\)。</div>
+
+<div>（a）第四步（覆核）：把六項寫出來 −15、−5、5、15、25、35，逐個加：\(-15 - 5 = -20\)、\(-20 + 5 = -15\)、\(-15 + 15 = 0\)、\(0 + 25 = 25\)、\(25 + 35 = 60\) ✔ 與公式相同。（項數少的時候直接加是最可靠的覆核方法。）</div>
+
+<div>（b）第一步：\(a_1 = 30\)、\(a_n = 235\)、\(d = 5\)。\(n = \frac{235 - 30}{5} + 1 = \frac{205}{5} + 1 = 41 + 1 = 42\)。※ 這裡就是那個最易漏的「＋1」：\(\frac{205}{5} = 41\) 只是「走了多少步」，項數要再加回起點那一項。</div>
+
+<div>（b）第二、三步：\(S_{42} = \frac{42(30 + 235)}{2} = \frac{42  \times  265}{2} = 21  \times  265 = 5565\)。</div>
+
+<div>（b）第四步（覆核）：平均數 ＝ \(\frac{30 + 235}{2} = 132.5\)，項數 42，\(132.5  \times  42 = 5565\) ✔ 兩條路相同。</div>
+
+<div class="hint-card">※ 「＋1」為什麼一定要加：由 30 加到 235、每次加 5，中間走了 \(\frac{205}{5} = 41\) 步；但走 41 步會經過 42 個點（包括起點）。同樣道理，由第 3 項數到第 8 項是 6 項不是 5 項。對策：算完 \(n\) 之後，用一個小例子驗一次——「1 到 5，每次加 1」應該是 5 項，公式給 \(\frac{5-1}{1} + 1 = 5\) ✔ 公式沒有錯，錯的是漏了那個 ＋1。※ 求和公式的另一個樣子：\(S_n = \frac{n[2a_1 + (n-1)d]}{2}\)。末項未知時用這一條，末項已知時用 \(\frac{n(a_1 + a_n)}{2}\) 較快。兩條是同一條——把 \(a_n = a_1 + (n-1)d\) 代進去就變成對方。※ (b) 為什麼可以寫成 \(21  \times  265\)：先把 42 除 2 得 21，比先算 \(42  \times  265 = 11130\) 再除 2 少一次進位，出錯機會低很多。能先約就先約，這是本課的計算習慣。</div>
+
+<div class="section-h page-break">五、手順卡三 ＋ 範例D・等比數列</div>
+
+<table class="d-tbl step-card"><tr><th colspan="2">手順卡三・等比數列（求某一項、求首項、求公比、求項數、求和）</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：相鄰兩項的「商」固定；題目出現「等比數列」「公比」，或者相減之後差不同、相除之後商相同。</td></tr><tr><td>1. 先定 \(a_1\) 與 \(r\)：首項是幾、每次乘幾</td><td class="pitfall">※ \(r\) 由「後一項除以前一項」求得。\(r\) 可以是負數，也可以是分數</td></tr><tr><td>2. 寫出通項 \(a_n = a_1 r^{(n-1)}\)</td><td class="pitfall">※ 指數是 \(n-1\)。負的 \(r\) 要連負號一起放進括號：\((-\frac{1}{2})^9\)</td></tr><tr><td>3. 已知兩項求 \(r\) 時，兩式相除</td><td class="pitfall">※ \(\frac{a_8}{a_3} = r^5\)，指數是 \(8 - 3 = 5\)，不是 8 也不是 3</td></tr><tr><td>4. 求和用 \(S_n = \frac{a_1(r^n - 1)}{r - 1}\)</td><td class="pitfall">※ 這裡的指數是 \(n\)（不是 \(n-1\)）。\(r = 1\) 時公式不能用，直接寫 \(n a_1\)</td></tr></table>
+
+<div class="problem">【範例D・等比數列】（a）等比數列中，第三項和第八項分別是 1 和 \(-\frac{1}{32}\)，求首項。　（b）等比數列 6561、4374、2916、⋯⋯、256 共有多少項？</div>
+
+<div>（a）照卡三走。第三步先用：兩式相除。\(a_3 = a_1 r^2\)、\(a_8 = a_1 r^7\)，所以 \(\frac{a_8}{a_3} = \frac{a_1 r^7}{a_1 r^2} = r^5\)。指數 5 就是兩個編號之差 \(8 - 3\)。</div>
+
+<div>（a）代數字：\(r^5 = \frac{-\frac{1}{32}}{1} = -\frac{1}{32}\)。\(-\frac{1}{32} = (-\frac{1}{2})^5\)（因為 \(2^5 = 32\)，而 5 是奇數所以負號保留），所以 \(r = -\frac{1}{2}\)。</div>
+
+<div>（a）回到第一步求 \(a_1\)：\(a_3 = a_1 r^2 = 1\)，而 \(r^2 = (-\frac{1}{2})^2 = \frac{1}{4}\)，所以 \(a_1  \times  \frac{1}{4} = 1\)，\(a_1 = 4\)。</div>
+
+<div>（a）檢查：4、−2、1、\(-\frac{1}{2}\)、\(\frac{1}{4}\)、\(-\frac{1}{8}\)、\(\frac{1}{16}\)、\(-\frac{1}{32}\)——第三項是 1 ✔ 第八項是 \(-\frac{1}{32}\) ✔</div>
+
+<div>（b）第一步：\(a_1 = 6561\)，\(r = \frac{4374}{6561} = \frac{2}{3}\)（覆核：\(\frac{2916}{4374} = \frac{2}{3}\) ✔）。</div>
+
+<div>（b）第二步：\(a_n = 6561  \times  (\frac{2}{3})^{(n-1)} = 256\)，即 \((\frac{2}{3})^{(n-1)} = \frac{256}{6561}\)。留意 \(6561 = 3^8\)、\(256 = 2^8\)，所以 \(\frac{256}{6561} = \frac{2^8}{3^8} = (\frac{2}{3})^8\)。</div>
+
+<div>（b）兩邊底數相同，指數就一定相等：\(n - 1 = 8\)，\(n = 9\)。共 9 項。檢查：\(n = 1\) 給 6561 ✔ \(n = 9\) 給 \(6561  \times  (\frac{2}{3})^8 = 6561  \times  \frac{256}{6561} = 256\) ✔</div>
+
+<div class="hint-card">※ (a) 三個最常見的錯：①把 \(\frac{a_8}{a_3}\) 寫成 \(r^8\) 或 \(r^6\)——指數是兩個編號之差 \(8-3=5\)，跟卡一的 \(a_4 - a_2 = 2d\) 同一個道理。②開五次方時把負號丟掉，得 \(r = \frac{1}{2}\)，然後首項算出 4 但數列變成全正、第八項變成 \(\frac{1}{32}\) 而不是負數。③用 \(a_3 = a_1 r^3\) 求首項——第 3 項的指數是 \(3-1=2\)。※ (b) 的關鍵一步是認出 \(6561 = 3^8\) 與 \(256 = 2^8\)。認不出的話就要逐項乘 \(\frac{2}{3}\) 數下去，做得完但很慢而且易數漏。認法：6561 是 3 的次方（3、9、27、81、243、729、2187、6561 ＝ \(3^8\)）；256 是 2 的次方（\(2^8\)）。這兩個數在考題裡很常出現，值得記住。※ 公比可以是分數而且小於 1——這時候各項愈來愈小（6561 → 256），但仍然是等比數列。「等比」不等於「愈來愈大」。</div>
+
+<div class="section-h page-break">六、手順卡四 ＋ 範例E・數學歸納法</div>
+
+<table class="d-tbl step-card"><tr><th colspan="2">手順卡四・數學歸納法（證明一條對所有 n 成立的等式）</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：題目出現「試用數學歸納法證明」「對所有自然數 n 成立」。</td></tr><tr><td>1. 基礎步驟：代 \(n = 1\) 進去，左右兩邊各自算一次</td><td class="pitfall">※ 要分開算左邊與右邊再比較，不可以直接寫「兩邊相等」就算做完</td></tr><tr><td>2. 歸納假設：寫「設 \(n = k\) 時成立」，把該式抄一次</td><td class="pitfall">※ 一定要把假設的式子完整抄出來——下一步就是要用它</td></tr><tr><td>3. 歸納步驟：在假設的左邊加上第 \((k+1)\) 項</td><td class="pitfall">※ 第 \((k+1)\) 項是把原通項的 \(k\) 全部換成 \(k+1\)，不是隨便加一個數</td></tr><tr><td>4. 提取公因式、因式分解，湊成 \(n = k+1\) 的目標形式</td><td class="pitfall">※ 先寫出「目標長什麼樣」再去湊，比盲目展開快得多</td></tr></table>
+
+<div class="problem">【範例E・數學歸納法】試用數學歸納法證明：對所有自然數 \(n\)，\(1  \times  3 + 2  \times  4 + 3  \times  5 + ⋯ + n(n+2) = \frac{1}{6} n(n+1)(2n+7)\) 成立。</div>
+
+<div>照卡四走。第一步（基礎步驟）：代 \(n = 1\)。左邊只有一項：\(1  \times  3 = 3\)。右邊：\(\frac{1}{6}  \times  1  \times  2  \times  9 = \frac{18}{6} = 3\)。左邊 ＝ 右邊 ＝ 3 ✔ \(n = 1\) 時成立。</div>
+
+<div>第二步（歸納假設）：設 \(n = k\) 時成立，即\(1  \times  3 + 2  \times  4 + ⋯ + k(k+2) = \frac{1}{6} k(k+1)(2k+7)\)。這一行一定要完整抄出來，下一步就是要在它兩邊加東西。</div>
+
+<div>第三步（歸納步驟）：要證明 \(n = k+1\) 也成立。先寫出目標長什麼樣——把公式裡的 \(n\) 全部換成 \(k+1\)：\(\frac{1}{6}(k+1)(k+2)(2(k+1)+7) = \frac{1}{6}(k+1)(k+2)(2k+9)\)。先寫出目標，再去湊，比盲目展開快得多。</div>
+
+<div>第三步：第 \((k+1)\) 項是把通項 \(n(n+2)\) 的 \(n\) 換成 \(k+1\)，即 \((k+1)(k+3)\)。在假設的兩邊都加上它：左邊 ＝ \(\frac{1}{6} k(k+1)(2k+7) + (k+1)(k+3)\)。</div>
+
+<div>第四步（提取公因式）：兩項都有 \((k+1)\)，而且把後項寫成 \(\frac{6}{6}\) 的形式——\(= \frac{1}{6}(k+1)[k(2k+7) + 6(k+3)]\)\(= \frac{1}{6}(k+1)(2k^2 + 7k + 6k + 18)\)\(= \frac{1}{6}(k+1)(2k^2 + 13k + 18)\)。</div>
+
+<div>第四步（因式分解）：\(2k^2 + 13k + 18\) 要分解成 \((k+2)(2k+9)\)。驗算：\((k+2)(2k+9) = 2k^2 + 9k + 4k + 18 = 2k^2 + 13k + 18\) ✔</div>
+
+<div>所以左邊 \(= \frac{1}{6}(k+1)(k+2)(2k+9)\)，與第三步寫下的目標完全相同 ✔ 即 \(n = k+1\) 時也成立。由第一步與第三步，依數學歸納法原理，原式對所有自然數 \(n\) 成立。</div>
+
+<div class="hint-card">※ 數學歸納法的三步為什麼缺一不可：第一步證明「第一塊骨牌會倒」，第三步證明「任何一塊倒下就會撞倒下一塊」，兩者合起來才推得出「全部都會倒」。只做第一步是驗證了一個例子，只做第三步是空談——考試若只寫第三步，即使推導完全正確也拿不到滿分。※ 最常見的三個扣分位：①第一步只寫「代 \(n = 1\) 成立」而沒有把左右兩邊各自算出來。②第二步沒有把假設式抄出來，第三步就變成無中生有。③第三步加錯了項——第 \((k+1)\) 項要由通項 \(n(n+2)\) 換 \(n\) 得出，寫成 \((k+1)(k+2)\) 是把 ＋2 看漏了。※ 因式分解 \(2k^2 + 13k + 18\) 的快法：既然目標裡已經有 \((k+2)\)，就直接除或者用十字交乘湊 \((k+2)(2k+9)\)，不必用公式解方程。「先看目標再動手」是這一步省時間的關鍵。</div>
+
+<div class="section-h page-break">七、四張卡速查（做每一題之前掃一眼）</div>
+
+<div>先認出題目屬於哪一行，才決定翻哪一張卡。認錯行的話——例如把等比題當成等差——後面的計算做得再仔細都沒有用，而且算出來的數字看上去很正常，自己完全看不出錯。</div>
+
+<table class="d-tbl three-col"><thead><tr><th>題目長成這樣</th><th>翻哪一張卡</th><th>一句話記法</th></tr></thead><tbody><tr><td>相減之後差固定；出現「等差數列」「公差」，問某一項</td><td>卡一・等差通項</td><td>\(a_n = a_1 + (n-1)d\)；括號裡是 \(n-1\)，因為由第 1 項走到第 n 項只走 \(n-1\) 步</td></tr><tr><td>要把一串等差數加起來（\(3 + 7 + 11 + ⋯\)）</td><td>卡二・等差求和</td><td>先數項數 \(n = \frac{\text{末} - \text{首}}{d} + 1\)（＋1 最易漏），再 \(S_n = \frac{n(a_1 + a_n)}{2}\)</td></tr><tr><td>相除之後商固定；出現「等比數列」「公比」</td><td>卡三・等比</td><td>\(a_n = a_1 r^{(n-1)}\)、\(S_n = \frac{a_1(r^n - 1)}{r - 1}\)；已知兩項求 \(r\) 就相除，指數是編號之差</td></tr><tr><td>出現「試用數學歸納法證明」</td><td>卡四・歸納法</td><td>基礎（代 \(n = 1\) 左右各算一次）→ 假設（抄出來）→ 加第 \((k+1)\) 項 → 湊成目標</td></tr><tr><td>兩種都套不上（差不同、商也不同）</td><td>回去看弗雷爾卡第四格</td><td>先看分子與分母各自有沒有規律。\(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\) 的規律在分母</td></tr></tbody></table>
+
+<div class="section-h">八、接下來</div>
+
+<div>請拿出《第2章 L13 數列與級數　課堂練習》，並把《工具卡》剪下放在桌面。練習A 每題下方會重印該用的那張卡（只留動作，不再印易錯點），另外附一張只填了兩格的弗雷爾卡讓你補完；練習B 只告訴你這題有幾步、翻第幾張卡；練習C 兩者都不給，而且同一題裡要換兩張卡。</div>
+
+<div class="footer">高三數學．第2章 中學基礎數學應用．L13 數列與級數</div>
+
+<div class="teacher-notes"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl"><tr><td>本份採用的主設計</td><td>D2 手順卡——四張（等差通項／等差求和／等比通項與求和／數學歸納法三步）。照 teaching-designs.md 對 D2 的微觀規範施工：每列只有一個核心動作、每個動作旁以 ※ 標明該步最易出錯的關鍵點、步驟序號明顯。版面上每張卡之後緊接一個用該卡逐步走完的範例，卡不是印完就算，而是在正文裡實際被翻四次</td></tr><tr><td>輔助設計</td><td>D13 弗雷爾概念模型——等差與等比各一張四象限卡（定義／公式／是的例／不是的例）。D13 的觸發條件在本課完全命中：學生背得出「等差」「等比」兩個名詞，卻分不清邊界，把等比題套進等差公式而毫無察覺。四格之中第四格「不是的例」是關鍵——特別放了 \(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\), \(\frac{1}{8}\) 這個「兩種都不是」的例子，與 \(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{8}\)（真的是等比）只差第三項，逼學生看到第三項才落筆、D12 自我核對——依 teaching-designs.md 的規定，本設計屬練習端，講義不出現；落在練習每個區塊末尾的核對清單、區塊之間的核對點，以及工具卡第六張。四個核對項全部可觀察、可自判（項數有沒有加回那個 ＋1／指數是 \(n-1\) 還是 \(n\)／代一個已知項回去對不對得上／歸納法三步齊不齊）</td></tr><tr><td>選用理由</td><td>本課取 A3 數列級數 17 題（去重後 11 個獨立題型），涵蓋五個題群：等差通項與求首項、等差級數求和、等比通項與求首項公比、等比項數、數學歸納法證明。對照 MATH-005／014／023／052／071、MOCK2-005／012／020／051／073／084／141／170／171、COMP1-052／073 等題。數學結構屬 teaching-designs.md §1 的 S2（多步驟程序運算），核心瓶頸是「序列性步驟在工作記憶中崩潰、漏步驟」——本課最典型的表現就是項數公式漏掉那個 ＋1、以及通項公式的指數寫成 \(n\) 而不是 \(n-1\)。S2 的建議主設計正是 D2 手順卡。輔助不取 §1 建議的 D9 草稿分區（本課的算式短，不需要分區草稿），改取 D13——因為 D13 的觸發條件（有易混術語）在本課明確命中，而且「等差 vs 等比」的混淆會讓後面四張卡全部用錯，屬於比程序漏步更前端的瓶頸。三種設計＝主 D2 ＋ 輔 D13、D12，未超過「主1＋輔2」上限；刻意沒有加 D14 錯誤分析——數列對本班是新授內容，teaching-designs.md §4 D14 明示不可用於全新概念的第一次教學</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr><tr><td>褪除路徑</td><td>手順卡（D2，主設計，褪除路徑照研究原文的四級）：講義印四張完整卡（動作＋※ 易錯點）並在範例中逐步示範 → 練習A 每題下方重印該卡的精簡版（只留動作，不再印易錯點）→ 練習B 只在題號旁列出「這一題有幾步、翻第幾張卡」，不再印步驟內容 → 練習C 完全移除，工具卡收起 → 之後只留一句「先想清楚次序」→ 完全移除。｜弗雷爾概念模型（D13）：講義印兩張完整的四象限卡 → 練習A 印一張只填了「定義」與「公式」兩格的半成品卡，「是的例」與「不是的例」兩格由學生自己填 → 練習B 只留一句「先判斷是等差還是等比」→ 練習C 完全不提。褪除完成後，這兩張卡仍建議放大貼在課室牆上當常設視覺（teaching-designs.md §8）。｜自我核對（D12）：練習A 區塊末尾完整四項清單 → 練習B 縮成兩項 → 練習C 只留一句「用工具卡第六張自己核對一次」→ 移除。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天六件事：弗雷爾兩張卡＋範例A → 卡一＋範例B → 卡二＋範例C → 卡三＋範例D → 卡四＋範例E → 練習A／B／C）、F2 番茄鐘分段（「分清楚兩種數列」（弗雷爾＋範例A）、「等差」（卡一、卡二）、「等比與歸納法」（卡三、卡四）三塊各自是一段；練習的兩個核對點與這三段對齊，配震動計時器使用）、F1 師徒制對話四步（建議用在弗雷爾卡的第四格與範例E：「為什麼 \(\frac{1}{2}\), \(\frac{1}{4}\), \(\frac{1}{6}\) 兩種都不是」與「為什麼歸納法三步缺一不可」都是講得出才算懂的東西，適合用不准動筆的口述環節）、F4 過程導向回饋與分步計分（每題把「認出是等差還是等比」「定 \(a_1\) 與 \(d\) 或 \(r\)」「代入計算」「代回檢查」分四步各給分。本課學生最常見的情況是認對了類型、公式也對，只錯在項數少數了一項，與完全不會做要分開評價，對應官方代碼 a7）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點（四張手順卡與兩張弗雷爾卡即為此項；本課的失分集中在「認錯數列類型」與「項數漏 ＋1」，若獲准帶入測考，建議把弗雷爾卡寫進 IEP 第 9 點）、a5 放大字體（弗雷爾卡放大不會破版，適合放大成課室常設視覺）、a6 增加行距／放大作答欄、a7 調整計分標準（認類型／定首項與公差公比／代入計算／檢查分步給分；「只錯項數」建議給部分分）</td></tr><tr><td>本份文件性質</td><td>調整支援（Accommodation）——核心概念與年級標準不變，只調整呈現方式與鷹架密度，未刪減內容。</td></tr><tr><td>符號寫法（本課定案）</td><td>①首項一律寫 \(a_1\)（下標 1），不寫 a₁ 或 a(1)。②公差 \(d\)、公比 \(r\)、項數 \(n\)、前 n 項和 \(S_n\)，全課統一。③通項公式的指數一律寫 \(n-1\)（等差是係數 \((n-1)\)），不要為了「好看」寫成 \(n+1\) 再調整——本課最貴的錯就在這個指數，寫法不統一會讓學生更混亂。④求和公式有兩個等價形式，講義兩個都給，並明講「末項已知用哪一條、末項未知用哪一條」。</td></tr><tr><td>與前幾課的銜接</td><td>①卡三第三步「兩式相除得 \(r^5\)，指數是編號之差」與卡一的「\(a_4 - a_2 = 2d\)」是同一個結構——上課時要把這兩句話並排講一次，學生會省下一半的記憶量。②本課的 \((-\frac{1}{2})^9\) 正負判斷與 L11 二項式定理的「b 帶負號時偶次方轉正、奇次方仍負」完全相同，L12 的 \((-1)^n\) 也是同一個開關。三課合起來就是同一句話。③數學歸納法的因式分解（\(2k^2 + 13k + 18 = (k+2)(2k+9)\)）用的是 L7 二次方程與不等式的十字交乘，學生若在 L7 做得順，這裡可以直接借用。</td></tr><tr><td>刻意避開的內容</td><td>①LOGIC1-075（3, 15, 35, 63, 99, 143, ⋯）：相鄰差是 12、20、28、36、44（二階等差），本質屬 B1 數字規律推理，不是等差或等比數列，留在第3章數理邏輯處理較合適。②MOCK2-171（\(1^3 + 2^3 + ⋯ + n^3 = \frac{n^2(n+1)^2}{4}\)）：與範例E、練習第 6 題同型（都是「加第 \((k+1)\) 項再因式分解」），三題全收會讓歸納法佔去本課 0.75 小時的一半。此題留給綜合演練。以上兩項已列入交付摘要的剔除清單。</td></tr><tr><td>題量說明</td><td>本課練習共 6 題（練習A／B／C 各 2 題），合共 11 個小問，四張手順卡每張至少被用到兩次：卡一（第 1(a) 題、第 3 題）、卡二（第 2 題、第 3 題）、卡三（第 1(b) 題、第 4 題、第 5 題）、卡四（第 6 題）。第 5 題把「求項數」與「求和」放在同一題內，第 6 題把「用歸納法證明」與「用證出來的公式去計算」放在同一題內——這是練習C 的難度來源，不是靠數字變大。</td></tr><tr><td>配套文件</td><td>《第2章 L13 數列與級數　課堂練習》（練習A／B／C ＋ 參考答案）、《第2章 L13 數列與級數　工具卡》（四張手順卡 ＋ 一張等差等比對照卡 ＋ 一張自我核對速查卡，剪下護貝放桌面）。</td></tr></table></div>
+
+</div>
+</body>
+</html>

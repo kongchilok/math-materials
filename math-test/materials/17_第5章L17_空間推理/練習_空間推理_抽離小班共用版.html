@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習：第5章 數理邏輯(三)．L17 空間推理</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* footer：整份文件唯一一個 .footer，下面那條固定定位規則讓 Chrome 列印在每一頁自動重複，
+     不逐頁手放（QB-15c 驗收：該規則全檔恰出現一次，0 次或多次都 FAIL——所以這段註解
+     刻意不重複寫出那兩個關鍵字，否則註解本身就會被算進去而誤判）；footer 文字不含頁碼 */
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：第5章 數理邏輯(三)．L17 空間推理</span><span>類型：課堂練習</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="hint-card">動手之前：翻開《課堂講義》嘅兩張提示卡（相對面法則／翻滾方向法則），照住查。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div>雙軌表已經畫好圖，推理欄要自己填。</div>
+  <div class="problem"><div>1．下面十字形展開圖，六個面分別標住 1～6。摺成正方體之後，邊個面同「1」相對？</div><table class="d-tbl dual-track"><tr><th>圖形上發生什麼</th><th>推理／作答</th></tr><tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="270" viewBox="0 0 360 270" role="img"><rect width="360" height="270" fill="#ffffff"/><rect x="90.0" y="0.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="45.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">2</text><rect x="0.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="45.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">1</text><rect x="90.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">3</text><rect x="180.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="225.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">4</text><rect x="270.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="315.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">5</text><rect x="90.0" y="180.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="225.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">6</text></svg></td><td>提示：「1」喺邊一條直線（橫排／直排）上？相隔一格嗰個係邊個？</td></tr><tr><td></td><td><div class="write-lines"><div class="line"></div><div class="line"></div></div></td></tr></table></div><div class="problem"><div>2．承上面同一個展開圖。摺成正方體之後，邊個面同「2」相對？</div><table class="d-tbl dual-track"><tr><th>圖形上發生什麼</th><th>推理／作答</th></tr><tr><td class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="360" height="270" viewBox="0 0 360 270" role="img"><rect width="360" height="270" fill="#ffffff"/><rect x="90.0" y="0.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="135.0" y="45.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">2</text><rect x="0.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="45.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">1</text><rect x="90.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="135.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">3</text><rect x="180.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="225.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">4</text><rect x="270.0" y="90.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="2.0"/><text x="315.0" y="135.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">5</text><rect x="90.0" y="180.0" width="90.0" height="90.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="4.0"/><text x="135.0" y="225.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="30" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">6</text></svg></td><td>提示：呢次要睇直排，唔係橫排。</td></tr><tr><td></td><td><div class="write-lines"><div class="line"></div><div class="line"></div></div></td></tr></table></div>
+
+  <div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div>雙軌表得返圖，推理欄自己諗，翻查提示卡②幫手。</div>
+  <div class="problem"><div>3．承第1、2題個展開圖：頂＝2、前＝3、右＝4、左＝1、後＝5、底＝6。如果將正方體向左滾一下，新嘅頂面係邊個？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>4．同上個正方體（未滾動前：頂＝2、前＝3、右＝4、左＝1、後＝5、底＝6）。如果向前滾一下，新嘅頂面係邊個？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div>
+  <div>完全冇雙軌表，自己一步步查提示卡、寫低推理。第 6 題係開放題。</div>
+  <div class="problem"><div>5．同上個正方體（未滾動前：頂＝2、前＝3、右＝4、左＝1、後＝5、底＝6）。如果先向右滾一下，再向前滾一下（兩次翻滾），最終嘅頂面係邊個？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>6．【開放題】請你自己設計一個十字形展開圖（自訂6個面代號），寫低邊兩對面相對；再設計一個翻滾情境，寫低你嘅答案，然後同同學交換核對。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="selfcheck"><div style="font-weight:700">做完先自己核對一次</div><div>☐ 我有將展開圖入面嘅方格編返位置(1,2,3,4)先搵相對面。</div><div>☐ 翻滾題我有逐步查提示卡②嘅循環方向，冇靠感覺估。</div><div>☐ 答案講得出「點解」，唔淨係靠直覺。</div></div>
+
+  <div class="section-h page-break">參考答案與詳解（教師用）</div>
+  <div class="problem"><div style="font-weight:700">1．答案：4</div><div>【規律】橫排 1－3－4－5 對應位置1,2,3,4。1(位1)同4(位3)位置差\(3-1=2\)，相對。</div><div>【詳細步驟】</div><div>　（1）橫排：1(位1)、3(位2)、4(位3)、5(位4)。</div><div>　（2）位1同位3位置差\(3-1=2\)，即1同4相對。</div><div class="hint-card">【易錯點提示】誤將相鄰嘅3當成相對面（3只係1隔籬，位置差只得1，唔係2）。</div></div><div class="problem"><div style="font-weight:700">2．答案：6</div><div>【規律】直排 2－3－6 對應位置1,2,3。2(位1)同6(位3)位置差\(3-1=2\)，相對。</div><div>【詳細步驟】</div><div>　（1）直排：2(位1)、3(位2，同橫排共用嘅樞紐格)、6(位3)。</div><div>　（2）位1同位3位置差\(3-1=2\)，即2同6相對。</div><div class="hint-card">【易錯點提示】淨係識用橫排嗰條，冇諗到直排都要用同一條法則。</div></div><div class="problem"><div style="font-weight:700">3．答案：4</div><div>【規律】設頂=2,前=3,右=4,左=1,後=5,底=6。向左滾：頂→左，左→底，底→右，右→頂。</div><div>【詳細步驟】</div><div>　（1）查提示卡②「向左滾」：右→頂。</div><div>　（2）原本嘅右面係4，所以新嘅頂面係4。</div><div class="hint-card">【易錯點提示】查錯行（用咗「向右滾」嗰行嘅對應），方向要對準題目講嘅先。</div></div><div class="problem"><div style="font-weight:700">4．答案：5</div><div>【規律】設頂=2,前=3,右=4,左=1,後=5,底=6。向前滾：頂→前，前→底，底→後，後→頂。</div><div>【詳細步驟】</div><div>　（1）查提示卡②「向前滾」：後→頂。</div><div>　（2）原本嘅後面係5，所以新嘅頂面係5。</div><div class="hint-card">【易錯點提示】以為「向前滾」同「向右滾」規律一樣，冇留意向前滾影響嘅係『頂/前/底/後』四個面，唔係『頂/右/底/左』。</div></div><div class="problem"><div style="font-weight:700">5．答案：5</div><div>【規律】設頂=2,前=3,右=4,左=1,後=5,底=6。先向右滾一下，再向前滾一下（兩次翻滾疊加，逐步更新六個面）。</div><div>【詳細步驟】</div><div>　（1）第一步（向右滾）：頂→右，右→底，底→左，左→頂；前／後不變。新狀態：頂=1,前=3,右=2,底=4,左=6,後=5。</div><div>　（2）第二步（向前滾）：頂→前，前→底，底→後，後→頂；左／右不變。用第一步嘅結果再滾一次：頂=5(原本嘅後)，前=1(原本嘅頂)，底=3(原本嘅前)，後=4(原本嘅底)，左=6，右=2 不變。</div><div>　（3）最終頂面＝5。</div><div class="hint-card">【易錯點提示】兩次翻滾之間冇更新六個面嘅新狀態，直接用返最初嘅頂/前/右去查第二次，應該用第一次滾完之後嘅新狀態嚟做第二次嘅起點。</div></div><div class="problem"><div style="font-weight:700">6．答案：（開放題，教師逐份核對）</div><div>【規律】出題者自訂6個面代號，畫十字形展開圖，用相對面法則寫低邊兩對面相對；再設計一個翻滾情境自己作答。</div><div>【詳細步驟】</div><div>　（1）建議：展開圖用十字形（跟返講義範例形狀），先確保有標準答案可以驗算。</div><div>　（2）出題者要親自驗算：查提示卡兩次獨立核對，答案一致先算完成。</div><div class="hint-card">【易錯點提示】展開圖畫錯形狀（唔係合法嘅正方體展開圖），或者未親自驗算就當完成。</div></div>
+
+  <div class="footer">高三數學．第5章 數理邏輯(三)．L17 空間推理</div>
+
+</div>
+</body>
+</html>
