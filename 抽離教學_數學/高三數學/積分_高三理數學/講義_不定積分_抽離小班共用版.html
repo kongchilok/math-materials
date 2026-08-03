@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>不定積分——課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  .mk { font-weight: 700; }
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：不定積分（定義與運算法則）</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、什麼是不定積分（由導數反過來想）</div>
+  <div>導數是「已知函數，求變化率」；不定積分是它的逆運算——「已知變化率，求回原本的函數」。</div>
+  <div class="hint-card">若 \(F'(x)=f(x)\)，就稱 F(x) 是 f(x) 的一個原函數。f(x) 所有原函數的集合，記做 \(\displaystyle\int f(x)\,dx\)（讀作「f(x) 的不定積分」），寫成 \(\displaystyle\int f(x)\,dx=F(x)+C\)（C 是任意常數，叫積分常數）。</div>
+  <div>為什麼要加 C：把 F(x) 求導會得到 f(x)，但 F(x)+1、F(x)+5……求導也一樣得到 f(x)（常數的導數是 0）。所以「所有」原函數要用 F(x)+C 一次寫完，C 代表這個不確定的常數。</div>
+
+  <div class="section-h">二、公式卡：基本初等函數的不定積分公式</div>
+  <div>這些是「查表就能用」的固定公式——每一條都可以用「求導數」反過來驗證。之後每一題都是套用這些公式，不用重新推導。</div>
+  <div class="hint-card">1．\(\displaystyle\int 0\,dx=C\)</div>
+  <div class="hint-card">2．\(\displaystyle\int x^n\,dx=\frac{x^{n+1}}{n+1}+C\)　　（n≠−1，這個限制很重要，練習C會考這一點）</div>
+  <div class="hint-card">3．\(\displaystyle\int \frac{1}{x}\,dx=\ln|x|+C\)</div>
+  <div class="hint-card">4．\(\displaystyle\int e^x\,dx=e^x+C\)</div>
+  <div class="hint-card">5．\(\displaystyle\int a^x\,dx=\frac{a^x}{\ln a}+C\)　　（a&gt;0 且 a≠1）</div>
+  <div class="hint-card">6．\(\displaystyle\int \cos x\,dx=\sin x+C\)</div>
+  <div class="hint-card">7．\(\displaystyle\int \sin x\,dx=-\cos x+C\)</div>
+
+  <div class="section-h">三、公式卡：不定積分的運算法則（13.2）</div>
+  <div class="hint-card">常數倍法則：\(\displaystyle\int k\cdot f(x)\,dx=k\int f(x)\,dx\)　　（k 是常數，把係數整個提出來）</div>
+  <div class="hint-card">和差法則：\(\displaystyle\int [f(x)\pm g(x)]\,dx=\int f(x)\,dx\pm\int g(x)\,dx\)　　（幾項相加減，可以逐項分開算）</div>
+  <div>這兩條法則合起來用，就能把「一個多項式的不定積分」拆成「每一項分別查公式卡」再合併。</div>
+
+  <div class="section-h">四、範例：求 ∫(6x²−4x+3)dx（我做——老師先示範一次）</div>
+  <div class="worked-example">跟著這套固定流程走，之後每一題（不管幾項）都用同一套框架。留意：算式裡每一項都標了同一個號碼<span class="mk">①②③</span>，代表「原式這一項」一路對應到「答案這一項」，是同一件事，只是換了個樣子。</div>
+  <div><span class="mk">①</span> 先看清楚這是幾項相加減——三項，逐項標號：\(\displaystyle\int(\underset{①}{6x^2}\underset{②}{-4x}\underset{③}{+3})\,dx\)</div>
+  <div><span class="mk">②</span> 用和差法則拆開，每項再用常數倍法則把係數提出來：\(\underset{①}{6\int x^2 dx}\underset{②}{-4\int x\,dx}\underset{③}{+3\int 1\,dx}\)</div>
+  <div><span class="mk">③</span> 對每一項套用公式卡的冪函數公式（第2條）逐項計算：\(\underset{①}{6\cdot\frac{x^3}{3}}\underset{②}{-4\cdot\frac{x^2}{2}}\underset{③}{+3x}\)</div>
+  <div><span class="mk">④</span> 化簡每一項：\(\underset{①}{2x^3}\underset{②}{-2x^2}\underset{③}{+3x}\)</div>
+  <div><span class="mk">⑤</span> 所有項合併，最後只加「一個」C（不是每項各加一個C）：\(2x^3-2x^2+3x+C\)</div>
+
+  <div class="section-h">五、範例：求 ∫(9x²+2x−5)dx（我們做——你跟老師一起完成）</div>
+  <div>先幫每一項標號，再照「我做」的五個步驟自己走一次，每一步寫在下面：</div>
+  <div class="hint-card">\(\displaystyle\int(\underset{①}{9x^2}\underset{②}{+2x}\underset{③}{-5})\,dx=\;?\)　　（提示：跟「我做」一樣，先拆項、提係數，再查公式卡第2條）</div>
+  <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+
+  <div class="worked-example">接下來請拿《不定積分——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高三數學．不定積分單元</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D6 明確教學三階段（我做－我們做－你做）</td></tr>
+      <tr><td>輔助設計</td><td>D11 標記對應、D2 手順卡</td></tr>
+      <tr><td>選用理由</td><td>13.1不定積分定義為全新概念導入（S10結構），需要放聲思考＋預告流程；13.2運算法則為多步驟程序運算（S2結構），易在拆項/提係數/加C時序列崩潰。學生為ASD，語義理解與執行功能較弱，需標記對應把「原式各項」與「答案各項」連成同一件事，並用手順卡把內隱步驟外顯化。</td></tr>
+      <tr><td>鷹架密度</td><td>抽離小班（Tier 2）：練習A/B/C各2題；練習B區塊開頭放一次手順卡精簡版</td></tr>
+      <tr><td>褪除路徑</td><td>D2手順卡：完整版（工具卡）→只留關鍵詞清單（拆項/提係數/套公式/加C）→只留步驟數量提示（「這題有四步」）→完全移除。D11標記：練習A不需要（單項無跨項對應問題）→練習B給滿①②③→練習C不給，學生自己劃分。</td></tr>
+      <tr><td>課堂實施流程</td><td>F5 課前流程預告（上課前展示今天四件事：複習導數→公式卡→我做我們做→練習）、F2 番茄鐘分段（配合練習B/C之間的核對點）</td></tr>
+      <tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點（公式卡＋手順卡）、a6 增加行距（書寫空間已加寬）</td></tr>
+    </table>
+  </div>
+
+</div>
+</body>
+</html>

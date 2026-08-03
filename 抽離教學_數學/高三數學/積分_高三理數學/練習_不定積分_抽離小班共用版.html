@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>不定積分——課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  .mk { font-weight: 700; }
+  .page-break { break-before: page; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高三數學</span><span>單元：不定積分（定義與運算法則）</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>作答前，先回頭看《課堂講義》的公式卡與「我做／我們做」範例。每題都把逐步算式寫出來，不要跳步。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="worked-example">範例（已完成，對照右邊自己填）：已知 \(\displaystyle(x^6)'=6x^5\)，所以 \(\displaystyle\int 6x^5\,dx=x^6+C\)</div>
+  <div class="problem">
+    <div>1．已知 \(\displaystyle(x^7)'=7x^6\)，所以 \(\displaystyle\int 7x^6\,dx=\;?\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．求 \(\displaystyle\int x^3\,dx\)（套用公式卡第2條：n=3，n+1=？）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">求不定積分的四個步驟（精簡版，做題時對照）</th></tr>
+    <tr><td>1. 拆項——看清楚是幾項相加減</td><td class="pitfall"></td></tr>
+    <tr><td>2. 提係數——常數倍法則，把係數整個提出來</td><td class="pitfall"></td></tr>
+    <tr><td>3. 套公式——查講義公式卡</td><td class="pitfall"></td></tr>
+    <tr><td>4. 合併——只加一個C</td><td class="pitfall"></td></tr>
+  </table>
+  <div class="problem">
+    <div>3．求 \(\displaystyle\int(\underset{①}{3x^2}\underset{②}{-2x}\underset{③}{+5})\,dx\)（已標好①②③三項，對照步驟做）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>4．求 \(\displaystyle\int(\underset{①}{4e^x}\underset{②}{+\cos x})\,dx\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>5．已知 \(F'(x)=6x^2-4x+1\)，且 \(F(0)=3\)，求 F(x)。</div>
+    <div class="hint-card">提示：先求出「一般解」（含C的式子），再代入 F(0)=3 求出 C 的值。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>6．錯誤分析：某同學求 \(\displaystyle\int x^{-1}\,dx\) 時，直接套公式卡第2條，寫成 \(\displaystyle\int x^{-1}\,dx=\frac{x^0}{0}+C\)。</div>
+    <div>請你用自己的話說明：這位同學錯在哪一步？公式卡第2條有什麼限制被他忽略了？正確答案應該是什麼？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h page-break">參考答案（教師用）</div>
+  <div>1．\(\displaystyle(x^7)'=7x^6\)，所以 \(\displaystyle\int 7x^6\,dx=x^7+C\)。</div>
+  <div>2．\(\displaystyle\int x^3\,dx=\frac{x^4}{4}+C\)（n=3，n+1=4）。</div>
+  <div>3．\(\displaystyle\int(3x^2-2x+5)\,dx=x^3-x^2+5x+C\)。</div>
+  <div>4．\(\displaystyle\int(4e^x+\cos x)\,dx=4e^x+\sin x+C\)。</div>
+  <div>5．一般解：\(F(x)=2x^3-2x^2+x+C\)；代入 \(F(0)=3\) 得 \(C=3\)；所以 \(F(x)=2x^3-2x^2+x+3\)。</div>
+  <div>6．錯在：公式卡第2條 \(\displaystyle\int x^n\,dx=\frac{x^{n+1}}{n+1}+C\) 限定「n≠−1」，因為 n=−1 時分母 n+1=0，除以零無意義，所以不能直接套用這條公式。本題 n=−1，被積函數其實是 \(\frac{1}{x}\)，應改用公式卡第3條：\(\displaystyle\int x^{-1}\,dx=\int\frac{1}{x}\,dx=\ln|x|+C\)。</div>
+
+  <div class="footer">高三數學．不定積分單元</div>
+
+</div>
+</body>
+</html>
