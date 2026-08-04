@@ -28,26 +28,42 @@
   * { box-sizing: border-box; }
   body {
     font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
-    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+    font-size: 12pt; line-height: 1.6; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
   }
   .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
   .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
   .ws-meta { font-size: 12pt; margin-bottom: 10px; }
   .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
-  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
-  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
-  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
-  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 18px 0 10px; break-after: avoid-page; page-break-after: avoid; }
+  .sub-h { font-weight: 700; margin: 12px 0 6px; break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  p { margin: 8px 0; }
+
+  /* 結構化邊框：定義／公式獨立成塊，公式自己一行置中 */
+  .def-box { border: 0.75pt solid #000; padding: 10px 14px; margin: 10px 0; break-inside: avoid; }
+  .def-box .label { font-weight: 700; margin-bottom: 6px; }
+  .def-box .formula { text-align: center; margin: 8px 0 4px; }
+
+  /* 灰底提示：一類一行，不要把幾類塞在同一段 */
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 6px 12px; margin: 5px 0; }
+  .hint-card .k { font-weight: 700; margin-right: 8px; }
+  .flow { font-size: 12pt; background: #f0f0f0; border-left: 3px solid #555; padding: 8px 12px; margin: 8px 0; text-align: center; letter-spacing: 1px; }
+
   .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
-  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 10px; vertical-align: middle; text-align: left; font-size: 11.5pt; }
   .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  /* 範例雙軌：左算式右說明，逐行橫向對齊 */
+  .worked td:first-child { width: 50%; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
   .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card.compact td:first-child { width: 100%; }
   .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+
   .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
   .write-lines { margin-top: 4px; }
   .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
   .write-lines .line:last-child { border-bottom: none; }
-  .page-break { break-before: page; }
+  .page-break { break-before: page; page-break-before: always; }
   .teacher-notes { break-before: page; page-break-before: always; }
   .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
   .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
@@ -59,141 +75,193 @@
   <div class="masthead"><span>科目：初三數學</span><span>單元：一元二次方程・概念與三種解法</span><span>類型：課堂講義</span></div>
   <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
 
+  <!-- ========== 一 ========== -->
   <div class="section-h">一、認識一元二次方程</div>
-  <div>只含一個未知數，而且未知數的最高次數是 2 的方程，叫做「一元二次方程」。一般式（標準式）：\(ax^2+bx+c=0\)（其中 a≠0）。</div>
-  <div class="hint-card">辨識 a、b、c 的方法：先把式子整理成「＝0」的一般式，\(x^2\) 前面的數是 a，x 前面的數是 b，剩下的常數是 c。若 \(x^2\) 的係數是 0，那是一元一次方程，不是二次。</div>
-  <div>例：\(2x^2+3x-1=0\) 中，a＝2，b＝3，c＝−1。</div>
-  <div>本課會學習解一元二次方程的<b>四種方法</b>，教學順序是：① 直接開平方法（降次）→ ② 配方法 → ③ 公式法 → ④ 因式分解法。前三種方法一步步建立在上一種之上，因式分解法最後教是因為它是「看得出來就可以抄捷徑」的快速做法。</div>
+  <p>只含一個未知數，而且未知數的最高次數是 2 的方程，叫做「一元二次方程」。</p>
 
-  <div class="section-h">二、方法一：直接開平方法（降次）</div>
-  <div class="hint-card">「降次」的意思：把二次方程（有 \(x^2\)）轉化成兩個一次方程（沒有平方），這樣就能用我們已經會解的方法完成。</div>
-  <div>對於 \(x^2=p\)：</div>
-  <div>(1) 當 \(p>0\) 時，方程有兩個不等的實數根 \(x_1=-\sqrt{p}\)、\(x_2=\sqrt{p}\)；</div>
-  <div>(2) 當 \(p=0\) 時，方程有兩個相等的實數根 \(x_1=x_2=0\)；</div>
-  <div>(3) 當 \(p<0\) 時，因為任意實數 x，都有 \(x^2\ge0\)，所以方程<b>無實數根</b>。</div>
-  <div class="worked-example">★ 範例（來自歷屆大測）：解 \((x-4)^2-9=0\)
-    <ol class="steps">
-      <li data-n="①">移項，把方程化成 \((x+k)^2=c\) 的形式：\((x-4)^2=9\)</li>
-      <li data-n="②">判斷 c 的正負：9 ＞ 0，可以開方</li>
-      <li data-n="③">兩邊開平方：\(x-4=\pm3\)</li>
-      <li data-n="④">移項解出兩個 x 值：\(x=4+3=7\) 或 \(x=4-3=1\)</li>
-    </ol>
+  <div class="def-box">
+    <div class="label">一般式（標準式）</div>
+    <div class="formula">\(ax^2+bx+c=0\)　　（其中 \(a \ne 0\)）</div>
   </div>
-  <table class="d-tbl step-card">
-    <tr><th colspan="2">手順卡①　直接開平方法</th></tr>
-    <tr><td colspan="2" style="font-weight:400">什麼時候用：方程可以化成 \(x^2=p\) 或 \((x+k)^2=c\)（沒有單獨的一次項 x，或已經是完全平方的形式）時最快</td></tr>
-    <tr><td>1. 化成 \(x^2=p\) 或 \((x+k)^2=c\) 的形式（未是這個形式先移項）</td><td class="pitfall">※ 常數要移到等號另一邊，符號要跟著變</td></tr>
-    <tr><td>2. 判斷右邊的數是正、零還是負</td><td class="pitfall">※ 負數不能開平方——這代表方程無解，不是計錯</td></tr>
-    <tr><td>3. 若右邊 ＞ 0，兩邊開平方，寫成 ±</td><td class="pitfall">※ 別漏寫 ±，只寫一個根會漏解</td></tr>
-    <tr><td>4. 若左邊有 +k，最後移項解出兩個 x 值</td><td class="pitfall">※ \(x-4=\pm3\) 要分別加 4，不要只加一次</td></tr>
+
+  <div class="sub-h">怎樣找出 a、b、c？</div>
+  <div class="hint-card"><span class="k">第一步</span>先把式子整理成「＝ 0」的一般式</div>
+  <div class="hint-card"><span class="k">第二步</span>對照 \(ax^2+bx+c=0\) 讀出係數：\(x^2\) 前面的數是 a，x 前面的數是 b，剩下的常數是 c</div>
+  <div class="hint-card"><span class="k">特別注意</span>a 不能是 0。若 \(x^2\) 的係數是 0，那是一元一次方程，不是二次</div>
+  <p>例：\(2x^2+3x-1=0\) 中，a ＝ 2，b ＝ 3，c ＝ −1。</p>
+
+  <p>本課會學四種解一元二次方程的方法，教學順序是：</p>
+  <div class="flow">① 直接開平方法（降次）　→　② 配方法　→　③ 公式法　→　④ 因式分解法</div>
+  <p>前三種方法一步步建立在上一種之上；因式分解法排最後，因為它是「看得出來就可以抄捷徑」的快速做法。</p>
+  <p>每種方法後面都有一張手順卡；完整版（連每一步的易錯提醒）在《工具卡》，可以剪下放在桌面邊做邊看。</p>
+
+  <!-- ========== 二 ========== -->
+  <div class="section-h page-break">二、方法一：直接開平方法（降次）</div>
+  <div class="hint-card">「降次」的意思：把二次方程（有 \(x^2\)）變成兩個一次方程（沒有平方），就能用我們已經會解的方法完成。</div>
+  <div class="sub-h">對於 \(x^2=p\)，右邊的 p 決定有沒有根：</div>
+  <div class="hint-card"><span class="k">①</span>當 \(p>0\)：有兩個不等的實數根 \(x_1=-\sqrt{p}\)、\(x_2=\sqrt{p}\)</div>
+  <div class="hint-card"><span class="k">②</span>當 \(p=0\)：有兩個相等的實數根 \(x_1=x_2=0\)</div>
+  <div class="hint-card"><span class="k">③</span>當 \(p<0\)：沒有實數根（因為任何實數的平方都 ≥ 0）</div>
+
+  <div class="sub-h">★ 範例：解 \((x-4)^2-9=0\)</div>
+  <table class="d-tbl worked">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td>\((x-4)^2-9=0\)</td><td>原方程</td></tr>
+    <tr><td>\((x-4)^2=9\)</td><td>移項：−9 過等號變 +9<span class="note">※ 先看右邊：9 ＞ 0，可以開平方</span></td></tr>
+    <tr><td>\(x-4=\pm3\)</td><td>兩邊開平方<span class="note">※ 別漏寫 ±，只寫一個根會漏解</span></td></tr>
+    <tr><td>\(x=4\pm3\)</td><td>移項：−4 過等號變 +4</td></tr>
+    <tr><td>\(x_1=7\)</td><td>取「＋」號</td></tr>
+    <tr><td>\(x_2=1\)</td><td>取「−」號</td></tr>
   </table>
 
-  <div class="section-h">三、方法二：配方法</div>
-  <div>配方法的作用：把<b>任何</b>一元二次方程，都轉化成方法一「\((x+k)^2=c\)」的形式，這樣就能用已經學過的「降次」技巧解出來。</div>
-  <div class="worked-example">★ 範例（來自歷屆大測）：解 \(x^2+6x-1=0\)
-    <ol class="steps">
-      <li data-n="①">移項，把常數移到右邊：\(x^2+6x=1\)</li>
-      <li data-n="②">兩邊加上「一次項係數一半的平方」：一次項係數是 6，一半是 3，平方是 9 → \(x^2+6x+9=1+9\)</li>
-      <li data-n="③">左邊配成完全平方，右邊算出結果：\((x+3)^2=10\)</li>
-      <li data-n="④">套用方法一「降次」：\(x+3=\pm\sqrt{10}\)，即 \(x=-3\pm\sqrt{10}\)</li>
-    </ol>
-  </div>
-  <table class="d-tbl step-card">
-    <tr><th colspan="2">手順卡②　配方法</th></tr>
-    <tr><td colspan="2" style="font-weight:400">什麼時候用：方程無法輕易因式分解，但想理解公式法「從何而來」時用；也是公式法的推導基礎</td></tr>
-    <tr><td>1. 若 \(x^2\) 前面的係數不是 1，兩邊先除以那個係數</td><td class="pitfall">※ 除法要連常數項一起除，不要漏掉</td></tr>
-    <tr><td>2. 把常數移到等號右邊，只留 \(x^2\) 和 x 項在左邊</td><td class="pitfall">※ 移項變號——常見漏做這一步就直接加數字</td></tr>
-    <tr><td>3. 兩邊加上「一次項係數一半的平方」，即 \((b/2)^2\)</td><td class="pitfall">※ 一次項係數是「x 前面那個數」，不是移項後的常數</td></tr>
-    <tr><td>4. 左邊寫成 \((x+b/2)^2\)，套用手順卡①「降次」解出 x</td><td class="pitfall">※ 別忘記开方後要 ±，再移項兩次分別得到 \(x_1\)、\(x_2\)</td></tr>
+  <table class="d-tbl step-card compact">
+    <tr><th>手順卡①　直接開平方法</th></tr>
+    <tr><td style="font-weight:400">什麼時候用：方程已經是（或可以化成）\(x^2=p\)、\((x+k)^2=c\) 的形式時最快</td></tr>
+    <tr><td>1. 化成 \(x^2=p\) 或 \((x+k)^2=c\) 的形式</td></tr>
+    <tr><td>2. 看右邊的數是正、零還是負</td></tr>
+    <tr><td>3. 右邊 ＞ 0 就兩邊開平方，寫成 ±</td></tr>
+    <tr><td>4. 左邊還有 +k 就再移項，解出兩個根</td></tr>
   </table>
 
-  <div class="section-h">四、方法三：公式法</div>
-  <div>公式法是把配方法的過程<b>一般化</b>：對任何 \(ax^2+bx+c=0\)（a≠0），直接代入求根公式 \(x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}\)，不用每次重新配方。</div>
-  <div class="worked-example">★ 範例（來自歷屆大測）：解 \(2(x^2-1)=3x+3\)
-    <ol class="steps">
-      <li data-n="①">先展開、移項，化成一般式：\(2x^2-2=3x+3\) → \(2x^2-3x-5=0\)</li>
-      <li data-n="②">寫出 a、b、c：\(a=2\)，\(b=-3\)，\(c=-5\)</li>
-      <li data-n="③">算判別式 \(\Delta=b^2-4ac=(-3)^2-4(2)(-5)=9+40=49\)</li>
-      <li data-n="④">代入公式：\(x=\dfrac{3\pm\sqrt{49}}{4}=\dfrac{3\pm7}{4}\)，即 \(x=\dfrac{5}{2}\) 或 \(x=-1\)</li>
-    </ol>
-  </div>
-  <table class="d-tbl step-card">
-    <tr><th colspan="2">手順卡③　公式法</th></tr>
-    <tr><td colspan="2" style="font-weight:400">什麼時候用：方程不能輕易看出因式分解（係數不是整數倍關係、或嘗試因式分解失敗）時，公式法一定解得出</td></tr>
-    <tr><td>1. 化成一般式 \(ax^2+bx+c=0\)，寫出 a、b、c</td><td class="pitfall">※ 若方程有括號或分母，先展開/去分母才能寫出正確的 a、b、c</td></tr>
-    <tr><td>2. 算判別式 \(\Delta=b^2-4ac\)</td><td class="pitfall">※ \(b^2\) 記住是先平方再代負號的結果，\((-3)^2=9\) 不是 −9</td></tr>
-    <tr><td>3. 判斷 Δ 的正負：Δ&lt;0 無解；Δ=0 一個重根；Δ&gt;0 兩個不同根</td><td class="pitfall">※ 這一步先做，可以避免白算一堂</td></tr>
-    <tr><td>4. 代入公式 \(x=\dfrac{-b\pm\sqrt{\Delta}}{2a}\) 算出結果</td><td class="pitfall">※ 分母 2a 要連同 \(\pm\sqrt{\Delta}\) 一起除，不要只除其中一項</td></tr>
+  <!-- ========== 三 ========== -->
+  <div class="section-h page-break">三、方法二：配方法</div>
+  <div class="hint-card">配方法的作用：把任何一元二次方程，都變成方法一「\((x+k)^2=c\)」的形式，就能用已經學過的「降次」解出來。</div>
+
+  <div class="sub-h">★ 範例：解 \(x^2+6x-1=0\)</div>
+  <table class="d-tbl worked">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td>\(x^2+6x-1=0\)</td><td>原方程</td></tr>
+    <tr><td>\(x^2+6x=1\)</td><td>移項：−1 過等號變 +1</td></tr>
+    <tr><td>\(x^2+6x+9=1+9\)</td><td>兩邊同時加 9<span class="note">※ 9 是「一次項係數一半的平方」，即 (6 ÷ 2) 的平方</span></td></tr>
+    <tr><td>\((x+3)^2=10\)</td><td>左邊配成完全平方，右邊算出 10</td></tr>
+    <tr><td>\(x+3=\pm\sqrt{10}\)</td><td>兩邊開平方（回到方法一的降次）</td></tr>
+    <tr><td>\(x=-3\pm\sqrt{10}\)</td><td>移項：+3 過等號變 −3</td></tr>
+    <tr><td>\(x_1=-3+\sqrt{10}\)</td><td>取「＋」號</td></tr>
+    <tr><td>\(x_2=-3-\sqrt{10}\)</td><td>取「−」號</td></tr>
   </table>
 
-  <div class="section-h">五、方法四：因式分解法</div>
-  <div>因式分解法是<b>最快的捷徑</b>——但只在能一眼看出因式的情況下才好用。學完前三種方法後，你已經知道方程「一定解得出」，因式分解法就是在有把握時抄捷徑。</div>
-  <div class="worked-example">★ 範例（來自歷屆大測）：解 \(x^2+2x-35=0\)
-    <ol class="steps">
-      <li data-n="①">化成一般式，右邊等於 0（本題已經是）：\(x^2+2x-35=0\)</li>
-      <li data-n="②">把左邊因式分解：找兩個數，相乘 = −35，相加 = 2 → 7 和 −5 → \((x+7)(x-5)=0\)</li>
-      <li data-n="③">令每個因式分別 = 0：\(x+7=0\) 或 \(x-5=0\)</li>
-      <li data-n="④">解出兩個 x 值，並驗根：\(x=-7\) 或 \(x=5\)</li>
-    </ol>
-  </div>
-  <table class="d-tbl step-card">
-    <tr><th colspan="2">手順卡④　因式分解法</th></tr>
-    <tr><td colspan="2" style="font-weight:400">什麼時候用：方程的左邊「一眼看出」能分解（例如常數項不大、係數簡單）時最快</td></tr>
-    <tr><td>1. 化成一般式，右邊等於 0</td><td class="pitfall">※ 若右邊不是 0，因式分解法不能直接用</td></tr>
-    <tr><td>2. 把左邊因式分解成兩個一次式的乘積</td><td class="pitfall">※ 找兩數之積＝c、之和＝b；係數不是 1 時用十字相乘</td></tr>
-    <tr><td>3. 令每個因式分別等於 0</td><td class="pitfall">※ 兩個因式都要令它等於 0，不能只做一個</td></tr>
-    <tr><td>4. 解出兩個 x 值，代回原方程驗根</td><td class="pitfall">※ 若方程兩邊都有 x（如 \(x^2=5x\)），不能直接兩邊除以 x——要先移項再分解，否則會漏解 x=0</td></tr>
+  <table class="d-tbl step-card compact">
+    <tr><th>手順卡②　配方法</th></tr>
+    <tr><td style="font-weight:400">什麼時候用：方程不易因式分解，或想理解公式法「從何而來」時用</td></tr>
+    <tr><td>1. \(x^2\) 前面的係數不是 1，兩邊先除以它</td></tr>
+    <tr><td>2. 把常數移到等號右邊</td></tr>
+    <tr><td>3. 兩邊同時加「一次項係數一半的平方」</td></tr>
+    <tr><td>4. 左邊配成 \((x+k)^2\)，套用手順卡①解出兩個根</td></tr>
   </table>
 
-  <div class="section-h">六、四種方法怎麼選？</div>
-  <div class="hint-card">
-    ① 方程已經是 \(x^2=p\) 或 \((x+k)^2=c\) 型 → 用直接開平方法（最快）<br>
-    ② 一眼看出能因式分解 → 用因式分解法（最快）<br>
-    ③ 想不到怎麼因式分解，但係數不複雜 → 用配方法（幫助理解過程）<br>
-    ④ 係數複雜、或配方會出現分數很麻煩 → 用公式法（一定解得出）
+  <!-- ========== 四 ========== -->
+  <div class="section-h page-break">四、方法三：公式法</div>
+  <div class="hint-card">公式法是把配方法的過程一般化：任何 \(ax^2+bx+c=0\)（\(a \ne 0\)）都直接代公式，不用每次重新配方。</div>
+
+  <div class="def-box">
+    <div class="label">求根公式</div>
+    <div class="formula">\(x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}\)</div>
+    <div class="formula">判別式　\(\Delta=b^2-4ac\)</div>
   </div>
 
-  <div class="section-h page-break">附件：歷屆試題精選（第一段大測範圍，涵蓋單元 01–02）</div>
-  <div>以下題目改編自過往學段大測，讓你熟習大測會考的出題方式。部分題目涉及單元 02（判別式與根與係數關係）的內容，屬預告性質，不要求現在就能完全答對。</div>
+  <div class="sub-h">★ 範例：解 \(2(x^2-1)=3x+3\)</div>
+  <table class="d-tbl worked">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td>\(2(x^2-1)=3x+3\)</td><td>原方程</td></tr>
+    <tr><td>\(2x^2-2=3x+3\)</td><td>展開左邊括號</td></tr>
+    <tr><td>\(2x^2-3x-5=0\)</td><td>移項，化成一般式<span class="note">※ 有括號或分母的，一定要先整理成一般式才寫 a、b、c</span></td></tr>
+    <tr><td>a ＝ 2，b ＝ −3，c ＝ −5</td><td>對照一般式讀出三個係數</td></tr>
+    <tr><td>\(\Delta=b^2-4ac\)</td><td>先寫判別式公式</td></tr>
+    <tr><td>\(\Delta=(-3)^2-4(2)(-5)\)</td><td>代入 a、b、c<span class="note">※ \((-3)^2=9\)，先平方再算，不是 −9</span></td></tr>
+    <tr><td>\(\Delta=49\)</td><td>算出判別式<span class="note">※ 49 ＞ 0，所以有兩個不同的實數根</span></td></tr>
+    <tr><td>\(x=\dfrac{-b\pm\sqrt{\Delta}}{2a}\)</td><td>寫出求根公式</td></tr>
+    <tr><td>\(x=\dfrac{3\pm\sqrt{49}}{4}\)</td><td>代入 b、Δ、a</td></tr>
+    <tr><td>\(x=\dfrac{3\pm7}{4}\)</td><td>\(\sqrt{49}=7\)</td></tr>
+    <tr><td>\(x_1=\dfrac{10}{4}\)</td><td>取「＋」號：3 + 7</td></tr>
+    <tr><td>\(x_1=\dfrac{5}{2}\)</td><td>約簡（分子分母同除以 2）</td></tr>
+    <tr><td>\(x_2=-1\)</td><td>取「−」號：(3 − 7) ÷ 4</td></tr>
+  </table>
 
-  <div class="section-h">（一）概念辨識（<span class="stars">★☆☆</span>）</div>
+  <table class="d-tbl step-card compact">
+    <tr><th>手順卡③　公式法</th></tr>
+    <tr><td style="font-weight:400">什麼時候用：看不出怎樣因式分解時用——公式法一定解得出</td></tr>
+    <tr><td>1. 化成一般式，寫出 a、b、c</td></tr>
+    <tr><td>2. 算判別式 \(\Delta=b^2-4ac\)</td></tr>
+    <tr><td>3. 看 Δ：Δ&lt;0 無解、Δ=0 一個重根、Δ&gt;0 兩個根</td></tr>
+    <tr><td>4. 代入 \(x=\dfrac{-b\pm\sqrt{\Delta}}{2a}\)，解出兩個根</td></tr>
+  </table>
+
+  <!-- ========== 五 ========== -->
+  <div class="section-h page-break">五、方法四：因式分解法</div>
+  <div class="hint-card">因式分解法是最快的捷徑——但只在「一眼看得出因式」時才好用。學完前三種方法，你已經知道方程一定解得出，這一種是在有把握時抄捷徑。</div>
+
+  <div class="sub-h">★ 範例：解 \(x^2+2x-35=0\)</div>
+  <table class="d-tbl worked">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td>\(x^2+2x-35=0\)</td><td>原方程，右邊已經是 0</td></tr>
+    <tr><td>\((x+7)(x-5)=0\)</td><td>左邊因式分解<span class="note">※ 找兩個數：相乘 ＝ −35，相加 ＝ +2 → 7 和 −5</span></td></tr>
+    <tr><td>\(x+7=0\)　或　\(x-5=0\)</td><td>令每個因式分別等於 0</td></tr>
+    <tr><td>\(x_1=-7\)</td><td>由 \(x+7=0\) 解出</td></tr>
+    <tr><td>\(x_2=5\)</td><td>由 \(x-5=0\) 解出</td></tr>
+  </table>
+
+  <table class="d-tbl step-card compact">
+    <tr><th>手順卡④　因式分解法</th></tr>
+    <tr><td style="font-weight:400">什麼時候用：方程的左邊「一眼看出」能分解（常數項不大、係數簡單）時最快</td></tr>
+    <tr><td>1. 化成一般式，右邊等於 0</td></tr>
+    <tr><td>2. 把左邊分解成兩個一次式的乘積</td></tr>
+    <tr><td>3. 令每個因式分別等於 0</td></tr>
+    <tr><td>4. 解出兩個根，代回原方程驗根</td></tr>
+  </table>
+
+  <!-- ========== 六 ========== -->
+  <div class="section-h page-break">六、四種方法怎麼選？</div>
+  <p>先看方程長成什麼樣子，再決定用哪一種——不要每題都從頭試。</p>
+  <table class="d-tbl">
+    <tr><th style="width:50%">方程長成這樣…</th><th>就用這個方法</th></tr>
+    <tr><td>已經是 \(x^2=p\) 或 \((x+k)^2=c\)</td><td>① 直接開平方法（最快）</td></tr>
+    <tr><td>一眼看出能因式分解</td><td>④ 因式分解法（最快）</td></tr>
+    <tr><td>分解不出，但係數簡單</td><td>② 配方法</td></tr>
+    <tr><td>係數複雜、配方會出現分數</td><td>③ 公式法（一定解得出）</td></tr>
+  </table>
+
+  <!-- ========== 即堂練習 ========== -->
+  <div class="section-h page-break">即堂練習</div>
+
+  <div class="sub-h">（一）認一認（<span class="stars">★☆☆</span>）</div>
   <div class="problem">
     <div>1．下列方程中，屬於一元二次方程的是（　）</div>
-    <div>A．\(x^2-2x+1=0\)　　B．\(x^2+3=\dfrac{2}{x}\)　　C．\(x^2-2y+4=0\)　　D．\(x-2y=1\)</div>
+    <div>A．\(x^2-2x+1=0\)　　B．\(x^2+3=\dfrac{2}{x}\)　　C．\(x^2-2y+4=0\)</div>
     <div class="write-lines"><div class="line"></div></div>
   </div>
   <div class="problem">
-    <div>2．將一元二次方程 \(2x^2=3x+4\) 化為一般形式為（　）</div>
-    <div>A．\(2x^2-3x+4=0\)　　B．\(2x^2-3x-4=0\)　　C．\(2x^2+3x-4=0\)　　D．\(2x^2+3x+4=0\)</div>
+    <div>2．將 \(2x^2=3x+4\) 化為一般形式，正確的是（　）</div>
+    <div>A．\(2x^2-3x+4=0\)　　B．\(2x^2-3x-4=0\)　　C．\(2x^2+3x-4=0\)</div>
     <div class="write-lines"><div class="line"></div></div>
   </div>
   <div class="problem">
     <div>3．方程 \(2x^2=1\) 的根是（　）</div>
-    <div>A．\(x_1=\dfrac{1}{2}, x_2=-\dfrac{1}{2}\)　　B．\(x_1=\dfrac{\sqrt2}{2}, x_2=-\dfrac{\sqrt2}{2}\)</div>
+    <div>A．\(x_1=\dfrac{1}{2}\)，\(x_2=-\dfrac{1}{2}\)　　B．\(x_1=\dfrac{\sqrt2}{2}\)，\(x_2=-\dfrac{\sqrt2}{2}\)</div>
     <div class="write-lines"><div class="line"></div></div>
   </div>
 
-  <div class="section-h">（二）指定方法解方程（<span class="stars">★★☆</span>）</div>
+  <div class="sub-h">（二）用指定方法解方程（<span class="stars">★★☆</span>）</div>
   <div class="problem">
-    <div>4．用指定方法解方程：</div>
-    <div>(1) \((x-4)^2-9=0\)（直接開平方法）</div>
-    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
-    <div>(2) \(x^2+6x-1=0\)（配方法）</div>
-    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div>4．\((x-4)^2-9=0\)　（直接開平方法）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
   </div>
   <div class="problem">
-    <div>5．用指定方法解方程：</div>
-    <div>(1) \(2(x^2-1)=3x+3\)（公式法）</div>
-    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
-    <div>(2) \(x^2+2x-35=0\)（因式分解法）</div>
-    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div>5．\(x^2+6x-1=0\)　（配方法）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>6．\(2(x^2-1)=3x+3\)　（公式法）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>7．\(x^2+2x-35=0\)　（因式分解法）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
   </div>
 
-  <div class="section-h">（三）判別式預告（<span class="stars">★★★</span>，02 單元內容）</div>
-  <div class="hint-card">提示：對於 \(ax^2+bx+c=0\)，判別式 \(\Delta=b^2-4ac\)——不用解方程，只看 Δ 的正負就知道有幾個實根。單元 02 會詳細教這個方法。</div>
+  <div class="sub-h">（三）自己判斷用哪種方法（<span class="stars">★★★</span>）</div>
   <div class="problem">
-    <div>6．一元二次方程 \(x^2-2x-5=0\) 的根的判別式 \(\Delta=b^2-4ac\) 的值是＿＿（計算數值）。</div>
-    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div>8．\(x^2-6x+8=0\)　　我用的方法：＿＿＿＿＿＿＿＿</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
   </div>
 
   <div class="footer">初三數學．一元二次方程單元</div>
@@ -203,11 +271,12 @@
     <table class="d-tbl">
       <tr><td>本份採用的主設計</td><td>D2 手順卡</td></tr>
       <tr><td>輔助設計</td><td>D9 草稿分區、D12 自我核對</td></tr>
-      <tr><td>選用理由</td><td>S2 多步驟程序運算——4 種解法各自是一套序列步驟，容易在工作記憶中崩潰、漏步驟或漏正負號。原講義把三法混在一個範例比較，改版拆成 4 個獨立手順卡，逐一建立後才比較。</td></tr>
+      <tr><td>選用理由</td><td>S2 多步驟程序運算——四種解法各自是一套序列步驟，容易在工作記憶中崩潰、漏步驟或漏正負號。改版拆成四張獨立手順卡，逐一建立後才比較選用。</td></tr>
       <tr><td>鷹架密度</td><td>抽離小班</td></tr>
-      <tr><td>褪除路徑</td><td>方法一→②→③→④依序教，每張手順卡：第一次用完整卡逐步跟 → 熟練後只留關鍵詞 → 最後移除。四張卡教完後的「比較選用」練習不再提供手順卡，測試學生能否自行判斷。</td></tr>
+      <tr><td>褪除路徑</td><td>①→②→③→④ 依序教，每張手順卡：第一次用完整卡逐步跟 → 熟練後只留關鍵詞 → 最後移除。第六節「怎麼選」不再提供手順卡，測試學生能否自行判斷。</td></tr>
       <tr><td>課堂實施流程</td><td>F1 師徒制對話四步、F3 褪除計劃 Fading、F5 課前流程預告</td></tr>
       <tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距或放大作答欄、a11 提供公式卡</td></tr>
+      <tr><td>範例的版面規範</td><td>所有範例一律用「左算式／右說明」雙欄表：左欄每行只寫一個等號、等號上下對齊；判斷式（如「9 ＞ 0 可以開方」）不是解題步驟，一律放右欄，不佔算式行。</td></tr>
     </table>
   </div>
 
