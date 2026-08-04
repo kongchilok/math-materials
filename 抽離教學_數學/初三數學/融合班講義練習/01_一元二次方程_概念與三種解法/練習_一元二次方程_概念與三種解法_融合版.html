@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>一元二次方程・概念與三種解法（課堂練習）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：初三數學</span><span>單元：一元二次方程・概念與三種解法</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="hint-card">提示：開始前先回頭看《課堂講義》對應方法的手順卡，照著同樣的步驟做。每一題都把過程寫出來，答完後做自我核對清單。</div>
+
+  <div class="section-h">一、方法一：直接開平方法</div>
+  <div class="section-h">練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem"><div>1．解方程：\(x^2=16\)</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>2．解方程：\((x+2)^2=9\)</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem"><div>3．解方程：\(2x^2-8=0\)（提示：先移項把 \(x^2\) 單獨留在一邊）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>4．解方程：\((x-1)^2-6=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem"><div>5．解方程：\(9x^2+5=1\)（提示：先移項，看看右邊會是正數還是負數）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>6．找錯題：小華解 \(x^2=-9\) 時，寫出 \(x=\pm3\)。請指出他錯在哪裡，並說明正確答案。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 每題都先判斷右邊的數是正、零還是負</div>
+    <div>☐ 開平方時兩個解都寫出來（±）</div>
+    <div>☐ 有 (x+k)² 型的，最後有移項解出 x</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">二、方法二：配方法</div>
+  <div class="section-h">練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem"><div>7．解方程：\(x^2+4x-3=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>8．解方程：\(x^2-4x-2=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem"><div>9．解方程：\(x^2+10x+9=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>10．解方程：\(2x^2+8x-2=0\)（提示：先除以 2）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem"><div>11．解方程：\(x^2+5x+2=0\)（答案會是分數，不用怕）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>12．找錯題：小美解 \(x^2+6x+5=0\) 時，寫出「兩邊加 9，得 \((x+3)^2=5+9=14\)」。請指出她錯在哪一步，並寫出正確答案。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 常數已經移到右邊，左邊只留 x² 和 x 項</div>
+    <div>☐ 加的數是「一次項係數一半的平方」，兩邊都加了</div>
+    <div>☐ 配方後記得開平方時寫 ±</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h page-break">三、方法三：公式法</div>
+  <div class="section-h">練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem"><div>13．解方程：\(x^2-3x+2=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>14．解方程：\(2x^2-5x+2=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem"><div>15．解方程：\(3x^2+2x-1=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>16．解方程：\(x^2-4x+4=0\)（留意判別式的結果）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem"><div>17．解方程：\(x^2+2x+3=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>18．解方程：\(3(x^2+1)=5x\)（提示：先展開移項化成一般式）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 已經化成一般式，寫出了 a、b、c</div>
+    <div>☐ 判別式 Δ=b²−4ac 先算出來，再判斷正負</div>
+    <div>☐ Δ&lt;0 時，直接寫「無實數根」，不用再往下算</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">四、方法四：因式分解法</div>
+  <div class="section-h">練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem"><div>19．解方程：\(x^2-5x+6=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>20．解方程：\(x^2-9=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem"><div>21．解方程：\(2x^2-7x+3=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>22．解方程：\(x^2-x-12=0\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="section-h">練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem"><div>23．解方程：\(x^2=5x\)（提示：不要兩邊除以 x！）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>24．自編一題：請寫出一個一元二次方程，使它的兩個解剛好是 \(x=2\) 和 \(x=-6\)。（提示：從 \((x-2)(x+6)=0\) 出發，再展開成一般式）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 方程右邊已經是 0</div>
+    <div>☐ 兩個因式都分別令它等於 0</div>
+    <div>☐ 有把兩邊都是 x 的情況先移項，不是直接除以 x</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">五、四種方法怎麼選？綜合練習</div>
+  <div class="hint-card">先判斷「用哪種方法最快」，再解出答案。</div>
+  <div class="problem"><div>25．\(x^2=49\)　　　　用的方法：＿＿＿＿＿＿</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>26．\(x^2-6x+8=0\)　　用的方法：＿＿＿＿＿＿</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>27．\(x^2+3x-1=0\)　　用的方法：＿＿＿＿＿＿</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>28．\((x-2)^2=12\)　　用的方法：＿＿＿＿＿＿</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h page-break">參考答案（教師用）</div>
+  <div>方法一：1．\(x=\pm4\)　2．\(x=1\) 或 \(x=-5\)　3．\(x=\pm2\)　4．\(x=1\pm\sqrt6\)　5．\(x^2=-4/9<0\)，無實數根　6．小華忘記判斷 −9＜0——負數不能開平方，\(x^2=-9\) 無實數根，不是 \(x=\pm3\)。</div>
+  <div>方法二：7．\(x=-2\pm\sqrt7\)　8．\(x=2\pm\sqrt6\)　9．\(x=-1\) 或 \(x=-9\)　10．\(x=-2\pm\sqrt5\)　11．\(x=\dfrac{-5\pm\sqrt{17}}{2}\)　12．錯在「5+9=14」——應該是「−5+9=4」（原方程常數項是 +5，移項後變 −5，加 9 後是 4，不是 14）。正確：\((x+3)^2=4\)，\(x=-1\) 或 \(x=-5\)。</div>
+  <div>方法三：13．\(x=2\) 或 \(x=1\)　14．\(x=2\) 或 \(x=1/2\)　15．\(x=1/3\) 或 \(x=-1\)　16．Δ=0，重根 \(x=2\)　17．Δ=−8&lt;0，無實數根　18．展開得 \(3x^2-5x+3=0\)，Δ=25−36=−11&lt;0，無實數根。</div>
+  <div>方法四：19．\(x=2\) 或 \(x=3\)　20．\(x=\pm3\)　21．\(x=1/2\) 或 \(x=3\)　22．\(x=4\) 或 \(x=-3\)　23．先移項 \(x^2-5x=0\)，\(x(x-5)=0\)，\(x=0\) 或 \(x=5\)（不可兩邊除以 x，會漏 x=0）　24．\(x^2+4x-12=0\)（答案不唯一，符合兩根為 2、−6 即可）。</div>
+  <div>綜合練習：25．直接開平方法，\(x=\pm7\)　26．因式分解法，\((x-2)(x-4)=0\)，\(x=2\) 或 \(x=4\)　27．公式法（不易因式分解），\(x=\dfrac{-3\pm\sqrt{13}}{2}\)　28．直接開平方法（已是平方形式），\(x=2\pm2\sqrt3\)。</div>
+
+  <div class="footer">初三數學．一元二次方程單元</div>
+
+</div>
+</body>
+</html>
