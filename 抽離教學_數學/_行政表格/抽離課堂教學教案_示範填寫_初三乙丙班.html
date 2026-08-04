@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>抽離課堂教學教案（初三乙丙班・單元01-03）</title>
+<style>
+  @page { size: A4; margin: 1.3cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Microsoft JhengHei", "Calibri", "Noto Sans TC", sans-serif;
+    font-size: 11pt;
+    color: #111;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: avoid; }
+
+  .status-banner {
+    background: #fff3cd; border: 1px solid #e0a800; border-radius: 4px;
+    padding: 6px 10px; font-size: 9pt; color: #6b5100; margin-bottom: 10px;
+  }
+
+  .header-block { text-align: center; margin-bottom: 14px; }
+  .header-block .school { font-size: 13pt; font-weight: 700; }
+  .header-block .dept { font-size: 11pt; }
+  .header-block .year { font-size: 11pt; }
+  .header-block .title { font-size: 16pt; font-weight: 700; margin-top: 6px; letter-spacing: 0.15em; }
+
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px;
+    margin-bottom: 6px; font-size: 10.5pt;
+  }
+  .info-grid .full { grid-column: 1 / -1; }
+  .info-grid .label { color: #333; }
+
+  table.log {
+    width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 9pt;
+  }
+  table.log th, table.log td {
+    border: 1px solid #444; padding: 4px 5px; vertical-align: top; text-align: left;
+  }
+  table.log thead th { background: #2a2a2a; color: #fff; text-align: center; font-weight: 600; }
+  table.log .col-date { width: 8%; text-align: center; }
+  table.log .col-content { width: 19%; }
+  table.log .col-material { width: 15%; }
+  table.log .col-mastery { width: 9%; text-align: center; color: #999; }
+  table.log .unit-row td { background: #e8e8e0; font-weight: 700; text-align: center; }
+
+  .map-note {
+    background: #f6f6f2; border: 1px solid #ddd8c8; border-radius: 4px;
+    padding: 8px 12px; font-size: 9.5pt; margin: 8px 0 14px; line-height: 1.7;
+  }
+  .warn { color: #a83c00; font-weight: 600; }
+  h2.section { font-size: 13pt; border-bottom: 2px solid #1d1c1a; padding-bottom: 4px; margin: 0 0 10px; }
+  table.summary { width:100%; border-collapse: collapse; font-size:9.5pt; margin-bottom:14px; }
+  table.summary th, table.summary td { border:1px solid #ccc; padding:5px 7px; text-align:left; }
+  table.summary th { background:#eee; }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 0：說明 ============ -->
+<div class="page">
+  <div class="status-banner">草擬版（2026-08-04）—— 尚未落實真實課節；逐堂拆分是本次示範另外拆的，實際教學時可按堂上進度調整順序或合併。「學生掌握情況」留空，須實際上課後填寫。</div>
+
+  <h2 class="section">說明：本次擴充的範圍與假設</h2>
+  <div class="map-note">
+    來源：<code>初三數學\教學計劃_26-27初三抽離_乙丙班.md</code> §4.2（乙班）、§4.3（丙班），單元 01–03；教學內容取自 <code>融合班講義練習\01_一元二次方程_概念與三種解法</code>、<code>02_判別式與根與係數關係</code>、<code>03_一元二次方程的應用</code> 三份講義的實際段落結構。<br><br>
+    <span class="warn">⚠️ 假設事項</span>（以下均待你核對／調整）：<br>
+    1. 上課星期：計劃尚未定實際排課星期。乙班（3節/週）示範假設排在<b>週二、三、四</b>（週數不足 3 節時，用該週實際上課日中對應的那幾天）；丙班（4節/週）示範假設排在<b>週一、二、四、五</b>。<br>
+    2. 逐堂拆分：教學計劃只給每單元的「總節數」，例如乙班單元01是「6節」而非「第1節教乜、第2節教乜」。以下的逐堂順序是本次示範按講義段落結構（概念→因式分解→配方→公式→比較選法→總結）自行拆的，不是計劃原文。<br>
+    3. 日期依 25/26 校曆同位推算的 26/27 預測日曆（與教學計劃 §三 相同），實際日期待正式校曆公佈後調整。<br>
+    4. 「功課/練習」欄按練習冊 A（基礎）／B（中）／C（挑戰）三層難度、對應當堂方法配題，非教學計劃原文逐字列出。
+  </div>
+
+  <h2 class="section">單元一覽</h2>
+  <table class="summary">
+    <thead><tr><th>單元</th><th>乙班（3節/週）</th><th>丙班（4節/週）</th></tr></thead>
+    <tbody>
+      <tr><td>01 一元二次方程・概念與三種解法</td><td>6 節（W1–W3）</td><td>7 節（W1–W3）</td></tr>
+      <tr><td>02 判別式與根與係數關係</td><td>4 節（W3–W4）</td><td>5 節（W3–W4）</td></tr>
+      <tr><td>03 一元二次方程的應用</td><td>2 節（W5，只做增長率型）</td><td>5 節（W4–W6，面積／增長率／利潤三型）</td></tr>
+      <tr><td><b>合計</b></td><td><b>12 節</b></td><td><b>17 節</b></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ PAGE 1：乙班 ============ -->
+<div class="page">
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>＿＿＿＿＿＿</div>
+    <div><span class="label">班級：</span>初三乙</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週二／三／四 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>01–03 一元二次方程：概念與三種解法／判別式與根與係數／應用（初三乙班，W1–W5）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="unit-row"><td colspan="6">單元 01　一元二次方程・概念與三種解法（6 節）</td></tr>
+      <tr>
+        <td>2026/09/02（三）</td>
+        <td>一元二次方程的概念：一般式 ax²+bx+c=0，辨識 a、b、c</td>
+        <td>對答＋修正；口訣「先化＝0，再認 a、b、c」</td>
+        <td>講義例題後基礎題 2 題（辨識係數）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/03（四）</td>
+        <td>因式分解法：十字相乘拆解 x²−5x+6=0 型</td>
+        <td>對答＋修正；強調「解完必驗根」</td>
+        <td>練習 A1（可直接因式分解的簡單係數題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/08（二）</td>
+        <td>配方法：移項→配平方→開平方，銜接理解公式法的來源</td>
+        <td>對答＋修正；比較「配方法」與「因式分解法」步驟數</td>
+        <td>練習 A2（同一題用配方法驗證因式分解法答案）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/10（四）</td>
+        <td>公式法：判別式 Δ=b²−4ac，求根公式代入</td>
+        <td>對答＋修正；發「公式代入三步驟卡」</td>
+        <td>練習 B3（不能輕易因式分解，須用公式法的題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/15（二）</td>
+        <td>三種方法怎麼選：能因式分解先用因式分解，不能就用公式法</td>
+        <td>對答＋修正；每題先判斷「用邊種方法快」再解</td>
+        <td>練習 B4（含判斷選法的混合題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/16（三）</td>
+        <td>綜合練習與總結：三種方法交叉練習＋常見錯誤辨析</td>
+        <td>對答＋修正；找錯練習「x²=5x 除以 x 漏解 x=0」</td>
+        <td>練習 C5、C6（挑戰題＋找錯題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr class="unit-row"><td colspan="6">單元 02　判別式與根與係數關係（4 節）</td></tr>
+      <tr>
+        <td>2026/09/17（四）</td>
+        <td>判別式 Δ 的意義：Δ&gt;0／=0／&lt;0 對應根的個數</td>
+        <td>對答＋修正；發「Δ 判斷卡」（不解方程判根數）</td>
+        <td>練習 A1（判別式計算＋分類基礎題）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/22（二）</td>
+        <td>判別式應用練習：只算 Δ 判斷根的情況，不解方程</td>
+        <td>對答＋修正；強調「唔用解方程都可以答」</td>
+        <td>練習 A2（多題連續判斷根數）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/23（三）</td>
+        <td>根與係數的關係（韋達定理）：兩根和、兩根積公式</td>
+        <td>對答＋修正；用已知根驗證公式（如 2、3 驗 x²−5x+6）</td>
+        <td>練習 B3（給方程求兩根和積）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/24（四）</td>
+        <td>韋達定理應用練習與總結：常用變形（求兩根平方和等）</td>
+        <td>對答＋修正；發「韋達定理公式卡」</td>
+        <td>練習 B4、C5（進階變形應用）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr class="unit-row"><td colspan="6">單元 03　一元二次方程的應用（2 節，⚠️ 只做增長率型，面積型移作自學）</td></tr>
+      <tr>
+        <td>2026/09/29（二）</td>
+        <td>應用題四步驟框架（設、列、解、驗）＋增長率／變化率問題（降價率範例）</td>
+        <td>對答＋修正；覆述四步驟口訣</td>
+        <td>練習 A1（增長率型基礎題）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/30（三）</td>
+        <td>增長率應用練習與總結：兩次連續變化型（如連續降價／傳染病擴散）</td>
+        <td>對答＋修正；覆核「取捨解」的判斷（負值捨去）</td>
+        <td>練習 A2、B3（連續變化型混合練習）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="map-note" style="margin-top:12px;">
+    📌 乙班單元03只做增長率型（面積型移作功課／練習冊自學，因與初二面積問題重疊度高，較易遷移）——與丙班（面積／增長率／利潤三型都教）的範圍差異，反映兩班節數不同帶來的課程剪裁。
+  </div>
+</div>
+
+<!-- ============ PAGE 2：丙班 ============ -->
+<div class="page">
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>＿＿＿＿＿＿</div>
+    <div><span class="label">班級：</span>初三丙</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週一／二／四／五 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>01–03 一元二次方程：概念與三種解法／判別式與根與係數／應用（初三丙班，W1–W6）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="unit-row"><td colspan="6">單元 01　一元二次方程・概念與三種解法（7 節，三法完整＋比較選法）</td></tr>
+      <tr>
+        <td>2026/09/03（四）</td>
+        <td>一元二次方程的概念：一般式 ax²+bx+c=0，辨識 a、b、c</td>
+        <td>對答＋修正；口訣「先化＝0，再認 a、b、c」</td>
+        <td>講義例題後基礎題 2 題</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/04（五）</td>
+        <td>因式分解法（一）：十字相乘拆解，簡單整數係數</td>
+        <td>對答＋修正；強調「解完必驗根」</td>
+        <td>練習 A1（簡單係數題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/07（一）</td>
+        <td>因式分解法（二）：較難係數（a≠1）十字相乘進階練習</td>
+        <td>對答＋修正；發「十字相乘檢查表」</td>
+        <td>練習 A2（含 a≠1 的題目）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/08（二）</td>
+        <td>配方法：移項→配平方→開平方，銜接公式法的來源</td>
+        <td>對答＋修正；比較配方法與因式分解法步驟數</td>
+        <td>練習 B3（配方法驗證題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/10（四）</td>
+        <td>公式法：判別式 Δ=b²−4ac，求根公式代入</td>
+        <td>對答＋修正；發「公式代入三步驟卡」</td>
+        <td>練習 B4（須用公式法的題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/14（一）</td>
+        <td>三種方法怎麼選：能因式分解先用因式分解，不能就用公式法</td>
+        <td>對答＋修正；每題先判斷選法再解</td>
+        <td>練習 C5（含判斷選法的混合題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/15（二）</td>
+        <td>綜合練習與總結：三種方法交叉練習＋常見錯誤辨析</td>
+        <td>對答＋修正；找錯練習「x²=5x 除以 x 漏解 x=0」</td>
+        <td>練習 C6（找錯題）</td>
+        <td>講義_一元二次方程_概念與三種解法_融合版</td>
+        <td></td>
+      </tr>
+      <tr class="unit-row"><td colspan="6">單元 02　判別式與根與係數關係（5 節，含參數討論入門）</td></tr>
+      <tr>
+        <td>2026/09/17（四）</td>
+        <td>判別式 Δ 的意義：Δ&gt;0／=0／&lt;0 對應根的個數</td>
+        <td>對答＋修正；發「Δ 判斷卡」</td>
+        <td>練習 A1（判別式計算基礎題）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/18（五）</td>
+        <td>判別式應用練習：只算 Δ 判斷根的情況，不解方程</td>
+        <td>對答＋修正；強調「唔用解方程都可以答」</td>
+        <td>練習 A2（連續判斷根數）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/21（一）</td>
+        <td>根與係數的關係（韋達定理）：兩根和、兩根積公式</td>
+        <td>對答＋修正；用已知根驗證公式</td>
+        <td>練習 B3（給方程求兩根和積）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/22（二）</td>
+        <td>韋達定理應用練習：常用變形（求兩根平方和等）</td>
+        <td>對答＋修正；發「韋達定理公式卡」</td>
+        <td>練習 B4（進階變形應用）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/24（四）</td>
+        <td>含參數討論入門：「方程有兩相異實根，求 k 的範圍」類型</td>
+        <td>對答＋修正；標明「Δ&gt;0 列不等式解 k」的固定流程</td>
+        <td>練習 C5、C6（含參數判別題）</td>
+        <td>講義_判別式與根與係數關係_融合版</td>
+        <td></td>
+      </tr>
+      <tr class="unit-row"><td colspan="6">單元 03　一元二次方程的應用（5 節，面積／增長率／利潤三型）</td></tr>
+      <tr>
+        <td>2026/09/25（五）</td>
+        <td>應用題四步驟框架（設、列、解、驗）＋面積問題（矩形長寬範例）</td>
+        <td>對答＋修正；覆述四步驟口訣</td>
+        <td>練習 A1（面積型基礎題）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/28（一）</td>
+        <td>面積問題應用練習：矩形、靠牆籬笆等變化題型</td>
+        <td>對答＋修正；覆核「取捨解」的判斷（負值／不合理值捨去）</td>
+        <td>練習 A2（面積型變化題）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/29（二）</td>
+        <td>增長率／變化率問題（連續降價／傳染病擴散型）</td>
+        <td>對答＋修正；比較「連續兩次變化」與「單次變化」的設法差異</td>
+        <td>練習 B3（增長率型）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/10/05（一）</td>
+        <td>利潤問題（丙班獨有）：單價、銷量、利潤三者關係列方程</td>
+        <td>對答＋修正；發「利潤問題設元指引卡」</td>
+        <td>練習 B4（利潤型基礎題）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/10/06（二）</td>
+        <td>三類綜合練習與總結：面積／增長率／利潤混合辨題</td>
+        <td>對答＋修正；每題先判斷「屬邊一類」再套四步驟</td>
+        <td>練習 C5、C6（三類混合挑戰題）</td>
+        <td>講義_一元二次方程的應用_融合版</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="map-note" style="margin-top:12px;">
+    📌 丙班單元03比乙班多3節，用嚟加教「利潤問題」呢個獨立類型，並喺總結堂做三類混合辨題訓練——反映丙班4節/週嘅節數優勢，可以做齊面積／增長率／利潤三型，唔似乙班要剪裁到只教增長率型。
+  </div>
+</div>
+
+</body>
+</html>
