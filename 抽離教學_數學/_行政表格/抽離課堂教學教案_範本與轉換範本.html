@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>抽離課堂教學教案</title>
+<style>
+  @page { size: A4; margin: 1.3cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Microsoft JhengHei", "Calibri", "Noto Sans TC", sans-serif;
+    font-size: 11pt;
+    color: #111;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+  .page { page-break-after: always; padding: 0.3cm 0; }
+  .page:last-child { page-break-after: avoid; }
+
+  .status-banner {
+    background: #fff3cd; border: 1px solid #e0a800; border-radius: 4px;
+    padding: 6px 10px; font-size: 9pt; color: #6b5100; margin-bottom: 10px;
+  }
+
+  .header-block { text-align: center; margin-bottom: 14px; }
+  .header-block .school { font-size: 13pt; font-weight: 700; }
+  .header-block .dept { font-size: 11pt; }
+  .header-block .year { font-size: 11pt; }
+  .header-block .title { font-size: 16pt; font-weight: 700; margin-top: 6px; letter-spacing: 0.15em; }
+
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px;
+    margin-bottom: 6px; font-size: 10.5pt;
+  }
+  .info-grid .full { grid-column: 1 / -1; }
+  .info-grid .label { color: #333; }
+  .info-grid .blank { border-bottom: 1px solid #888; display: inline-block; min-width: 160px; padding: 0 4px; }
+
+  table.log {
+    width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 9.5pt;
+  }
+  table.log th, table.log td {
+    border: 1px solid #444; padding: 5px 6px; vertical-align: top; text-align: left;
+  }
+  table.log thead th { background: #2a2a2a; color: #fff; text-align: center; font-weight: 600; }
+  table.log .col-date { width: 9%; text-align: center; }
+  table.log .col-content { width: 20%; }
+  table.log .col-material { width: 14%; }
+  table.log .col-mastery { width: 18%; }
+  table.log tbody tr { height: 30px; }
+  table.log .demo-row td { background: #f4f8fb; }
+  table.log .demo-text { color: #14456b; }
+
+  .sign-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px;
+    margin-top: 16px; font-size: 10.5pt;
+  }
+
+  .note-block { font-size: 9pt; color: #444; margin-top: 14px; line-height: 1.7; }
+  .form-id { text-align: right; font-size: 8.5pt; color: #777; margin-top: 6px; }
+
+  h2.section { font-size: 13pt; border-bottom: 2px solid #1d1c1a; padding-bottom: 4px; margin: 0 0 10px; }
+  .diff-box, .map-note {
+    background: #f6f6f2; border: 1px solid #ddd8c8; border-radius: 4px;
+    padding: 8px 12px; font-size: 9.5pt; margin: 8px 0 14px; line-height: 1.7;
+  }
+  table.map {
+    width: 100%; border-collapse: collapse; font-size: 9.5pt; margin-bottom: 10px;
+  }
+  table.map th, table.map td {
+    border: 1px solid #ccc; padding: 5px 7px; text-align: left; vertical-align: top;
+  }
+  table.map th { background: #eee; }
+  .warn { color: #a83c00; font-weight: 600; }
+  code { background: #eee; padding: 1px 4px; border-radius: 3px; font-size: 9pt; }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 1：空白模板 ============ -->
+<div class="page">
+  <div class="status-banner">草擬示範版（RDQ 已確認，2026-08-04）—— 尚未落實真實課節，示範用假設學生「學生A」。原表格：SEN05 課後輔導教學教案表格（20251020）。</div>
+
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">20___ / 20___ 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span><span class="blank">&nbsp;</span></div>
+    <div><span class="label">班級：</span><span class="blank">&nbsp;</span></div>
+    <div><span class="label">任教抽離課堂之老師：</span><span class="blank">&nbsp;</span></div>
+    <div><span class="label">負責跟進之資源老師：</span><span class="blank">&nbsp;</span></div>
+    <div><span class="label">地點：</span><span class="blank">&nbsp;</span></div>
+    <div><span class="label">上課時間：</span><span class="blank">&nbsp;</span></div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span><span class="blank" style="min-width:70%">&nbsp;</span></div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="sign-block">
+    <div>授課老師簽署：<span class="blank">&nbsp;</span></div>
+    <div>學生簽署：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+  </div>
+
+  <div class="note-block">
+    備註：<br>
+    1. 請負責跟進課後輔導的資源老師與任教抽離課堂的老師協調相關上課及學生情況，如學生缺席或請假，請在支援組請假群通知及請主責資源老師須通知家長。<br>
+    2. 每月 26 日前負責跟進課後輔導的資源老師需把工作紙及每個學生抽離課堂教學教案上傳至學生支援組 Google Drive。
+  </div>
+  <div class="form-id">改版自表格編號：SEN05/20251020（草擬，非正式編號）</div>
+</div>
+
+<!-- ============ PAGE 2：與原表格差異 + 轉換範本 ============ -->
+<div class="page">
+  <h2 class="section">一、與原表格的差異</h2>
+  <div class="diff-box">
+    ・標題「課後輔導教學教案」→「抽離課堂教學教案」<br>
+    ・「任教課後輔導之老師」→「任教抽離課堂之老師」<br>
+    ・「科目：中／英／數」→「科目：數」（本表格只供數學抽離班用）<br>
+    ・結構維持 per-學生（不改成 per-班／per-組）——即使抽離課是小組上堂，紀錄仍按個別學生填
+  </div>
+
+  <h2 class="section">二、教學計劃 → 教案 轉換範本</h2>
+  <table class="map">
+    <thead><tr><th>教學計劃欄位（來源）</th><th>→</th><th>教案欄位（目標）</th><th>轉換說明</th></tr></thead>
+    <tbody>
+      <tr><td>計劃標題（如「高一戊班」）</td><td>→</td><td>班級</td><td>直接抄班級全名</td></tr>
+      <tr><td>你本人</td><td>→</td><td>任教抽離課堂之老師</td><td>固定值</td></tr>
+      <tr><td>計劃裡的單元大標題</td><td>→</td><td>學習目標／單元</td><td>換單元時更新，一份教案可涵蓋同一單元多堂課</td></tr>
+      <tr><td>週次表格「週」欄＋校曆日期</td><td>→</td><td>上課日期</td><td>需對照學校正式校曆換算實際日期（計劃日期是預測值）</td></tr>
+      <tr><td>「本週錨點」／「內容」欄</td><td>→</td><td>課堂重點／發展</td><td>可直接搬字過紙，視實際教學調整措辭</td></tr>
+      <tr><td>錨點課固定流程「對答＋修正」</td><td>→</td><td>總結及鞏固</td><td>若計劃無明確寫，用固定句式「對答＋修正，標出錯處」</td></tr>
+      <tr><td>「帶走的卡」／練習冊指定題</td><td>→</td><td>功課／練習</td><td>視乎是「發還是帶走」，也可能屬教材欄</td></tr>
+      <tr><td>對應講義檔名</td><td>→</td><td>教材</td><td>寫講義全名，方便日後追查</td></tr>
+      <tr><td class="warn">（教學計劃給不到）</td><td>→</td><td>學生掌握情況</td><td class="warn">必須實際上課後才能填</td></tr>
+    </tbody>
+  </table>
+  <div class="map-note">
+    ⚠️ 教材欄與功課／練習欄容易混淆：手順卡若是「當堂發、學生帶走做記憶輔助」算教材；若是「額外指定練習題」算功課／練習，沒有絕對規則，視實際情況判斷。
+  </div>
+</div>
+
+<!-- ============ PAGE 3：示範填寫 ============ -->
+<div class="page">
+  <h2 class="section">三、示範填寫：學生A（假設）＋ 高一戊班 W1–W3</h2>
+  <div class="map-note">
+    來源：<code>高一數學\教學計劃_26-27高一抽離_甲戊班.md</code> §4.3 戊班錨點課、§六 固定流程。示範假設抽離課排在<b>週五</b>（計劃建議的最佳時段之一），日期取各週週五。
+  </div>
+
+  <div class="header-block" style="margin-bottom:8px;">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title" style="font-size:14pt;">抽離課堂教學教案（示範）</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>學生A（假設）</div>
+    <div><span class="label">班級：</span>高一戊</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週五 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>01 集合與常用邏輯用語（高一戊班錨點課，W1–W3）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="demo-row">
+        <td class="demo-text">2026/09/04</td>
+        <td class="demo-text">集合的兩種表示法（列舉法／描述法）</td>
+        <td class="demo-text">對答＋修正，標出錯在哪一步；發「表示法對照卡」</td>
+        <td class="demo-text">練習冊對應題型每型 1 題</td>
+        <td class="demo-text">講義_集合的概念與基本關係_高一數學</td>
+        <td class="demo-text">學生A 能在提示下完成列舉法轉描述法，獨立完成度約 70%</td>
+      </tr>
+      <tr class="demo-row">
+        <td class="demo-text">2026/09/11</td>
+        <td class="demo-text">子集與集合關係（Venn 圖判讀）</td>
+        <td class="demo-text">對答＋修正；發「Venn 圖判讀卡」</td>
+        <td class="demo-text">練習冊對應題型每型 1 題</td>
+        <td class="demo-text">講義_集合的概念與基本關係_高一數學</td>
+        <td class="demo-text">學生A 能自行判讀簡單 Venn 圖子集關係，複雜情況仍需提示</td>
+      </tr>
+      <tr class="demo-row">
+        <td class="demo-text">2026/09/18</td>
+        <td class="demo-text">交集、並集、補集三步驟＋集合元素個數公式（併項）</td>
+        <td class="demo-text">對答＋修正；發「運算＆公式卡」</td>
+        <td class="demo-text">練習冊對應題型每型 1 題</td>
+        <td class="demo-text">講義_集合的基本運算_高一數學</td>
+        <td class="demo-text">學生A 能複述三步驟，實際運算仍需公式卡輔助</td>
+      </tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+      <tr><td>20__/__/__</td><td></td><td></td><td></td><td></td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="sign-block">
+    <div>授課老師簽署：<span class="blank">&nbsp;</span></div>
+    <div>學生簽署：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+  </div>
+
+  <div class="map-note" style="margin-top:16px;">
+    📌 <b>示範重點</b>：「教學內容」三欄幾乎可以直接從教學計劃的「本週錨點」＋「帶走的卡」＋固定流程搬過去，<b>唯獨「學生掌握情況」是教學計劃完全給不到的</b>——這欄必須每堂課後即時記錄，是抽離教學教案與教學計劃最本質的分工：<b>計劃管「打算教什麼」，教案管「實際教成點」</b>。
+  </div>
+
+  <h2 class="section" style="margin-top:20px;">四、待落實事項</h2>
+  <table class="map">
+    <thead><tr><th style="width:6%">#</th><th>事項</th><th style="width:22%">狀態</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>用真實學生資料填正式教案</td><td>⏸ 待校曆與抽離課實際排課確定後才做</td></tr>
+      <tr><td>2</td><td>是否要把此範本寫成正式 Excel／PDF 檔（覆蓋或另存新檔）</td><td>⏸ 待決定</td></tr>
+      <tr><td>3</td><td>「學生掌握情況」是否需要簡碼系統（✅／⚠️／❌）</td><td>❌ 本次已排除</td></tr>
+      <tr><td>4</td><td>初三、高三班級的示範</td><td>⏸ 如需要可另外示範</td></tr>
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>
