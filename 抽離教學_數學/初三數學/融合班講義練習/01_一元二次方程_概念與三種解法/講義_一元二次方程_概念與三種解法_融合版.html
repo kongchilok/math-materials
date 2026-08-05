@@ -52,9 +52,30 @@
   .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
   .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 10px; vertical-align: middle; text-align: left; font-size: 11.5pt; }
   .d-tbl th { background: #f0f0f0; font-weight: 700; }
-  /* 範例雙軌：左算式右說明，逐行橫向對齊 */
-  .worked td:first-child { width: 50%; }
+  /* 長到一頁放不下的表：容許跨頁，但整列不可切開，表頭由 <thead> 在次頁重印
+     （house-style「表頭要能跨頁重印」）。整表推到下一頁只會留一整頁空白。 */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ── 範例段：左算式／右說明，算式欄再切成 左式｜＝｜右式｜或｜左式｜＝｜右式 ──
+     等號各自站在固定的欄上，上下對齊成一條垂直線；七個小欄之間不畫直線，
+     學生看到的仍然是「一欄算式」。規範見 house-style.md「數學算式的書寫規範」。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }
+  .worked td.ans { font-weight: 700; }
+  .worked td.why { width: 35%; }
   .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
   .step-card td:first-child { width: 56%; font-weight: 700; }
   .step-card.compact td:first-child { width: 100%; }
   .step-card .pitfall { font-weight: 400; font-size: 11pt; }
@@ -95,23 +116,54 @@
   <p>前三種方法一步步建立在上一種之上；因式分解法排最後，因為它是「看得出來就可以抄捷徑」的快速做法。</p>
   <p>每種方法後面都有一張手順卡；完整版（連每一步的易錯提醒）在《工具卡》，可以剪下放在桌面邊做邊看。</p>
 
+  <div class="sub-h">寫算式的三條規矩（四種方法都一樣）</div>
+  <div class="hint-card"><span class="k">規矩一</span>一行只寫一個等號，等號上下對齊成一條直線</div>
+  <div class="hint-card"><span class="k">規矩二</span>開平方或因式分解之後，分成兩支寫，中間一定要寫「或」</div>
+  <div class="hint-card"><span class="k">規矩三</span>最後一行用「∴」寫出答案：\(\therefore x_1 = \) …　或　\(x_2 = \) …</div>
+
   <!-- ========== 二 ========== -->
   <div class="section-h page-break">二、方法一：直接開平方法（降次）</div>
   <div class="hint-card">「降次」的意思：把二次方程（有 \(x^2\)）變成兩個一次方程（沒有平方），就能用我們已經會解的方法完成。</div>
   <div class="sub-h">對於 \(x^2=p\)，右邊的 p 決定有沒有根：</div>
-  <div class="hint-card"><span class="k">①</span>當 \(p>0\)：有兩個不等的實數根 \(x_1=-\sqrt{p}\)、\(x_2=\sqrt{p}\)</div>
+  <div class="hint-card"><span class="k">①</span>當 \(p>0\)：有兩個不等的實數根 \(x_1=\sqrt{p}\)　或　\(x_2=-\sqrt{p}\)</div>
   <div class="hint-card"><span class="k">②</span>當 \(p=0\)：有兩個相等的實數根 \(x_1=x_2=0\)</div>
   <div class="hint-card"><span class="k">③</span>當 \(p<0\)：沒有實數根（因為任何實數的平方都 ≥ 0）</div>
 
   <div class="sub-h">★ 範例：解 \((x-4)^2-9=0\)</div>
   <table class="d-tbl worked">
-    <tr><th>算式</th><th>這一步在做什麼</th></tr>
-    <tr><td>\((x-4)^2-9=0\)</td><td>原方程</td></tr>
-    <tr><td>\((x-4)^2=9\)</td><td>移項：−9 過等號變 +9<span class="note">※ 先看右邊：9 ＞ 0，可以開平方</span></td></tr>
-    <tr><td>\(x-4=\pm3\)</td><td>兩邊開平方<span class="note">※ 別漏寫 ±，只寫一個根會漏解</span></td></tr>
-    <tr><td>\(x=4\pm3\)</td><td>移項：−4 過等號變 +4</td></tr>
-    <tr><td>\(x_1=7\)</td><td>取「＋」號</td></tr>
-    <tr><td>\(x_2=1\)</td><td>取「−」號</td></tr>
+    <thead>
+    <tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="ec1">\((x-4)^2-9\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">原方程</td>
+    </tr>
+    <tr>
+      <td class="ec1">\((x-4)^2\)</td><td class="ec2">\(=\)</td><td class="ec3">\(9\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">移項：−9 過等號變 +9<span class="note">※ 先看右邊：9 ＞ 0，可以開平方</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x-4\)</td><td class="ec2">\(=\)</td><td class="ec3">\(3\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x-4\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-3\)</td>
+      <td class="why">兩邊開平方，分成兩支寫<span class="note">※ 中間一定要寫「或」；只寫一支會漏解</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x\)</td><td class="ec2">\(=\)</td><td class="ec3">\(3+4\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-3+4\)</td>
+      <td class="why">兩支各自移項：−4 過等號變 +4</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(7\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(1\)</td>
+      <td class="why">兩支各自算出；左支叫 \(x_1\)，右支叫 \(x_2\)</td>
+    </tr>
+    <tr>
+      <td class="ecs ans" colspan="7">\(\therefore x_1 = 7\)　或　\(x_2 = 1\)</td>
+      <td class="why">作答：最後一行用「∴」寫出兩個根</td>
+    </tr>
+  </tbody>
   </table>
 
   <table class="d-tbl step-card compact">
@@ -119,8 +171,9 @@
     <tr><td style="font-weight:400">什麼時候用：方程已經是（或可以化成）\(x^2=p\)、\((x+k)^2=c\) 的形式時最快</td></tr>
     <tr><td>1. 化成 \(x^2=p\) 或 \((x+k)^2=c\) 的形式</td></tr>
     <tr><td>2. 看右邊的數是正、零還是負</td></tr>
-    <tr><td>3. 右邊 ＞ 0 就兩邊開平方，寫成 ±</td></tr>
-    <tr><td>4. 左邊還有 +k 就再移項，解出兩個根</td></tr>
+    <tr><td>3. 右邊 ＞ 0 就兩邊開平方，分兩支寫，中間寫「或」</td></tr>
+    <tr><td>4. 兩支各自移項，解出 \(x_1\) 和 \(x_2\)</td></tr>
+    <tr><td>5. 最後一行用「∴」寫答句</td></tr>
   </table>
 
   <!-- ========== 三 ========== -->
@@ -129,15 +182,44 @@
 
   <div class="sub-h">★ 範例：解 \(x^2+6x-1=0\)</div>
   <table class="d-tbl worked">
-    <tr><th>算式</th><th>這一步在做什麼</th></tr>
-    <tr><td>\(x^2+6x-1=0\)</td><td>原方程</td></tr>
-    <tr><td>\(x^2+6x=1\)</td><td>移項：−1 過等號變 +1</td></tr>
-    <tr><td>\(x^2+6x+9=1+9\)</td><td>兩邊同時加 9<span class="note">※ 9 是「一次項係數一半的平方」，即 (6 ÷ 2) 的平方</span></td></tr>
-    <tr><td>\((x+3)^2=10\)</td><td>左邊配成完全平方，右邊算出 10</td></tr>
-    <tr><td>\(x+3=\pm\sqrt{10}\)</td><td>兩邊開平方（回到方法一的降次）</td></tr>
-    <tr><td>\(x=-3\pm\sqrt{10}\)</td><td>移項：+3 過等號變 −3</td></tr>
-    <tr><td>\(x_1=-3+\sqrt{10}\)</td><td>取「＋」號</td></tr>
-    <tr><td>\(x_2=-3-\sqrt{10}\)</td><td>取「−」號</td></tr>
+    <thead>
+    <tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="ec1">\(x^2+6x-1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">原方程</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x^2+6x\)</td><td class="ec2">\(=\)</td><td class="ec3">\(1\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">移項：−1 過等號變 +1</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x^2+6x+9\)</td><td class="ec2">\(=\)</td><td class="ec3">\(1+9\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">兩邊同時加 9<span class="note">※ 9 是「一次項係數一半的平方」，即 (6 ÷ 2) 的平方</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\((x+3)^2\)</td><td class="ec2">\(=\)</td><td class="ec3">\(10\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">左邊配成完全平方，右邊算出 10</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x+3\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\sqrt{10}\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x+3\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-\sqrt{10}\)</td>
+      <td class="why">兩邊開平方，分成兩支寫（回到方法一的降次）<span class="note">※ 中間一定要寫「或」</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(-3+\sqrt{10}\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-3-\sqrt{10}\)</td>
+      <td class="why">兩支各自移項：+3 過等號變 −3</td>
+    </tr>
+    <tr>
+      <td class="ecs ans" colspan="7">\(\therefore x_1 = -3+\sqrt{10}\)　或　\(x_2 = -3-\sqrt{10}\)</td>
+      <td class="why">作答：最後一行用「∴」寫出兩個根</td>
+    </tr>
+  </tbody>
   </table>
 
   <table class="d-tbl step-card compact">
@@ -146,7 +228,8 @@
     <tr><td>1. \(x^2\) 前面的係數不是 1，兩邊先除以它</td></tr>
     <tr><td>2. 把常數移到等號右邊</td></tr>
     <tr><td>3. 兩邊同時加「一次項係數一半的平方」</td></tr>
-    <tr><td>4. 左邊配成 \((x+k)^2\)，套用手順卡①解出兩個根</td></tr>
+    <tr><td>4. 左邊配成 \((x+k)^2\)，套用手順卡①分兩支解</td></tr>
+    <tr><td>5. 最後一行用「∴」寫答句</td></tr>
   </table>
 
   <!-- ========== 四 ========== -->
@@ -157,24 +240,73 @@
     <div class="label">求根公式</div>
     <div class="formula">\(x=\dfrac{-b\pm\sqrt{b^2-4ac}}{2a}\)</div>
     <div class="formula">判別式　\(\Delta=b^2-4ac\)</div>
+    <div style="font-size:10.5pt;color:#333;margin-top:6px">※ 公式本身用 ± 記法寫；一落到解題步驟，就要把 ± 拆成兩支，中間寫「或」。</div>
   </div>
 
   <div class="sub-h">★ 範例：解 \(2(x^2-1)=3x+3\)</div>
-  <table class="d-tbl worked">
-    <tr><th>算式</th><th>這一步在做什麼</th></tr>
-    <tr><td>\(2(x^2-1)=3x+3\)</td><td>原方程</td></tr>
-    <tr><td>\(2x^2-2=3x+3\)</td><td>展開左邊括號</td></tr>
-    <tr><td>\(2x^2-3x-5=0\)</td><td>移項，化成一般式<span class="note">※ 有括號或分母的，一定要先整理成一般式才寫 a、b、c</span></td></tr>
-    <tr><td>a ＝ 2，b ＝ −3，c ＝ −5</td><td>對照一般式讀出三個係數</td></tr>
-    <tr><td>\(\Delta=b^2-4ac\)</td><td>先寫判別式公式</td></tr>
-    <tr><td>\(\Delta=(-3)^2-4(2)(-5)\)</td><td>代入 a、b、c<span class="note">※ \((-3)^2=9\)，先平方再算，不是 −9</span></td></tr>
-    <tr><td>\(\Delta=49\)</td><td>算出判別式<span class="note">※ 49 ＞ 0，所以有兩個不同的實數根</span></td></tr>
-    <tr><td>\(x=\dfrac{-b\pm\sqrt{\Delta}}{2a}\)</td><td>寫出求根公式</td></tr>
-    <tr><td>\(x=\dfrac{3\pm\sqrt{49}}{4}\)</td><td>代入 b、Δ、a</td></tr>
-    <tr><td>\(x=\dfrac{3\pm7}{4}\)</td><td>\(\sqrt{49}=7\)</td></tr>
-    <tr><td>\(x_1=\dfrac{10}{4}\)</td><td>取「＋」號：3 + 7</td></tr>
-    <tr><td>\(x_1=\dfrac{5}{2}\)</td><td>約簡（分子分母同除以 2）</td></tr>
-    <tr><td>\(x_2=-1\)</td><td>取「−」號：(3 − 7) ÷ 4</td></tr>
+  <table class="d-tbl worked long">
+    <thead>
+    <tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="ec1">\(2(x^2-1)\)</td><td class="ec2">\(=\)</td><td class="ec3">\(3x+3\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">原方程</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(2x^2-2\)</td><td class="ec2">\(=\)</td><td class="ec3">\(3x+3\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">展開左邊括號</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(2x^2-3x-5\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">移項，化成一般式<span class="note">※ 有括號或分母的，一定要先整理成一般式才寫 a、b、c</span></td>
+    </tr>
+    <tr>
+      <td class="ecs" colspan="7">a ＝ 2，b ＝ −3，c ＝ −5</td>
+      <td class="why">對照一般式讀出三個係數（這一行不是方程，不參與等號對齊）</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(\Delta\)</td><td class="ec2">\(=\)</td><td class="ec3">\(b^2-4ac\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">先寫判別式公式</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(\Delta\)</td><td class="ec2">\(=\)</td><td class="ec3">\((-3)^2-4(2)(-5)\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">代入 a、b、c<span class="note">※ \((-3)^2=9\)，先平方再算，不是 −9</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(\Delta\)</td><td class="ec2">\(=\)</td><td class="ec3">\(49\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">算出判別式<span class="note">※ 49 ＞ 0，所以有兩個不同的實數根</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\dfrac{-b+\sqrt{\Delta}}{2a}\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(\dfrac{-b-\sqrt{\Delta}}{2a}\)</td>
+      <td class="why">照抄公式，同時把 ± 拆成兩支<span class="note">※ 左支取「＋」、右支取「−」，中間寫「或」</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\dfrac{3+7}{4}\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(\dfrac{3-7}{4}\)</td>
+      <td class="why">代入：−b ＝ 3、\(\sqrt{\Delta}=7\)、2a ＝ 4<span class="note">※ −b 是 −(−3) ＝ 3，不是 −3</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\dfrac{10}{4}\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(\dfrac{-4}{4}\)</td>
+      <td class="why">兩支各自算出分子</td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\dfrac{5}{2}\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-1\)</td>
+      <td class="why">約簡</td>
+    </tr>
+    <tr>
+      <td class="ecs ans" colspan="7">\(\therefore x_1 = \dfrac{5}{2}\)　或　\(x_2 = -1\)</td>
+      <td class="why">作答：最後一行用「∴」寫出兩個根</td>
+    </tr>
+  </tbody>
   </table>
 
   <table class="d-tbl step-card compact">
@@ -183,7 +315,8 @@
     <tr><td>1. 化成一般式，寫出 a、b、c</td></tr>
     <tr><td>2. 算判別式 \(\Delta=b^2-4ac\)</td></tr>
     <tr><td>3. 看 Δ：Δ&lt;0 無解、Δ=0 一個重根、Δ&gt;0 兩個根</td></tr>
-    <tr><td>4. 代入 \(x=\dfrac{-b\pm\sqrt{\Delta}}{2a}\)，解出兩個根</td></tr>
+    <tr><td>4. 照抄公式，再把 ± 拆成兩支，中間寫「或」</td></tr>
+    <tr><td>5. 兩支各自算出，最後用「∴」寫答句</td></tr>
   </table>
 
   <!-- ========== 五 ========== -->
@@ -192,12 +325,34 @@
 
   <div class="sub-h">★ 範例：解 \(x^2+2x-35=0\)</div>
   <table class="d-tbl worked">
-    <tr><th>算式</th><th>這一步在做什麼</th></tr>
-    <tr><td>\(x^2+2x-35=0\)</td><td>原方程，右邊已經是 0</td></tr>
-    <tr><td>\((x+7)(x-5)=0\)</td><td>左邊因式分解<span class="note">※ 找兩個數：相乘 ＝ −35，相加 ＝ +2 → 7 和 −5</span></td></tr>
-    <tr><td>\(x+7=0\)　或　\(x-5=0\)</td><td>令每個因式分別等於 0</td></tr>
-    <tr><td>\(x_1=-7\)</td><td>由 \(x+7=0\) 解出</td></tr>
-    <tr><td>\(x_2=5\)</td><td>由 \(x-5=0\) 解出</td></tr>
+    <thead>
+    <tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr>
+      <td class="ec1">\(x^2+2x-35\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">原方程，右邊已經是 0</td>
+    </tr>
+    <tr>
+      <td class="ec1">\((x+7)(x-5)\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td>
+      <td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">左邊因式分解<span class="note">※ 找兩個數：相乘 ＝ −35，相加 ＝ +2 → 7 和 −5</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x+7\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x-5\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td>
+      <td class="why">令每個因式分別等於 0<span class="note">※ 中間一定要寫「或」；兩個因式都要做</span></td>
+    </tr>
+    <tr>
+      <td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(-7\)</td>
+      <td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(5\)</td>
+      <td class="why">兩支各自解出</td>
+    </tr>
+    <tr>
+      <td class="ecs ans" colspan="7">\(\therefore x_1 = -7\)　或　\(x_2 = 5\)</td>
+      <td class="why">作答：最後一行用「∴」寫出兩個根</td>
+    </tr>
+  </tbody>
   </table>
 
   <table class="d-tbl step-card compact">
@@ -205,8 +360,9 @@
     <tr><td style="font-weight:400">什麼時候用：方程的左邊「一眼看出」能分解（常數項不大、係數簡單）時最快</td></tr>
     <tr><td>1. 化成一般式，右邊等於 0</td></tr>
     <tr><td>2. 把左邊分解成兩個一次式的乘積</td></tr>
-    <tr><td>3. 令每個因式分別等於 0</td></tr>
-    <tr><td>4. 解出兩個根，代回原方程驗根</td></tr>
+    <tr><td>3. 令每個因式分別等於 0，中間寫「或」</td></tr>
+    <tr><td>4. 兩支各自解出，代回原方程驗根</td></tr>
+    <tr><td>5. 最後一行用「∴」寫答句</td></tr>
   </table>
 
   <!-- ========== 六 ========== -->
@@ -219,9 +375,11 @@
     <tr><td>分解不出，但係數簡單</td><td>② 配方法</td></tr>
     <tr><td>係數複雜、配方會出現分數</td><td>③ 公式法（一定解得出）</td></tr>
   </table>
+  <div class="hint-card">無論用哪一種方法，寫算式的三條規矩都一樣：一行一個等號、分兩支寫「或」、最後用「∴」寫答句。</div>
 
   <!-- ========== 即堂練習 ========== -->
   <div class="section-h page-break">即堂練習</div>
+  <div class="hint-card">每題都照範例的寫法：等號上下對齊、分兩支寫「或」、最後一行寫「∴」。</div>
 
   <div class="sub-h">（一）認一認（<span class="stars">★☆☆</span>）</div>
   <div class="problem">
@@ -236,7 +394,7 @@
   </div>
   <div class="problem">
     <div>3．方程 \(2x^2=1\) 的根是（　）</div>
-    <div>A．\(x_1=\dfrac{1}{2}\)，\(x_2=-\dfrac{1}{2}\)　　B．\(x_1=\dfrac{\sqrt2}{2}\)，\(x_2=-\dfrac{\sqrt2}{2}\)</div>
+    <div>A．\(x_1=\dfrac{1}{2}\) 或 \(x_2=-\dfrac{1}{2}\)　　B．\(x_1=\dfrac{\sqrt2}{2}\) 或 \(x_2=-\dfrac{\sqrt2}{2}\)</div>
     <div class="write-lines"><div class="line"></div></div>
   </div>
 
@@ -276,7 +434,8 @@
       <tr><td>褪除路徑</td><td>①→②→③→④ 依序教，每張手順卡：第一次用完整卡逐步跟 → 熟練後只留關鍵詞 → 最後移除。第六節「怎麼選」不再提供手順卡，測試學生能否自行判斷。</td></tr>
       <tr><td>課堂實施流程</td><td>F1 師徒制對話四步、F3 褪除計劃 Fading、F5 課前流程預告</td></tr>
       <tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距或放大作答欄、a11 提供公式卡</td></tr>
-      <tr><td>範例的版面規範</td><td>所有範例一律用「左算式／右說明」雙欄表：左欄每行只寫一個等號、等號上下對齊；判斷式（如「9 ＞ 0 可以開方」）不是解題步驟，一律放右欄，不佔算式行。</td></tr>
+      <tr><td>範例的版面規範</td><td>所有範例一律用「左算式／右說明」雙欄表。左欄再細分成「左式｜＝｜右式」三小欄，等號上下對齊成一條垂直線（小欄之間不畫線，學生看到的仍然是一欄算式）。一行只寫一個等號；判斷式（如「9 ＞ 0 可以開方」）不是解題步驟，一律放右欄。</td></tr>
+      <tr><td>分兩支與答句</td><td>開平方、因式分解令兩因式為 0、把公式的 ± 拆開——這三處一律分兩支並排寫，中間必寫「或」，左支叫 \(x_1\)、右支叫 \(x_2\)；每個範例最後一行必須有「∴ \(x_1\)＝… 或 \(x_2\)＝…」。± 只出現在印出來的求根公式本身，不出現在解題步驟。</td></tr>
     </table>
   </div>
 

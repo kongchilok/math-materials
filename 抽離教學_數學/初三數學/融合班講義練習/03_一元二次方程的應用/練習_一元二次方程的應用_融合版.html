@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>一元二次方程的應用．課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  /* 頁尾：整份內容包一張 .sheet 表，頁尾放 tfoot。Chrome 列印會逐頁重印 tfoot
+     並且**替它預留空間**——position:fixed 做唔到，會把頁底最後一行遮住。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999;
+            padding: 3px 0 2px; background: #fff; }
+
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px;
+                break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; border: 0.75pt solid #000;
+              break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555;
+                padding: 5px 10px; margin: 6px 0; break-inside: avoid; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .page-break { break-before: page; page-break-before: always; }
+
+  /* ── 右側欄版面：題目／作答在左，插圖與提示在右 ────────────────
+     使用者定案：舊做法（圖擺題目上面＋跨頁寬三欄表當作答區）會令題目本身
+     被兩塊鷹架夾住睇唔到。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  .setline { margin: 4px 0; }
+
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0;
+            break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top;
+                          text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 { border-left: none; border-right: none;
+       padding: 5px 2px; white-space: nowrap; vertical-align: middle; }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; white-space: normal; }
+  .worked td.ans { font-weight: 700; }
+  .worked td.why { width: 32%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+  .kw-table td:first-child { width: 42%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 26%; background: #f0f0f0; font-weight: 700; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">初三數學．一元二次方程的應用單元</div></td></tr></tfoot>
+  <tbody><tr><td>
+<div class="masthead"><span>科目：初三數學</span><span>單元：一元二次方程的應用</span><span>類型：課堂練習</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="hint-card">提示：開始前先回頭看《課堂講義》的範例與條形圖，照著同樣的四步驟（設、列、解、驗）做。</div><div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div><div class="aside-wrap boxed"><div class="aside-main"><div>1．兩個連續正整數的積是 \(56\)，求這兩個數。（填空）</div><div>設較小的數為 \(x\)，則另一個是 \((x+1)\)：</div><div style="text-align:center">\(x(x+1)=56\)</div><div style="text-align:center">\(x^2+x-56=0\)</div><div style="text-align:center">（x＋＿＿）（x－＿＿）＝0</div><div style="text-align:center">x ＝ ＿＿　或　x ＝ ＿＿</div><div>∵ x 是正整數，取 x ＝ ＿＿</div><div>∴ 兩數是 ＿＿、＿＿</div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="123" viewBox="0 0 300 123" role="img"><rect width="300" height="123" fill="#ffffff"/><text x="44.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">兩個連續正整數</text><text x="34.0" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">較小</text><rect x="44.0" y="30.0" width="187.7" height="34.0" rx="0" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="1.4"/><text x="137.8" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><text x="34.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">較大</text><rect x="44.0" y="77.0" width="187.7" height="34.0" rx="0" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="1.4"/><text x="137.8" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><rect x="231.7" y="77.0" width="56.3" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="259.8" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">？</text></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="aside-wrap boxed"><div class="aside-main"><div>2．某工廠產量兩年內從 \(100\) 噸增加到 \(144\) 噸，求平均年增長率。（填空）</div><div>設年增長率為 \(x\)：</div><div style="text-align:center">\(100(1+x)^2=144\)</div><div style="text-align:center">\((1+x)^2\)＝＿＿＿</div><div style="text-align:center">1＋x ＝ ＿＿＿　或　1＋x ＝ ＿＿＿</div><div>∵ x 是增長率，要大於 0，取 1＋x ＝ ＿＿＿</div><div>∴ x ＝ ＿＿＿ ＝ ＿＿＿%</div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="170" viewBox="0 0 300 170" role="img"><rect width="300" height="170" fill="#ffffff"/><text x="48.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">產量兩年的變化</text><text x="38.0" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">第0年</text><rect x="48.0" y="30.0" width="240.0" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="168.0" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">100</text><text x="38.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">第1年</text><rect x="48.0" y="77.0" width="196.8" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="146.4" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">？</text><text x="38.0" y="141.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">第2年</text><rect x="48.0" y="124.0" width="158.4" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="127.2" y="141.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">144</text></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="section-h page-break">二、練習B（<span class="stars">★★☆</span>）</div><div class="aside-wrap boxed"><div class="aside-main"><div>3．一個矩形長比寬多 \(7\) 米，面積 \(60\) 平方米，求長和寬。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="140" viewBox="0 0 300 140" role="img"><rect width="300" height="140" fill="#ffffff"/><text x="6.0" y="13.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">自己畫：寬與長的關係</text><rect x="6" y="24" width="288" height="108" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.3" stroke-dasharray="6,4"/></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="aside-wrap boxed"><div class="aside-main"><div>4．某商品連續兩次提價，由 \(100\) 元漲到 \(121\) 元，求平均每次提價的百分率。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="140" viewBox="0 0 300 140" role="img"><rect width="300" height="140" fill="#ffffff"/><text x="6.0" y="13.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">自己畫：原價 → 提價後</text><rect x="6" y="24" width="288" height="108" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.3" stroke-dasharray="6,4"/></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="aside-wrap boxed"><div class="aside-main"><div>5．用長 \(32\) 米的籬笆，靠一面牆圍成一個矩形，面積 \(120\) 平方米。設靠牆的鄰邊長為 \(x\) 米，求 \(x\)。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="200" viewBox="0 0 300 200" role="img"><rect width="300" height="200" fill="#ffffff"/><line x1="16" y1="28" x2="284" y2="28" stroke="#1a1a1a" stroke-width="2.6"/><line x1="16" y1="28" x2="7" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="29" y1="28" x2="20" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="42" y1="28" x2="33" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="55" y1="28" x2="46" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="68" y1="28" x2="59" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="81" y1="28" x2="72" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="94" y1="28" x2="85" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="107" y1="28" x2="98" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="120" y1="28" x2="111" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="133" y1="28" x2="124" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="146" y1="28" x2="137" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="159" y1="28" x2="150" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="172" y1="28" x2="163" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="185" y1="28" x2="176" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="198" y1="28" x2="189" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="211" y1="28" x2="202" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="224" y1="28" x2="215" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="237" y1="28" x2="228" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="250" y1="28" x2="241" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="263" y1="28" x2="254" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><line x1="276" y1="28" x2="267" y2="40" stroke="#1a1a1a" stroke-width="1.1"/><text x="150.0" y="14.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">牆</text><rect x="57.0" y="48.0" width="186.0" height="96.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="150.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">面積 = 120</text><text x="45.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="255.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">x</text><text x="150.0" y="162.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">32 − 2x</text></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="section-h page-break">三、練習C（<span class="stars">★★★</span>）</div><div class="problem"><div>6．有一種傳染病，一開始 \(1\) 人得病，之後每一輪每個病人平均傳染給 \(x\) 個人。兩輪後共有 \(121\) 人得病，求 \(x\)。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>7．某商品每件進價 \(40\) 元；定價 \(50\) 元時每月賣 \(500\) 件，售價每漲 \(1\) 元每月就少賣 \(10\) 件。要使每月利潤達到 \(8000\) 元，售價應定為多少？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><div>8．找錯題：小明解「兩個連續偶數的積是 \(48\)」，設較小偶數為 \(x\)，列出 \(x(x+1)=48\)。請指出他錯在哪裡，並列出正確的方程與答案。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="section-h page-break">參考答案（教師用）</div><div class="section-h" style="font-size:12.5pt">練習A</div><div>1．\(x^2+x-56=0\)→\((x+8)(x-7)=0\)→\(x=-8\) 或 \(x=7\)；x 是正整數，取 \(x=7\)；兩數是 \(7\)、\(8\)</div><div>2．\((1+x)^2=1.44\)→\(1+x=1.2\) 或 \(1+x=-1.2\)→\(x=0.2\) 或 \(x=-2.2\)；x 是增長率要大於 0，取 \(x=0.2\)＝20%</div><div class="section-h" style="font-size:12.5pt">練習B</div><div>3．設寬為 \(x\) 米：\(x(x+7)=60\)→\(x^2+7x-60=0\)→\((x+12)(x-5)=0\)→\(x=-12\) 或 \(x=5\)；寬是長度，取 \(x=5\)；寬 5 米，長 12 米</div><div>4．\(100(1+x)^2=121\)→\((1+x)^2=1.21\)→\(1+x=1.1\) 或 \(1+x=-1.1\)→\(x=0.1\) 或 \(x=-2.1\)；取 \(x=0.1\)＝10%</div><div>5．\(x(32-2x)=120\)→\(x^2-16x+60=0\)→\((x-6)(x-10)=0\)→\(x=6\) 或 \(x=10\)；兩個都合理（\(32-2x \gt 0\) 都成立），\(x=6\) 或 \(x=10\)</div><div class="section-h" style="font-size:12.5pt">練習C</div><div>6．\((1+x)^2=121\)→\(1+x=11\) 或 \(1+x=-11\)→\(x=10\) 或 \(x=-12\)；x 是人數不能為負，取 \(x=10\)</div><div>7．設漲價 \(x\) 元：\((10+x)(500-10x)=8000\)→\(x^2-40x+300=0\)→\((x-10)(x-30)=0\)→\(x=10\) 或 \(x=30\)；銷量 \(500-10x \gt 0\) 都成立，兩個都合理；售價 60 元或 80 元</div><div>8．小明錯在：連續偶數相差 \(2\)，不是 \(1\)，應列 \(x(x+2)=48\)→\(x^2+2x-48=0\)→\((x+8)(x-6)=0\)→\(x=-8\) 或 \(x=6\)；偶數要正數，取 \(x=6\)；兩偶數是 \(6\)、\(8\)</div>
+  </td></tr></tbody>
+</table>
+</body>
+</html>

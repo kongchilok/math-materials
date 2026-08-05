@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>一元二次方程的應用．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  /* 頁尾：整份內容包一張 .sheet 表，頁尾放 tfoot。Chrome 列印會逐頁重印 tfoot
+     並且**替它預留空間**——position:fixed 做唔到，會把頁底最後一行遮住。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999;
+            padding: 3px 0 2px; background: #fff; }
+
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px;
+                break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; border: 0.75pt solid #000;
+              break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555;
+                padding: 5px 10px; margin: 6px 0; break-inside: avoid; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .page-break { break-before: page; page-break-before: always; }
+
+  /* ── 右側欄版面：題目／作答在左，插圖與提示在右 ────────────────
+     使用者定案：舊做法（圖擺題目上面＋跨頁寬三欄表當作答區）會令題目本身
+     被兩塊鷹架夾住睇唔到。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  .setline { margin: 4px 0; }
+
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0;
+            break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top;
+                          text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 { border-left: none; border-right: none;
+       padding: 5px 2px; white-space: nowrap; vertical-align: middle; }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; white-space: normal; }
+  .worked td.ans { font-weight: 700; }
+  .worked td.why { width: 32%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+  .kw-table td:first-child { width: 42%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 26%; background: #f0f0f0; font-weight: 700; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">初三數學．一元二次方程的應用單元</div></td></tr></tfoot>
+  <tbody><tr><td>
+<div class="masthead"><span>科目：初三數學</span><span>單元：一元二次方程的應用</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、解應用題的四步驟</div><div class="hint-card">① 設未知數　→　② 列方程　→　③ 解方程　→　④ 檢驗並作答</div><div class="hint-card">一元二次方程常常有兩個解，要按實際意義取捨——長度、人數、時間、銷量都不能是負數，百分率通常要在 0 到 1 之間。</div><div class="section-h">二、關鍵字對譯表</div><div>看到題目裡這些字眼，就照這樣寫成算式：</div><table class="d-tbl kw-table">
+<tr><th>題目說…</th><th>就寫成…</th></tr>
+<tr><td>比…多／比…少</td><td>＋　／　－</td></tr>
+<tr><td>是…的幾倍</td><td>×</td></tr>
+<tr><td>連續兩次（升／降）</td><td>同一個式子自己乘一次（平方），如 \((1+x)^2\)</td></tr>
+<tr><td>每…就…（如：每漲 1 元就少賣 10 件）</td><td>銷量 ＝ 原銷量 ± 10×（漲／跌的元數）</td></tr>
+<tr class="trap"><td colspan="2">⚠ 陷阱詞（要想一下，不能直接照字面翻）</td></tr>
+<tr><td>升／降的百分率</td><td>寫成 \((1+x)\) 或 \((1-x)\)，不是「1－x%」</td></tr>
+<tr><td>利潤</td><td>利潤 ＝（定價－進價）× 銷量，不是單純的定價或銷量</td></tr>
+<tr><td>求出兩個 x 之後</td><td>要按題目的實際意義檢查，不合理的要捨去</td></tr>
+</table><div class="section-h page-break">三、範例一：面積問題</div><div class="aside-wrap boxed"><div class="aside-main"><div><b>一塊矩形空地，長比寬多 \(2\) 米，面積 \(24\) 平方米，求長和寬。</b></div><div class="setline">設　寬為 \(x\) 米，則長為 \((x+2)\) 米</div><div class="setline">列式　\(x(x+2)=24\)</div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="123" viewBox="0 0 300 123" role="img"><rect width="300" height="123" fill="#ffffff"/><text x="34.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">長比寬多 2 米</text><text x="24.0" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">寬</text><rect x="34.0" y="30.0" width="192.4" height="34.0" rx="0" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="1.4"/><text x="130.2" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><text x="24.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">長</text><rect x="34.0" y="77.0" width="192.4" height="34.0" rx="0" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="1.4"/><text x="130.2" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">x</text><rect x="226.4" y="77.0" width="61.6" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="257.2" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">+2</text></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="hint-card lead">★ 範例：解 \(x(x+2)=24\)</div><table class="d-tbl worked">
+<thead><tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+<tbody>
+<tr><td class="ec1">\(x(x+2)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(24\)</td><td class="why">面積 ＝ 長 × 寬</td></tr>
+<tr><td class="ec1">\(x^2+2x\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(24\)</td><td class="why">展開左邊</td></tr>
+<tr><td class="ec1">\(x^2+2x-24\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">移項，化成一般式</td></tr>
+<tr><td class="ec1">\((x+6)(x-4)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">左邊因式分解<span class="note">※ 找兩數：相乘＝−24，相加＝+2 → 6 和 −4</span></td></tr>
+<tr><td class="ec1">\(x+6\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x-4\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">令兩個因式分別等於 0<span class="note">※ 中間一定要寫「或」</span></td></tr>
+<tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(-6\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(4\)</td><td class="why">兩支各自解出</td></tr>
+<tr><td class="ecs ans" colspan="7">\(x\) 是寬度，不能是負數；\(x_1=-6\) 不合理，捨去</td><td class="why">按實際意義取捨</td></tr>
+<tr><td class="ecs ans" colspan="7" style="font-weight:700">∴ 寬 ＝ \(4\) 米，長 ＝ \(4+2=6\) 米</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr>
+</tbody></table><div class="section-h page-break">四、範例二：增長率問題</div><div class="aside-wrap boxed"><div class="aside-main"><div><b>某商品原價 \(100\) 元，連續兩次降價後變成 \(81\) 元，求平均每次降價的百分率。</b></div><div class="setline">設　每次降價率為 \(x\)（\(0 \lt x \lt 1\)）</div><div class="setline">列式　\(100(1-x)^2=81\)</div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="170" viewBox="0 0 300 170" role="img"><rect width="300" height="170" fill="#ffffff"/><text x="62.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">連續兩次降價</text><text x="52.0" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">原價</text><rect x="62.0" y="30.0" width="226.0" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="175.0" y="47.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">100</text><text x="52.0" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">降1次後</text><rect x="62.0" y="77.0" width="185.3" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="154.7" y="94.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">100(1−x)</text><text x="52.0" y="141.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">降2次後</text><rect x="62.0" y="124.0" width="149.2" height="34.0" rx="0" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.4"/><text x="136.6" y="141.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">81</text></svg><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="hint-card lead">★ 範例：解 \(100(1-x)^2=81\)</div><table class="d-tbl worked">
+<thead><tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+<tbody>
+<tr><td class="ec1">\(100(1-x)^2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(81\)</td><td class="why">原方程</td></tr>
+<tr><td class="ec1">\((1-x)^2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0.81\)</td><td class="why">兩邊同除以 100</td></tr>
+<tr><td class="ec1">\(1-x\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0.9\)</td><td class="ec4">或</td><td class="ec5">\(1-x\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-0.9\)</td><td class="why">兩邊開平方，分成兩支寫<span class="note">※ 中間一定要寫「或」</span></td></tr>
+<tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(1-0.9\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(1-(-0.9)\)</td><td class="why">兩支各自移項</td></tr>
+<tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0.1\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(1.9\)</td><td class="why">兩支各自算出</td></tr>
+<tr><td class="ecs ans" colspan="7">\(x\) 是降價率，要在 \(0\) 到 \(1\) 之間；\(x_2=1.9\) 不合理（降價超過 100%），捨去</td><td class="why">按實際意義取捨</td></tr>
+<tr><td class="ecs ans" colspan="7" style="font-weight:700">∴ \(x=0.1\)，即平均每次降價 10%</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr>
+</tbody></table><div class="section-h page-break">五、範例三：利潤問題</div><div class="aside-wrap boxed"><div class="aside-main"><div><b>文具店計算機每部進價 \(30\) 元；定價 \(40\) 元時每月賣 \(300\) 部。售價每升 \(1\) 元，每月就少賣 \(10\) 部。要使每月利潤達到 \(3750\) 元，售價應定為多少？</b></div><div class="setline">設　售價上升 \(x\) 元（\(x \gt 0\)）</div><div class="setline">每部利潤　\((40+x)-30=10+x\)</div><div class="setline">每月銷量　\(300-10x\)</div><div class="setline">列式　\((10+x)(300-10x)=3750\)</div></div><div class="aside-side"><div class="hintcard"><div class="ht">設元指引（利潤型）</div><div>利潤 ＝ 每部利潤 × 銷量</div><div>每部利潤 ＝ 售價 − 進價</div><div>售價升 → 銷量跌，兩個量一齊變</div></div><div class="hintcard"><div class="ht">解題三步</div><div>① 語意擷取：圈出已知、劃出所求</div><div>② 關係式建構：設未知數、列方程</div><div>③ 運算與檢核：解完檢驗是否合理</div></div></div></div><div class="hint-card">利潤型是兩個同時變化的量相乘，不像面積／增長率那樣可以用條形圖比長短，所以這一題不配圖，改用上面的設元指引。</div><div class="hint-card lead">★ 範例：解 \((10+x)(300-10x)=3750\)</div><table class="d-tbl worked">
+<thead><tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+<tbody>
+<tr><td class="ec1">\((10+x)(300-10x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3750\)</td><td class="why">每部利潤 × 銷量 ＝ 總利潤</td></tr>
+<tr><td class="ec1">\(3000+200x-10x^2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3750\)</td><td class="why">展開左邊</td></tr>
+<tr><td class="ec1">\(-10x^2+200x-750\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">移項，化成一般式</td></tr>
+<tr><td class="ec1">\(x^2-20x+75\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">兩邊同除以 −10<span class="note">※ 除以負數，等號兩邊照樣成立</span></td></tr>
+<tr><td class="ec1">\((x-5)(x-15)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">左邊因式分解<span class="note">※ 找兩數：相乘＝75，相加＝−20 → −5 和 −15</span></td></tr>
+<tr><td class="ec1">\(x-5\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x-15\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">令兩個因式分別等於 0<span class="note">※ 中間一定要寫「或」</span></td></tr>
+<tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(5\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(15\)</td><td class="why">兩支各自解出</td></tr>
+<tr><td class="ecs ans" colspan="7">兩個解都令銷量 \(300-10x\) 保持正數，\(x_1\)、\(x_2\) 都合理</td><td class="why">按實際意義檢驗</td></tr>
+<tr><td class="ecs ans" colspan="7" style="font-weight:700">∴ 售價 ＝ \(40+5=45\) 元　或　售價 ＝ \(40+15=55\) 元</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr>
+</tbody></table><div>接下來請拿《一元二次方程的應用課堂練習》，用這四步驟完成練習A、B、C。</div><div class="teacher-notes">
+<div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+<table class="d-tbl">
+<tr><td>本份採用的主設計</td><td>D1 條形模型</td></tr>
+<tr><td>輔助設計</td><td>D8 關鍵字對譯、D4 三欄式引導（窄欄變體）</td></tr>
+<tr><td>選用理由</td><td>S1 文字應用題——面積／增長率／利潤三類應用題的核心瓶頸是「語意解碼→數量關係轉換」失敗，跟單元01/02的純程序運算性質不同。條形模型把文字關係畫成看得見的長度比較；關鍵字對譯表處理固定轉譯；三欄式的 ①②③ 改成右側欄提示，讓題目本身保持顯眼。</td></tr>
+<tr><td>鷹架密度</td><td>抽離小班</td></tr>
+<tr><td>褪除路徑</td><td>條形圖：範例給完整圖 → 練習A給半成品框（留問號）→ 練習B給空白虛線框學生自己畫 → 練習C不給圖。右側 ①②③ 提示同步褪除：練習A、B 有，練習C 沒有。</td></tr>
+<tr><td>課堂實施流程</td><td>F1 師徒制對話四步、F5 課前流程預告</td></tr>
+<tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距或放大作答欄</td></tr>
+<tr><td>版面：圖與提示一律靠右</td><td>題目與作答空間佔左主欄（約六成寬），插圖與 ①②③ 提示放右側欄。不要把圖放題目上面、再用一張跨頁寬的三欄表當作答區——那樣題目被夾在兩塊鷹架中間反而看不見（2026-08-05 使用者退稿原因）。</td></tr>
+<tr><td>三條書寫規矩不印在教材上</td><td>等號對齊、分兩支寫「或」、「∴」答句是產生器的內部規範，靠範例本身示範給學生看，不另外印一段規矩條文。</td></tr>
+<tr><td>範例三（利潤型）為何不畫條形圖</td><td>利潤＝單件利潤×銷量，是兩個同時變化的量相乘，不是條形模型擅長的加減比較／前後變化結構，強行畫圖會建立錯誤心像；改用「設元指引」文字卡承接。</td></tr>
+</table></div>
+  </td></tr></tbody>
+</table>
+</body>
+</html>
