@@ -1,0 +1,553 @@
+// 融合抽離小組 SOIL 教學簡報：分式方程 · 無理方程 · 二元二次方程組
+// 生成 .pptx（PptxGenJS）。硬規則：微軟正黑體、內文≥20pt、標題≥32pt、
+// 淺色非純白底、星星分層、色盲安全、Sage Calm 低刺激配色。
+// 貫穿主線：三種方程都「化成一元二次方程」；分式、無理方程解完一定要驗根。
+const pptxgen = require("pptxgenjs");
+const p = new pptxgen();
+p.layout = "LAYOUT_WIDE"; // 13.333 x 7.5 in
+p.author = "初三數學抽離小組";
+p.title = "分式方程 · 無理方程 · 二元二次方程組（融合抽離版）";
+
+// ---- 配色 (Sage Calm 低刺激) ----
+const C = {
+  bgLight: "EDF3F0", bgDark: "2E4A43", ink: "233A34", soft: "5C6F68",
+  sage: "6FA48C", sageDeep: "4E8770", slate: "50808E",
+  block: "DCEAE3", block2: "CFE0D8", cardLine: "B9CFC5",
+  white: "FFFFFF", starInk: "2E4A43",
+};
+const F = "Microsoft JhengHei"; // 微軟正黑體
+const MONO = "Consolas";
+
+// ---- 共用小工具 ----
+function sh() { return { type: "outer", color: "AEBEB6", blur: 7, offset: 2, angle: 90, opacity: 0.45 }; }
+function bg(s, dark) { s.background = { color: dark ? C.bgDark : C.bgLight }; }
+function footer(s, n, dark) {
+  s.addText("初三數學 · 分式／無理方程與方程組（抽離小組·融合版）", {
+    x: 0.5, y: 7.06, w: 10.5, h: 0.32, align: "left", valign: "middle",
+    fontFace: F, fontSize: 11, color: dark ? "9FB8AE" : "8CA298",
+  });
+  s.addText(String(n), {
+    x: 12.2, y: 7.06, w: 0.9, h: 0.32, align: "right", valign: "middle",
+    fontFace: F, fontSize: 11, color: dark ? "9FB8AE" : "8CA298",
+  });
+}
+function title(s, txt, kicker) {
+  if (kicker) {
+    s.addText(kicker, { x: 0.6, y: 0.42, w: 12, h: 0.4, fontFace: F, fontSize: 18, bold: true, color: C.sageDeep, align: "left" });
+    s.addText(txt, { x: 0.6, y: 0.82, w: 12.1, h: 0.8, fontFace: F, fontSize: 34, bold: true, color: C.ink, align: "left" });
+  } else {
+    s.addText(txt, { x: 0.6, y: 0.5, w: 12.1, h: 0.9, fontFace: F, fontSize: 34, bold: true, color: C.ink, align: "left" });
+  }
+}
+function stepCircle(s, x, y, n, d) {
+  const dia = d || 0.5;
+  s.addShape(p.ShapeType.ellipse, { x, y, w: dia, h: dia, fill: { color: C.sageDeep }, line: { type: "none" } });
+  s.addText(String(n), { x, y, w: dia, h: dia, align: "center", valign: "middle", fontFace: F, fontSize: 20, bold: true, color: C.white });
+}
+function stationBadge(s, txt, x, y) {
+  s.addShape(p.ShapeType.roundRect, { x, y, w: 1.7, h: 0.62, rectRadius: 0.31, fill: { color: C.sage }, line: { type: "none" } });
+  s.addText(txt, { x, y, w: 1.7, h: 0.62, align: "center", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+}
+function card(s, x, y, w, h, fill) {
+  s.addShape(p.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.12, fill: { color: fill || C.white }, line: { color: C.cardLine, width: 1 }, shadow: sh() });
+}
+function hlBox(s, x, y, w, h) {
+  s.addShape(p.ShapeType.roundRect, { x, y, w, h, rectRadius: 0.08, fill: { color: C.block }, line: { type: "none" } });
+}
+
+let N = 0;
+function newSlide(dark) { const s = p.addSlide(); bg(s, dark); N += 1; return s; }
+
+// =====================================================================
+// S1 封面
+// =====================================================================
+(function () {
+  const s = newSlide(true);
+  s.addShape(p.ShapeType.roundRect, { x: 0.9, y: 1.35, w: 3.0, h: 0.7, rectRadius: 0.35, fill: { color: C.sage }, line: { type: "none" } });
+  s.addText("初三數學 · 抽離小組", { x: 0.9, y: 1.35, w: 3.0, h: 0.7, align: "center", valign: "middle", fontFace: F, fontSize: 18, bold: true, color: C.white });
+  s.addText("三種新方程", { x: 0.85, y: 2.25, w: 11.6, h: 1.1, fontFace: F, fontSize: 54, bold: true, color: C.white, align: "left" });
+  s.addText("都變回一元二次方程", { x: 0.85, y: 3.32, w: 11.8, h: 0.9, fontFace: F, fontSize: 38, bold: true, color: "CFE0D8", align: "left" });
+  s.addText([
+    { text: "站① 分式方程", options: { fontFace: F, fontSize: 22, color: "E7F0EB" } },
+    { text: "   →   ", options: { fontFace: F, fontSize: 22, color: C.sage } },
+    { text: "站② 無理方程", options: { fontFace: F, fontSize: 22, color: "E7F0EB" } },
+    { text: "   →   ", options: { fontFace: F, fontSize: 22, color: C.sage } },
+    { text: "站③ 二元二次方程組", options: { fontFace: F, fontSize: 22, color: "E7F0EB" } },
+  ], { x: 0.9, y: 4.55, w: 11.8, h: 0.6, align: "left", valign: "middle" });
+  s.addText("融合版 · 同一份簡報，跟著三站一步一步走", { x: 0.9, y: 5.3, w: 11.6, h: 0.5, fontFace: F, fontSize: 18, italic: true, color: "9FB8AE", align: "left" });
+  s.addNotes("開場定調：這三種方程看起來新，其實都用同一招——想辦法變回上一課學過的一元二次方程。站①②解完一定要驗根，這是本課最重要的習慣。");
+})();
+
+// =====================================================================
+// S2 流程預告頁（ASD 可預測性）
+// =====================================================================
+(function () {
+  const s = newSlide(false);
+  title(s, "今日課堂流程");
+  const rows = [
+    ["站①", "分式方程", "去分母 → 變整式方程 → 解 → 驗根"],
+    ["站②", "無理方程", "兩邊平方脫根號 → 解 → 驗根"],
+    ["站③", "方程組", "代入消元 → 變一元二次 → 配對 (x, y)"],
+  ];
+  let y = 1.95;
+  rows.forEach((r) => {
+    card(s, 0.7, y, 11.9, 1.28);
+    stationBadge(s, r[0], 0.95, y + 0.33);
+    s.addText(r[1], { x: 2.85, y: y + 0.14, w: 9.4, h: 0.55, fontFace: F, fontSize: 26, bold: true, color: C.ink, align: "left", valign: "middle" });
+    s.addText(r[2], { x: 2.85, y: y + 0.66, w: 9.4, h: 0.5, fontFace: F, fontSize: 20, color: C.soft, align: "left", valign: "middle" });
+    y += 1.5;
+  });
+  s.addText("三站同一個心法：想辦法變回「一元二次方程」，就會解了", { x: 0.7, y: 6.5, w: 11.9, h: 0.45, fontFace: F, fontSize: 18, italic: true, color: C.sageDeep, align: "left" });
+  footer(s, N, false);
+  s.addNotes("先給地圖：三站結構一致，減少焦慮。強調心法一致，做完一站休息一下。");
+})();
+
+// =====================================================================
+// 站牌 / 過渡頁 產生器（dark）
+// =====================================================================
+function stationDivider(badge, name, goal) {
+  const s = newSlide(true);
+  s.addShape(p.ShapeType.roundRect, { x: 0.9, y: 2.15, w: 2.4, h: 1.0, rectRadius: 0.5, fill: { color: C.sage }, line: { type: "none" } });
+  s.addText(badge, { x: 0.9, y: 2.15, w: 2.4, h: 1.0, align: "center", valign: "middle", fontFace: F, fontSize: 40, bold: true, color: C.white });
+  s.addText(name, { x: 3.6, y: 2.15, w: 9.4, h: 1.0, align: "left", valign: "middle", fontFace: F, fontSize: 38, bold: true, color: C.white });
+  s.addShape(p.ShapeType.roundRect, { x: 0.95, y: 3.7, w: 11.4, h: 1.15, rectRadius: 0.12, fill: { color: "35564E" }, line: { type: "none" } });
+  s.addText([
+    { text: "目標：", options: { fontFace: F, fontSize: 24, bold: true, color: C.sage } },
+    { text: goal, options: { fontFace: F, fontSize: 24, color: "E7F0EB" } },
+  ], { x: 1.25, y: 3.7, w: 10.9, h: 1.15, align: "left", valign: "middle" });
+  footer(s, N, true);
+  return s;
+}
+
+// =====================================================================
+// 轉換點預告頁（極簡）
+// =====================================================================
+function breakSlide(msg) {
+  const s = newSlide(false);
+  s.addShape(p.ShapeType.roundRect, { x: 3.4, y: 2.2, w: 6.5, h: 3.0, rectRadius: 0.2, fill: { color: C.block }, line: { color: C.cardLine, width: 1 }, shadow: sh() });
+  s.addText("‖  換一換", { x: 3.4, y: 2.55, w: 6.5, h: 0.9, align: "center", valign: "middle", fontFace: F, fontSize: 40, bold: true, color: C.sageDeep });
+  s.addText(msg, { x: 3.7, y: 3.5, w: 5.9, h: 0.9, align: "center", valign: "middle", fontFace: F, fontSize: 24, color: C.ink });
+  s.addText("先伸展 30 秒，再開始 🙂", { x: 3.4, y: 4.4, w: 6.5, h: 0.6, align: "center", valign: "middle", fontFace: F, fontSize: 20, italic: true, color: C.soft });
+  footer(s, N, false);
+  s.addNotes("轉換點：起身伸展 30 秒。預告下一段是自己動手做，讓 ADHD/ASD 學生有準備。");
+  return s;
+}
+
+// =====================================================================
+// 分層任務頁 產生器（三欄同版面）
+// =====================================================================
+function tieredTasks(kicker, cols, noteKey) {
+  const s = newSlide(false);
+  title(s, "挑戰練習 · 自選星星", kicker);
+  const tiers = [
+    { t: "練習 A", star: "★☆☆" },
+    { t: "練習 B", star: "★★☆" },
+    { t: "練習 C", star: "★★★" },
+  ];
+  const x0 = 0.65, gap = 0.28, w = (12.7 - 2 * gap) / 3, yTop = 1.95, h = 4.35;
+  tiers.forEach((ti, i) => {
+    const x = x0 + i * (w + gap);
+    card(s, x, yTop, w, h, C.white);
+    s.addShape(p.ShapeType.roundRect, { x: x, y: yTop, w: w, h: 0.9, rectRadius: 0.12, fill: { color: C.block2 }, line: { type: "none" } });
+    s.addText(ti.t, { x: x + 0.2, y: yTop + 0.06, w: w - 0.4, h: 0.42, align: "left", valign: "middle", fontFace: F, fontSize: 23, bold: true, color: C.ink });
+    s.addText(ti.star, { x: x + 0.2, y: yTop + 0.46, w: w - 0.4, h: 0.4, align: "left", valign: "middle", fontFace: F, fontSize: 22, color: C.starInk });
+    const items = cols[i];
+    let ty = yTop + 1.08;
+    items.forEach((it) => {
+      s.addText(it, { x: x + 0.24, y: ty, w: w - 0.46, h: 1.5, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.25 });
+      ty += 1.55;
+    });
+  });
+  s.addText("做得起 A，就往 B、C 跳一層 ↗   全部同一個概念，只是鷹架不同", { x: 0.65, y: 6.5, w: 12.7, h: 0.45, fontFace: F, fontSize: 17, italic: true, color: C.sageDeep, align: "left" });
+  footer(s, N, false);
+  s.addNotes(noteKey);
+  return s;
+}
+
+// =====================================================================
+// 總結頁 產生器（帶走一句話 + 保底版）
+// =====================================================================
+function summarySlide(kicker, takeaway, floor) {
+  const s = newSlide(false);
+  title(s, "帶走一句話", kicker);
+  s.addShape(p.ShapeType.roundRect, { x: 0.8, y: 2.15, w: 11.7, h: 1.7, rectRadius: 0.15, fill: { color: C.sageDeep }, line: { type: "none" }, shadow: sh() });
+  s.addText(takeaway, { x: 1.2, y: 2.15, w: 10.9, h: 1.7, align: "left", valign: "middle", fontFace: F, fontSize: 28, bold: true, color: C.white });
+  s.addShape(p.ShapeType.roundRect, { x: 0.8, y: 4.15, w: 11.7, h: 1.5, rectRadius: 0.15, fill: { color: C.block }, line: { color: C.cardLine, width: 1 } });
+  s.addText([
+    { text: "至少要記得：", options: { fontFace: F, fontSize: 22, bold: true, color: C.sageDeep } },
+    { text: floor, options: { fontFace: F, fontSize: 23, color: C.ink } },
+  ], { x: 1.2, y: 4.15, w: 10.9, h: 1.5, align: "left", valign: "middle" });
+  footer(s, N, false);
+  return s;
+}
+
+// =====================================================================
+// 步驟卡頁 產生器
+// =====================================================================
+function stepCardSlide(kicker, head, eqn, steps, noteTxt) {
+  const s = newSlide(false);
+  title(s, head, kicker);
+  s.addShape(p.ShapeType.roundRect, { x: 0.8, y: 1.75, w: 11.7, h: 0.9, rectRadius: 0.1, fill: { color: C.block }, line: { type: "none" } });
+  s.addText("解 " + eqn, { x: 1.1, y: 1.75, w: 11.1, h: 0.9, align: "left", valign: "middle", fontFace: MONO, fontSize: 24, bold: true, color: C.ink });
+  let y = 2.95;
+  const rowH = (6.4 - 2.95) / steps.length;
+  steps.forEach((st, i) => {
+    stepCircle(s, 0.85, y + (rowH - 0.5) / 2, i + 1, 0.5);
+    s.addText(st, { x: 1.55, y: y, w: 10.9, h: rowH, align: "left", valign: "middle", fontFace: F, fontSize: 21, color: C.ink });
+    y += rowH;
+  });
+  footer(s, N, false);
+  s.addNotes(noteTxt);
+  return s;
+}
+
+// =====================================================================
+// 站① 分式方程
+// =====================================================================
+stationDivider("站①", "分式方程", "把分母清掉，變成會解的方程；解完一定驗根").addNotes("進入站①。核心：分母不好處理，先「去分母」變成整式方程；最後一定驗根，使分母為 0 的解是增根要捨去。");
+
+// 引入
+(function () {
+  const s = newSlide(false);
+  title(s, "分母裡有 x，怎麼解？", "站① · 引入");
+  s.addShape(p.ShapeType.roundRect, { x: 1.6, y: 2.3, w: 10.1, h: 2.4, rectRadius: 0.18, fill: { color: C.block }, line: { color: C.cardLine, width: 1 }, shadow: sh() });
+  s.addText("先把分母「清掉」", { x: 1.6, y: 2.55, w: 10.1, h: 0.8, align: "center", valign: "middle", fontFace: F, fontSize: 34, bold: true, color: C.sageDeep });
+  s.addText("兩邊乘公分母 → 變成沒有分母的整式方程", { x: 1.9, y: 3.5, w: 9.5, h: 0.9, align: "center", valign: "middle", fontFace: F, fontSize: 24, color: C.ink });
+  footer(s, N, false);
+  s.addNotes("製造動機：分母最麻煩，第一步就是把它清掉。像通分的逆操作。");
+})();
+
+// 概念 + 保底
+(function () {
+  const s = newSlide(false);
+  title(s, "分式方程四步驟", "站① · 概念（保底）");
+  const steps = [
+    ["1", "去分母", "兩邊乘最簡公分母"],
+    ["2", "化整式", "變成一元二次方程"],
+    ["3", "解方程", "因式分解或公式法"],
+    ["4", "驗根", "使分母為 0 的要捨去"],
+  ];
+  let y = 1.95;
+  steps.forEach((st) => {
+    card(s, 0.8, y, 8.4, 0.98, C.white);
+    stepCircle(s, 1.0, y + 0.24, st[0], 0.5);
+    s.addText(st[1], { x: 1.75, y: y, w: 2.4, h: 0.98, align: "left", valign: "middle", fontFace: F, fontSize: 24, bold: true, color: C.ink });
+    s.addText(st[2], { x: 4.2, y: y, w: 4.8, h: 0.98, align: "left", valign: "middle", fontFace: F, fontSize: 20, color: C.soft });
+    y += 1.12;
+  });
+  s.addShape(p.ShapeType.roundRect, { x: 9.5, y: 1.95, w: 3.1, h: 4.4, rectRadius: 0.14, fill: { color: C.sageDeep }, line: { type: "none" }, shadow: sh() });
+  s.addText("⚠ 一定要驗根", { x: 9.72, y: 2.2, w: 2.7, h: 0.6, align: "left", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+  s.addText("使分母 = 0 的值\n叫「增根」，\n\n不是真的解，\n必須捨去。", { x: 9.72, y: 2.95, w: 2.7, h: 3.2, align: "left", valign: "top", fontFace: F, fontSize: 20, color: "E7F0EB", lineSpacingMultiple: 1.3 });
+  footer(s, N, false);
+  s.addNotes("保底：全班至少要會第 1 步「兩邊乘公分母把分母清掉」。反覆強調第 4 步驗根。");
+})();
+
+// CRA 三階頁
+(function () {
+  const s = newSlide(false);
+  title(s, "去分母：具體 → 圖 → 式", "站① · CRA");
+  s.addText("解 2/x = x − 1", { x: 0.8, y: 1.7, w: 11.7, h: 0.5, fontFace: MONO, fontSize: 24, bold: true, color: C.ink, align: "left" });
+  const cols = [
+    ["具體", "分母不好算，\n先把它清掉：\n兩邊都乘 x", "分母消失"],
+    ["表徵", "左邊 2/x × x = 2\n右邊 (x−1) × x", "= x² − x"],
+    ["抽象", "寫成整式方程：\n2 = x² − x", "x² − x − 2 = 0"],
+  ];
+  const x0 = 0.8, gap = 0.3, w = (11.7 - 2 * gap) / 3, yTop = 2.35, h = 3.7;
+  cols.forEach((c, i) => {
+    const x = x0 + i * (w + gap);
+    card(s, x, yTop, w, h, C.white);
+    s.addShape(p.ShapeType.roundRect, { x, y: yTop, w, h: 0.7, rectRadius: 0.12, fill: { color: C.sage }, line: { type: "none" } });
+    s.addText(c[0], { x, y: yTop, w, h: 0.7, align: "center", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+    s.addText(c[1], { x: x + 0.2, y: yTop + 0.9, w: w - 0.4, h: 1.7, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.3 });
+    hlBox(s, x + 0.2, yTop + 2.95, w - 0.4, 0.6);
+    s.addText(c[2], { x: x + 0.2, y: yTop + 2.95, w: w - 0.4, h: 0.6, align: "center", valign: "middle", fontFace: F, fontSize: 20, bold: true, color: C.sageDeep });
+    if (i < 2) s.addText("→", { x: x + w - 0.02, y: yTop + 1.3, w: gap + 0.04, h: 0.6, align: "center", valign: "middle", fontFace: F, fontSize: 26, bold: true, color: C.sageDeep });
+  });
+  footer(s, N, false);
+  s.addNotes("先具體（清分母的動作）、再表徵（兩邊各乘 x）、最後抽象（整式方程）。每階示範→引導→學生做。");
+})();
+
+// 步驟卡（示範例）
+stepCardSlide("站① · 老師示範", "跟著四步做一次", "2/x = x − 1", [
+  "去分母：兩邊乘 x → 2 = x(x − 1)",
+  "化整式：2 = x² − x → x² − x − 2 = 0",
+  "解方程：(x − 2)(x + 1) = 0 → x = 2 或 x = −1",
+  "驗根：x ≠ 0，2 和 −1 都可以 → 答 x = 2 或 −1",
+], "完整走一遍四步。這題兩個解都合格，讓學生先建立信心；下一頁才看驗根會刷掉解的情況。");
+
+// 迷思澄清 / 驗根頁（增根）
+(function () {
+  const s = newSlide(false);
+  title(s, "為什麼一定要驗根？", "站① · 迷思澄清");
+  s.addText("解 x²/(x−3) = (2x+3)/(x−3)", { x: 0.8, y: 1.65, w: 11.7, h: 0.5, fontFace: MONO, fontSize: 22, bold: true, color: C.ink, align: "left" });
+  // 左：不驗根（錯）
+  card(s, 0.8, 2.3, 5.7, 3.9, C.white);
+  s.addShape(p.ShapeType.roundRect, { x: 0.8, y: 2.3, w: 5.7, h: 0.7, rectRadius: 0.12, fill: { color: C.slate }, line: { type: "none" } });
+  s.addText("❌ 不驗根", { x: 0.8, y: 2.3, w: 5.7, h: 0.7, align: "center", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+  s.addText("去分母：x² = 2x + 3\nx² − 2x − 3 = 0\n(x − 3)(x + 1) = 0\nx = 3 或 x = −1\n\n→ 直接寫「x = 3 或 −1」", { x: 1.05, y: 3.15, w: 5.2, h: 2.9, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.3 });
+  // 右：驗根（對）
+  card(s, 6.8, 2.3, 5.7, 3.9, C.block);
+  s.addShape(p.ShapeType.roundRect, { x: 6.8, y: 2.3, w: 5.7, h: 0.7, rectRadius: 0.12, fill: { color: C.sageDeep }, line: { type: "none" } });
+  s.addText("✔ 驗根", { x: 6.8, y: 2.3, w: 5.7, h: 0.7, align: "center", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+  s.addText("x = 3 → 分母 x−3 = 0 ✗\n這是「增根」，捨去！\n\nx = −1 → 分母 = −4 ≠ 0 ✓\n\n→ 正確答案只有 x = −1", { x: 7.05, y: 3.15, w: 5.2, h: 2.9, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.3 });
+  footer(s, N, false);
+  s.addNotes("關鍵頁。去分母時「乘了 (x−3)」，就可能引進讓分母為 0 的假解。x=3 代回原式分母為 0，根本不能算，必須捨。強調：分式方程沒驗根＝沒做完。");
+})();
+
+// 轉換點
+breakSlide("下一頁換你做：先想「公分母是什麼」");
+
+// 分層任務頁 站①
+tieredTasks("站① · 分層練習",
+  [
+    ["1. 解 3/x = x − 2\n（乘 x，記得 x ≠ 0）", "2. 解 4/x = x − 3"],
+    ["3. 解 x/(x+2) + (x+2)/x = 5/2", "4. 解 3/(x+1) = x − 1"],
+    ["5. 車行 120 公里，速度多 10\n就少 1 小時，求原速", "6. 找錯：解 x/(x−2)=2/(x−2)\n得 x=2 就寫 x=2，錯在哪？"],
+  ],
+  "解答核對｜A1: 3=x²−2x→x²−2x−3=0→x=3 或 −1（都≠0，都合）。A2: x²−3x−4=0→x=4 或 −1。 B3: 乘 2x(x+2)→x²+2x−8=0→(x+4)(x−2)=0→x=2 或 −4（都合）。B4: 3=x²−1→x²=4→x=2 或 −2（都≠−1）。 C5: 120/x − 120/(x+10)=1→x²+10x−1200=0→(x+40)(x−30)=0→x=30，原速 30 公里/小時（−40 捨）。C6: 忘了驗根，x=2 使分母 0 是增根，此方程無解。"
+);
+
+// 總結 站①
+summarySlide("站① · 總結",
+  "分式方程：去分母變整式方程，解完一定驗根，增根要捨去。",
+  "先「兩邊乘公分母」把分母清掉，最後檢查分母不等於 0。").addNotes("回收站①。保底句要全班能覆述：去分母、驗根。");
+
+// =====================================================================
+// 站② 無理方程
+// =====================================================================
+stationDivider("站②", "無理方程", "兩邊平方脫掉根號，變成會解的方程；解完一定驗根").addNotes("進入站②。核心：根號裡有 x，兩邊平方把根號脫掉；但平方會製造增根，所以一樣要驗根。");
+
+// 引入
+(function () {
+  const s = newSlide(false);
+  title(s, "根號裡有 x，怎麼解？", "站② · 引入");
+  s.addShape(p.ShapeType.roundRect, { x: 1.6, y: 2.3, w: 10.1, h: 2.4, rectRadius: 0.18, fill: { color: C.block }, line: { color: C.cardLine, width: 1 }, shadow: sh() });
+  s.addText("把根號「脫掉」", { x: 1.6, y: 2.55, w: 10.1, h: 0.8, align: "center", valign: "middle", fontFace: F, fontSize: 34, bold: true, color: C.sageDeep });
+  s.addText("讓根號單獨一邊 → 兩邊平方 → 沒有根號了", { x: 1.9, y: 3.5, w: 9.5, h: 0.9, align: "center", valign: "middle", fontFace: F, fontSize: 24, color: C.ink });
+  footer(s, N, false);
+  s.addNotes("動機：平方是開根號的相反，用平方把根號脫掉。跟站①一樣的心法：變回會解的方程。");
+})();
+
+// 概念 + 保底
+(function () {
+  const s = newSlide(false);
+  title(s, "無理方程四步驟", "站② · 概念（保底）");
+  const steps = [
+    ["1", "根號單獨", "把根號留在一邊"],
+    ["2", "兩邊平方", "脫掉根號變整式"],
+    ["3", "解方程", "因式分解或公式法"],
+    ["4", "驗根", "代回原式對不上的捨去"],
+  ];
+  let y = 1.95;
+  steps.forEach((st) => {
+    card(s, 0.8, y, 8.4, 0.98, C.white);
+    stepCircle(s, 1.0, y + 0.24, st[0], 0.5);
+    s.addText(st[1], { x: 1.75, y: y, w: 2.4, h: 0.98, align: "left", valign: "middle", fontFace: F, fontSize: 24, bold: true, color: C.ink });
+    s.addText(st[2], { x: 4.2, y: y, w: 4.8, h: 0.98, align: "left", valign: "middle", fontFace: F, fontSize: 20, color: C.soft });
+    y += 1.12;
+  });
+  s.addShape(p.ShapeType.roundRect, { x: 9.5, y: 1.95, w: 3.1, h: 4.4, rectRadius: 0.14, fill: { color: C.sageDeep }, line: { type: "none" }, shadow: sh() });
+  s.addText("⚠ 記住一件事", { x: 9.72, y: 2.2, w: 2.7, h: 0.6, align: "left", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+  s.addText("根號的結果\n一定 ≥ 0。\n\n平方會多出解，\n所以一定要\n驗根。", { x: 9.72, y: 2.95, w: 2.7, h: 3.2, align: "left", valign: "top", fontFace: F, fontSize: 20, color: "E7F0EB", lineSpacingMultiple: 1.3 });
+  footer(s, N, false);
+  s.addNotes("保底：至少會第 2 步「兩邊平方脫根號」。強調根號非負，與驗根扣在一起。");
+})();
+
+// 步驟卡（示範例，含驗根刷解）
+stepCardSlide("站② · 老師示範", "跟著四步做一次", "√(x + 2) = x", [
+  "根號已單獨一邊，直接兩邊平方",
+  "平方：x + 2 = x² → x² − x − 2 = 0",
+  "解方程：(x − 2)(x + 1) = 0 → x = 2 或 x = −1",
+  "驗根：x = 2 → √4 = 2 ✓；x = −1 → √1 = 1 ≠ −1 ✗ → 答 x = 2",
+], "完整走四步。重點在最後：x=−1 代回原式，左邊 √1=1、右邊 −1，對不上，是增根要捨。答案只有 x=2。");
+
+// 迷思澄清 / 驗根頁（根號非負）
+(function () {
+  const s = newSlide(false);
+  title(s, "平方為什麼會多出解？", "站② · 迷思澄清");
+  // 左：概念
+  card(s, 0.8, 1.9, 5.7, 4.3, C.white);
+  s.addShape(p.ShapeType.roundRect, { x: 0.8, y: 1.9, w: 5.7, h: 0.7, rectRadius: 0.12, fill: { color: C.sage }, line: { type: "none" } });
+  s.addText("平方會「不分正負」", { x: 0.8, y: 1.9, w: 5.7, h: 0.7, align: "center", valign: "middle", fontFace: F, fontSize: 21, bold: true, color: C.white });
+  s.addText("3 和 −3 平方都是 9。\n\n平方之後，本來\n「不對的負數解」\n也混進來了。\n\n所以要代回原式\n檢查，把混進來\n的假解刷掉。", { x: 1.05, y: 2.75, w: 5.2, h: 3.3, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.3 });
+  // 右：例子
+  card(s, 6.8, 1.9, 5.7, 4.3, C.block);
+  s.addShape(p.ShapeType.roundRect, { x: 6.8, y: 1.9, w: 5.7, h: 0.7, rectRadius: 0.12, fill: { color: C.sageDeep }, line: { type: "none" } });
+  s.addText("例：解 √x = −3", { x: 6.8, y: 1.9, w: 5.7, h: 0.7, align: "center", valign: "middle", fontFace: F, fontSize: 21, bold: true, color: C.white });
+  s.addText("平方：x = 9\n\n驗根：√9 = 3，\n但右邊是 −3，\n3 ≠ −3 ✗\n\n根號結果不會是負數\n→ 此方程無解", { x: 7.05, y: 2.75, w: 5.2, h: 3.3, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.3 });
+  footer(s, N, false);
+  s.addNotes("解釋增根來源：平方把正負混在一起。√x=−3 一眼看根號非負就知無解，但學生常平方後寫 x=9，這就是沒驗根的後果。");
+})();
+
+// 轉換點
+breakSlide("下一頁換你做：先讓根號單獨一邊");
+
+// 分層任務頁 站②
+tieredTasks("站② · 分層練習",
+  [
+    ["1. 解 √(2x+3) = x\n（平方，記得驗根）", "2. 解 √(3x+1) = x + 1"],
+    ["3. 解 √(x+4) = x − 2", "4. 解 √(2x+1) = x − 1"],
+    ["5. 解 x + √x = 6\n（提示：設 √x = t）", "6. 找錯：√(x+6)=x 平方得\nx=3 或 −2 就作答，漏了什麼？"],
+  ],
+  "解答核對｜A1: 2x+3=x²→x²−2x−3=0→x=3 或 −1；驗根 x=3 合、x=−1 不合 → 答 x=3。A2: x²−x=0→x=0 或 1；驗根都合 → 答 x=0 或 1。 B3: x+4=(x−2)²→x²−5x=0→x=0 或 5；只有 x=5 合。B4: 2x+1=(x−1)²→x²−4x=0→x=0 或 4；只有 x=4 合。 C5: 設 √x=t≥0，t²+t−6=0→(t+3)(t−2)=0→t=2（t=−3 捨）→√x=2→x=4。C6: 漏了驗根，x=−2 使 √4=2≠−2 是增根，正解只有 x=3。"
+);
+
+// 總結 站②
+summarySlide("站② · 總結",
+  "無理方程：兩邊平方脫根號，解完一定驗根（根號結果非負）。",
+  "把根號單獨一邊、兩邊平方，最後代回原式檢查。").addNotes("回收站②。保底句：平方脫根號、驗根。與站① 的驗根呼應。");
+
+// =====================================================================
+// 站③ 二元二次方程組
+// =====================================================================
+stationDivider("站③", "二元二次方程組", "代入消元，變回一元二次方程；答案是一對一對的 (x, y)").addNotes("進入站③。核心：用「代入消元」把兩個未知數變成一個，就回到一元二次方程。答案要成對出現。");
+
+// 引入
+(function () {
+  const s = newSlide(false);
+  title(s, "兩個未知數，怎麼下手？", "站③ · 引入");
+  s.addShape(p.ShapeType.roundRect, { x: 1.6, y: 2.3, w: 10.1, h: 2.4, rectRadius: 0.18, fill: { color: C.block }, line: { color: C.cardLine, width: 1 }, shadow: sh() });
+  s.addText("先消去一個未知數", { x: 1.6, y: 2.55, w: 10.1, h: 0.8, align: "center", valign: "middle", fontFace: F, fontSize: 34, bold: true, color: C.sageDeep });
+  s.addText("從一次方程解出一個字母 → 代入 → 只剩一個未知數", { x: 1.9, y: 3.5, w: 9.5, h: 0.9, align: "center", valign: "middle", fontFace: F, fontSize: 23, color: C.ink });
+  footer(s, N, false);
+  s.addNotes("動機：兩個字母太多，先想辦法變一個。代入消元＝把一個字母換成另一個的式子。");
+})();
+
+// 概念 / 方法（含「一對一對」提醒）
+(function () {
+  const s = newSlide(false);
+  title(s, "代入消元法四步驟", "站③ · 概念（保底）");
+  const steps = [
+    ["1", "解出一個字母", "從一次方程，如 y = x + 1"],
+    ["2", "代入", "把它代進二次方程"],
+    ["3", "解一元二次", "求出 x"],
+    ["4", "回代配對", "求 y，寫成 (x, y)"],
+  ];
+  let y = 1.95;
+  steps.forEach((st) => {
+    card(s, 0.8, y, 8.4, 0.98, C.white);
+    stepCircle(s, 1.0, y + 0.24, st[0], 0.5);
+    s.addText(st[1], { x: 1.75, y: y, w: 3.0, h: 0.98, align: "left", valign: "middle", fontFace: F, fontSize: 23, bold: true, color: C.ink });
+    s.addText(st[2], { x: 4.8, y: y, w: 4.3, h: 0.98, align: "left", valign: "middle", fontFace: F, fontSize: 19, color: C.soft });
+    y += 1.12;
+  });
+  s.addShape(p.ShapeType.roundRect, { x: 9.5, y: 1.95, w: 3.1, h: 4.4, rectRadius: 0.14, fill: { color: C.sageDeep }, line: { type: "none" }, shadow: sh() });
+  s.addText("⚠ 答案要成對", { x: 9.72, y: 2.2, w: 2.7, h: 0.6, align: "left", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.white });
+  s.addText("每一個 x 都要\n配一個 y。\n\n求完 x 別停手，\n記得回去求 y，\n寫成 (x, y)。", { x: 9.72, y: 2.95, w: 2.7, h: 3.2, align: "left", valign: "top", fontFace: F, fontSize: 20, color: "E7F0EB", lineSpacingMultiple: 1.3 });
+  footer(s, N, false);
+  s.addNotes("保底：至少會第 1、2 步（解出一個字母、代入）。最常見錯誤是求完 x 忘了配 y，右框特別提醒。");
+})();
+
+// 步驟卡（示範例）
+stepCardSlide("站③ · 老師示範", "跟著四步做一次", "y = x + 1，x² + y² = 25", [
+  "解出字母：一次方程已是 y = x + 1",
+  "代入：x² + (x + 1)² = 25 → 2x² + 2x − 24 = 0",
+  "解一元二次：x² + x − 12 = 0 → (x + 4)(x − 3) = 0 → x = 3 或 −4",
+  "回代配對：x=3→y=4；x=−4→y=−3 → 答 (3, 4) 或 (−4, −3)",
+], "完整四步。強調：兩個 x 各配一個 y，答案是兩對座標。可提一句這其實是直線與圓的交點。");
+
+// 視覺鷹架頁（代入消元模板 四格）
+(function () {
+  const s = newSlide(false);
+  title(s, "代入消元模板（照著填）", "站③ · 鷹架");
+  const cells = [
+    ["① 選一次方程", "解出一個字母\n（y = … 或 x = …）"],
+    ["② 代入", "代進另一條\n二次方程"],
+    ["③ 解一元二次", "整理成 = 0\n因式分解求 x"],
+    ["④ 回代配對", "每個 x 求出 y\n寫成 (x, y)"],
+  ];
+  const x0 = 0.9, y0 = 2.05, w = 5.6, h = 2.1, gx = 0.4, gy = 0.35;
+  cells.forEach((c, i) => {
+    const x = x0 + (i % 2) * (w + gx);
+    const y = y0 + Math.floor(i / 2) * (h + gy);
+    card(s, x, y, w, h, C.white);
+    s.addText(c[0], { x: x + 0.25, y: y + 0.18, w: w - 0.5, h: 0.55, align: "left", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.sageDeep });
+    s.addText(c[1], { x: x + 0.25, y: y + 0.78, w: w - 0.5, h: 1.15, align: "left", valign: "top", fontFace: F, fontSize: 21, color: C.ink, lineSpacingMultiple: 1.25 });
+  });
+  footer(s, N, false);
+  s.addNotes("鷹架先撐後撤：前幾題照四格填，熟了就不用模板。特別盯第④格，避免漏配 y。");
+})();
+
+// 轉換點
+breakSlide("下一頁換你做：先寫「y = …」或「x = …」");
+
+// 分層任務頁 站③
+tieredTasks("站③ · 分層練習",
+  [
+    ["1. 解 x − y = 1，xy = 6", "2. 解 y = x − 1，x² + y² = 25"],
+    ["3. 解 x + y = 5，x² + y² = 13", "4. 解 x + y = 6，xy = 8"],
+    ["5. 解 y = x²，y = x + 2\n（想想是什麼圖形相交）", "6. 找錯：x+y=5、xy=6 求出\nx=2 或 3 就作答，漏了什麼？"],
+  ],
+  "解答核對｜A1: x=y+1 代入 xy=6→y²+y−6=0→y=2 或 −3 → (3,2) 或 (−2,−3)。A2: x²+(x−1)²=25→x²−x−12=0→x=4 或 −3 → (4,3) 或 (−3,−4)。 B3: y=5−x 代入→x²−5x+6=0→x=2 或 3 → (2,3) 或 (3,2)。B4: y=6−x 代入→x²−6x+8=0→x=2 或 4 → (2,4) 或 (4,2)。 C5: x²=x+2→x²−x−2=0→x=2 或 −1 →(2,4) 或 (−1,1)（拋物線與直線相交）。C6: 漏了求 y 配對，答案應是 (2,3) 或 (3,2)。"
+);
+
+// 總結 站③
+summarySlide("站③ · 總結",
+  "方程組：代入消元變回一元二次方程，答案是一對一對的 (x, y)。",
+  "從一次方程解出一個字母，代入另一條；求完 x 記得配 y。").addNotes("回收站③。保底句：代入消元、配對 (x,y)。");
+
+// =====================================================================
+// 收尾
+// =====================================================================
+// 三站總複習
+(function () {
+  const s = newSlide(false);
+  title(s, "三站帶走話，一次回顧");
+  const data = [
+    ["站①", "分式方程：去分母變整式，解完驗根，增根捨去。"],
+    ["站②", "無理方程：兩邊平方脫根號，解完驗根。"],
+    ["站③", "方程組：代入消元變一元二次，答案配成 (x, y)。"],
+  ];
+  let y = 1.95;
+  data.forEach((d) => {
+    card(s, 0.7, y, 11.9, 1.35, C.white);
+    stationBadge(s, d[0], 0.95, y + 0.36);
+    s.addText(d[1], { x: 2.9, y: y, w: 9.5, h: 1.35, align: "left", valign: "middle", fontFace: F, fontSize: 22, bold: true, color: C.ink });
+    y += 1.55;
+  });
+  s.addText("共同心法：都變回一元二次方程；站①②別忘了驗根", { x: 0.7, y: 6.75, w: 11.9, h: 0.4, fontFace: F, fontSize: 17, italic: true, color: C.sageDeep, align: "left" });
+  footer(s, N, false);
+  s.addNotes("整體回收。可請學生每站講一句自己的話覆述，特別點名「驗根」這個共同習慣。");
+})();
+
+// 結語（asset-based）
+(function () {
+  const s = newSlide(true);
+  s.addText("你已經走完三站！", { x: 0.9, y: 2.5, w: 11.6, h: 1.1, align: "left", valign: "middle", fontFace: F, fontSize: 46, bold: true, color: C.white });
+  s.addText("再新的方程，你也能變回熟悉的樣子。", { x: 0.9, y: 3.75, w: 11.6, h: 0.9, align: "left", valign: "middle", fontFace: F, fontSize: 28, color: "CFE0D8" });
+  s.addText("下次遇到分式或無理方程，記得先問自己：驗根了嗎？", { x: 0.9, y: 4.8, w: 11.6, h: 0.7, align: "left", valign: "middle", fontFace: F, fontSize: 20, italic: true, color: "9FB8AE" });
+  s.addNotes("正向收束，asset-based。肯定策略遷移能力，不用「終於」「總算」等字眼。");
+})();
+
+// 教師備註頁
+(function () {
+  const s = newSlide(false);
+  title(s, "教師備註 · 融合層設計", "供科組 / IEP 會議說明");
+  const left = [
+    "路線：Accommodation（調整支援）",
+    "內容不減、維持初三年級標準，",
+    "只改「接觸方式」與「練習鷹架」。",
+    "",
+    "分層靠學生自選星星，不點名個案。",
+  ];
+  const right = [
+    "◆ CRA 三階：具體 → 圖 → 抽象",
+    "◆ 步驟卡：四步驟一步一行、編號",
+    "◆ 視覺鷹架：代入消元四格模板",
+    "◆ 轉換點＋預告：照顧注意力節奏",
+    "◆ 驗根迷思頁＋asset-based 用語",
+  ];
+  card(s, 0.7, 1.9, 5.85, 4.4, C.white);
+  s.addText("調整定位", { x: 0.95, y: 2.05, w: 5.4, h: 0.5, fontFace: F, fontSize: 22, bold: true, color: C.sageDeep });
+  s.addText(left.join("\n"), { x: 0.95, y: 2.6, w: 5.4, h: 3.5, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.3 });
+  card(s, 6.75, 1.9, 5.85, 4.4, C.white);
+  s.addText("融合層做了什麼", { x: 7.0, y: 2.05, w: 5.4, h: 0.5, fontFace: F, fontSize: 22, bold: true, color: C.sageDeep });
+  s.addText(right.join("\n"), { x: 7.0, y: 2.6, w: 5.4, h: 3.5, align: "left", valign: "top", fontFace: F, fontSize: 20, color: C.ink, lineSpacingMultiple: 1.35 });
+  footer(s, N, false);
+  s.addNotes("此頁供教師/IEP 對接用，上課可略過。屬 Accommodation，未剪裁課程內容。");
+})();
+
+// ---- 輸出 ----
+p.writeFile({ fileName: "簡報_分式無理方程與二元二次方程組_融合抽離版.pptx" }).then((fn) => {
+  console.log("WROTE " + fn + "  slides=" + N);
+}).catch((e) => { console.error("ERR", e); process.exit(1); });

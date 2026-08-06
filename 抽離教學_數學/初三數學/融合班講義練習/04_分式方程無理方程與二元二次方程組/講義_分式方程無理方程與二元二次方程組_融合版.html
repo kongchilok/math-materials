@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_分式方程無理方程與二元二次方程組_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">初三數學．分式方程、無理方程與二元二次方程組</div></td></tr></tfoot>
+  <tbody><tr><td>
+  <div class="masthead"><span>科目：初三數學</span><span>單元：分式方程、無理方程與二元二次方程組</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="section-h">這一課要學三種新方程</div>
+  <div>前面學過的一元二次方程，未知數都是「光著身」的。這一課的三種方程，未知數分別被關在三個地方：</div>
+  <div class="problem">
+  <div>分母裡　→　分式方程　　例：\(\dfrac{3}{x}=x-2\)</div>
+  <div>根號裡　→　無理方程　　例：\(\sqrt{x+2}=x\)</div>
+  <div>另一條方程裡　→　二元二次方程組　　例：\(y=x+1\) 與 \(x^2+y^2=25\)</div>
+  </div>
+  <div>三種方程的做法都是同一個念頭：</div>
+  <div class="hint-card">想辦法把未知數「放出來」，變回會解的一元二次方程。</div>
+  <div>但放出來是有代價的——</div>
+  <div class="hint-card">去分母、平方，這兩個動作都可能多生出「假的解」。所以這一課每一題最後都要驗根。</div>
+  <div class="section-h">一、分式方程</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">分式方程 四步</th></tr>
+    <tr><td colspan="2" style="font-weight:400">什麼時候用：方程裡有分母，而且分母含有未知數</td></tr>
+    <tr><td>1. 把每個分母因式分解，找出最簡公分母</td><td class="pitfall">※ 分母是 \(x^2-4\) 要先拆成 \((x+2)(x-2)\)</td></tr>
+    <tr><td>2. 兩邊同乘最簡公分母，去分母</td><td class="pitfall">※ 每一項都要乘，包括沒有分母的那一項</td></tr>
+    <tr><td>3. 解這條整式方程</td><td class="pitfall">※ 照一元二次方程的做法：移項、因式分解、分兩支</td></tr>
+    <tr><td>4. 驗根：把每個解代回原方程的分母</td><td class="pitfall">※ 令分母等於 0 的叫增根，一定要捨去</td></tr>
+  </table>
+  <div class="sub-h lead"><b>★ 範例一：解 \(\dfrac{3}{x}=x-2\)</b></div>
+  <table class="d-tbl worked long">
+    <thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ec1">\(\dfrac{3}{x}\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(x-2\)</td><td class="why">原方程。分母有 \(x\)，所以先寫低 \(x \neq 0\)</td></tr>
+    <tr><td class="ecs" colspan="7">最簡公分母是 \(x\)</td><td class="why">分母只有一個，最簡公分母就是它</td></tr>
+    <tr><td class="ec1">\(3\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(x(x-2)\)</td><td class="why">兩邊同乘 \(x\)，去分母</td></tr>
+    <tr><td class="ec1">\(3\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(x^2-2x\)</td><td class="why">展開右邊</td></tr>
+    <tr><td class="ec1">\(x^2-2x-3\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">移項，化成一般式</td></tr>
+    <tr><td class="ec1">\((x-3)(x+1)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">因式分解</td></tr>
+    <tr><td class="ec1">\(x-3\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x+1\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">兩個因式各自等於 0，分兩支寫</td></tr>
+    <tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(3\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-1\)</td><td class="why">兩支各自解出</td></tr>
+    <tr><td class="ecs" colspan="7">驗根 \(x_1=3\)：代入分母 \(x\) 得 \(3\)</td><td class="why">不等於 0，保留</td></tr>
+    <tr><td class="ecs" colspan="7">驗根 \(x_2=-1\)：代入分母 \(x\) 得 \(-1\)</td><td class="why">不等於 0，保留</td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) \(x_1 = 3\)　或　\(x_2 = -1\)</td><td class="why">作答：最後一行用「∴」寫出兩個根</td></tr>
+    </tbody>
+  </table>
+  <div class="section-h">二、無理方程</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">無理方程 四步</th></tr>
+    <tr><td colspan="2" style="font-weight:400">什麼時候用：未知數被關在根號裡面</td></tr>
+    <tr><td>1. 移項，讓根號單獨留在一邊</td><td class="pitfall">※ 根號要孤立，才能一次平方掉</td></tr>
+    <tr><td>2. 兩邊平方，去根號</td><td class="pitfall">※ 右邊是整體平方：\((x-3)^2\) 不等於 \(x^2-9\)</td></tr>
+    <tr><td>3. 解這條整式方程</td><td class="pitfall">※ 照一元二次方程的做法：移項、因式分解、分兩支</td></tr>
+    <tr><td>4. 驗根：把每個解代回原方程</td><td class="pitfall">※ 平方會多出假根；左右不相等的一定要捨去</td></tr>
+  </table>
+  <div class="sub-h lead"><b>★ 範例二：解 \(\sqrt{x+2}=x\)</b></div>
+  <table class="d-tbl worked long">
+    <thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ec1">\(\sqrt{x+2}\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(x\)</td><td class="why">原方程。根號已經單獨在左邊，可以直接平方</td></tr>
+    <tr><td class="ec1">\(x+2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(x^2\)</td><td class="why">兩邊平方，去根號</td></tr>
+    <tr><td class="ec1">\(x^2-x-2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">移項，化成一般式</td></tr>
+    <tr><td class="ec1">\((x-2)(x+1)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">因式分解</td></tr>
+    <tr><td class="ec1">\(x-2\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x+1\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">兩個因式各自等於 0，分兩支寫</td></tr>
+    <tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(2\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-1\)</td><td class="why">兩支各自解出</td></tr>
+    <tr><td class="ecs" colspan="7">驗根 \(x_1=2\)：左邊 \(\sqrt{2+2}=2\)，右邊 \(2\)</td><td class="why">左右相等，保留</td></tr>
+    <tr><td class="ecs" colspan="7">驗根 \(x_2=-1\)：左邊 \(\sqrt{-1+2}=1\)，右邊 \(-1\)</td><td class="why">根號算出來一定不是負數，左右不相等，捨去</td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) \(x = 2\)</td><td class="why">作答：只有一個根通過驗根，就只寫一個</td></tr>
+    </tbody>
+  </table>
+  <div class="section-h">三、二元二次方程組</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">二元二次方程組 四步</th></tr>
+    <tr><td colspan="2" style="font-weight:400">什麼時候用：兩條方程、兩個未知數，其中一條是二次</td></tr>
+    <tr><td>1. 找出那條一次方程</td><td class="pitfall">※ 一次方程才好用來「用一個字母表示另一個」</td></tr>
+    <tr><td>2. 從一次方程解出一個未知數</td><td class="pitfall">※ 例如寫成 \(y=x+1\)，準備代入</td></tr>
+    <tr><td>3. 代入二次方程，解出第一個未知數</td><td class="pitfall">※ 代入後只剩一個字母，就變回熟悉的一元二次方程</td></tr>
+    <tr><td>4. 每個解都要回代，求出另一個未知數</td><td class="pitfall">※ 答案要成對寫：有幾個 \(x\) 就有幾對 \((x,y)\)</td></tr>
+  </table>
+  <div class="sub-h lead"><b>★ 範例三：解方程組 \(y=x+1\)　與　\(x^2+y^2=25\)</b></div>
+  <table class="d-tbl worked long">
+    <thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ecs" colspan="7">已知：\(y=x+1\)（一次）　與　\(x^2+y^2=25\)（二次）</td><td class="why">一次那條已經解好 \(y\)，可以直接代入</td></tr>
+    <tr><td class="ec1">\(x^2+(x+1)^2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(25\)</td><td class="why">把 \(y\) 換成 \(x+1\)，代入二次方程</td></tr>
+    <tr><td class="ec1">\(x^2+x^2+2x+1\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(25\)</td><td class="why">展開 \((x+1)^2\)</td></tr>
+    <tr><td class="ec1">\(2x^2+2x-24\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">移項，合併同類項</td></tr>
+    <tr><td class="ec1">\(x^2+x-12\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">兩邊除以 2，數字變細</td></tr>
+    <tr><td class="ec1">\((x-3)(x+4)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">因式分解</td></tr>
+    <tr><td class="ec1">\(x-3\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x+4\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">兩個因式各自等於 0，分兩支寫</td></tr>
+    <tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(3\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-4\)</td><td class="why">兩支各自解出 \(x\)</td></tr>
+    <tr><td class="ec1">\(y_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(4\)</td><td class="ec4">或</td><td class="ec5">\(y_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(-3\)</td><td class="why">回代 \(y=x+1\)：這一步最容易漏</td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) \((x_1,y_1)=(3,4)\)　或　\((x_2,y_2)=(-4,-3)\)</td><td class="why">作答：方程組的答案要成對寫</td></tr>
+    </tbody>
+  </table>
+  <div class="section-h">四、這一課最容易錯的一步</div>
+  <div>下面兩欄，前三行一模一樣，分歧在第四行。</div>
+  <div><b>題目：解 \(\dfrac{2}{x-3}=\dfrac{x-1}{x-3}\)</b></div>
+  <table class="d-tbl dual-track">
+    <tr><th>常見寫法</th><th>正確寫法</th></tr>
+    <tr><td>兩邊乘 \((x-3)\)，去分母</td><td style="background:#f0f0f0">兩邊乘 \((x-3)\)，去分母</td></tr>
+    <tr><td>\(2=x-1\)</td><td style="background:#f0f0f0">\(2=x-1\)</td></tr>
+    <tr><td>\(x=3\)</td><td style="background:#f0f0f0">\(x=3\)</td></tr>
+    <tr><td>答：\(x=3\)</td><td style="background:#f0f0f0">※ 驗根：\(x=3\) 令分母 \(x-3=0\)，分式沒有意義 → 增根，捨去</td></tr>
+    <tr><td></td><td style="background:#f0f0f0"><b>∴ 原方程無解</b></td></tr>
+  </table>
+  <div class="hint-card">※ 差在這裡：解出來的數字一定要代回分母檢查。令分母等於 0 的數叫「增根」，它不是原方程的解。</div>
+  <div class="section-h">接下來</div>
+  <div>請拿本單元的《課堂練習》，照上面三張手順卡完成練習 A、B、C。做每一題時，把對應的那張手順卡放在旁邊，手指指住你正在做的那一步。</div>
+  <div class="teacher-notes">
+  <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+  <table class="d-tbl long">
+    <tr><td>本份採用的主設計</td><td>D2 手順卡（日本特別支援教育小步子原則）</td></tr>
+    <tr><td>輔助設計</td><td>D12 自我核對清單＋分段結構、D14 錯誤分析對比（正誤雙欄）</td></tr>
+    <tr><td>選用理由</td><td>本單元三個子題（分式方程／無理方程／二元二次方程組）全部屬 S2 多步驟程序運算，核心瓶頸是序列性步驟在工作記憶中崩潰、漏步驟。三種方程的步驟不同但都是固定序列，正是手順卡的標準適用情境。輔助設計對準本單元唯一的高頻固定錯法——漏驗根／不捨增根：D12 把「驗根了嗎」變成可自我判定的核對項，D14 把增根從隱性錯誤變成可指認的對象。</td></tr>
+    <tr><td>鷹架密度</td><td>抽離小班（Tier 2）</td></tr>
+    <tr><td>褪除路徑</td><td>第一輪：三張手順卡完整給，練習 A 每題旁重印精簡步驟號。第二輪：手順卡只留「※ 驗根」一句，練習 B 只在區塊開頭放一次。第三輪：只問「這題有幾步」，練習 C 不放任何步驟提示。第四輪：完全移除，改由學生自己在草稿上先寫四步再動筆。</td></tr>
+    <tr><td>課堂實施流程</td><td>F1 師徒制對話四步（我做→我們做→你做→你教我）、F2 番茄鐘分段：每完成一個區塊停下來對自我核對清單</td></tr>
+    <tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a5 分段作答、a6 增加行距／放大作答欄、b5 可使用計算機</td></tr>
+    <tr><td>工具卡</td><td>本單元另出《工具卡_三種方程手順卡》，三張卡剪下護貝後放桌面，解題時手指實時跟蹤。</td></tr>
+  </table>
+  </div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>
