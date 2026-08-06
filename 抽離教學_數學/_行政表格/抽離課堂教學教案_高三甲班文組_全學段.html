@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>抽離課堂教學教案（高三甲班・文組・全學段）</title>
+<style>
+  @page { size: A4; margin: 1.3cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Microsoft JhengHei", "Calibri", "Noto Sans TC", sans-serif;
+    font-size: 11pt;
+    color: #111;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: avoid; }
+
+  .status-banner {
+    background: #fff3cd; border: 1px solid #e0a800; border-radius: 4px;
+    padding: 6px 10px; font-size: 9pt; color: #6b5100; margin-bottom: 10px;
+  }
+
+  .header-block { text-align: center; margin-bottom: 14px; }
+  .header-block .school { font-size: 13pt; font-weight: 700; }
+  .header-block .dept { font-size: 11pt; }
+  .header-block .year { font-size: 11pt; }
+  .header-block .title { font-size: 16pt; font-weight: 700; margin-top: 6px; letter-spacing: 0.15em; }
+
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px;
+    margin-bottom: 6px; font-size: 10.5pt;
+  }
+  .info-grid .full { grid-column: 1 / -1; }
+  .info-grid .label { color: #333; }
+
+  table.log {
+    width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 9pt;
+  }
+  table.log th, table.log td {
+    border: 1px solid #444; padding: 4px 5px; vertical-align: top; text-align: left;
+  }
+  table.log thead th { background: #2a2a2a; color: #fff; text-align: center; font-weight: 600; }
+  table.log .col-date { width: 9%; text-align: center; }
+  table.log .col-content { width: 19%; }
+  table.log .col-material { width: 15%; }
+  table.log .col-mastery { width: 9%; text-align: center; color: #999; }
+  table.log .unit-row td { background: #e8e8e0; font-weight: 700; text-align: center; }
+  table.log .note-row td {
+    background: #fdf6e8; border-left: 3px solid #d08b3a;
+    font-weight: 400; text-align: left; font-size: 9pt; line-height: 1.7;
+  }
+  table.log .note-row .nt { font-weight: 700; color: #a83c00; }
+  table.log .off-row td { background: #f2f2f2; color: #666; text-align: center; }
+  table.log .yr-row td { background: #eef2f7; font-weight: 700; text-align: center; }
+
+  .map-note {
+    background: #f6f6f2; border: 1px solid #ddd8c8; border-radius: 4px;
+    padding: 8px 12px; font-size: 9.5pt; margin: 8px 0 14px; line-height: 1.7;
+  }
+  .warn { color: #a83c00; font-weight: 600; }
+  .ok { color: #1a6b2a; font-weight: 600; }
+  h2.section { font-size: 13pt; border-bottom: 2px solid #1d1c1a; padding-bottom: 4px; margin: 0 0 10px; }
+  table.summary { width:100%; border-collapse: collapse; font-size:9.5pt; margin-bottom:14px; }
+  table.summary th, table.summary td { border:1px solid #ccc; padding:5px 7px; text-align:left; }
+  table.summary th { background:#eee; }
+  .sign-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px;
+    margin-top: 14px; font-size: 10.5pt;
+  }
+  .blank { border-bottom: 1px solid #888; display: inline-block; min-width: 150px; padding: 0 4px; }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 0：說明 ============ -->
+<div class="page">
+  <div class="status-banner">草擬版 v1（2026-08-06 建立）—— 高三甲班（文組，3 節／週），涵蓋 <b>IEP 全時程 2026/09 – 2027/05</b>（第一學段＋第二學段）。26/27 校曆未出、四校聯考與畢業旅行確實日期待學校公佈；抽離課排星期幾未定，本版按教學計劃 §二 的蝕堂分析假設。「學生掌握情況」一欄留空，須實際上課後即時填寫。</div>
+
+  <h2 class="section">說明：資料來源與假設</h2>
+  <div class="map-note">
+    來源：<code>高三數學\教學計劃_26-27高三抽離_甲丙班.md</code> §四（甲班 IEP 月份→週次映射）、§五（複習期兩階段設計）、§七（取捨順序）；<code>IEP第8-9點_數學科_高三文組_通用草稿.docx</code>；歷屆試題教材取自 <code>worksheet-tools\output\</code>（工作紙／教師版 2017–2026 共 10 年，＋分類索引）。<br><br>
+
+    <span class="warn">⚠️ 假設事項</span>（以下均待你核對／調整）：<br>
+    1. <b>上課星期＝週二／週三／週五</b>。按計劃 §二 蝕堂分析，高三不參加統測，這三日在 IEP 時程內合共只蝕 5 日（週一蝕 4 日、週四蝕 3 日，都較差）。<span class="warn">留意週三下午 15:30 後為餘暇活動 LA，若抽離課排下午需避開。</span><br>
+    2. <b>畢業旅行假設在 W11（2026/11/09–13）</b>——按理科進度表位置估算，該週整週無課。日期一變，W11 之後全部順移。<br>
+    3. <b>四校聯考假設在 W29（2027/03/16–19 前後）</b>——按甲班進度表「兩次模擬考之後、導數之前」的位置估算。<span class="warn">此日期一經學校公佈，導數起始週次要即時重算。</span><br>
+    4. <b>IEP 範圍只到 2027/05</b>——6 月的複習／畢業考／畢業禮由大班處理，本教案不排課，故最後一節為 2027/05/28。<br>
+    5. 逐堂拆分是本教案自行拆的；計劃只給每個 IEP 月份區間的估算節數。
+  </div>
+
+  <h2 class="section"><span class="warn">⚠️ 重要：實際日曆容量遠超計劃估算</span></h2>
+  <div class="map-note">
+    教學計劃 §四 由 <b>IEP 內容</b> 推算甲班全年約 <b>42–48 節</b>。但按上述星期逐日點算，IEP 時程（2026/09–2027/05）內實際可上 <b>93 節</b>——<span class="warn">多出約 45 節</span>。<br>
+    原因：計劃的估算是「教完 IEP 指定內容需要幾多節」，不是「日曆上有幾多節」。兩者本來就唔同。<br><br>
+
+    <b>裁決（2026-08-06，使用者確認）：餘裕全部投入歷屆試題操練。</b><br>
+    理據：高三係複習主導、四校聯考係硬指標；而 <code>worksheet-tools\output\</code> 已有 <b>2017–2026 共 10 年</b>的工作紙＋教師版＋分類索引，係現成可用教材，唔使等「按章節複習的講義」補齊就開得工。<br><br>
+
+    <b>因此本教案的骨架</b>：<br>
+    ・<b>第一學段 49 節</b>＝ 導入與索引使用法 4 節 ＋ <b>逐年歷屆卷操練 42 節（2026→2020 共 7 年，每年 6 節）</b> ＋ 考前複習 3 節<br>
+    ・<b>第二學段 44 節</b>＝ 階段二索引聚焦操練 12 節 ＋ 四校聯考週 3 節 ＋ 導數 20 節 ＋ 收官 9 節（含 2019–2017 三年舊卷補做）<br><br>
+
+    <span class="warn">⚠️ 教材缺口（不阻塞開課，但要知）</span>：計劃 §六 列明「按章節複習的講義」<b>尚未製作</b>。本教案<b>刻意不依賴</b>該批講義——第一學段全部用現成歷屆卷工作紙推進；章節講義補齊後，可回頭插入作為每年卷之前的「單元速覽」前置節。
+  </div>
+
+  <h2 class="section">全學段一覽（甲班・文組・3 節／週）</h2>
+  <table class="summary">
+    <thead><tr><th>階段</th><th>內容</th><th>節數</th><th>週次</th><th>對應 IEP</th></tr></thead>
+    <tbody>
+      <tr><td>導入</td><td>四校聯考題型結構＋分類索引使用方法</td><td>4</td><td>W1–W2</td><td>4-1</td></tr>
+      <tr><td rowspan="2">階段一<br>廣泛複習</td><td>逐年歷屆卷操練 2026→2020（7 年 × 6 節）</td><td>42</td><td>W3–W20</td><td>4-1、4-2</td></tr>
+      <tr><td>📖 第一學段考前複習</td><td>3</td><td>W21</td><td>—</td></tr>
+      <tr><td>階段二<br>索引聚焦</td><td>高頻三單元逐年抽題：基本概念（15 題）、二次方程及二次函數（17 題）、數列（20 題）</td><td>12</td><td>W25–W28</td><td>4-2</td></tr>
+      <tr><td>應試</td><td>🆕 四校聯考週：考前走位＋考後檢討</td><td>3</td><td>W29（估）</td><td>—</td></tr>
+      <tr><td>新授</td><td>導數：變化率、概念、公式、四則運算、單調性、極值、最值、應用</td><td>20</td><td>W30–W36</td><td>1-1 ~ 3-6</td></tr>
+      <tr><td>收官</td><td>導數應用綜合＋2019–2017 舊卷補做＋IEP 收官評量</td><td>9</td><td>W37–W39</td><td>全部</td></tr>
+      <tr><td colspan="2"><b>合計</b></td><td><b>93 節</b></td><td>W1–W39</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">歷屆卷操練的固定流程（每年 6 節）</h2>
+  <div class="map-note">
+    每一年的卷用<b>同一個 6 節流程</b>走（可預測性對融合生本身就是支援，比照高一戊班錨點課的設計）。下表逐堂只寫該節負責的題類，流程不重複書寫：<br><br>
+    <b>①卷面走位</b>：整份卷掃一次，用分類索引標出每題屬邊個單元，圈起「做得到」的題（IEP 4-1 的核心技能）<br>
+    <b>②第 1–3 類</b>：基本概念、百分數、變分<br>
+    <b>③第 4–5 類</b>：多項式及有理分式、二次方程及二次函數<br>
+    <b>④第 6–9 類</b>：指數及根式、代數不等式、對數與指數函數、非線性方程<br>
+    <b>⑤第 11、15 類</b>：數列、函數圖形<br>
+    <b>⑥對答總結</b>：用教師版核對，錯題按單元歸位入「錯題索引表」，累積成個人化弱項地圖<br><br>
+    <span class="warn">留意</span>：甲班 IEP 寫明「該生在數學科大測、統測及考試使用<b>特別卷</b>」——每年卷操練時同步確認哪些題型會出現在特別卷，抽離班的角色包括特別卷的協調。
+  </div>
+</div>
+
+<!-- ============ PAGE 1：第一學段 ============ -->
+<div class="page">
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>＿＿＿＿＿＿</div>
+    <div><span class="label">班級：</span>高三甲（文組）</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週二／週三／週五 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>階段一 廣泛複習——四校聯考歷屆試題逐年操練（2026→2020）＋分類索引使用方法（高三甲班，第一學段 W1–W21）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="unit-row"><td colspan="6">導入　四校聯考題型結構與分類索引使用方法（4 節，W1–W2・IEP 4-1）</td></tr>
+      <tr>
+        <td>2026/09/02（三）</td>
+        <td>四校聯考卷的結構：題數、分佈、時間分配；「做得到的題先做」的應試策略</td>
+        <td>對答＋修正；建立「本人做得到題型清單」第一版</td>
+        <td>翻閱 2026 卷，圈出自覺做得到的題</td>
+        <td>四校聯考數學工作紙_2026</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/04（五）</td>
+        <td>分類索引怎麼查：16 個單元的分類方式，由「年份→題號」反查「單元→題目」</td>
+        <td>對答＋修正；發「索引查表卡」（三步：認單元→查列→抄題號）</td>
+        <td>指定 3 個單元，各查出 2 個年份的題號</td>
+        <td>四校聯考數學_歷屆試題分類索引</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/08（二）</td>
+        <td>索引實作：由題目反認單元（睇到題目，講得出屬邊一類）</td>
+        <td>對答＋修正；標出最易認錯的兩對（二次方程 vs 非線性方程；指數及根式 vs 對數與指數函數）</td>
+        <td>隨機 8 題，寫出所屬單元</td>
+        <td>四校聯考數學_歷屆試題分類索引</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>2026/09/11（五）</td>
+        <td>建立個人「錯題索引表」：空白表格，以單元為列、年份為欄，日後逐堂填</td>
+        <td>對答＋修正；示範一次「做錯 → 歸位 → 標弱項」的完整動作</td>
+        <td>把導入三堂的錯題全部歸位入表</td>
+        <td>四校聯考數學_歷屆試題分類索引<br>錯題索引表（自製）</td>
+        <td></td>
+      </tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 1 年　2026 年卷（6 節，W3–W4）</td></tr>
+      <tr><td>2026/09/15（二）</td><td>①卷面走位：2026 卷全卷分類標註，圈出可攻題</td><td>對答＋修正；更新做得到題型清單</td><td>標註完成的卷面</td><td>四校聯考數學工作紙_2026<br>分類索引</td><td></td></tr>
+      <tr><td>2026/09/16（三）</td><td>②第 1–3 類：基本概念、百分數、變分</td><td>對答＋修正；歸位錯題</td><td>該三類題目每類 1 題</td><td>四校聯考數學工作紙_2026<br>教師版_2026</td><td></td></tr>
+      <tr><td>2026/09/18（五）</td><td>③第 4–5 類：多項式及有理分式、二次方程及二次函數</td><td>對答＋修正；歸位錯題</td><td>該兩類題目每類 1 題</td><td>四校聯考數學工作紙_2026<br>教師版_2026</td><td></td></tr>
+      <tr><td>2026/09/22（二）</td><td>④第 6–9 類：指數及根式、代數不等式、對數與指數函數、非線性方程</td><td>對答＋修正；歸位錯題</td><td>該四類題目每類 1 題</td><td>四校聯考數學工作紙_2026<br>教師版_2026</td><td></td></tr>
+      <tr><td>2026/09/23（三）</td><td>⑤第 11、15 類：數列、函數圖形</td><td>對答＋修正；歸位錯題</td><td>該兩類題目每類 1 題</td><td>四校聯考數學工作紙_2026<br>教師版_2026</td><td></td></tr>
+      <tr><td>2026/09/25（五）</td><td>⑥對答總結：教師版逐題核對，錯題全部歸位</td><td>對答＋修正；本年卷弱項排序（頭三名）</td><td>錯題索引表更新</td><td>四校聯考數學教師版_2026</td><td></td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 2 年　2025 年卷（6 節，W5–W7）</td></tr>
+      <tr><td>2026/09/29（二）</td><td>①卷面走位：2025 卷分類標註</td><td>對答＋修正</td><td>標註完成的卷面</td><td>四校聯考數學工作紙_2025<br>分類索引</td><td></td></tr>
+      <tr><td>2026/09/30（三）</td><td>②第 1–3 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">2026/10/02（五）　❗ 國慶日翌日 —— 無課</td></tr>
+      <tr><td>2026/10/06（二）</td><td>③第 4–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2026/10/07（三）</td><td>④第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2026/10/09（五）</td><td>⑤第 11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2026/10/13（二）</td><td>⑥對答總結＋弱項排序</td><td>對答＋修正；與 2026 卷弱項比對，睇有無重複</td><td>錯題索引表更新</td><td>教師版_2025</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">2026/10/14（三）　⚠️ 秋季旅行（高三是否參加待確認）—— 暫作無課</td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 3 年　2024 年卷（6 節，W7–W9）</td></tr>
+      <tr><td>2026/10/16（五）</td><td>①卷面走位：2024 卷分類標註</td><td>對答＋修正</td><td>標註完成的卷面</td><td>工作紙_2024／分類索引</td><td></td></tr>
+      <tr><td>2026/10/20（二）</td><td>②第 1–3 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2024／教師版_2024</td><td></td></tr>
+      <tr><td>2026/10/21（三）</td><td>③第 4–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2024／教師版_2024</td><td></td></tr>
+      <tr><td>2026/10/23（五）</td><td>④第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2024／教師版_2024</td><td></td></tr>
+      <tr><td>2026/10/27（二）</td><td>⑤第 11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2024／教師版_2024</td><td></td></tr>
+      <tr><td>2026/10/28（三）</td><td>⑥對答總結＋弱項排序</td><td>對答＋修正；三年弱項交集＝真正要補的單元</td><td>錯題索引表更新</td><td>教師版_2024</td><td></td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 4 年　2023 年卷（6 節，W9–W12）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">📌 高三不參加統測</span>：W10（11/02–06）第一段統測期間高三正常上課，不像初三／高一那樣蝕堂（計劃 §零）。<br>
+        <span class="nt">⚠️ W11 畢業旅行</span>：假設在 2026/11/09–13 整週，該週無課。<b>確實日期待學校公佈</b>，一變則其後全部順移。
+      </td></tr>
+      <tr><td>2026/10/30（五）</td><td>①卷面走位：2023 卷分類標註</td><td>對答＋修正</td><td>標註完成的卷面</td><td>工作紙_2023／分類索引</td><td></td></tr>
+      <tr><td>2026/11/03（二）</td><td>②第 1–3 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2023／教師版_2023</td><td></td></tr>
+      <tr><td>2026/11/04（三）</td><td>③第 4–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2023／教師版_2023</td><td></td></tr>
+      <tr><td>2026/11/06（五）</td><td>④第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2023／教師版_2023</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">W11（2026/11/09–13）　🆕 畢業旅行（估）—— 整週無課</td></tr>
+      <tr><td>2026/11/17（二）</td><td>⑤第 11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2023／教師版_2023</td><td></td></tr>
+      <tr><td>2026/11/18（三）</td><td>⑥對答總結＋弱項排序</td><td>對答＋修正；旅行後回復節奏，先重做上次錯題 1 題</td><td>錯題索引表更新</td><td>教師版_2023</td><td></td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 5 年　2022 年卷（6 節，W12–W14）</td></tr>
+      <tr><td>2026/11/20（五）</td><td>①卷面走位：2022 卷分類標註</td><td>對答＋修正</td><td>標註完成的卷面</td><td>工作紙_2022／分類索引</td><td></td></tr>
+      <tr><td>2026/11/24（二）</td><td>②第 1–3 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2022／教師版_2022</td><td></td></tr>
+      <tr><td>2026/11/25（三）</td><td>③第 4–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2022／教師版_2022</td><td></td></tr>
+      <tr><td>2026/11/27（五）</td><td>④第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2022／教師版_2022</td><td></td></tr>
+      <tr><td>2026/12/01（二）</td><td>⑤第 11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2022／教師版_2022</td><td></td></tr>
+      <tr><td>2026/12/02（三）</td><td>⑥對答總結＋弱項排序</td><td>對答＋修正；五年弱項統計，鎖定 IEP 高頻三單元的實際掌握度</td><td>錯題索引表更新</td><td>教師版_2022</td><td></td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 6 年　2021 年卷（6 節，W14–W16）</td></tr>
+      <tr><td>2026/12/04（五）</td><td>①卷面走位：2021 卷分類標註</td><td>對答＋修正</td><td>標註完成的卷面</td><td>工作紙_2021／分類索引</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">2026/12/08（二）　❗ 聖母無原罪瞻禮 —— 無課</td></tr>
+      <tr><td>2026/12/09（三）</td><td>②第 1–3 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2021／教師版_2021</td><td></td></tr>
+      <tr><td>2026/12/11（五）</td><td>③第 4–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2021／教師版_2021</td><td></td></tr>
+      <tr><td>2026/12/15（二）</td><td>④第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2021／教師版_2021</td><td></td></tr>
+      <tr><td>2026/12/16（三）</td><td>⑤第 11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2021／教師版_2021</td><td></td></tr>
+      <tr><td>2026/12/18（五）</td><td>⑥對答總結＋弱項排序</td><td>對答＋修正；派聖誕假自習清單（按弱項排序，只做頭兩項）</td><td>錯題索引表更新</td><td>教師版_2021</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">W17–W18（2026/12/21 – 2027/01/01）　🎄 回歸及聖誕假期 —— 無課</td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 7 年　2020 年卷（6 節，W19–W20）</td></tr>
+      <tr><td>2027/01/05（二）</td><td>①卷面走位：2020 卷分類標註；順帶檢查假期自習清單完成度</td><td>對答＋修正</td><td>標註完成的卷面</td><td>工作紙_2020／分類索引</td><td></td></tr>
+      <tr><td>2027/01/06（三）</td><td>②第 1–3 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2020／教師版_2020</td><td></td></tr>
+      <tr><td>2027/01/08（五）</td><td>③第 4–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2020／教師版_2020</td><td></td></tr>
+      <tr><td>2027/01/12（二）</td><td>④第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2020／教師版_2020</td><td></td></tr>
+      <tr><td>2027/01/13（三）</td><td>⑤第 11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2020／教師版_2020</td><td></td></tr>
+      <tr><td>2027/01/15（五）</td><td>⑥對答總結＋七年弱項總表</td><td>對答＋修正；產出「七年弱項總表」，作為階段二選題依據</td><td>錯題索引表定稿</td><td>教師版_2020</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">📖 第一學段考前複習（3 節，W21）</td></tr>
+      <tr><td>2027/01/19（二）</td><td>考前複習①：按七年弱項總表，最弱兩個單元各走 2 題</td><td>對答＋修正；確認每個弱項都有對應的解題手順</td><td>弱項題各 1 題</td><td>錯題索引表<br>對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/01/20（三）</td><td>考前複習②：IEP 高頻三單元（基本概念、二次方程及二次函數、數列）各走 1 題</td><td>對答＋修正；三單元的判題特徵重述一次</td><td>三單元各 1 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/01/22（五）</td><td>考前複習③：應試次序演練（先做可攻題、再回頭啃）；特別卷安排確認</td><td>對答＋修正；時間分配實測一次</td><td>不派新功課</td><td>做得到題型清單<br>索引查表卡</td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ PAGE 2：第二學段 ============ -->
+<div class="page">
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>＿＿＿＿＿＿</div>
+    <div><span class="label">班級：</span>高三甲（文組）</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週二／週三／週五 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>階段二 索引聚焦操練 → 四校聯考 → 導數（變化率至應用題）→ 收官（高三甲班，第二學段 W25–W39）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="off-row"><td colspan="6">W23–W24（2027/02/01–12）　🏃 校運會＋補假、🧧 春節假期 —— 無課</td></tr>
+
+      <tr class="unit-row"><td colspan="6">階段二　索引聚焦操練：IEP 高頻三單元（12 節，W25–W28・IEP 4-2）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">階段二的做法同階段一唔同</span>：階段一係「逐年做成份卷」，階段二係「<b>逐單元橫向抽題</b>」——揀定一個單元，把十年間該單元的所有題目一次過打橫做，睇出題型的重複規律。<br>
+        <span class="nt">甲班 IEP 點名的高頻三單元（分類索引十年題數）</span>：基本概念 <b>15 題</b>、二次方程及二次函數 <b>17 題</b>、數列 <b>20 題</b>，合共 52 題。12 節每節約 4–5 題，做得完。
+      </td></tr>
+      <tr><td>2027/02/16（二）</td><td>基本概念（15 題）第 1 組：用索引抽齊十年題號，先做最近三年</td><td>對答＋修正；歸納該單元的固定問法</td><td>4–5 題</td><td>分類索引＋工作紙 2026–2024<br>教師版對應年份</td><td></td></tr>
+      <tr><td>2027/02/17（三）</td><td>基本概念第 2 組：中段年份（2023–2020）</td><td>對答＋修正；比對題型有無演變</td><td>4–5 題</td><td>分類索引＋工作紙 2023–2020</td><td></td></tr>
+      <tr><td>2027/02/19（五）</td><td>基本概念第 3 組：早年（2019–2017）＋單元總結</td><td>對答＋修正；出「基本概念判題卡」</td><td>4–5 題</td><td>分類索引＋工作紙 2019–2017</td><td></td></tr>
+      <tr><td>2027/02/23（二）</td><td>二次方程及二次函數（17 題）第 1 組：判別式與根的關係型</td><td>對答＋修正；歸類「問乜就用邊條」</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/02/24（三）</td><td>第 2 組：韋達定理（根與係數關係）型</td><td>對答＋修正；發「韋達定理應用卡」</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/02/26（五）</td><td>第 3 組：二次函數最值與圖像型</td><td>對答＋修正；配方法與頂點公式二擇一的判斷</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/03/02（二）</td><td>第 4 組：綜合題＋單元總結</td><td>對答＋修正；出「二次方程及二次函數判題卡」</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/03/03（三）</td><td>數列（20 題）第 1 組：等差數列——通項與求和</td><td>對答＋修正；發「等差公式卡」</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/03/05（五）</td><td>第 2 組：等比數列——通項與求和</td><td>對答＋修正；發「等比公式卡」；標出公比為 1 的特例</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/03/09（二）</td><td>第 3 組：等差／等比混合辨識（睇到題目要即刻認得出邊種）</td><td>對答＋修正；發「數列辨識卡」</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/03/10（三）</td><td>第 4 組：數列應用題</td><td>對答＋修正；應用題的「列式三步」</td><td>4–5 題</td><td>分類索引＋對應年份工作紙</td><td></td></tr>
+      <tr><td>2027/03/12（五）</td><td>第 5 組：綜合題＋三單元總覆盤</td><td>對答＋修正；三張判題卡合併成一頁應試小抄</td><td>混合 5 題</td><td>分類索引＋三張判題卡</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">🆕 四校聯考週（3 節，W29・⚠️ 日期待學校公佈）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">⚠️ 本週位置為估算</span>：按甲班進度表「兩次模擬考之後、導數之前」的位置，暫定 W29（2027/03/16–19 前後）。<b>學校一公佈確實日期，本週及其後所有導數課節要即時重算。</b>
+      </td></tr>
+      <tr><td>2027/03/16（二）</td><td>聯考前最後走位：整份模擬卷限時做，只做「做得到題型清單」內的題</td><td>對答＋修正；確認時間分配與答題次序</td><td>限時卷 1 份</td><td>四校聯考數學工作紙_2019（未用過的年份作模擬）</td><td></td></tr>
+      <tr><td>2027/03/17（三）</td><td>模擬卷檢討＋應試心理與特別卷安排最後確認</td><td>對答＋修正；把三張判題卡與索引查表卡整理成應試包</td><td>不派新功課</td><td>教師版_2019<br>三張判題卡</td><td></td></tr>
+      <tr><td>2027/03/19（五）</td><td>聯考後檢討（或考前補充，視乎確實考期）：逐題認單元、歸位錯題</td><td>對答＋修正；更新錯題索引表，訂出導數期間要順帶補的弱項</td><td>錯題歸位</td><td>錯題索引表<br>分類索引</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">導數（20 節，W30–W36・IEP 2027/03–05，短期目標 1-1 ~ 3-6）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">⚠️ 教材說明</span>：甲班（文組）導數教材只有 3 份，<b>沒有工具卡</b>（計劃 §六）。本教案的處理：<br>
+        ・「導數的概念與幾何意義」一節<b>借用丙班（理組）的</b> <code>導數_高三理數學\講義_導數的概念及其意義_抽離小班共用版</code>，<b>只取概念與幾何意義部分</b>，不教理組專屬的隱函數求導、二階導數凹凸拐點。<br>
+        ・工具卡在課堂上即時手寫產出（比照高一戊班錨點課的做法），學期末合成一本；若日後補做正式工具卡，可直接替換。IEP 短期目標 2-3、2-4 明寫輔助措施「a11：提供公式卡」，故公式卡是<b>必備</b>不是選配。<br>
+        <span class="nt">🚫 不可放棄</span>（計劃 §七）：四則運算法則求導（IEP 2-2~2-4，最基本的操作性目標）。若進度緊，單調性極值的情境應用題（3-6）可留作選教。
+      </td></tr>
+      <tr><td>2027/03/23（二）</td><td>變化率問題：平均變化率的意義（由生活情境入手）</td><td>對答＋修正；發「平均變化率＝Δy/Δx」一句話卡</td><td>功課_導數的概念及其意義(變化率問題) A 層 2 題</td><td>功課_導數的概念及其意義(變化率問題)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/03/24（三）</td><td>由平均變化率到瞬時變化率：區間縮到極小的直觀理解</td><td>對答＋修正；用同一題做「區間逐步縮細」的數值對照</td><td>同上 B 層 2 題</td><td>功課_導數的概念及其意義(變化率問題)_抽離小班共用版</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">W30 其餘（2027/03/25–29）　🐣 復活節假期（03/22 一 為校慶補假）—— 無課</td></tr>
+      <tr><td>2027/03/30（二）</td><td>導數的定義：極限式的讀法（唔要求推導，要求識讀）　IEP 1-1</td><td>對答＋修正；發「導數定義卡」</td><td>講義對應練習 1–2 題</td><td>講義_導數的概念及其意義_抽離小班共用版（借丙班・只取概念）</td><td></td></tr>
+      <tr><td>2027/03/31（三）</td><td>導數的幾何意義：導數＝該點切線斜率　IEP 1-1</td><td>對答＋修正；歸納「導數＝切線斜率」一句話</td><td>講義對應練習 2 題</td><td>講義_導數的概念及其意義_抽離小班共用版（借丙班・只取概念）</td><td></td></tr>
+      <tr><td>2027/04/02（五）</td><td>求切線方程：點斜式代入（導數 → 斜率 → 直線方程）</td><td>對答＋修正；發「求切線三步卡」</td><td>講義對應練習 2 題</td><td>講義_導數的概念及其意義_抽離小班共用版（借丙班・只取概念）</td><td></td></tr>
+      <tr><td>2027/04/06（二）</td><td>基本初等函數導數公式（一）：xⁿ、常數函數　IEP 2-1</td><td>對答＋修正；<b>發「基本初等函數導數公式卡」</b>（a11 輔助措施）</td><td>練習_基本初等函數的導數與運算法則 A 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/07（三）</td><td>基本初等函數導數公式（二）：指數、對數函數</td><td>對答＋修正；公式卡補完</td><td>同上 A 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/09（五）</td><td>公式代入綜合練習：睇到函數即刻認得出用邊條公式</td><td>對答＋修正；標出最易混淆的兩對</td><td>同上 B 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/13（二）</td><td>四則運算法則（一）：和、差求導　IEP 2-2</td><td>對答＋修正；發「和差法則卡」</td><td>練習_基本初等函數的導數與運算法則 A 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/14（三）</td><td>四則運算法則（二）：乘積法則　IEP 2-3</td><td>對答＋修正；發「乘積法則卡」；標出「漏咗第二項」常見錯</td><td>同上 B 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/16（五）</td><td>四則運算法則（三）：除法法則　IEP 2-4</td><td>對答＋修正；發「除法法則卡」；強調分子次序唔可以掉轉</td><td>同上 B 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/20（二）</td><td>單調性（一）：f′(x)&gt;0 遞增、f′(x)&lt;0 遞減　IEP 3-1</td><td>對答＋修正；發「符號表三步卡」（求導→解不等式→列表）</td><td>練習_導數在研究函數中的應用(單調性與極值) A 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/21（三）</td><td>單調性（二）：符號表的完整做法（含定義域限制）</td><td>對答＋修正；用區間記號寫答案</td><td>同上 A、B 層各 1 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/23（五）</td><td>單調性（三）：綜合練習＋錯誤對比（漏咗定義域 vs 齊全）</td><td>對答＋修正；錯誤對比表</td><td>同上 B 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/27（二）</td><td>極值（一）：極大值與極小值的判定（符號由正轉負／由負轉正）　IEP 3-2</td><td>對答＋修正；發「極值判定卡」</td><td>同上 A 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/28（三）</td><td>極值（二）：f′(x)＝0 但唔係極值的情況（要睇符號有無變）</td><td>對答＋修正；錯誤對比：只解 f′＝0 就當極值＝錯</td><td>同上 B 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/04/30（五）</td><td>極值（三）：綜合練習</td><td>對答＋修正；單調性卡與極值卡並用一次</td><td>同上 B 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/05/04（二）</td><td>閉區間最值：極值 vs 端點值，兩者比大小　IEP 3-3</td><td>對答＋修正；發「最值四步卡」（求導→找極值→算端點→比大細）</td><td>同上 B 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/05/05（三）</td><td>應用題（一）：由文字題列出目標函數（列式三步）　IEP 3-6</td><td>對答＋修正；發「應用題列式卡」</td><td>同上 C 層 1 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2027/05/07（五）</td><td>應用題（二）：最大利潤／最小材料型完整走一次</td><td>對答＋修正；強調答句要回應題目問乜（用「∴」寫答句）</td><td>同上 C 層 1 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">收官（9 節，W37–W39・IEP 時程終點）</td></tr>
+      <tr><td>2027/05/11（二）</td><td>導數應用題綜合：三種題型混合，先判類型再列式</td><td>對答＋修正；導數各卡合成一本「導數卡冊」</td><td>混合 3 題</td><td>導數卡冊<br>三份導數講義練習</td><td></td></tr>
+      <tr><td>2027/05/12（三）</td><td>導數單元總覆盤：由變化率到應用題的整條路徑重述一次</td><td>對答＋修正；對照 IEP 短期目標 1-1~3-6 逐項自評</td><td>自評表填寫</td><td>IEP第8-9點_數學科_高三文組_通用草稿</td><td></td></tr>
+      <tr><td>2027/05/14（五）</td><td>2019 年卷補做：全卷分類標註＋高頻三單元題目</td><td>對答＋修正；歸位錯題</td><td>高頻三單元題目</td><td>工作紙_2019／教師版_2019<br>分類索引</td><td></td></tr>
+      <tr><td>2027/05/18（二）</td><td>2018 年卷補做（一）：卷面走位＋第 1–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2018／教師版_2018</td><td></td></tr>
+      <tr><td>2027/05/19（三）</td><td>2018 年卷補做（二）：第 6–9、11、15 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2018／教師版_2018</td><td></td></tr>
+      <tr><td>2027/05/21（五）</td><td>2017 年卷補做（一）：卷面走位＋高頻三單元</td><td>對答＋修正；歸位錯題</td><td>高頻三單元題目</td><td>工作紙_2017／教師版_2017</td><td></td></tr>
+      <tr><td>2027/05/25（二）</td><td>2017 年卷補做（二）：其餘可攻題型</td><td>對答＋修正；錯題索引表最終定稿（十年全覆蓋）</td><td>可攻題各 1 題</td><td>工作紙_2017／教師版_2017</td><td></td></tr>
+      <tr><td>2027/05/26（三）</td><td>IEP 收官評量：4-1 索引查找、4-2 高頻單元基礎題，逐項實測記錄</td><td>對答＋修正；填寫 IEP 短期目標達成情況</td><td>評量題各 1 題</td><td>IEP第8-9點_數學科_高三文組_通用草稿<br>分類索引</td><td></td></tr>
+      <tr><td>2027/05/28（五）</td><td>卡冊總整理＋6 月大班複習期的自用指引（抽離課結束）</td><td>對答＋修正；把整年所有卡按應試次序排好，交回學生自用</td><td>不派新功課</td><td>全年卡冊<br>錯題索引表</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="sign-block">
+    <div>授課老師簽署：<span class="blank">&nbsp;</span></div>
+    <div>學生簽署：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+  </div>
+
+  <div class="map-note" style="margin-top:12px;">
+    📌 <b>實際開課後的調節規則</b>（計劃 §九）：①每次上完課即時記錄實際教了什麼、花了幾多節、學生反應；②每月底對照 IEP 短期目標時程，檢查是否仍在 IEP 寫明的月份範圍內；③<b>四校聯考確實日期一出，立即回頭調整 W29 及其後導數課節的週次分配</b>；④畢業旅行日期一變，W11 之後全部順移。<br>
+    📌 <b>進度落後時的取捨</b>（計劃 §七 甲班）：階段一（逐年卷）可隨時砍年份，不影響 IEP 已定的高頻三單元；導數若落後，優先保留「四則運算法則求導」（IEP 2-2~2-4），單調性極值的情境應用題（3-6）可留作選教。<span class="warn">🚫 不可放棄</span>：索引查找方法（4-1）、高頻三單元基礎選擇題（4-2）、階段二操練。
+  </div>
+</div>
+
+</body>
+</html>

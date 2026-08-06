@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>抽離課堂教學教案（高三丙班・理組・全學段）</title>
+<style>
+  @page { size: A4; margin: 1.3cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Microsoft JhengHei", "Calibri", "Noto Sans TC", sans-serif;
+    font-size: 11pt;
+    color: #111;
+    line-height: 1.5;
+    margin: 0;
+    padding: 0;
+  }
+  .page { page-break-after: always; }
+  .page:last-child { page-break-after: avoid; }
+
+  .status-banner {
+    background: #fff3cd; border: 1px solid #e0a800; border-radius: 4px;
+    padding: 6px 10px; font-size: 9pt; color: #6b5100; margin-bottom: 10px;
+  }
+
+  .header-block { text-align: center; margin-bottom: 14px; }
+  .header-block .school { font-size: 13pt; font-weight: 700; }
+  .header-block .dept { font-size: 11pt; }
+  .header-block .year { font-size: 11pt; }
+  .header-block .title { font-size: 16pt; font-weight: 700; margin-top: 6px; letter-spacing: 0.15em; }
+
+  .info-grid {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 4px 24px;
+    margin-bottom: 6px; font-size: 10.5pt;
+  }
+  .info-grid .full { grid-column: 1 / -1; }
+  .info-grid .label { color: #333; }
+
+  table.log {
+    width: 100%; border-collapse: collapse; margin-top: 10px; font-size: 9pt;
+  }
+  table.log th, table.log td {
+    border: 1px solid #444; padding: 4px 5px; vertical-align: top; text-align: left;
+  }
+  table.log thead th { background: #2a2a2a; color: #fff; text-align: center; font-weight: 600; }
+  table.log .col-date { width: 9%; text-align: center; }
+  table.log .col-content { width: 19%; }
+  table.log .col-material { width: 15%; }
+  table.log .col-mastery { width: 9%; text-align: center; color: #999; }
+  table.log .unit-row td { background: #e8e8e0; font-weight: 700; text-align: center; }
+  table.log .note-row td {
+    background: #fdf6e8; border-left: 3px solid #d08b3a;
+    font-weight: 400; text-align: left; font-size: 9pt; line-height: 1.7;
+  }
+  table.log .note-row .nt { font-weight: 700; color: #a83c00; }
+  table.log .off-row td { background: #f2f2f2; color: #666; text-align: center; }
+  table.log .yr-row td { background: #eef2f7; font-weight: 700; text-align: center; }
+
+  .map-note {
+    background: #f6f6f2; border: 1px solid #ddd8c8; border-radius: 4px;
+    padding: 8px 12px; font-size: 9.5pt; margin: 8px 0 14px; line-height: 1.7;
+  }
+  .warn { color: #a83c00; font-weight: 600; }
+  .ok { color: #1a6b2a; font-weight: 600; }
+  h2.section { font-size: 13pt; border-bottom: 2px solid #1d1c1a; padding-bottom: 4px; margin: 0 0 10px; }
+  table.summary { width:100%; border-collapse: collapse; font-size:9.5pt; margin-bottom:14px; }
+  table.summary th, table.summary td { border:1px solid #ccc; padding:5px 7px; text-align:left; }
+  table.summary th { background:#eee; }
+  .sign-block {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px 30px;
+    margin-top: 14px; font-size: 10.5pt;
+  }
+  .blank { border-bottom: 1px solid #888; display: inline-block; min-width: 150px; padding: 0 4px; }
+</style>
+</head>
+<body>
+
+<!-- ============ PAGE 0：說明 ============ -->
+<div class="page">
+  <div class="status-banner">草擬版 v1（2026-08-06 建立）—— 高三丙班（理組，3 節／週），涵蓋 <b>IEP 全時程 2026/09 – 2027/05</b>（第一學段＋第二學段）。26/27 校曆未出、四校聯考與畢業旅行確實日期待學校公佈；抽離課排星期幾未定，本版按教學計劃 §二 的蝕堂分析假設。「學生掌握情況」一欄留空，須實際上課後即時填寫。</div>
+
+  <h2 class="section">說明：資料來源與假設</h2>
+  <div class="map-note">
+    來源：<code>高三數學\教學計劃_26-27高三抽離_甲丙班.md</code> §三（丙班 IEP 月份→週次映射）、§五（複習期兩階段設計）、§七（取捨順序）；<code>IEP第8-9點_數學科_高三理組_全學年_通用草稿.docx</code>；教材取自 <code>高三數學\導數_高三理數學\</code>、<code>積分_高三理數學\</code>、<code>空間向量_高三理數學\</code>、<code>矩陣_高三融合班\</code>，歷屆試題取自 <code>worksheet-tools\output\</code>（工作紙／教師版 2017–2026 共 10 年，＋分類索引）。<br><br>
+
+    <span class="warn">⚠️ 假設事項</span>（以下均待你核對／調整）：<br>
+    1. <b>上課星期＝週二／週三／週五</b>（與甲班同）。高三不參加統測，這三日在 IEP 時程內合共只蝕 5 日。<span class="warn">留意週三下午 15:30 後為餘暇活動 LA；且甲丙兩班同排這三日，即該三日各要上兩節抽離課——若編更表撞位，丙班可改排週四（全年多蝕約 1 節：佛誕 2027/05/13）。</span><br>
+    2. <b>畢業旅行假設在 W11（2026/11/09–13）</b>——理科進度表 W11、緊接空間向量教完之後。日期一變，W11 之後全部順移。<br>
+    3. <b>四校聯考假設在 W29（2027/03/16–19 前後）</b>——按理科進度表「模擬卷→矩陣」的銜接位置估算。<span class="warn">此日期一經學校公佈，矩陣起始週次要即時重算。</span><br>
+    4. <b>IEP 範圍只到 2027/05</b>，最後一節為 2027/05/28。<br>
+    5. 逐堂拆分是本教案自行拆的；計劃只給每個 IEP 月份區間的估算節數，但丙班 IEP 短期目標已把單元拆成可評量小步驟，拆堂比甲班容易對位。
+  </div>
+
+  <h2 class="section"><span class="warn">⚠️ 重要：實際日曆容量超出計劃估算</span></h2>
+  <div class="map-note">
+    教學計劃 §三 由 <b>IEP 內容</b> 推算丙班全年約 <b>64 節</b>（導數 10＋積分 8＋空間向量 14＋矩陣 12＋複習 ~20）。但按上述星期逐日點算，IEP 時程內實際可上 <b>93 節</b>——<span class="warn">多出約 29 節</span>。<br><br>
+
+    <b>裁決（2026-08-06，使用者確認）：餘裕全部投入歷屆試題操練。</b><br>
+    因此本教案把 IEP 各單元的節數<b>由計劃估算適度上調</b>（教得穩陣啲），其餘全部撥去歷屆卷：<br>
+    ・導數 10 → <b>15 節</b>（含隱函數求導、二階導數凹凸拐點）<br>
+    ・積分 8 → <b>8 節</b>（不定積分 5＋定積分 3，與計劃一致）<br>
+    ・空間向量 14 → <b>17 節</b>（7 份講義各有足夠節數）<br>
+    ・矩陣 12 → <b>17 節</b>＋收尾 6 節<br>
+    ・<b>歷屆卷操練 21 節</b>（2026、2025 兩年完整走 6 節流程，2024／2023 補做）＋階段二索引聚焦 9 節<br><br>
+
+    <span class="ok">✅ 教材狀況</span>：丙班是四班中盤點最好的——導數、積分、空間向量、矩陣<b>全部已有現成講義＋練習</b>（積分另有兩張手順卡），單元切分粒度與 IEP 短期目標幾乎一一對應。<br>
+    <span class="warn">⚠️ 教材缺口</span>：計劃 §六 列明「按章節複習的講義」<b>尚未製作</b>。本教案<b>刻意不依賴</b>該批講義——複習期全部用現成歷屆卷工作紙推進；章節講義補齊後可回頭插入作前置節。另：導數、空間向量、矩陣三個單元<b>沒有工具卡</b>（只有積分有），本教案在課堂上即時手寫產出，日後補做正式工具卡可直接替換。
+  </div>
+
+  <h2 class="section">全學段一覽（丙班・理組・3 節／週）</h2>
+  <table class="summary">
+    <thead><tr><th>階段</th><th>內容</th><th>節數</th><th>週次</th><th>IEP 月份</th></tr></thead>
+    <tbody>
+      <tr><td rowspan="4">新授<br>（第一學段）</td><td>導數：概念、基本初等函數導數、四則運算法則、隱函數求導</td><td>10</td><td>W1–W4</td><td>2026/09</td></tr>
+      <tr><td>導數應用：單調性、極值、二階導數、凹凸性、拐點</td><td>5</td><td>W5–W6</td><td>2026/09</td></tr>
+      <tr><td>積分：不定積分（5）＋定積分（3）</td><td>8</td><td>W7–W9</td><td>2026/10</td></tr>
+      <tr><td>空間向量：概念運算、數量積、距離、基本定理、坐標、位置關係、空間角</td><td>17</td><td>W10–W16</td><td>2026/11–12</td></tr>
+      <tr><td rowspan="2">階段一<br>廣泛複習</td><td>歷屆卷 2026 逐年操練</td><td>6</td><td>W19–W20</td><td>2026/12 起</td></tr>
+      <tr><td>📖 第一學段考前複習</td><td>3</td><td>W21</td><td>—</td></tr>
+      <tr><td>階段一（續）</td><td>歷屆卷 2025 逐年操練</td><td>6</td><td>W25–W26</td><td>2027/02</td></tr>
+      <tr><td>階段二<br>索引聚焦</td><td>高頻三單元：二次方程及二次函數（17 題）、數列（20 題）、解析幾何（27 題）</td><td>9</td><td>W27–W29</td><td>2027/03</td></tr>
+      <tr><td>新授<br>（第二學段）</td><td>矩陣：加減、純量乘法、乘法、行列式、逆矩陣、矩陣方程、解線性方程組</td><td>17</td><td>W30–W35</td><td>2027/03–04</td></tr>
+      <tr><td>收官</td><td>矩陣應用收尾（解方程組、多項式最大公因式）＋2024/2023 卷補做＋IEP 收官評量</td><td>12</td><td>W36–W39</td><td>2027/04–05</td></tr>
+      <tr><td colspan="2"><b>合計</b></td><td><b>93 節</b></td><td>W1–W39</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <h2 class="section">歷屆卷操練的固定流程（每年 6 節）</h2>
+  <div class="map-note">
+    每一年的卷用<b>同一個 6 節流程</b>走。理組覆蓋面比文組闊，故分類略有不同：<br><br>
+    <b>①卷面走位</b>：整份卷掃一次，用分類索引標出每題屬邊個單元，圈起「做得到」的題（IEP 7-1 的核心技能）<br>
+    <b>②第 1–5 類</b>：基本概念、百分數、變分、多項式及有理分式、二次方程及二次函數<br>
+    <b>③第 6–9 類</b>：指數及根式、代數不等式、對數與指數函數、非線性方程<br>
+    <b>④第 10–13 類</b>：排列與組合、數列、直線圖形及圓、三角<br>
+    <b>⑤第 14–16 類</b>：解析幾何、函數圖形、概率與統計<br>
+    <b>⑥對答總結</b>：用教師版核對，錯題按單元歸位入「錯題索引表」<br><br>
+    <span class="warn">留意</span>：丙班 IEP 同樣寫明「該生在數學科大測、統測及考試使用<b>特別卷</b>」——每年卷操練時同步確認哪些題型會出現在特別卷。
+  </div>
+</div>
+
+<!-- ============ PAGE 1：第一學段 ============ -->
+<div class="page">
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>＿＿＿＿＿＿</div>
+    <div><span class="label">班級：</span>高三丙（理組）</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週二／週三／週五 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>第 6 章 導數及其應用、第 13 章 積分、第 1 章 空間向量與立體幾何、四校聯考歷屆試題複習（高三丙班，第一學段 W1–W21）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="unit-row"><td colspan="6">導數・概念與運算（10 節，W1–W4・IEP 2026/09，短期目標 1-1 ~ 1-4）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">📌 IEP 對位</span>：本段每節都對應一條可評量的 IEP 短期目標，「學生掌握情況」欄可直接引用 IEP 輔助措施代號（如 a3 逐步提示、a6 延長時間、a11 提供公式卡、b5 簡化指令），一份教案同時做課堂記錄與 IEP 評量證據。<br>
+        <span class="nt">⚠️ 本單元無工具卡</span>：公式卡在課堂上即時手寫產出（IEP 1-2 的 a11 輔助措施要求必備），學期末合成「導數卡冊」。
+      </td></tr>
+      <tr><td>2026/09/02（三）</td><td>導數的概念：由平均變化率到瞬時變化率，極限式的讀法　IEP 1-1</td><td>對答＋修正；發「導數定義卡」</td><td>練習_導數的概念及其意義 A 層 2 題</td><td>講義_導數的概念及其意義_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/04（五）</td><td>導數的幾何意義：導數＝該點切線斜率　IEP 1-1</td><td>對答＋修正；歸納「導數＝切線斜率」一句話</td><td>同上 A 層 2 題</td><td>講義_導數的概念及其意義_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/08（二）</td><td>求切線方程：導數 → 斜率 → 點斜式代入</td><td>對答＋修正；發「求切線三步卡」</td><td>同上 B 層 2 題</td><td>講義_導數的概念及其意義_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/11（五）</td><td>基本初等函數導數公式（一）：常數、xⁿ、根式化冪　IEP 1-2</td><td>對答＋修正；<b>發「基本初等函數導數公式卡」</b>（a11）</td><td>練習_基本初等函數的導數與運算法則 A 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/15（二）</td><td>基本初等函數導數公式（二）：sin x、cos x、eˣ、ln x　IEP 1-2</td><td>對答＋修正；公式卡補完（六條齊）</td><td>同上 A 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/16（三）</td><td>公式代入綜合：睇到函數即刻認得出用邊條公式</td><td>對答＋修正；標出最易混淆的兩對（xⁿ vs aˣ；ln x vs log<sub>a</sub>x）</td><td>同上 B 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/18（五）</td><td>四則運算法則（一）：和、差求導　IEP 1-3</td><td>對答＋修正；發「和差法則卡」</td><td>同上 A 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/22（二）</td><td>四則運算法則（二）：乘積法則　IEP 1-3</td><td>對答＋修正；發「乘積法則卡」；標出「漏咗第二項」常見錯</td><td>同上 B 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/23（三）</td><td>四則運算法則（三）：除法法則　IEP 1-3</td><td>對答＋修正；發「除法法則卡」；強調分子次序唔可以掉轉</td><td>同上 B 層 2 題</td><td>講義_基本初等函數的導數與運算法則_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/25（五）</td><td>隱函數求導：兩邊同時對 x 求導，遇到 y 要乘 dy/dx　IEP 1-4</td><td>對答＋修正；發「隱函數求導卡」；強調「見到 y 就補鏈式」</td><td>練習_隱函數求導 A、B 層各 1 題</td><td>講義_隱函數求導_抽離小班共用版</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">導數・應用（5 節，W5–W6・IEP 2026/09 續）</td></tr>
+      <tr><td>2026/09/29（二）</td><td>單調性：f′(x)&gt;0 遞增、f′(x)&lt;0 遞減；符號表三步（求導→解不等式→列表）</td><td>對答＋修正；發「符號表三步卡」</td><td>練習_導數在研究函數中的應用(單調性與極值) A 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/09/30（三）</td><td>極值判定：符號由正轉負＝極大、由負轉正＝極小；f′＝0 但符號無變唔算極值</td><td>對答＋修正；發「極值判定卡」；錯誤對比（只解 f′＝0 就當極值＝錯）</td><td>同上 B 層 2 題</td><td>講義_導數在研究函數中的應用(單調性與極值)_抽離小班共用版</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">2026/10/02（五）　❗ 國慶日翌日 —— 無課</td></tr>
+      <tr><td>2026/10/06（二）</td><td>二階導數 f″(x) 的意義：導數的導數，量度變化率本身的變化</td><td>對答＋修正；發「二階導數卡」</td><td>練習_二階導數與函數的凹凸性拐點 A 層 2 題</td><td>講義_二階導數與函數的凹凸性拐點_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/10/07（三）</td><td>凹凸性判定：f″&gt;0 下凹（開口向上）、f″&lt;0 上凸</td><td>對答＋修正；發「凹凸判定卡」；配圖對照記憶</td><td>同上 A、B 層各 1 題</td><td>講義_二階導數與函數的凹凸性拐點_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/10/09（五）</td><td>拐點：f″ 變號的點；單調性＋極值＋凹凸＋拐點四者合併走一題</td><td>對答＋修正；四張卡並用，出一張「函數性質總表」</td><td>同上 B 層 2 題</td><td>講義_二階導數與函數的凹凸性拐點_抽離小班共用版</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">積分（8 節，W7–W9・IEP 2026/10）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">✅ 本單元有現成工具卡</span>：<code>工具卡_不定積分手順卡</code>、<code>工具卡_定積分手順卡</code>——四個單元之中唯一備齊工具卡的，直接派發，不用課堂手寫。
+      </td></tr>
+      <tr><td>2026/10/13（二）</td><td>不定積分的定義：求導的逆運算；為何要加常數 C</td><td>對答＋修正；派「不定積分手順卡」</td><td>練習_不定積分 A 層 2 題</td><td>講義_不定積分_抽離小班共用版<br>工具卡_不定積分手順卡</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">2026/10/14（三）　⚠️ 秋季旅行（高三是否參加待確認）—— 暫作無課</td></tr>
+      <tr><td>2026/10/16（五）</td><td>基本積分公式：由導數公式逐條反推</td><td>對答＋修正；把導數公式卡與積分公式卡並排貼，指出對應關係</td><td>練習_不定積分 A 層 2 題</td><td>講義_不定積分_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/10/20（二）</td><td>積分運算法則：常數提出、和差拆項</td><td>對答＋修正；標出「積不能逐項乘」常見錯</td><td>練習_不定積分 B 層 2 題</td><td>講義_不定積分_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/10/21（三）</td><td>換元法入門：見到複合形式先設 u</td><td>對答＋修正；發「設 u 三問卡」（設乜／du 係乜／換完剩返乜）</td><td>練習_不定積分 B 層 2 題</td><td>講義_不定積分_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/10/23（五）</td><td>不定積分綜合：手順卡走一次完整流程</td><td>對答＋修正；不定積分小結</td><td>練習_不定積分 C 層 1 題</td><td>講義_不定積分_抽離小班共用版<br>工具卡_不定積分手順卡</td><td></td></tr>
+      <tr><td>2026/10/27（二）</td><td>定積分的概念與牛頓－萊布尼茲公式：先求原函數，再代上下限相減</td><td>對答＋修正；派「定積分手順卡」</td><td>練習_定積分 A 層 2 題</td><td>講義_定積分_抽離小班共用版<br>工具卡_定積分手順卡</td><td></td></tr>
+      <tr><td>2026/10/28（三）</td><td>定積分計算：上下限代入的次序（上減下，唔可以掉轉）</td><td>對答＋修正；標出符號錯的兩個位</td><td>練習_定積分 B 層 2 題</td><td>講義_定積分_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/10/30（五）</td><td>定積分求面積：先畫草圖判斷上下界，再列積分式</td><td>對答＋修正；發「求面積四步卡」；強調曲線在 x 軸下方要取絕對值</td><td>練習_定積分 B、C 層各 1 題</td><td>講義_定積分_抽離小班共用版<br>工具卡_定積分手順卡</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">空間向量・概念與數量積（6 節，W10、W12・IEP 2026/11）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">📌 高三不參加統測</span>：W10（11/02–06）第一段統測期間高三正常上課（計劃 §零）。<br>
+        <span class="nt">⚠️ W11 畢業旅行</span>：假設在 2026/11/09–13 整週，該週無課——理科進度表把畢業旅行放在空間向量教完之後，本教案把「概念、加減、數量積定義」放旅行前，「數量積運算、模、距離」放旅行後，旅行前後有天然斷點，不會切開同一個概念。<b>確實日期待學校公佈。</b>
+      </td></tr>
+      <tr><td>2026/11/03（二）</td><td>空間向量的概念與線性運算：三角形法則、平行四邊形法則（由平面推廣到空間）</td><td>對答＋修正；發「空間向量加減卡」</td><td>練習_空間向量的概念與線性運算 A 層 2 題</td><td>講義_空間向量的概念與線性運算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/11/04（三）</td><td>空間向量的數乘與共線判定</td><td>對答＋修正；發「共線判定卡」</td><td>同上 B 層 2 題</td><td>講義_空間向量的概念與線性運算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/11/06（五）</td><td>空間向量的數量積：定義 a·b＝|a||b|cosθ 及其幾何意義</td><td>對答＋修正；發「數量積定義卡」</td><td>練習_空間向量的數量積 A 層 2 題</td><td>講義_空間向量的數量積_抽離小班共用版</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">W11（2026/11/09–13）　🆕 畢業旅行（估）—— 整週無課</td></tr>
+      <tr><td>2026/11/17（二）</td><td>數量積的運算與求夾角：由 a·b 反求 cosθ</td><td>對答＋修正；旅行後先重做上次 1 題再開新內容；發「求夾角卡」</td><td>練習_空間向量的數量積 B 層 2 題</td><td>講義_空間向量的數量積_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/11/18（三）</td><td>向量的模：|a|＝√(a·a)；垂直判定 a·b＝0</td><td>對答＋修正；發「模與垂直卡」</td><td>練習_空間向量的數量積 B 層 2 題</td><td>講義_空間向量的數量積_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/11/20（五）</td><td>空間中兩點距離公式</td><td>對答＋修正；發「兩點距離卡」；與平面距離公式對照</td><td>練習_空間中的距離 A 層 2 題</td><td>講義_空間中的距離_抽離小班共用版</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">空間向量・基本定理、坐標與應用（11 節，W13–W16・IEP 2026/11–12）</td></tr>
+      <tr><td>2026/11/24（二）</td><td>空間向量基本定理：任一向量可用三個不共面向量表示（⚠️ 只講結論，不證明）</td><td>對答＋修正；發「基本定理一句話卡」</td><td>練習_空間向量基本定理 A 層 2 題</td><td>講義_空間向量基本定理_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/11/25（三）</td><td>基底與向量分解：把向量寫成基底的線性組合</td><td>對答＋修正；發「分解三步卡」</td><td>同上 B 層 2 題</td><td>講義_空間向量基本定理_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/11/27（五）</td><td>空間直角坐標系：建系的選點原則（揀最多直角的頂點做原點）</td><td>對答＋修正；發「建系選點卡」</td><td>練習_空間向量的坐標與坐標運算 A 層 2 題</td><td>講義_空間向量的坐標與坐標運算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/01（二）</td><td>空間向量的坐標運算：加減、數乘的坐標形式</td><td>對答＋修正；發「坐標運算卡」</td><td>同上 A 層 2 題</td><td>講義_空間向量的坐標與坐標運算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/02（三）</td><td>坐標形式的數量積與模；用坐標求夾角</td><td>對答＋修正；坐標卡補完（三格：加減／數量積／模）</td><td>同上 B 層 2 題</td><td>講義_空間向量的坐標與坐標運算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/04（五）</td><td>平面法向量的求法：設 n＝(x,y,z)，令 n 與平面內兩向量都垂直，解方程組</td><td>對答＋修正；發「求法向量四步卡」——<b>之後所有應用題都由這一步開始</b></td><td>練習_向量法判斷直線與平面的位置關係 A 層 2 題</td><td>講義_向量法判斷直線與平面的位置關係_抽離小班共用版</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">2026/12/08（二）　❗ 聖母無原罪瞻禮 —— 無課</td></tr>
+      <tr><td>2026/12/09（三）</td><td>向量法判斷位置關係（一）：線面平行（方向向量⊥法向量）</td><td>對答＋修正；發「平行判定卡」</td><td>同上 A、B 層各 1 題</td><td>講義_向量法判斷直線與平面的位置關係_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/11（五）</td><td>向量法判斷位置關係（二）：線面垂直、面面平行／垂直</td><td>對答＋修正；發「垂直判定卡」；四種關係合成一張對照表</td><td>同上 B 層 2 題</td><td>講義_向量法判斷直線與平面的位置關係_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/15（二）</td><td>空間角（一）：線面角——sin θ＝|cos⟨方向向量, 法向量⟩|</td><td>對答＋修正；發「線面角公式卡」；強調結果要取絕對值</td><td>練習_空間角的計算 A 層 2 題</td><td>講義_空間角的計算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/16（三）</td><td>空間角（二）：二面角——兩個法向量的夾角，再按圖判斷取銳角定鈍角</td><td>對答＋修正；發「二面角公式卡」；標出「唔記得判銳鈍」常見錯</td><td>同上 B 層 2 題</td><td>講義_空間角的計算_抽離小班共用版</td><td></td></tr>
+      <tr><td>2026/12/18（五）</td><td>點到平面的距離＋空間向量單元總覆盤（建系→求法向量→套公式 三段路徑）</td><td>對答＋修正；空間向量各卡合成「向量法卡冊」；派聖誕假自習清單</td><td>練習_空間中的距離 B、C 層各 1 題</td><td>講義_空間中的距離_抽離小班共用版</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">W17–W18（2026/12/21 – 2027/01/01）　🎄 回歸及聖誕假期 —— 無課</td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 1 年　2026 年卷（6 節，W19–W20・IEP 7-1 歷屆試題複習）</td></tr>
+      <tr><td>2027/01/05（二）</td><td>①卷面走位：2026 卷全卷分類標註，圈出可攻題；順帶檢查假期自習清單</td><td>對答＋修正；建立「本人做得到題型清單」＋「錯題索引表」</td><td>標註完成的卷面</td><td>四校聯考數學工作紙_2026<br>四校聯考數學_歷屆試題分類索引</td><td></td></tr>
+      <tr><td>2027/01/06（三）</td><td>②第 1–5 類：基本概念、百分數、變分、多項式及有理分式、二次方程及二次函數</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2026／教師版_2026</td><td></td></tr>
+      <tr><td>2027/01/08（五）</td><td>③第 6–9 類：指數及根式、代數不等式、對數與指數函數、非線性方程</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2026／教師版_2026</td><td></td></tr>
+      <tr><td>2027/01/12（二）</td><td>④第 10–13 類：排列與組合、數列、直線圖形及圓、三角</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2026／教師版_2026</td><td></td></tr>
+      <tr><td>2027/01/13（三）</td><td>⑤第 14–16 類：解析幾何、函數圖形、概率與統計</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2026／教師版_2026</td><td></td></tr>
+      <tr><td>2027/01/15（五）</td><td>⑥對答總結：教師版逐題核對，錯題全部歸位；本年卷弱項排序</td><td>對答＋修正；錯題索引表更新</td><td>弱項題各 1 題</td><td>教師版_2026<br>分類索引</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">📖 第一學段考前複習（3 節，W21）</td></tr>
+      <tr><td>2027/01/19（二）</td><td>考前複習①：導數與積分——公式卡＋手順卡逐張走 1 題</td><td>對答＋修正；確認每種題型都有對應的卡可用</td><td>導數 2 題、積分 2 題</td><td>導數卡冊<br>工具卡_不定積分／定積分手順卡</td><td></td></tr>
+      <tr><td>2027/01/20（三）</td><td>考前複習②：空間向量——建系→求法向量→套公式 完整走 2 題</td><td>對答＋修正；向量法卡冊按解題次序重排</td><td>線面角 1 題、二面角 1 題</td><td>向量法卡冊<br>空間向量各講義</td><td></td></tr>
+      <tr><td>2027/01/22（五）</td><td>考前複習③：應試次序演練（先做有手順卡的題型）；特別卷安排確認</td><td>對答＋修正；時間分配實測一次</td><td>不派新功課</td><td>全部卡冊<br>做得到題型清單</td><td></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ============ PAGE 2：第二學段 ============ -->
+<div class="page">
+  <div class="header-block">
+    <div class="school">聖若瑟教區中學第五校</div>
+    <div class="dept">學生支援組</div>
+    <div class="year">2026 / 2027 學年</div>
+    <div class="title">抽離課堂教學教案</div>
+  </div>
+
+  <div class="info-grid">
+    <div><span class="label">學生：</span>＿＿＿＿＿＿</div>
+    <div><span class="label">班級：</span>高三丙（理組）</div>
+    <div><span class="label">任教抽離課堂之老師：</span>（本人）</div>
+    <div><span class="label">負責跟進之資源老師：</span>（本人）</div>
+    <div><span class="label">地點：</span>（待排）</div>
+    <div><span class="label">上課時間：</span>週二／週三／週五 ＊節（待排）</div>
+    <div class="full"><span class="label">科目：</span> 數</div>
+    <div class="full"><span class="label">學習目標／單元：</span>歷屆試題複習（階段一續＋階段二索引聚焦）→ 四校聯考 → 矩陣及其應用（高三丙班，第二學段 W25–W39）</div>
+  </div>
+
+  <table class="log">
+    <thead>
+      <tr>
+        <th rowspan="2" class="col-date">上課日期</th>
+        <th colspan="3">教學內容</th>
+        <th rowspan="2" class="col-material">教材</th>
+        <th rowspan="2" class="col-mastery">學生掌握情況</th>
+      </tr>
+      <tr>
+        <th class="col-content">課堂重點／發展</th>
+        <th class="col-content">總結及鞏固</th>
+        <th class="col-content">功課／練習</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="off-row"><td colspan="6">W23–W24（2027/02/01–12）　🏃 校運會＋補假、🧧 春節假期 —— 無課</td></tr>
+
+      <tr class="yr-row"><td colspan="6">階段一・第 2 年　2025 年卷（6 節，W25–W26）</td></tr>
+      <tr><td>2027/02/16（二）</td><td>①卷面走位：2025 卷分類標註</td><td>對答＋修正；更新做得到題型清單</td><td>標註完成的卷面</td><td>工作紙_2025／分類索引</td><td></td></tr>
+      <tr><td>2027/02/17（三）</td><td>②第 1–5 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2027/02/19（五）</td><td>③第 6–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2027/02/23（二）</td><td>④第 10–13 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2027/02/24（三）</td><td>⑤第 14–16 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2025／教師版_2025</td><td></td></tr>
+      <tr><td>2027/02/26（五）</td><td>⑥對答總結＋兩年弱項比對（睇有無重複出現的弱項）</td><td>對答＋修正；產出「弱項總表」，作為階段二選題依據</td><td>錯題索引表更新</td><td>教師版_2025<br>分類索引</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">階段二　索引聚焦操練：IEP 高頻三單元（9 節，W27–W29・IEP 7-1）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">階段二＝逐單元橫向抽題</span>：揀定一個單元，把十年間該單元的所有題目一次過打橫做，睇出題型的重複規律。<br>
+        <span class="nt">丙班 IEP 點名的高頻三單元（分類索引十年題數）</span>：二次方程及二次函數 <b>17 題</b>、數列 <b>20 題</b>、解析幾何 <b>27 題</b>，合共 64 題。9 節每節約 7 題。<br>
+        <span class="nt">與甲班的差異</span>：兩班共通「二次方程及二次函數、數列」，丙班獨有「解析幾何」（27 題，全部單元中最多），故解析幾何分到最多節數。
+      </td></tr>
+      <tr><td>2027/03/02（二）</td><td>二次方程及二次函數（一）：判別式與根的關係型</td><td>對答＋修正；歸納「問乜就用邊條」</td><td>約 7 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/03（三）</td><td>二次方程及二次函數（二）：韋達定理＋最值圖像型；單元總結</td><td>對答＋修正；出「二次方程及二次函數判題卡」</td><td>約 10 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/05（五）</td><td>數列（一）：等差——通項與求和</td><td>對答＋修正；發「等差公式卡」</td><td>約 7 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/09（二）</td><td>數列（二）：等比——通項與求和（含公比為 1 的特例）</td><td>對答＋修正；發「等比公式卡」</td><td>約 7 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/10（三）</td><td>數列（三）：混合辨識＋應用題；單元總結</td><td>對答＋修正；出「數列辨識卡」</td><td>約 6 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/12（五）</td><td>解析幾何（一）：直線方程與斜率、平行垂直判定</td><td>對答＋修正；發「直線方程四式對照卡」</td><td>約 7 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/16（二）</td><td>解析幾何（二）：點到直線距離、兩直線交點</td><td>對答＋修正；發「距離公式卡」</td><td>約 7 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/17（三）</td><td>解析幾何（三）：圓的方程與直線與圓的位置關係</td><td>對答＋修正；發「圓方程卡」＋「位置關係判定卡」</td><td>約 7 題</td><td>分類索引＋對應年份工作紙／教師版</td><td></td></tr>
+      <tr><td>2027/03/19（五）</td><td>解析幾何（四）：綜合題＋三單元總覆盤；<b>🆕 四校聯考前最後走位</b></td><td>對答＋修正；三張判題卡合併成一頁應試小抄；應試包整理</td><td>混合 6 題</td><td>分類索引＋三張判題卡<br>索引查表卡</td><td></td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">🆕 四校聯考（⚠️ 日期待學校公佈）</span>：按理科進度表「模擬卷→矩陣」的銜接位置，暫定在 W29 前後。<b>學校一公佈確實日期，本節及其後所有矩陣課節要即時重算。</b>若聯考在 W30 之後，可把 W30 首節改為「聯考後檢討＋錯題歸位」，矩陣順延一節。
+      </td></tr>
+
+      <tr class="unit-row"><td colspan="6">矩陣（17 節，W30–W35・IEP 2027/03–04）</td></tr>
+      <tr class="note-row"><td colspan="6">
+        <span class="nt">⚠️ 本單元無工具卡</span>：<code>矩陣_高三融合班\</code> 四個子單元各有講義＋練習，但無工具卡。運算規則卡在課堂上即時手寫產出，學期末合成「矩陣卡冊」。<br>
+        <span class="nt">🚫 不可放棄</span>（計劃 §七 丙班）：矩陣基本運算＋逆矩陣是核心；若進度落後，優先壓縮「矩陣應用」（解方程組、多項式最大公因式）為 1 節總覽。
+      </td></tr>
+      <tr><td>2027/03/23（二）</td><td>矩陣的概念：行列、階數、相等的條件；矩陣的加減法</td><td>對答＋修正；發「矩陣加減卡」；強調同階先加得</td><td>練習_矩陣_概念與運算 A 層 2 題</td><td>講義_矩陣_概念與運算_融合班</td><td></td></tr>
+      <tr><td>2027/03/24（三）</td><td>純量乘法：每個元素逐一乘</td><td>對答＋修正；矩陣卡補完</td><td>同上 A 層 2 題</td><td>講義_矩陣_概念與運算_融合班</td><td></td></tr>
+      <tr class="off-row"><td colspan="6">W30 其餘（2027/03/25–29）　🐣 復活節假期（03/22 一 為校慶補假）—— 無課</td></tr>
+      <tr><td>2027/03/30（二）</td><td>矩陣乘法（一）：可乘的條件（前者列數＝後者行數）；乘法規則</td><td>對答＋修正；發「矩陣乘法卡」——先寫結果階數，再逐格算</td><td>練習_矩陣_概念與運算 B 層 2 題</td><td>講義_矩陣_概念與運算_融合班</td><td></td></tr>
+      <tr><td>2027/03/31（三）</td><td>矩陣乘法（二）：AB ≠ BA 的反例；乘法練習</td><td>對答＋修正；錯誤對比（當成逐格相乘＝錯）</td><td>同上 B 層 2 題</td><td>講義_矩陣_概念與運算_融合班</td><td></td></tr>
+      <tr><td>2027/04/02（五）</td><td>矩陣乘法（三）：綜合練習＋單位矩陣的作用</td><td>對答＋修正；單位矩陣＝「矩陣界的 1」</td><td>同上 C 層 1 題</td><td>講義_矩陣_概念與運算_融合班</td><td></td></tr>
+      <tr><td>2027/04/06（二）</td><td>二階行列式：ad−bc；行列式為 0 的意義</td><td>對答＋修正；發「行列式卡」</td><td>練習_逆矩陣 A 層 2 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/07（三）</td><td>三階行列式（如課程要求）：對角線法／降階展開</td><td>對答＋修正；行列式卡補完</td><td>同上 A、B 層各 1 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/09（五）</td><td>行列式綜合練習＋判斷矩陣是否可逆</td><td>對答＋修正；強調「行列式＝0 就無逆矩陣」</td><td>同上 B 層 2 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/13（二）</td><td>逆矩陣（一）：二階逆矩陣公式（換位、變號、除行列式）</td><td>對答＋修正；發「二階逆矩陣三步卡」</td><td>練習_逆矩陣 A 層 2 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/14（三）</td><td>逆矩陣（二）：驗證 AA⁻¹＝I；常見錯誤對比</td><td>對答＋修正；標出「唔記得除行列式」常見錯</td><td>同上 B 層 2 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/16（五）</td><td>逆矩陣（三）：綜合練習</td><td>對答＋修正；逆矩陣小結</td><td>同上 B、C 層各 1 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/20（二）</td><td>矩陣方程（一）：AX＝B 型，左乘 A⁻¹</td><td>對答＋修正；發「矩陣方程卡」；強調左乘右乘唔可以亂</td><td>練習_逆矩陣 B 層 2 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/21（三）</td><td>矩陣方程（二）：XA＝B 型，右乘 A⁻¹；兩型對比</td><td>對答＋修正；錯誤對比表（左右乘搞錯的後果）</td><td>同上 B 層 2 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/23（五）</td><td>矩陣方程（三）：綜合練習</td><td>對答＋修正；矩陣卡冊中期整理</td><td>同上 C 層 1 題</td><td>講義_逆矩陣_融合班</td><td></td></tr>
+      <tr><td>2027/04/27（二）</td><td>解線性方程組（一）：把方程組寫成矩陣形式 AX＝B</td><td>對答＋修正；發「列矩陣三步卡」（抄係數→抄未知數→抄常數）</td><td>練習_矩陣的應用_解線性方程組 A 層 2 題</td><td>講義_矩陣的應用_解線性方程組_融合班</td><td></td></tr>
+      <tr><td>2027/04/28（三）</td><td>解線性方程組（二）：用逆矩陣法求解 X＝A⁻¹B</td><td>對答＋修正；發「逆矩陣解法卡」</td><td>同上 A、B 層各 1 題</td><td>講義_矩陣的應用_解線性方程組_融合班</td><td></td></tr>
+      <tr><td>2027/04/30（五）</td><td>解線性方程組（三）：克拉瑪法則（如課程要求）</td><td>對答＋修正；發「克拉瑪法則卡」；與逆矩陣法比較幾時用邊個</td><td>同上 B 層 2 題</td><td>講義_矩陣的應用_解線性方程組_融合班</td><td></td></tr>
+
+      <tr class="unit-row"><td colspan="6">收官（12 節，W36–W39・IEP 2027/04–05，時程終點）</td></tr>
+      <tr><td>2027/05/04（二）</td><td>解線性方程組（四）：無解／無限多解的判斷（行列式＝0 時）</td><td>對答＋修正；三種情況對照表</td><td>練習_矩陣的應用_解線性方程組 B、C 層各 1 題</td><td>講義_矩陣的應用_解線性方程組_融合班</td><td></td></tr>
+      <tr><td>2027/05/05（三）</td><td>多項式最大公因式（一）：輾轉相除法的原理與格式</td><td>對答＋修正；發「輾轉相除格式卡」</td><td>練習_矩陣的應用_多項式最大公因式 A 層 2 題</td><td>講義_矩陣的應用_多項式最大公因式_融合班</td><td></td></tr>
+      <tr><td>2027/05/07（五）</td><td>多項式最大公因式（二）：矩陣形式的做法</td><td>對答＋修正；與長除法對照確認答案一致</td><td>同上 A、B 層各 1 題</td><td>講義_矩陣的應用_多項式最大公因式_融合班</td><td></td></tr>
+      <tr><td>2027/05/11（二）</td><td>多項式最大公因式（三）：綜合練習</td><td>對答＋修正；矩陣應用小結</td><td>同上 B、C 層各 1 題</td><td>講義_矩陣的應用_多項式最大公因式_融合班</td><td></td></tr>
+      <tr><td>2027/05/12（三）</td><td>矩陣單元總覆盤：由概念運算到兩個應用的整條路徑重述一次</td><td>對答＋修正；矩陣各卡合成「矩陣卡冊」</td><td>混合 3 題</td><td>矩陣卡冊<br>四份矩陣講義練習</td><td></td></tr>
+      <tr><td>2027/05/14（五）</td><td>IEP 中期自評：對照短期目標 1-1 起逐項自評（導數／積分／空間向量／矩陣）</td><td>對答＋修正；填寫自評表，標出未達標項</td><td>自評表填寫</td><td>IEP第8-9點_數學科_高三理組_全學年_通用草稿</td><td></td></tr>
+      <tr><td>2027/05/18（二）</td><td>2024 年卷補做（一）：卷面走位＋第 1–9 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2024／教師版_2024<br>分類索引</td><td></td></tr>
+      <tr><td>2027/05/19（三）</td><td>2024 年卷補做（二）：第 10–16 類</td><td>對答＋修正；歸位錯題</td><td>每類 1 題</td><td>工作紙_2024／教師版_2024</td><td></td></tr>
+      <tr><td>2027/05/21（五）</td><td>2024 年卷對答總結＋弱項排序</td><td>對答＋修正；錯題索引表更新</td><td>弱項題各 1 題</td><td>教師版_2024</td><td></td></tr>
+      <tr><td>2027/05/25（二）</td><td>2023 年卷高頻題：只做 IEP 高頻三單元（二次方程及二次函數、數列、解析幾何）</td><td>對答＋修正；三張判題卡實戰驗證</td><td>高頻三單元題目</td><td>工作紙_2023／教師版_2023<br>分類索引</td><td></td></tr>
+      <tr><td>2027/05/26（三）</td><td>IEP 收官評量：短期目標逐項實測記錄（含 7-1 索引使用方法）</td><td>對答＋修正；填寫 IEP 短期目標達成情況</td><td>評量題各 1 題</td><td>IEP第8-9點_數學科_高三理組_全學年_通用草稿<br>分類索引</td><td></td></tr>
+      <tr><td>2027/05/28（五）</td><td>卡冊總整理＋6 月大班複習期的自用指引（抽離課結束）</td><td>對答＋修正；導數／積分／向量法／矩陣四本卡冊按應試次序排好，交回學生自用</td><td>不派新功課</td><td>全年卡冊<br>錯題索引表</td><td></td></tr>
+    </tbody>
+  </table>
+
+  <div class="sign-block">
+    <div>授課老師簽署：<span class="blank">&nbsp;</span></div>
+    <div>學生簽署：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+    <div>簽署日期：<span class="blank">&nbsp;</span></div>
+  </div>
+
+  <div class="map-note" style="margin-top:12px;">
+    📌 <b>實際開課後的調節規則</b>（計劃 §九）：①每次上完課即時記錄；②<b>每月底對照 IEP 短期目標時程</b>，檢查是否仍在 IEP 寫明的月份範圍內完成對應目標；③四校聯考確實日期一出，立即回頭調整矩陣的起始週次；④畢業旅行日期一變，W11 之後全部順移。<br>
+    📌 <b>進度落後時的取捨</b>（計劃 §七 丙班）：①矩陣應用（解方程組、多項式最大公因式）可壓縮為 1 節總覽；②空間向量進階應用（線面角、二面角、點到平面距離）可用公式卡取代完整教學，保留概念、數量積、坐標運算；③定積分求面積可略，保留運算基本功。<span class="warn">🚫 不可放棄</span>：導數基本運算（IEP 1-1~1-4 全部可評量）、分類索引使用方法（IEP 7-1，四校聯考應試的基本工具）。
+  </div>
+</div>
+
+</body>
+</html>
