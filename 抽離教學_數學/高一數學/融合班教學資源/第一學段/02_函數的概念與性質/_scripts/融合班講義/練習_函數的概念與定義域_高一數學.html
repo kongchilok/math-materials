@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_函數的概念與定義域_高一數學</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; }
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+  .page-break { break-before: page; page-break-before: always; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．函數的概念與定義域</div></td></tr></tfoot>
+  <tbody><tr><td>
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：函數的概念與定義域</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>請先複習《函數的概念與定義域課堂講義》的手順卡，再用同一套「①根式條件→②分式條件→③交集→④結論」四步驟完成以下練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>1．已知 \(f(x)=\sqrt{x+2}\)（根號內是 x+2）。判斷下列 x 值能不能代入 f(x)，並說明理由：</div>
+      <div>(1) x=7 能不能代入？為什麼？</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) x=-2 能不能代入？為什麼？</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(3) x=-5 能不能代入？為什麼？</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">對應手順卡第①步：根號裡面的算式（被開方數）不能是負數，必須 ≥0。等於 0 也可以！</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>2．已知 \(g(x)=\sqrt{x-3}\)。老師已經幫你完成一半，請把空格填滿：</div>
+      <div>被開方數是 ＿＿＿，要求 ＿＿＿ ≥ 0，即 x ≥ ＿＿＿，所以定義域是 [ ＿＿＿ , +∞)</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">對應手順卡第①步：被開方數 ≥0，才能開根號。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>3．在數線上：−3 是實心點，2 是空心圈，中間畫了一條粗線段（−3 到 2 之間都在範圍內）。</div>
+      <div>(1) 寫出這個範圍的區間記號：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) 用集合寫法 \(\{x \mid ...\}\) 再寫一次：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">提示：實心點●＝這個數可以取到；空心圈○＝這個數取不到。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>4．判斷下列何者「不能」代入 \(f(x)=\dfrac{1}{x+4}\)：</div>
+      <div>(A) x=0　　(B) x=-4　　(C) x=4</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">對應手順卡第②步：分母不能等於 0，其他情況都可以。</div>
+    </div>
+  </div>
+
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 每一題都寫低「能唔能代入」／答案，並且有講出理由</div>
+    <div>☐ 有分清楚「根號要 ≥0」定係「分母要 ≠0」，冇兩條規則搞亂</div>
+    <div>☐ 區間記號嘅實心●／空心○有對應返題目講嘅「取得到／取唔到」</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">求函數定義域　手順卡（精簡版）</th></tr>
+    <tr><td colspan="2">①根式 ≥0</td></tr>
+    <tr><td colspan="2">②分式 ≠0</td></tr>
+    <tr><td colspan="2">③兩者取交集</td></tr>
+    <tr><td colspan="2">④寫成區間記號</td></tr>
+  </table>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>5．已知 \(f(x)=\sqrt{x+4}+\dfrac{1}{x-3}\)：</div>
+      <div>(1) 求 f(x) 的定義域（請寫出①根式條件②分式條件③交集④結論四個步驟）：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      <div>(2) 求 f(0) 的值：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(3) 求 f(5) 的值：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">提示：根式條件 ≥0，分式條件 ≠0，最後把兩個條件的解集取「交集」。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>6．已知 \(h(x)=\dfrac{\sqrt{x-2}}{x-5}\)，求 h(x) 的定義域：</div>
+      <div>解：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">提示：先分別列出分子根式、分母的條件，再取交集；別忘記分母本身也要 ≠0。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>7．判斷下列各組函數是否為同一函數，並說明理由：</div>
+      <div>(1) \(f(x)=x\) 與 \(g(x)=(\sqrt{x})^2\)：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) \(f(t)=t\) 與 \(g(t)=\sqrt[3]{t^3}\)：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(3) \(f(x)=x\) 與 \(g(x)=\sqrt{x^2}\)：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(4) \(f(n)=n\) 與 \(g(n)=\dfrac{n^2}{n}\)：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">提示：判斷同一函數要「兩項都相同」：①定義域是否相同？②對應關係是否一致？化簡前後定義域可能已經改變，要特別小心。</div>
+    </div>
+  </div>
+
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 四步驟（根式／分式／交集／結論）有冇跳步，逐步寫低</div>
+    <div>☐ 化簡前同化簡後嘅定義域有冇比較過先落結論</div>
+    <div>☐ 答案有冇寫成區間記號（唔係淨係寫返不等式）</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+
+  <div>8．已知函數 k(x) 的定義域是 \([-4,-2)\cup(-2,5]\)，請寫出一個可能符合這個定義域的解析式，並說明理由：</div>
+  <div class="problem">
+    <div>解：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div>9．請你自己設計一題「求定義域」的題目（要同時包含一個根式與一個分式），並完整解出你自己出的題目的定義域：</div>
+  <div class="problem">
+    <div>你的題目：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div>你的解答：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div>10．舉出一對「化簡後看起來一樣，但其實不是同一函數」的例子（不可以跟練習B第7題的例子重複），並說明理由：</div>
+  <div class="problem">
+    <div>解：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 第8題嘅解析式，三個條件嘅交集是否真係等於指定嘅定義域</div>
+    <div>☐ 第9題嘅自訂題目係咪同時有根式同分式，解答有冇寫齊四步驟</div>
+    <div>☐ 第10題嘅例子有冇同第7題重複、有冇講清楚係邊一項（定義域／對應關係）唔一樣</div>
+  </div>
+
+  <div class="section-h page-break">參考答案與解析</div>
+
+  <div class="section-h" style="font-size:12pt">練習A</div>
+  <div>1．(1) x=7：x+2=9≥0，可以代入，\(f(7)=\sqrt{9}=3\)。(2) x=-2：x+2=0，0≥0 仍然成立，可以代入，\(f(-2)=\sqrt{0}=0\)（等於 0 的邊界值是可以取的）。(3) x=-5：x+2=-3<0，不可以代入（根號內不能是負數）。</div>
+  <div>2．被開方數是 x−3，要求 x−3≥0，即 x≥3，所以定義域是 \([3,+\infty)\)。</div>
+  <div>3．(1) 區間記號：\([-3,2)\)。(2) 集合寫法：\(\{x \mid -3 \le x < 2\}\)。</div>
+  <div>4．答案：(B)。因為 x=-4 會使分母 x+4=0，不能代入；(A)(C) 代入後分母都不為 0，可以代入。</div>
+
+  <div class="section-h" style="font-size:12pt">練習B</div>
+  <div>5．(1) ①根式：x+4≥0 ⇒ x≥-4，即 \([-4,+\infty)\)；②分式：x-3≠0 ⇒ x≠3；③交集：\([-4,+\infty)\) 去掉 x=3，即 \([-4,3)\cup(3,+\infty)\)；④結論：定義域是 \([-4,3)\cup(3,+\infty)\)。(2) \(f(0)=\sqrt{4}+\dfrac{1}{0-3}=2-\dfrac{1}{3}=\dfrac{5}{3}\)。(3) \(f(5)=\sqrt{9}+\dfrac{1}{5-3}=3+\dfrac{1}{2}=\dfrac{7}{2}\)。</div>
+  <div>6．分子根式：x-2≥0 ⇒ x≥2；分母：x-5≠0 ⇒ x≠5；交集：\([2,+\infty)\) 去掉 x=5，定義域是 \([2,5)\cup(5,+\infty)\)。</div>
+  <div>7．(1) 不是同一函數：\(g(x)=(\sqrt{x})^2\) 必須先算 \(\sqrt{x}\)，要求 x≥0，所以 g 的定義域是 \([0,+\infty)\)，跟 f 的定義域 R 不同（陷阱：化簡後兩式看似都等於 x，但前面的根號已經限制了定義域）。</div>
+  <div>(2) 是同一函數：\(g(t)=\sqrt[3]{t^3}\) 對任何實數 t 都有意義（三次方根沒有正負限制），定義域都是 R，而且對所有 t，\(\sqrt[3]{t^3}=t\)，對應關係也一致。</div>
+  <div>(3) 不是同一函數：\(g(x)=\sqrt{x^2}=|x|\)，雖然定義域都是 R（跟 f 相同），但當 x<0 時 g(x)=-x≠f(x)=x，對應關係不一致（陷阱：定義域相同不代表就是同一函數，還要檢查對應關係）。</div>
+  <div>(4) 不是同一函數：\(g(n)=\dfrac{n^2}{n}\) 要求 n≠0，定義域是 \((-\infty,0)\cup(0,+\infty)\)，跟 f 的定義域 R 不同。</div>
+
+  <div class="section-h" style="font-size:12pt">練習C</div>
+  <div>8．參考答案：\(k(x)=\sqrt{x+4}+\dfrac{1}{x+2}+\sqrt{5-x}\)。理由：\(\sqrt{x+4}\) 要求 x≥-4；\(\dfrac{1}{x+2}\) 要求 x≠-2；\(\sqrt{5-x}\) 要求 x≤5；三個條件的交集正好是 \([-4,-2)\cup(-2,5]\)（本題答案不唯一，只要三個條件的交集確實等於指定的定義域即可）。</div>
+  <div>9．本題無固定答案。教師驗收標準：學生自訂的題目要同時出現根式與分式；解答要完整寫出①根式條件②分式條件③交集④結論四個步驟，且交集結果要與自己列出的兩個條件一致。</div>
+  <div>10．參考答案：\(f(x)=x-3\) 與 \(g(x)=\dfrac{x^2-6x+9}{x-3}\)——分子 \(x^2-6x+9\) 是完全平方 \((x-3)^2\)，約分後 g(x)=x-3，兩式化簡後看起來一樣，但 g(x) 要求分母 x-3≠0，即 x≠3，定義域是 \((-\infty,3)\cup(3,+\infty)\)，跟 f 的定義域 R 不同，所以不是同一函數（本題答案不唯一，只要清楚指出定義域或對應關係的差異、且不與第7題(1)-(4)重複即可）。</div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>

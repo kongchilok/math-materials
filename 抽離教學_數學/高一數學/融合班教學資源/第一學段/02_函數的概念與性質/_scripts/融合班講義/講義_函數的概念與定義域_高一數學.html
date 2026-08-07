@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_函數的概念與定義域_高一數學</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .fig { text-align: center; margin: 10px 0; break-inside: avoid; }
+  .fig svg { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap; vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; white-space: normal; }
+  .worked td.ans { font-weight: 700; }
+  .worked td.why { width: 40%; vertical-align: middle; white-space: normal; }
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 26%; background: #f0f0f0; font-weight: 700; }
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．函數的概念與定義域</div></td></tr></tfoot>
+  <tbody><tr><td>
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：函數的概念與定義域</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">情境：快遞計費</div>
+  <div>某快遞公司按包裹重量 x（公斤）分段收費：重量在 \((0,1]\) 公斤收 15 元；重量在 \((1,3]\) 公斤收 25 元；重量超過 3 公斤要另外議價，暫不在計費表內。</div>
+  <div style="margin-top:6px">留意到：不論包裹落在哪一段重量範圍，公司都只會給出「唯一一個」收費金額——這正是函數的核心精神：對於某個範圍（區間）內的每一個 x，都有唯一確定的一個值與它對應。而「暫不議價」的重量（例如 \(x=0\) 或 \(x>3\)）就不在這個計費函數的定義域之內。</div>
+
+  <div class="section-h">一、函數的定義</div>
+  <div>設 A、B 是兩個非空的數集，如果按照某個確定的對應關係 f，使得對於集合 A 中的任意一個數 x，在集合 B 中都有唯一確定的數 y 和它對應，那麼就稱 f：A→B 為從集合 A 到集合 B 的一個函數，記作 \(y=f(x)\)，\(x\in A\)。</div>
+  <div style="margin-top:6px">其中：x 叫自變量；x 的取值範圍 A 叫函數的定義域；與 x 對應的 y 值叫函數值；函數值的集合 \(\{f(x) \mid x \in A\}\) 叫函數的值域。</div>
+
+  <div class="section-h">二、函數的三要素</div>
+  <div>函數有三個要素：定義域、對應關係、值域。判斷兩個函數是否為「同一函數」，要同時檢查：①定義域是否相同；②對應關係是否完全一致——兩項都相同，才是同一函數。化簡前後式子看起來一樣，不代表就是同一函數，定義域也要對得上。</div>
+
+  <div class="section-h">三、區間的概念</div>
+  <div>你已經懂得用「\(\{x \mid a \le x \le b\}\)」這種集合寫法表示一段數的範圍，區間記號是它的簡寫，換個寫法會更精簡，數線上的實心點●／空心圈○可以幫助記憶：</div>
+  <div class="hint-card">閉區間 \([a,b] = \{x \mid a \le x \le b\}\)——兩端點都取，數線上用實心點●表示</div>
+  <div class="hint-card">開區間 \((a,b) = \{x \mid a < x < b\}\)——兩端點都不取，數線上用空心圈○表示</div>
+  <div class="hint-card">半開半閉 \([a,b) = \{x \mid a \le x < b\}\)；\((a,b] = \{x \mid a < x \le b\}\)——一端實心、一端空心</div>
+  <div class="hint-card">無窮區間：\([a,+\infty) = \{x \mid x \ge a\}\)；\((a,+\infty) = \{x \mid x > a\}\)；\((-\infty,b] = \{x \mid x \le b\}\)；\((-\infty,b) = \{x \mid x < b\}\)</div>
+  <div class="hint-card">實數集：\(R = (-\infty,+\infty)\)（正負無窮都取不到，兩端永遠用空心／不寫端點）</div>
+
+  <div class="fig">
+    <svg xmlns="http://www.w3.org/2000/svg" width="520" height="136" viewBox="0 0 520 136" role="img"><rect width="520" height="136" fill="#ffffff"/><text x="260.0" y="16.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">範例：區間 [0, 5) 畫在數線上</text><defs><marker id="ar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="14" y1="76" x2="506" y2="76" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#ar)"/><line x1="30.0" y1="70.0" x2="30.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="30.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">−2</text><line x1="76.0" y1="70.0" x2="76.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="76.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">−1</text><line x1="122.0" y1="70.0" x2="122.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="122.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">0</text><line x1="168.0" y1="70.0" x2="168.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="168.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">1</text><line x1="214.0" y1="70.0" x2="214.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="214.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">2</text><line x1="260.0" y1="70.0" x2="260.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="260.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">3</text><line x1="306.0" y1="70.0" x2="306.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="306.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">4</text><line x1="352.0" y1="70.0" x2="352.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="352.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">5</text><line x1="398.0" y1="70.0" x2="398.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="398.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">6</text><line x1="444.0" y1="70.0" x2="444.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="444.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">7</text><line x1="490.0" y1="70.0" x2="490.0" y2="82.0" stroke="#1a1a1a" stroke-width="1.2"/><text x="490.0" y="96.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">8</text><line x1="122.0" y1="60" x2="352.0" y2="60" stroke="#1a1a1a" stroke-width="4"/><circle cx="122.0" cy="60" r="5.5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.6"/><circle cx="352.0" cy="60" r="5.5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.6"/></svg>
+    <div class="cap">圖：實心點●＝端點取得到（closed）；空心圈○＝端點取不到（open）</div>
+  </div>
+
+  <div class="section-h">四、求函數定義域的四步驟</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">求函數定義域　手順卡</th></tr>
+    <tr><td colspan="2" style="font-weight:400">什麼時候用：題目要求「求函數的定義域」，且式子中出現根號或分母時</td></tr>
+    <tr><td>1. 看式子裡有沒有根號：被開方數必須「≥0」，把這個條件寫出來。</td><td class="pitfall">※ 等於 0 也可以，不是嚴格大於 0。</td></tr>
+    <tr><td>2. 看式子裡有沒有分母：分母必須「≠0」，把這個條件另外寫出來。</td><td class="pitfall">※ 只看分母本身，不要把分子一起限制進去。</td></tr>
+    <tr><td>3. 兩個條件都寫出來後，在數線上取「交集」——兩個條件要同時成立的部分。</td><td class="pitfall">※ 是交集，不是聯集；只保留兩個條件都滿足的 x。</td></tr>
+    <tr><td>4. 把交集的結果用區間記號寫出來，就是函數的定義域。</td><td class="pitfall">※ 端點是實心●還是空心○，要對照原本是「≥／≤」還是「＞／＜／≠」。</td></tr>
+    <tr><td colspan="2" style="font-weight:400;background:#f0f0f0">（教師）褪除：本課（我做／我們做）：手順卡完整呈現，每步都寫出動作與易錯點。練習B 起：只在區塊開頭重印一次精簡版（步驟數字＋關鍵詞）。練習C 起：不再重印卡片，改由學生口述四步驟。</td></tr>
+  </table>
+
+  <div class="section-h">五、範例</div>
+  <div class="lead"><b>「我做」——老師先示範一次完整的解題過程，並且把心裡想的話說出來：</b></div>
+  <div>題目：已知 \(f(x)=\sqrt{x+5}+\dfrac{1}{x-1}\)，求 f(x) 的定義域，並求 f(4) 的值。</div>
+  <table class="d-tbl worked">
+    <thead><tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ec1">\(x+5\)</td><td class="ec2">\(\ge\)</td><td class="ec3">\(0\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">「我先看式子裡有什麼：有根號，也有分母，所以有兩個條件要處理。先看根號這邊——根號裡面的式子不能是負數，所以我要求它 ≥ 0。」</td></tr>
+    <tr><td class="ec1">\(x\)</td><td class="ec2">\(\ge\)</td><td class="ec3">\(-5\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">「把 5 移到右邊，範圍就出來了：\([-5,+\infty)\)。」</td></tr>
+    <tr><td class="ecs" colspan="7">①的解集：\([-5,+\infty)\)</td><td class="why"></td></tr>
+    <tr><td class="ec1">\(x-1\)</td><td class="ec2">\(\ne\)</td><td class="ec3">\(0\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">「再看分母：分母不可以是 0，所以要求 x−1≠0。」</td></tr>
+    <tr><td class="ec1">\(x\)</td><td class="ec2">\(\ne\)</td><td class="ec3">\(1\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">「移項後：x 不能是 1。」</td></tr>
+    <tr><td class="ecs" colspan="7">②的解集：\((-\infty,1)\cup(1,+\infty)\)</td><td class="why"></td></tr>
+    <tr><td class="ecs" colspan="7">「兩個條件都要同時成立，所以要取交集——把 x=1 從 \([-5,+\infty)\) 挖走。」</td><td class="why"></td></tr>
+    <tr><td class="ecs" colspan="7">③交集：\([-5,+\infty) \cap (-\infty,1)\cup(1,+\infty) = [-5,1)\cup(1,+\infty)\)</td><td class="why"></td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) 定義域是 \([-5,1)\cup(1,+\infty)\)</td><td class="why">作答：最後一行用「∴」寫出結論</td></tr>
+    <tr><td class="ecs" colspan="7">「附帶一問：求 f(4)，只要把 x=4 代入原式就可以。」</td><td class="why"></td></tr>
+    <tr><td class="ec1">\(f(4)\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\sqrt{4+5}+\dfrac{1}{4-1}\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">代入 x=4</td></tr>
+    <tr><td class="ec1">\(f(4)\)</td><td class="ec2">\(=\)</td><td class="ec3">\(\sqrt{9}+\dfrac{1}{3}\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">化簡根號</td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore f(4) = \dfrac{10}{3}\)</td><td class="why">作答：最後一行用「∴」寫出結論</td></tr>
+    </tbody>
+  </table>
+
+  <div class="lead"><b>「我們做」——換一題同型的，關鍵決策點留給你填：</b></div>
+  <div>題目：已知 \(g(x)=\sqrt{x+3}+\dfrac{1}{x-2}\)，求 g(x) 的定義域。</div>
+  <table class="d-tbl worked">
+    <thead><tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ec1">\(x+3\)</td><td class="ec2">\(\ge\)</td><td class="ec3">\(0\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">這一步要求什麼？想一想再往下寫。</td></tr>
+    <tr><td class="ec1">\(x\)</td><td class="ec2">\(\ge\)</td><td class="ec3">＿＿＿＿</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">把 3 移到右邊，範圍是？</td></tr>
+    <tr><td class="ecs" colspan="7">①的解集：＿＿＿＿＿＿＿＿＿＿</td><td class="why"></td></tr>
+    <tr><td class="ec1">\(x-2\)</td><td class="ec2">\(\ne\)</td><td class="ec3">\(0\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">再看分母，這裡要求什麼？</td></tr>
+    <tr><td class="ec1">\(x\)</td><td class="ec2">\(\ne\)</td><td class="ec3">＿＿＿＿</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">移項後，x 不能是多少？</td></tr>
+    <tr><td class="ecs" colspan="7">②的解集：＿＿＿＿＿＿＿＿＿＿</td><td class="why"></td></tr>
+    <tr><td class="ecs" colspan="7">把①②的範圍取交集，你的答案是？</td><td class="why"></td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) g(x) 的定義域是　＿＿＿＿＿＿＿＿＿＿＿＿</td><td class="why"></td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:8px">「你做」——接下來請拿《函數的概念與定義域課堂練習》，用同一套四步驟框架完成練習A、B、C。</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D6 明確教學三階段（我做／我們做／你做）</td></tr>
+      <tr><td>輔助設計</td><td>D2 手順卡（求定義域四步驟）、D12 自我核對清單（練習端）</td></tr>
+      <tr><td>選用理由</td><td>「函數」是學生第一次接觸的全新概念（S10：全新概念導入），沒有先備心像可掛靠，需要完整示範與放聲思考句建立心像；「求定義域」則是有固定程序的多步驟運算（S2），適合用手順卡把內隱步驟外顯化。兩個瓶頸依序出現，因此主設計取前端（S10 的 D6），再疊上 S2 的建議設計（D2）處理後段的程序性技能。</td></tr>
+      <tr><td>鷹架密度</td><td>全班共用</td></tr>
+      <tr><td>褪除路徑</td><td>D6：本課完整跑「我做→我們做→你做」，之後遇到新的求定義域題型不再重複整套三階段，直接進入練習層級的鷹架。D2：本課手順卡完整呈現；練習B 起精簡成區塊開頭一次重印；練習C 起完全不重印，改由學生口述四步驟。</td></tr>
+      <tr><td>課堂實施流程</td><td>F5 課前流程預告、F3 褪除計劃</td></tr>
+      <tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距／放大作答欄</td></tr>
+    </table>
+  </div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>
