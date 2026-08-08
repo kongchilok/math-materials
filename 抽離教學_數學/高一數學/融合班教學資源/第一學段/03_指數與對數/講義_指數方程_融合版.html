@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>指數方程 講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：指數方程一題多練</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、解法一：化同底比指數</div>
+  <div class="problem">
+    <div>\(a^x=a^y\)　⟹　x=y　　（a&gt;0，a≠1）</div>
+    <div>例：\(2^x=16\) ⟹ \(2^x=2^4\) ⟹ x=4</div>
+  </div>
+
+  <div class="section-h">二、解法二：合併同類項</div>
+  <div class="problem">
+    <div>把方程式中同樣是 \(a^x\) 的項先合併（提公因式），再化同底比指數。</div>
+    <div>例：\(3^x+3^x=54\) ⟹ \(2\cdot3^x=54\) ⟹ \(3^x=27=3^3\) ⟹ x=3</div>
+  </div>
+
+  <div class="section-h">三、解法三：換元法（設 t=aˣ）</div>
+  <div class="problem">
+    <div>當方程式出現 \(a^{2x}\) 和 \(a^x\) 兩種指數，且形式像二次方程時，設 \(t=a^x,\ t>0\)</div>
+    <div>轉化成關於 t 的一元二次方程，解出 t 之後，再代回 \(a^x=t\) 解 x。</div>
+    <div><b>★ 因為 \(a^x\) 恆大於 0，解出的 t 若是負數或 0，一定要捨去！</b></div>
+  </div>
+
+  <div class="section-h">四、範例</div>
+  <div class="worked-example">
+    <div>例：解方程 \(2^{2x}-2^x-6=0\)</div>
+    <div>步驟①　設 \(t=2^x,\ t>0\)，原方程變成：\(t^2-t-6=0\)</div>
+    <div>步驟②　因式分解：\((t-3)(t+2)=0\) ⟹ t=3 或 t=-2</div>
+    <div>步驟③　t=-2 不合（t 必須大於 0），只留 t=3，代回：\(2^x=3\)</div>
+    <div>步驟④　\(2^x=3\) 不是整數次方，答案寫成：\(x=\log_23\)</div>
+  </div>
+
+  <div style="margin-top:14px;">接下來請拿《練習_指數方程一題多練》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高一數學．指數方程一題多練　第 1 頁</div>
+
+</div>
+</body>
+</html>

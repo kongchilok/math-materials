@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>指數方程 練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .page-break { break-before: page; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：指數方程一題多練</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>提示：先回頭看《講義》的範例四步驟，再開始練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="hint-card">鷹架：先把方程式右邊的數字寫成跟左邊「同一個底數」的次方，再比較指數。</div>
+
+  <div class="problem">1．\(2^x=16\)　　鷹架：16＝2的幾次方？x=＿＿
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．\(2^x=64\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．\(3^x=81\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．\(4^x=64\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">5．\(2^{x+2}=32\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">6．\(9^x=3\)　　鷹架：9可以寫成3的幾次方？
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="hint-card">提示：根式先化成分數指數冪；同底的項先合併，再化同底比指數。</div>
+
+  <div class="problem">1．\(2^x=\sqrt8\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．\(9^x=\sqrt{27}\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．\(3^x+3^x=54\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．\(4^x+5\cdot4^x=96\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">5．\(5^{x+1}-5^x=100\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">6．\(3^{x+1}+3^x=4\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="hint-card">提示：出現兩種型式的指數項（如 \(2^{2x}\) 和 \(2^x\)）時，設 t=aˣ 轉成二次方程；解完 t 記得檢查 t&gt;0。</div>
+
+  <div class="problem">1．\(2^{2x}-6\cdot2^x+8=0\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．\(2^{x+2}+2^x=5\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．\(2^{2x+1}-2^{x+3}=64\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．開放題：範例中，解出 t=-2 時我們直接捨去了。請說明：如果不檢查 t&gt;0，把 t=-2 也代回 \(2^x=-2\) 繼續解下去，會發生什麼問題？
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高一數學．指數方程一題多練　第 1 頁</div>
+
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高一數學</span><span>單元：指數方程一題多練</span><span>類型：教師用參考答案</span></div>
+
+  <div class="section-h">練習A 參考答案</div>
+  <div>1．x=4　　2．x=6　　3．x=4　　4．x=3　　5．x=3（x+2=5）　　6．x=1/2（9=3²，3^(2x)=3¹ ⟹ 2x=1）</div>
+
+  <div class="section-h">練習B 參考答案</div>
+  <div>1．\(2^x=2^{\frac32}\) ⟹ x=3/2　　2．\(9^x=3^{\frac32}\) ⟹ x=3/4</div>
+  <div>3．合併：2·3ˣ=54 ⟹ 3ˣ=27=3³ ⟹ x=3</div>
+  <div>4．合併：6·4ˣ=96 ⟹ 4ˣ=16=4² ⟹ x=2</div>
+  <div>5．合併：5ˣ(5-1)=100 ⟹ 4·5ˣ=100 ⟹ 5ˣ=25=5² ⟹ x=2</div>
+  <div>6．合併：3ˣ(3+1)=4 ⟹ 4·3ˣ=4 ⟹ 3ˣ=1=3⁰ ⟹ x=0</div>
+
+  <div class="section-h">練習C 參考答案</div>
+  <div>1．設t=2ˣ(t&gt;0)：t²-6t+8=0 ⟹ (t-2)(t-4)=0 ⟹ t=2 或 t=4，兩個都&gt;0，都留。t=2⟹x=1；t=4⟹x=2。</div>
+  <div>2．\(2^{x+2}=4\cdot2^x\)，所以原式＝4·2ˣ+2ˣ=5·2ˣ=5 ⟹ 2ˣ=1 ⟹ x=0（這題其實不用設t也能直接合併）</div>
+  <div>3．設t=2ˣ(t&gt;0)：\(2^{2x+1}=2t^2\)，\(2^{x+3}=8t\)，方程變成 2t²-8t=64 ⟹ t²-4t-32=0 ⟹ (t-8)(t+4)=0 ⟹ t=8 或 t=-4（捨去，t必須&gt;0）。t=8 ⟹ 2ˣ=8=2³ ⟹ x=3。</div>
+  <div>4．（開放題）如果不檢查就把 t=-2 代回 \(2^x=-2\)，會發現找不到任何實數 x 能讓 2 的次方變成負數（2的任何次方都是正數），所以這是無解的假root。忽略 t&gt;0 的限制，可能會誤以為方程有兩組解，或在後續計算中出現 log 負數這種沒有定義的運算，導致整題錯誤。</div>
+
+  <div class="footer">高一數學．指數方程一題多練　第 2 頁</div>
+
+</div>
+</body>
+</html>

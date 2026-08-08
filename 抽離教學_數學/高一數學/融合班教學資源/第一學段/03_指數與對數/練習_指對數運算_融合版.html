@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>指對數運算 練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .page-break { break-before: page; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：指對數運算（轉換、化簡、定義域值域）</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>提示：先回頭看《講義》的範例四步驟，再開始練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="hint-card">\(a^b=N\)　⟺　\(\log_aN=b\)　　　鷹架：先找出 a、b、N 各是誰，再代入公式。</div>
+
+  <div class="problem">1．把 \(32^{\frac25}=4\) 寫成對數形式。
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．把 \(\log_3\dfrac19=-2\) 寫成指數式。
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．把 \(\log_{\frac12}32=-5\) 寫成指數式。
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．求值（提示：\(a^{\log_aN}=N\)）：\(3^{\log_35}=\)
+    <div>\(\log_3(\log_33)=\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="hint-card">提示：先化成同底，再用對數運算性質；比較大小時先看函數是遞增還是遞減。</div>
+
+  <div class="problem">1．求值：\(\left(\dfrac49\right)^{-\frac12}=\)
+    <div>\(\left(\dfrac{8}{27}\right)^{\frac23}=\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．已知 \(\log_3x=2\)，求 x。
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．求值：\(\log_53+\log_5\dfrac13\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．下列哪一個是「對數函數」？
+    <div>(A) \(y=\log_3x\)　　(B) \(y=2\log_3x+3\)　　(C) \(y=\log_x2\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">5．若 \(a^b=2\)（a&gt;0，a≠1），寫成對數式。
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">6．求定義域和值域：\(y=\log_5(x-3)\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">7．指數函數 \(f(x)\) 的圖像過點 (3, 8)，求 \(f(x)\) 的解析式。
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="hint-card">提示：留意「底數在(0,1)之間會讓函數遞減」；反函數是把 x、y 對調後解出 y。</div>
+
+  <div class="problem">1．求定義域和值域：\(y=\log_2(x^2+1)\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．求值：\(\log_2\sqrt2+\log_927+3^{\log_316}\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．求值：\(\log_25\times\log_32\times\log_53\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．若 \(y=f(x)\) 是 \(y=3^x\) 的反函數，求 \(f\left(\dfrac12\right)\) 的值。
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">5．開放銜接題：解方程 \(\log_{10}x+\log_{10}(9-2x)=1\)，並說明為什麼求出兩個 x 之後，還要各別檢查它們是否讓 x&gt;0 且 9-2x&gt;0 都成立。
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高一數學．指對數運算　第 1 頁</div>
+
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高一數學</span><span>單元：指對數運算</span><span>類型：教師用參考答案</span></div>
+
+  <div class="section-h">練習A 參考答案</div>
+  <div>1．\(\log_{32}4=\dfrac25\)</div>
+  <div>2．\(3^{-2}=\dfrac19\)</div>
+  <div>3．\(\left(\dfrac12\right)^{-5}=32\)</div>
+  <div>4．\(3^{\log_35}=5\)（恆等式直接代入）；\(\log_33=1\)，所以 \(\log_3(1)=0\)</div>
+
+  <div class="section-h">練習B 參考答案</div>
+  <div>1．\(\left(\dfrac49\right)^{-\frac12}=\dfrac32\)；\(\left(\dfrac{8}{27}\right)^{\frac23}=\dfrac49\)</div>
+  <div>2．\(\log_3x=2\) ⟹ \(x=3^2=9\)</div>
+  <div>3．合併：\(\log_5\left(3\times\dfrac13\right)=\log_51=0\)</div>
+  <div>4．正確答案是 (A)。(B)是對數函數乘2再加3，不是純對數函數；(C)底數放了變數x，對數函數要求底數是常數。</div>
+  <div>5．\(\log_a2=b\)</div>
+  <div>6．定義域：x&gt;3（真數要大於0）；值域：R（全體實數，log函數的值域是所有實數）</div>
+  <div>7．設 \(f(x)=a^x\)，代入(3,8)：\(a^3=8\) ⟹ a=2，所以 \(f(x)=2^x\)</div>
+
+  <div class="section-h">練習C 參考答案</div>
+  <div>1．定義域：全體實數（因為 \(x^2+1\) 恆大於0，x取任何值都可以）；值域：\([0,+\infty)\)（因為 \(x^2+1\ge1\)，取log後 ≥0）</div>
+  <div>2．\(\log_2\sqrt2=\dfrac12\)；\(\log_927=\dfrac32\)（因為 \(\log_{3^2}3^3=\frac32\log_33\)）；\(3^{\log_316}=16\)。總和 = 1/2+3/2+16 = 18</div>
+  <div>3．換底展開：\(\dfrac{\ln5}{\ln2}\times\dfrac{\ln2}{\ln3}\times\dfrac{\ln3}{\ln5}\) 中間全部消掉 = 1</div>
+  <div>4．\(f(x)=\log_3x\)（是 \(3^x\) 的反函數）；\(f\left(\dfrac12\right)=\log_3\dfrac12\) = \(-\log_32\)</div>
+  <div>5．合併：\(\log_{10}[x(9-2x)]=1\) ⟹ \(x(9-2x)=10\) ⟹ \(2x^2-9x+10=0\) ⟹ \((2x-5)(x-2)=0\) ⟹ x=5/2 或 x=2。</div>
+  <div>兩根都要檢查：x=5/2時，9-2x=4&gt;0成立；x=2時，9-2x=5&gt;0成立。兩者都在定義域(0&lt;x&lt;4.5)內，所以兩個都是解——因為log的「真數」規定要大於0，如果只解方程不檢查，可能會把不合法的根當成答案。</div>
+
+  <div class="footer">高一數學．指對數運算　第 2 頁</div>
+
+</div>
+</body>
+</html>

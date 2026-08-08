@@ -1,0 +1,232 @@
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_4.2 指數函數_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0',
+           mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+
+
+  /* 工具卡成品頁：格線＝虛線裁切線，剪下護貝放桌面 */
+  .toolcards { width: 100%; border-collapse: collapse; margin-top: 10px; }
+  .toolcards td { border: 1px dashed #666; padding: 12px 14px; width: 50%;
+                  vertical-align: top; break-inside: avoid; }
+  .toolcards .ct { font-size: 14pt; font-weight: 700; margin-bottom: 3px; }
+  .toolcards .cg { font-size: 10.5pt; color: #444; margin-bottom: 6px; }
+  .toolcards .cl { font-size: 11.5pt; margin: 3px 0; }
+  .toolcards .cs { font-size: 12pt; font-weight: 700; margin-top: 8px; }
+  /* 兩張卡並排，觸發語行數唔同會令兩幅圖高度唔一致——鎖死觸發語區塊高度 */
+  .toolcards .cghead { min-height: 3.6em; }
+  .def-box { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0;
+             break-inside: avoid; }
+  .def-box .dt { font-weight: 700; }
+  .def-box .df { text-align: center; margin: 8px 0; }
+  .cap-line { font-size: 10.5pt; color: #555; margin-top: 2px; }
+  /* 側欄鎖死闊度：唔鎖死嘅話，兩題嘅左主欄闊度唔同，
+     作答橫線長度就會一題長一題短（實測 490pt vs 760pt） */
+  .aside-side { flex: 0 0 40%; width: 40%; }
+  /* 題幹／小題懸掛縮排：換行後唔會頂到左邊界，對齊返小題編號 */
+  .q { padding-left: 1.7em; text-indent: -1.7em; margin: 2px 0; }
+
+  /* ⚠⚠ 用 `>` 子選擇器鎖住 design_svg 嗰啲插圖 —— 千祈唔好寫 `.aside-side svg`
+     或者 `.toolcards svg` 咁樣嘅後代選擇器：MathJax 嘅 SVG 輸出本身就係
+     <mjx-container><svg>…</svg></mjx-container>，後代選擇器會連每一條公式一齊命中。
+     實測後果：`.toolcards svg{display:block;margin:auto}` 令工具卡每條公式變成
+     獨立置中一行，成句觸發語畀切成 6 截；`.aside-side svg{width:100%}` 令提示框入面
+     嗰條 2⁻¹=1/2¹ 放大到 26pt（本文 4 倍），成個灰底框爆晒版。
+     插圖係 .aside-side／td 嘅直屬子元素，公式唔係——所以 `>` 分得開。 */
+  .aside-side > svg { width: 100%; height: auto; }
+  .toolcards td > svg { max-width: 100%; height: auto; display: block;
+                        margin: 6px auto; }
+  /* 再加一層保險：任何情況下都唔准改動 MathJax 自己嗰個 svg 嘅尺寸同流向 */
+  mjx-container > svg { width: auto; height: auto; max-width: none;
+                        display: inline; margin: 0; }
+
+  /* 工具卡得一頁，tfoot 會緊貼內容尾——撐高內容格等頁尾落到頁底 */
+  .onepage > tbody > tr > td { height: 26.5cm; }
+
+</style>
+</head>
+<body>
+<table class="sheet ">
+  <tfoot><tr><td><div class="footer">高一數學．4.2 指數函數</div></td></tr></tfoot>
+  <tbody><tr><td>
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：4.2 指數函數</span><span>類型：課堂練習</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<p>　做之前先翻開《課堂講義——4.2 指數函數》第三節，照「圖上看到什麼、算式就寫什麼」那張表的方法做。</p>
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+<div class="aside-wrap boxed"><div class="aside-main"><div class="q">1．右圖是 \(y = 3^{x}\) 的圖。</div><div class="q">（a）這條線與 y 軸交在哪一點？</div><div class="q">（b）由左至右，這條線是升還是跌？</div><div class="q">（c）填空：x 越大，y 越＿＿＿＿。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="232" viewBox="0 0 300 232" role="img"><rect width="300" height="232" fill="#ffffff"/><line x1="77.4" y1="14" x2="77.4" y2="204" stroke="#888888" stroke-width="0.7"/><line x1="164.3" y1="14" x2="164.3" y2="204" stroke="#1a1a1a" stroke-width="1.3"/><line x1="251.2" y1="14" x2="251.2" y2="204" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="176.9" x2="286" y2="176.9" stroke="#1a1a1a" stroke-width="1.3"/><line x1="34" y1="131.6" x2="286" y2="131.6" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="86.4" x2="286" y2="86.4" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="41.1" x2="286" y2="41.1" stroke="#888888" stroke-width="0.7"/><defs><marker id="pgar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="34" y1="176.9" x2="286" y2="176.9" stroke="#1a1a1a" stroke-width="1.8" marker-end="url(#pgar)"/><line x1="164.3" y1="204" x2="164.3" y2="14" stroke="#1a1a1a" stroke-width="1.8" marker-end="url(#pgar)"/><text x="280.0" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="174.3" y="26.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">y</text><text x="158.3" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">O</text><text x="77.4" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">−1</text><text x="251.2" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">1</text><text x="158.3" y="134.6" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">1</text><text x="158.3" y="89.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">2</text><text x="158.3" y="44.1" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">3</text><polyline points="34.0,168.2 35.0,168.0 36.1,167.9 37.1,167.8 38.2,167.7 39.2,167.6 40.3,167.4 41.3,167.3 42.4,167.2 43.4,167.0 44.5,166.9 45.5,166.8 46.6,166.6 47.6,166.5 48.7,166.4 49.7,166.2 50.8,166.1 51.8,165.9 52.9,165.8 53.9,165.7 55.0,165.5 56.0,165.4 57.1,165.2 58.1,165.0 59.2,164.9 60.2,164.7 61.3,164.6 62.3,164.4 63.4,164.2 64.4,164.1 65.5,163.9 66.5,163.7 67.6,163.5 68.7,163.4 69.7,163.2 70.8,163.0 71.8,162.8 72.8,162.6 73.9,162.4 74.9,162.2 76.0,162.1 77.0,161.9 78.1,161.7 79.2,161.4 80.2,161.2 81.2,161.0 82.3,160.8 83.3,160.6 84.4,160.4 85.4,160.2 86.5,159.9 87.6,159.7 88.6,159.5 89.7,159.3 90.7,159.0 91.8,158.8 92.8,158.5 93.8,158.3 94.9,158.1 95.9,157.8 97.0,157.5 98.0,157.3 99.1,157.0 100.2,156.8 101.2,156.5 102.2,156.2 103.3,155.9 104.3,155.7 105.4,155.4 106.5,155.1 107.5,154.8 108.5,154.5 109.6,154.2 110.7,153.9 111.7,153.6 112.8,153.3 113.8,153.0 114.8,152.7 115.9,152.3 117.0,152.0 118.0,151.7 119.1,151.3 120.1,151.0 121.1,150.7 122.2,150.3 123.2,150.0 124.3,149.6 125.4,149.2 126.4,148.9 127.4,148.5 128.5,148.1 129.5,147.7 130.6,147.3 131.7,146.9 132.7,146.5 133.8,146.1 134.8,145.7 135.9,145.3 136.9,144.9 137.9,144.5 139.0,144.0 140.0,143.6 141.1,143.1 142.2,142.7 143.2,142.2 144.2,141.8 145.3,141.3 146.4,140.8 147.4,140.3 148.4,139.9 149.5,139.4 150.6,138.9 151.6,138.4 152.7,137.8 153.7,137.3 154.8,136.8 155.8,136.3 156.9,135.7 157.9,135.2 158.9,134.6 160.0,134.0 161.1,133.5 162.1,132.9 163.1,132.3 164.2,131.7 165.2,131.1 166.3,130.5 167.3,129.9 168.4,129.2 169.4,128.6 170.5,128.0 171.5,127.3 172.6,126.6 173.6,126.0 174.7,125.3 175.8,124.6 176.8,123.9 177.9,123.2 178.9,122.5 179.9,121.8 181.0,121.0 182.1,120.3 183.1,119.5 184.2,118.7 185.2,118.0 186.3,117.2 187.3,116.4 188.4,115.6 189.4,114.8 190.5,113.9 191.5,113.1 192.5,112.2 193.6,111.4 194.6,110.5 195.7,109.6 196.8,108.7 197.8,107.8 198.8,106.9 199.9,105.9 200.9,105.0 202.0,104.0 203.0,103.1 204.1,102.1 205.2,101.1 206.2,100.1 207.2,99.0 208.3,98.0 209.4,96.9 210.4,95.9 211.4,94.8 212.5,93.7 213.5,92.6 214.6,91.5 215.7,90.3 216.7,89.2 217.8,88.0 218.8,86.8 219.9,85.6 220.9,84.4 222.0,83.1 223.0,81.9 224.0,80.6 225.1,79.3 226.1,78.0 227.2,76.7 228.2,75.4 229.3,74.0 230.3,72.6 231.4,71.3 232.4,69.8 233.5,68.4 234.5,67.0 235.6,65.5 236.6,64.0 237.7,62.5 238.8,61.0 239.8,59.4 240.8,57.9 241.9,56.3 243.0,54.6 244.0,53.0 245.1,51.4 246.1,49.7 247.2,48.0 248.2,46.3 249.2,44.5 250.3,42.7 251.3,41.0 252.4,39.1 253.5,37.3 254.5,35.4 255.5,33.5 256.6,31.6 257.6,29.7 258.7,27.7 259.8,25.7 260.8,23.7 261.9,21.7 262.9,19.6 264.0,17.5 265.0,15.4 266.1,13.2 267.1,11.0 268.1,8.8 269.2,6.6 270.2,4.3 271.3,2.0 272.4,-0.4 273.4,-2.7 274.5,-5.1 275.5,-7.6" fill="none" stroke="#1a1a1a" stroke-width="2.6"/><text x="38.3" y="59.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">y = 3ˣ</text></svg><div class="hintcard"><div class="ht">讀圖三步</div><div>① 先看這條線在 y 軸上的高度</div><div>② 底數 3 ＞ 1，對照講義第三節哪一列</div><div>③ 用手指由左行到右，看是上還是下</div></div></div></div>
+<div class="aside-wrap boxed"><div class="aside-main"><div class="q">2．右圖是 \(y = \left(\frac{1}{3}\right)^{x}\) 的圖。</div><div class="q">（a）f(0) ＝ ＿＿＿＿</div><div class="q">（b）這條線會不會碰到 x 軸？</div><div class="q">（c）這個函數的值域是＿＿＿＿（填 \(y \gt 0\) 或「y 是所有實數」）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="232" viewBox="0 0 300 232" role="img"><rect width="300" height="232" fill="#ffffff"/><line x1="52.7" y1="14" x2="52.7" y2="204" stroke="#888888" stroke-width="0.7"/><line x1="146.0" y1="14" x2="146.0" y2="204" stroke="#1a1a1a" stroke-width="1.3"/><line x1="239.3" y1="14" x2="239.3" y2="204" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="176.9" x2="286" y2="176.9" stroke="#1a1a1a" stroke-width="1.3"/><line x1="34" y1="131.6" x2="286" y2="131.6" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="86.4" x2="286" y2="86.4" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="41.1" x2="286" y2="41.1" stroke="#888888" stroke-width="0.7"/><defs><marker id="pgar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="34" y1="176.9" x2="286" y2="176.9" stroke="#1a1a1a" stroke-width="1.8" marker-end="url(#pgar)"/><line x1="146.0" y1="204" x2="146.0" y2="14" stroke="#1a1a1a" stroke-width="1.8" marker-end="url(#pgar)"/><text x="280.0" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="156.0" y="26.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">y</text><text x="140.0" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">O</text><text x="52.7" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">−1</text><text x="239.3" y="192.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">1</text><text x="140.0" y="134.6" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">1</text><text x="140.0" y="89.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">2</text><text x="140.0" y="44.1" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">3</text><polyline points="34.0,7.8 35.0,9.9 36.1,11.9 37.1,13.9 38.2,15.9 39.2,17.9 40.3,19.9 41.4,21.8 42.4,23.7 43.5,25.6 44.5,27.4 45.5,29.3 46.6,31.1 47.6,32.9 48.7,34.7 49.7,36.4 50.8,38.1 51.8,39.8 52.9,41.5 54.0,43.2 55.0,44.8 56.1,46.4 57.1,48.0 58.2,49.6 59.2,51.2 60.2,52.7 61.3,54.3 62.3,55.8 63.4,57.3 64.5,58.7 65.5,60.2 66.5,61.6 67.6,63.0 68.7,64.4 69.7,65.8 70.8,67.2 71.8,68.5 72.8,69.8 73.9,71.2 74.9,72.5 76.0,73.7 77.0,75.0 78.1,76.3 79.2,77.5 80.2,78.7 81.2,79.9 82.3,81.1 83.3,82.3 84.4,83.4 85.4,84.6 86.5,85.7 87.6,86.8 88.6,88.0 89.7,89.0 90.7,90.1 91.8,91.2 92.8,92.2 93.8,93.3 94.9,94.3 96.0,95.3 97.0,96.3 98.0,97.3 99.1,98.3 100.2,99.3 101.2,100.2 102.2,101.1 103.3,102.1 104.4,103.0 105.4,103.9 106.4,104.8 107.5,105.7 108.5,106.6 109.6,107.4 110.7,108.3 111.7,109.1 112.8,109.9 113.8,110.8 114.9,111.6 115.9,112.4 117.0,113.2 118.0,114.0 119.1,114.7 120.1,115.5 121.1,116.2 122.2,117.0 123.2,117.7 124.3,118.5 125.3,119.2 126.4,119.9 127.4,120.6 128.5,121.3 129.6,122.0 130.6,122.6 131.7,123.3 132.7,124.0 133.8,124.6 134.8,125.2 135.9,125.9 136.9,126.5 137.9,127.1 139.0,127.7 140.1,128.3 141.1,128.9 142.2,129.5 143.2,130.1 144.2,130.7 145.3,131.2 146.4,131.8 147.4,132.4 148.4,132.9 149.5,133.4 150.6,134.0 151.6,134.5 152.6,135.0 153.7,135.5 154.8,136.0 155.8,136.5 156.9,137.0 157.9,137.5 158.9,138.0 160.0,138.5 161.1,139.0 162.1,139.4 163.1,139.9 164.2,140.3 165.2,140.8 166.3,141.2 167.3,141.7 168.4,142.1 169.4,142.5 170.5,143.0 171.6,143.4 172.6,143.8 173.7,144.2 174.7,144.6 175.8,145.0 176.8,145.4 177.9,145.8 178.9,146.1 179.9,146.5 181.0,146.9 182.1,147.3 183.1,147.6 184.2,148.0 185.2,148.3 186.2,148.7 187.3,149.0 188.3,149.4 189.4,149.7 190.5,150.0 191.5,150.4 192.5,150.7 193.6,151.0 194.7,151.3 195.7,151.7 196.7,152.0 197.8,152.3 198.8,152.6 199.9,152.9 200.9,153.2 202.0,153.5 203.1,153.7 204.1,154.0 205.1,154.3 206.2,154.6 207.2,154.9 208.3,155.1 209.3,155.4 210.4,155.7 211.4,155.9 212.5,156.2 213.6,156.4 214.6,156.7 215.7,156.9 216.7,157.2 217.8,157.4 218.8,157.7 219.9,157.9 220.9,158.1 221.9,158.4 223.0,158.6 224.1,158.8 225.1,159.0 226.2,159.2 227.2,159.5 228.2,159.7 229.3,159.9 230.3,160.1 231.4,160.3 232.4,160.5 233.5,160.7 234.6,160.9 235.6,161.1 236.7,161.3 237.7,161.5 238.8,161.7 239.8,161.9 240.9,162.0 241.9,162.2 243.0,162.4 244.0,162.6 245.0,162.8 246.1,162.9 247.1,163.1 248.2,163.3 249.2,163.4 250.3,163.6 251.4,163.8 252.4,163.9 253.5,164.1 254.5,164.2 255.5,164.4 256.6,164.6 257.6,164.7 258.7,164.9 259.8,165.0 260.8,165.1 261.9,165.3 262.9,165.4 263.9,165.6 265.0,165.7 266.0,165.8 267.1,166.0 268.1,166.1 269.2,166.2 270.2,166.4 271.3,166.5 272.4,166.6 273.4,166.8 274.5,166.9 275.5,167.0 276.6,167.1 277.6,167.2 278.6,167.4 279.7,167.5 280.8,167.6 281.8,167.7 282.9,167.8 283.9,167.9 285.0,168.0 286.0,168.2" fill="none" stroke="#1a1a1a" stroke-width="2.6"/><text x="178.7" y="59.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" font-weight="700">y = (1/3)ˣ</text></svg><div class="hintcard"><div class="ht">讀圖三步</div><div>① f(0) 就是 x ＝ 0 時的 y</div><div>② 看線的左右兩端與 x 軸的距離</div><div>③ 值域＝這條線的 y 可以取到哪些數</div></div></div></div>
+<div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+<div class="aside-wrap boxed"><div class="aside-main"><div class="q">3．已知 \(y = 2^{x}\)。</div><div class="q">（a）計算下面四個 y 值：</div><div>　　x ＝ −1 時，y ＝ ＿＿＿＿＿＿</div><div>　　x ＝ 0 時，　y ＝ ＿＿＿＿＿＿</div><div>　　x ＝ 1 時，　y ＝ ＿＿＿＿＿＿</div><div>　　x ＝ 2 時，　y ＝ ＿＿＿＿＿＿</div><div class="q">（b）把這四點畫在右邊的坐標格上，再連成一條平滑曲線。</div><div class="q">（c）這條線經過哪一個定點？</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="aside-side"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="285" viewBox="0 0 300 285" role="img"><rect width="300" height="285" fill="#ffffff"/><line x1="34.0" y1="14" x2="34.0" y2="257" stroke="#888888" stroke-width="0.7"/><line x1="88.8" y1="14" x2="88.8" y2="257" stroke="#888888" stroke-width="0.7"/><line x1="143.6" y1="14" x2="143.6" y2="257" stroke="#1a1a1a" stroke-width="1.3"/><line x1="198.3" y1="14" x2="198.3" y2="257" stroke="#888888" stroke-width="0.7"/><line x1="253.1" y1="14" x2="253.1" y2="257" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="257.0" x2="286" y2="257.0" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="232.7" x2="286" y2="232.7" stroke="#1a1a1a" stroke-width="1.3"/><line x1="34" y1="208.4" x2="286" y2="208.4" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="184.1" x2="286" y2="184.1" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="159.8" x2="286" y2="159.8" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="135.5" x2="286" y2="135.5" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="111.2" x2="286" y2="111.2" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="86.9" x2="286" y2="86.9" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="62.6" x2="286" y2="62.6" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="38.3" x2="286" y2="38.3" stroke="#888888" stroke-width="0.7"/><line x1="34" y1="14.0" x2="286" y2="14.0" stroke="#888888" stroke-width="0.7"/><defs><marker id="pgar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="34" y1="232.7" x2="286" y2="232.7" stroke="#1a1a1a" stroke-width="1.8" marker-end="url(#pgar)"/><line x1="143.6" y1="257" x2="143.6" y2="14" stroke="#1a1a1a" stroke-width="1.8" marker-end="url(#pgar)"/><text x="280.0" y="248.7" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="153.6" y="26.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="13" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle">y</text><text x="137.6" y="248.7" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">O</text><text x="88.8" y="248.7" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">−1</text><text x="198.3" y="248.7" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">1</text><text x="253.1" y="248.7" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">2</text><text x="137.6" y="211.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">0.5</text><text x="137.6" y="187.1" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">1</text><text x="137.6" y="162.8" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">1.5</text><text x="137.6" y="138.5" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">2</text><text x="137.6" y="114.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">2.5</text><text x="137.6" y="89.9" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">3</text><text x="137.6" y="65.6" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">3.5</text><text x="137.6" y="41.3" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="10.5" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">4</text></svg><div class="hintcard"><div class="ht">作圖三步</div><div>① 負指數：\(2^{-1} = \frac{1}{2^{1}}\)</div><div>② 先描點，再由左至右連線</div><div>③ 定點看 x ＝ 0 那一點</div></div></div></div>
+<div class="problem"><div class="q">4．在下面每題的橫線上填 ＞ 或 ＜，並寫出你用了哪一型（\(a \gt 1\) 還是 \(0 \lt a \lt 1\)）。</div><div class="q">　（a）\(3^{1.2}\)　＿＿＿＿　\(3^{0.7}\)</div><div class="q">　（b）\(\left(\frac{1}{2}\right)^{1.5}\)　＿＿＿＿　\(\left(\frac{1}{2}\right)^{0.9}\)</div><div class="q">　（c）任揀一題，畫一條草圖說明你的判斷。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+<div class="problem"><div class="q">5．已知指數函數 \(y = a^{x}\) 的圖經過點 (3, 8)。</div><div class="q">　（a）求 a。</div><div class="q">　（b）判斷這條線是升還是跌，並寫出理由。</div><div class="q">　（c）不用計算機，比較 \(a^{0.4}\) 與 \(a^{0.6}\) 誰大，並寫出理由。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="problem"><div class="q">6．小明說：「\(y = a^{x}\) 的圖一定是由左下升到右上。」</div><div>　你同意嗎？請自己畫一張草圖，並寫出理由；</div><div>　若不同意，請舉出一個反例。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="page-break"><div class="section-h">參考答案（教師用）</div><div>1（a）　(0, 1)。因為 \(3^{0} = 1\)。</div><div>1（b）　升（遞增）。底數 \(3 \gt 1\)。</div><div>1（c）　越大。</div><div>2（a）　\(f(0) = \left(\frac{1}{3}\right)^{0} = 1\)</div><div>2（b）　不會。線越向右走越貼近 x 軸，但 y 永遠大於 0。</div><div>2（c）　\(y \gt 0\)</div><div>3（a）　x ＝ −1 時 \(y = \frac{1}{2}\)；x ＝ 0 時 y ＝ 1；x ＝ 1 時 y ＝ 2；x ＝ 2 時 y ＝ 4。</div><div>3（b）　四點為 \(\left(-1, \frac{1}{2}\right)\)、(0, 1)、(1, 2)、(2, 4)，連成由左下升到右上的平滑曲線。</div><div>3（c）　(0, 1)。</div><div>4（a）　＞。底數 \(3 \gt 1\) 屬 \(a \gt 1\) 型（遞增）；\(1.2 \gt 0.7\)，所以 \(3^{1.2} \gt 3^{0.7}\)。</div><div>4（b）　＜。底數 \(\frac{1}{2}\) 屬 \(0 \lt a \lt 1\) 型（遞減）；\(1.5 \gt 0.9\)，指數大反而值細，所以 \(\left(\frac{1}{2}\right)^{1.5} \lt \left(\frac{1}{2}\right)^{0.9}\)。</div><div>4（c）　草圖只需一條 x 軸、一條曲線與 (0, 1)：(a) 畫升型，(b) 畫跌型；在線上標出兩個指數對應的高度即可。</div><div>5（a）　\(a^{3} = 8\)，所以 \(a = 2\)。</div><div>5（b）　升（遞增）。因為 \(2 \gt 1\)，屬 \(a \gt 1\) 型。</div><div>5（c）　\(2^{0.4} \lt 2^{0.6}\)。遞增：指數大的，值也大，而 \(0.4 \lt 0.6\)。</div><div>6　不同意。當 \(0 \lt a \lt 1\) 時圖是由左上跌到右下。反例：\(y = \left(\frac{1}{2}\right)^{x}\)，x 越大 y 越細。草圖：過 (0, 1)、在 x 軸上方、由左上跌向右下。</div></div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>

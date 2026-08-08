@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>4.1指數運算 練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .page-break { break-before: page; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：4.1 指數運算（n次方根與分數指數冪）</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>提示：先回頭看《講義》的範例四步驟，再開始練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="hint-card">鷹架：先判斷 n 是奇數還是偶數，再套用規則填空。</div>
+
+  <div class="problem">1．\(x^2=9\)　　n=2 是＿＿數，x=＿＿
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．\(x^3=8\)　　n=3 是＿＿數，x=＿＿
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．\(x^3=-8\)　　n=3 是＿＿數，x=＿＿
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．\(x^5=-1\)　　n=5 是＿＿數，x=＿＿
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">5．\(x^5=0\)　　x=＿＿
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="hint-card">提示：\((\sqrt[n]{a})^n=a\)；偶數次要注意絕對值；\(a^{\frac{m}{n}}=\sqrt[n]{a^m}\)</div>
+
+  <div class="problem">1．計算下列各式：
+    <div>\((\sqrt5)^2=\)</div>
+    <div>\((\sqrt[3]{-5})^3=\)</div>
+    <div>\(\sqrt{(a-b)^2}=\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．把根式寫成分數指數冪：
+    <div>\(\sqrt[3]{a^2}=\)</div>
+    <div>\(\sqrt{a}=\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．計算 \(\left(\dfrac49\right)^{\frac12}=\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">4．設 a&gt;0，把 \(\sqrt[4]{a}\times\sqrt[12]{a}\) 化為分數指數冪。
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">5．(a&gt;0) 用分數指數冪表示：
+    <div>\(\sqrt{a^3}=\)</div>
+    <div>\(\dfrac{1}{\sqrt[3]{a^5}}=\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">6．已知 a=4，求 \(a^{\frac16}\cdot a^{\frac23}\div a^{\frac13}\) 的值。
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="hint-card">提示：先各別化簡每一項，出現「同一個值減同一個值」時，答案往往會變得很簡單。</div>
+
+  <div class="problem">1．下面四個等式，哪一個是對的？其餘三個各錯在哪裡？請逐一說明。
+    <div>(A) \(3a^{-2}=\dfrac{1}{3a^2}\)</div>
+    <div>(B) \(a^{\frac23}\div a^{\frac13}=a^{\frac13}\)</div>
+    <div>(C) \(\sqrt[6]{(-8)^6}=-8\)</div>
+    <div>(D) \(\sqrt[3]{2^4}=2^{\frac34}\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">2．化簡：\(4a^{\frac23}b^{-\frac13}\div\left(-\dfrac23 a^{-\frac13}b^{-\frac13}\right)\)
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">3．開放題：請自己選一個 a&gt;0 的值，寫出一組「根式」與「分數指數冪」的等價互換式（例如 \(\sqrt[3]{a^2}=a^{\frac23}\)），並代入你選的 a 驗算兩邊是否相等。
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高一數學．4.1指數運算　第 1 頁</div>
+
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高一數學</span><span>單元：4.1 指數運算</span><span>類型：教師用參考答案</span></div>
+
+  <div class="section-h">練習A 參考答案</div>
+  <div>1．n=2 是偶數，x=±3　　2．n=3 是奇數，x=2　　3．n=3 是奇數，x=-2　　4．n=5 是奇數，x=-1　　5．x=0</div>
+
+  <div class="section-h">練習B 參考答案</div>
+  <div>1．\((\sqrt5)^2=5\)；\((\sqrt[3]{-5})^3=-5\)；\(\sqrt{(a-b)^2}=|a-b|\)</div>
+  <div>2．\(\sqrt[3]{a^2}=a^{\frac23}\)；\(\sqrt{a}=a^{\frac12}\)</div>
+  <div>3．\(\left(\dfrac49\right)^{\frac12}=\dfrac23\)</div>
+  <div>4．指數 \(\frac14+\frac1{12}=\frac13\)，所以 \(\sqrt[4]{a}\times\sqrt[12]{a}=a^{\frac13}\)</div>
+  <div>5．\(\sqrt{a^3}=a^{\frac32}\)；\(\dfrac{1}{\sqrt[3]{a^5}}=a^{-\frac53}\)</div>
+  <div>6．指數＝\(\frac16+\frac23-\frac13=\frac12\)，\(4^{\frac12}=2\)</div>
+
+  <div class="section-h">練習C 參考答案</div>
+  <div>1．正確答案是 (B)。</div>
+  <div>(A)錯：\(3a^{-2}=3\div a^2=\dfrac{3}{a^2}\)，3不會跟著進分母，不是 \(\dfrac{1}{3a^2}\)。</div>
+  <div>(C)錯：偶次方根要取絕對值，\(\sqrt[6]{(-8)^6}=|-8|=8\)，不是-8。</div>
+  <div>(D)錯：\(\sqrt[3]{2^4}=2^{\frac43}\)，不是 \(2^{\frac34}\)（根指數3在下面當分母，被開方數的指數4在上面當分子）。</div>
+  <div>2．4÷(-2/3)=-6；a的指數 \(\frac23-(-\frac13)=1\)；b的指數 \(-\frac13-(-\frac13)=0\)。答案＝\(-6a\)</div>
+  <div>3．（開放題，只要學生代入驗算成立即可，例如取a=8：\(\sqrt[3]{8^2}=\sqrt[3]{64}=4\)，\(8^{\frac23}=(2^3)^{\frac23}=2^2=4\)，兩邊相等）</div>
+
+  <div class="footer">高一數學．4.1指數運算　第 2 頁</div>
+
+</div>
+</body>
+</html>
