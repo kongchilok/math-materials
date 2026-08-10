@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>隱函數求導 —— 課堂練習（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; } .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; } .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .answer-key p { margin: 4px 0; font-size: 11.5pt; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：隱函數求導</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="hint-card">請先讀《隱函數求導——課堂講義》的「範例」，練習B會用到同一套四步驟框架。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）—— y 項求導（選擇題，3 選項，先練呢個基本功再做完整隱函數求導）</div>
+  <div class="problem">
+    <div>1．\(y^3\) 對 x 求導＝（　　）</div>
+    <div class="choices"><span>A．\(3y^2\)</span><span>B．\(3y^2 \cdot y'\)</span><span>C．\(y^2\)</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．\(5y\) 對 x 求導＝（　　）</div>
+    <div class="choices"><span>A．\(5\)</span><span>B．\(5y'\)</span><span>C．\(5y\)</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）—— 求隱函數的 y'（依「講義」範例的四步驟框架作答）</div>
+  <div class="problem"><div>3．求 \( x^2+y^2=9 \) 的 \(y'\)。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="page-break"></div>
+  <div class="problem"><div>4．求 \( x^2-4y^2=16 \) 的 \(y'\)。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）—— 混合項／應用</div>
+  <div class="problem"><div>5．求 \( xy+y^2=4 \) 的 \(y'\)。（提示：\(xy\) 要用乘法法則——兩個都係變量）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="page-break"></div>
+  <div class="problem"><div>6．求圓 \( x^2+y^2=25 \) 在點 \((3,4)\) 嘅切線方程。（先用隱函數求導求斜率，再用點斜式）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="page-break">
+    <div class="section-h">教師用：參考答案</div>
+    <div class="answer-key">
+      <p>1．B（\(y^3\) 求導要多乘 \(y'\)）</p>
+      <p>2．B（\(5y\) 求導要多乘 \(y'\)）</p>
+      <p>3．\(2x+2y \cdot y'=0 \to y'=-\dfrac{2x}{2y}=-\dfrac{x}{y}\)</p>
+      <p>4．\(2x-8y \cdot y'=0 \to y'=\dfrac{2x}{8y}=\dfrac{x}{4y}\)</p>
+      <p>5．\(xy\) 用乘法法則求導得 \(y+x \cdot y'\)；\(y^2\) 求導得 \(2y \cdot y'\)。合埋：\(y+x \cdot y'+2y \cdot y'=0 \to y'(x+2y)=-y \to y'=-\dfrac{y}{x+2y}\)</p>
+      <p>6．由 \(x^2+y^2=25\)：\(2x+2y \cdot y'=0 \to y'=-\dfrac{x}{y}\)；喺 \((3,4)\)：\(y'=-\dfrac{3}{4}\)。</p>
+      <p>　點斜式：\(y-4=-\dfrac{3}{4}(x-3)\)，化簡得 \(3x+4y=25\)。（驗算：\(3\times3+4\times4=9+16=25\) 確在圓上）</p>
+    </div>
+    <div class="footer">高三數學．導數補充單元</div>
+  </div>
+</div>
+</body>
+</html>

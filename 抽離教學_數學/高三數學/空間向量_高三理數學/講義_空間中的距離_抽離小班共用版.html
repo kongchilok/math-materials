@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>空間中的距離 —— 課堂講義（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 6px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .diagram-wrap { text-align: center; margin: 8px 0; }
+  .diagram-cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .eq { text-align: right; }
+  .worked-tbl .rhs { text-align: left; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .ans { font-weight: 700; }
+  .dual-track { width: 100%; border-collapse: collapse; font-size: 11pt; margin: 8px 0; break-inside: avoid; }
+  .dual-track th { background: #e8e8e8; padding: 4px 6px; border: 1px solid #999; }
+  .dual-track td { padding: 6px 8px; border: 1px solid #999; vertical-align: top; width: 50%; }
+  .dual-track img { max-width: 100%; height: auto; }
+  .teacher-notes { break-before: page; font-size: 10.5pt; }
+  .teacher-notes table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .teacher-notes th, .teacher-notes td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .teacher-notes th { background: #e8e8e8; width: 26%; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：空間中的距離</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、複習：兩點間的距離</div>
+  <p>已知 \(A(x_1,y_1,z_1)\)、\(B(x_2,y_2,z_2)\)：\(|AB|=\sqrt{(x_2-x_1)^2+(y_2-y_1)^2+(z_2-z_1)^2}\)（第4課學過）</p>
+
+  <div class="section-h">二、點到平面的距離</div>
+  <p>已知平面 α 的法向量是 \(\vec{n}\)，A 是平面內任意一點，P 是平面外一點：</p>
+  <div class="hint-card">\(d=\dfrac{|\vec{AP}\cdot\vec{n}|}{|\vec{n}|}\)</div>
+  <p>呢條公式嘅諗法：\(\vec{AP}\) 呢個向量入面，真正「垂直於平面」嘅分量先係我哋要嘅距離；用 \(\vec{AP}\) 同單位法向量做數量積，就係將 \(\vec{AP}\) 投影到法向量方向，攞到嘅正正就係垂直距離。</p>
+
+  <div class="section-h">三、點到直線的距離（了解）</div>
+  <p>已知直線 l 過點 A，方向向量係 \(\vec{v}\)，P 是直線外一點。将 \(\vec{AP}\) 分做「沿住 \(\vec{v}\) 方向」同「垂直於 \(\vec{v}\)」兩個分量，垂直嗰個分量嘅長度就係距離：</p>
+  <div class="hint-card">\(d=\sqrt{|\vec{AP}|^2-\dfrac{(\vec{AP}\cdot\vec{v})^2}{|\vec{v}|^2}}\)</div>
+  <p>（呢條式其實係畢氏定理：\(|\vec{AP}|\) 係斜邊，投影長 \(\dfrac{\vec{AP}\cdot\vec{v}}{|\vec{v}|}\) 係一條直角邊，距離 d 係另一條直角邊）</p>
+
+  <div class="section-h">四、線面平行、面面平行時的距離</div>
+  <div class="hint-card">若直線 l 平行於平面 α，求 l 到 α 嘅距離，可以喺 l 上面隨便揀一點，改做求呢一點到 α 嘅距離（一條線平行於一個平面，線上面每一點到平面嘅距離都相等）。</div>
+
+  <div class="section-h">五、範例：求點到平面的距離</div>
+  <p>正方體 \(ABCD\text{-}A_1B_1C_1D_1\) 棱長為2，以 D 為原點建系（同之前幾課一樣）。求 \(B_1\) 到平面 \(ACD_1\) 的距離。</p>
+  <div class="worked-example">跟著這四個固定步驟，之後每一題都用同一套框架。這套框架接下來會用在《練習》的每一題上。</div>
+  <table class="dual-track">
+    <tr><th>圖形上發生什麼</th><th>算式上寫什麼</th></tr>
+    <tr><td><img src="_assets/u4_fig1.png" width="200" alt="正方體 ABCD-A1B1C1D1 疊加空間直角坐標系，D為原點"></td>
+        <td>已知：正方體棱長2，平面ACD₁的法向量n=(1,1,1)（上一課求過）。要求：B₁到平面ACD₁的距離d。</td></tr>
+  </table>
+  <table class="worked-tbl">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td colspan="2" class="span">① 平面 \(ACD_1\) 上兩課求過法向量 \(\vec{n}=(1,1,1)\)，喺平面內揀一個已知點：\(A(2,0,0)\)</td><td class="why"></td></tr>
+    <tr><td class="eq">\(\vec{AB_1}\)</td><td class="rhs">＝\(B_1(2,2,2)\)，\(\vec{AB_1}=(0,2,2)\)</td><td class="why">② 寫出 B₁ 坐標，求 AB₁</td></tr>
+    <tr><td colspan="2" class="span ans">∴ \(d=\dfrac{|\vec{AB_1}\cdot\vec{n}|}{|\vec{n}|}=\dfrac{|0+2+2|}{\sqrt3}=\dfrac{4}{\sqrt3}=\dfrac{4\sqrt3}{3}\)</td><td class="why">③ 代入公式</td></tr>
+    <tr><td colspan="2" class="span">④ 所以距離是 \(\dfrac{4\sqrt3}{3}\)（約2.31）。可以換平面內另一點 \(C(0,2,0)\) 驗算：\(\vec{CB_1}=(2,0,2)\)，\(\vec{CB_1}\cdot\vec{n}=2+0+2=4\)，結果一樣，證明公式同揀邊個平面內嘅點無關。</td><td class="why"></td></tr>
+  </table>
+
+  <div class="worked-example">接下來請拿《空間中的距離——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高三數學．空間向量單元</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table>
+      <tr><th>本份採用的主設計</th><td>D5 圖文雙軌</td></tr>
+      <tr><th>輔助設計</th><td>D7 判定定理卡、D2 手順卡</td></tr>
+      <tr><th>選用理由</th><td>S9 立體幾何與空間：點到平面距離公式要靠圖先睇到「邊個係平面內嘅已知點」「B₁喺平面邊一側」，圖文雙軌把公式同空間位置對應埋一齊；點到平面／點到直線兩條公式易撞埋，沿用上一課嘅D7判定定理卡（觸發語＋公式）幫學生分清楚幾時用邊條，並以D2手順卡落地四步驟。</td></tr>
+      <tr><th>鷹架密度</th><td>抽離小班（Tier 2）</td></tr>
+      <tr><th>褪除路徑</th><td>圖文雙軌完整版 → 只給圖，步驟自己寫 → 不給圖，只憑法向量與坐標自己判斷</td></tr>
+      <tr><th>對應官方輔助措施代碼</th><td>a3 提示題目重點（公式卡＋手順卡）、a6 增加行距（書寫空間已加寬）</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

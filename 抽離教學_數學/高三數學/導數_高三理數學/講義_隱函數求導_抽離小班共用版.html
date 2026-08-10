@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>隱函數求導 —— 課堂講義（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 6px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .eq { text-align: right; }
+  .worked-tbl .rhs { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .ans { font-weight: 700; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+  .teacher-notes { break-before: page; font-size: 10.5pt; }
+  .teacher-notes table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .teacher-notes th, .teacher-notes td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .teacher-notes th { background: #e8e8e8; width: 26%; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：隱函數求導</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、顯函數 vs 隱函數</div>
+  <p>以前見開嘅 \(y=x^2+1\) 呢種，y 已經直接用 x 表示出嚟，叫「顯函數」。</p>
+  <p>但好似 \(x^2+y^2=25\)（一個圓）呢種，y 冇直接解出嚟，x 同 y 混埋一齊——呢種叫「隱函數」。y 其實都係 x 嘅函數，只係冇明寫出嚟。</p>
+
+  <div class="section-h">二、點做隱函數求導</div>
+  <p>做法好簡單：兩邊同時對 x 求導。淨係要記住一件事——遇到 y 嘅項，要當佢係 x 嘅函數，用返鏈式法則，求導時要多乘一個 \(y'\)：</p>
+  <div class="hint-card">公式卡（y 項求導，規律同冪法則一樣，但每次都要多乘一個 \(y'\)）：\(y^2\) 求導 → \(2y \cdot y'\)　　\(y^3\) 求導 → \(3y^2 \cdot y'\)　　\(5y\) 求導 → \(5y'\)</div>
+  <p>求完之後，將所有 \(y'\) 嘅項移埋一邊，解出 \(y'\)。</p>
+
+  <div class="section-h">三、範例：求圓方程的 y'</div>
+  <p>設 \(x^2+y^2=25\)，求 \(y'\)：</p>
+  <div class="worked-example">跟著這四個固定步驟，之後每一題都用同一套框架，不用重新想。這套框架接下來會用在《練習》的每一題上。</div>
+  <table class="worked-tbl">
+    <tr><th colspan="2">算式</th><th>這一步在做什麼</th></tr>
+    <tr><td class="eq">\( 2x+2y \cdot y' \)</td><td class="rhs">＝\( 0 \)</td><td class="why">① 兩邊對 x 求導：x²→2x；y²→2yy'；右邊 25→0</td></tr>
+    <tr><td class="eq">\( 2y \cdot y' \)</td><td class="rhs">＝\( -2x \)</td><td class="why">② 移項，將 y' 的項放一邊</td></tr>
+    <tr><td class="eq">\( y' \)</td><td class="rhs">＝\( -\dfrac{2x}{2y} \)</td><td class="why">③ 兩邊除以 2y</td></tr>
+    <tr><td colspan="2" class="span ans">∴ \( y'=-\dfrac{x}{y} \)</td><td class="why">化簡</td></tr>
+    <tr><td colspan="2" class="span">④ 驗算（選）：在 \((3,4)\) 這點（\(3^2+4^2=25\)，在圓上）：\(y'=-\dfrac{3}{4}\)</td><td class="why">代入檢查</td></tr>
+  </table>
+
+  <div class="worked-example">接下來請拿《隱函數求導——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table>
+      <tr><th>本份採用的主設計</th><td>D2 手順卡</td></tr>
+      <tr><th>輔助設計</th><td>D5 圖文雙軌</td></tr>
+      <tr><th>選用理由</th><td>S2 多步驟程序運算：「見到 y 項要多乘 y'」是本課唯一但最容易漏的步驟，以《工具卡_導數運算與判定手順卡》落地手順卡；D5 圖文雙軌留給單調性、凹凸性兩課。</td></tr>
+      <tr><th>鷹架密度</th><td>抽離小班（Tier 2）</td></tr>
+      <tr><th>褪除路徑</th><td>工具卡完整版 → 只留步驟數量提示 → 移除</td></tr>
+      <tr><th>對應官方輔助措施代碼</th><td>a3 提示題目重點（公式卡＋手順卡）、a6 增加行距（書寫空間已加寬）</td></tr>
+    </table>
+  </div>
+
+  <div class="footer">高三數學．導數補充單元</div>
+</div>
+</body>
+</html>

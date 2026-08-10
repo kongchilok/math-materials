@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>二階導數與函數的凹凸性、拐點 —— 課堂練習（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; } .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; } .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .answer-key p { margin: 4px 0; font-size: 11.5pt; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：二階導數與函數的凹凸性、拐點</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="hint-card">請先讀《二階導數與函數的凹凸性、拐點——課堂講義》的「範例」，練習B會用到同一套四步驟框架。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）—— 求二階導數（選擇題，3 選項）</div>
+  <div class="problem">
+    <div>1．函數 \( f(x)=x^3 \)，\(f''(x)\)＝（　　）</div>
+    <div class="choices"><span>A．\(3x^2\)</span><span>B．\(6x\)</span><span>C．\(6\)</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．函數 \( f(x)=2x^2-5x+1 \)，\(f''(x)\)＝（　　）</div>
+    <div class="choices"><span>A．\(4x-5\)</span><span>B．\(4\)</span><span>C．\(2\)</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）—— 求凹凸區間與拐點（依「講義」範例的四步驟框架作答）</div>
+  <div class="problem"><div>3．求 \( f(x)=x^3-6x^2 \) 的凹凸區間與拐點。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="page-break"></div>
+  <div class="problem"><div>4．求 \( f(x)=-x^3+3x \) 的凹凸區間與拐點。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）—— 較多轉折／概念判斷</div>
+  <div class="problem"><div>5．求 \( f(x)=x^4-4x^3 \) 的凹凸區間與拐點。（提示：\(f''(x)=0\) 可能唔止一個根，記得逐段檢查正負）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="page-break"></div>
+  <div class="problem">
+    <div>6．判斷對錯，並舉例說明：「只要 \(f''(x_0)=0\)，\((x_0,f(x_0))\) 就一定是拐點。」</div>
+    <div class="hint-card">提示：試吓 \(f(x)=x^4\) 喺 \(x=0\) 嗰點——先求 \(f''(x)\)，再睇下佢喺 0 左右係咪真係變號。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="page-break">
+    <div class="section-h">教師用：參考答案</div>
+    <div class="answer-key">
+      <p>1．B（\(f'(x)=3x^2\)，\(f''(x)=6x\)）</p>
+      <p>2．B（\(f'(x)=4x-5\)，\(f''(x)=4\)）</p>
+      <p>3．\(f'(x)=3x^2-12x\)，\(f''(x)=6x-12=0\to x=2\)。\(x<2\)（如\(x=0\)）：\(f''(0)=-12<0\)凸；\(x>2\)（如\(x=3\)）：\(f''(3)=6>0\)凹。左右變號，拐點為 \((2,f(2))=(2,-16)\)。</p>
+      <p>4．\(f'(x)=-3x^2+3\)，\(f''(x)=-6x=0\to x=0\)。\(x<0\)（如\(x=-1\)）：\(f''(-1)=6>0\)凹；\(x>0\)（如\(x=1\)）：\(f''(1)=-6<0\)凸。左右變號，拐點為 \((0,f(0))=(0,0)\)。</p>
+      <p>5．\(f'(x)=4x^3-12x^2\)，\(f''(x)=12x^2-24x=12x(x-2)=0\to x=0\) 或 \(x=2\)。\(x<0\)（如\(x=-1\)）：\(f''(-1)=36>0\)凹；\(0&lt;x<2\)（如\(x=1\)）：\(f''(1)=-12<0\)凸；\(x>2\)（如\(x=3\)）：\(f''(3)=36>0\)凹。兩處都變號，共兩個拐點：\((0,0)\) 與 \((2,-16)\)。</p>
+      <p>6．錯。反例：\(f(x)=x^4\)，\(f'(x)=4x^3\)，\(f''(x)=12x^2\)，\(f''(0)=0\)，但 \(f''(x)=12x^2\) 喺 \(x=0\) 左右都是 \(\geq0\)（0附近兩側都是凹，冇變號），所以 \(x=0\) 唔係拐點——\(f''(x_0)=0\) 只是拐點的「必要條件」，仲要檢查正負係咪真係變咗先算。</p>
+    </div>
+    <div class="footer">高三數學．導數補充單元</div>
+  </div>
+</div>
+</body>
+</html>

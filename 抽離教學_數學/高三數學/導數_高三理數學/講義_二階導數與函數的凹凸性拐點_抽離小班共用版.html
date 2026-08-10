@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>二階導數與函數的凹凸性、拐點 —— 課堂講義（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 6px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig > img { width: 340px; height: auto; }
+  .fig .cap { font-size: 10pt; color: #444; margin-top: 3px; text-align: left; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .eq { text-align: right; }
+  .worked-tbl .rhs { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .ans { font-weight: 700; }
+  .dual-track { width: 100%; border-collapse: collapse; font-size: 11pt; margin: 8px 0; break-inside: avoid; }
+  .dual-track th { background: #e8e8e8; padding: 4px 6px; border: 1px solid #999; }
+  .dual-track td { padding: 6px 8px; border: 1px solid #999; vertical-align: top; width: 50%; }
+  .dual-track td.correct { background: #f0f0f0; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+  .teacher-notes { break-before: page; font-size: 10.5pt; }
+  .teacher-notes table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .teacher-notes th, .teacher-notes td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .teacher-notes th { background: #e8e8e8; width: 26%; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：二階導數與函數的凹凸性、拐點</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、什麼是「二階導數」</div>
+  <p>導數 \(f'(x)\) 本身都係一個函數，所以都可以再求一次導數——呢個「導數的導數」就叫「二階導數」，寫成 \(f''(x)\) 或 \(y''\)。</p>
+  <div class="hint-card">例如：\(f(x)=x^3-2x\)，先求 \(f'(x)=3x^2-2\)，再對 \(f'(x)\) 求多一次導數：\(f''(x)=6x\)。</div>
+
+  <div class="section-h">二、二階導數告訴我們「圖象的彎法」——凹凸性</div>
+  <p>一階導數 \(f'(x)\) 話俾我哋知圖象「向上爬定向下滑」；二階導數 \(f''(x)\) 就話俾我哋知圖象「點樣彎」：</p>
+  <div class="fig">
+    <img src="_assets/fig_concavity.png" width="340" height="270" alt="f(x)=x^3-3x^2：x=1 之前是凸、之後是凹">
+    <div class="cap">f(x)=x³−3x²：x=1 之前是「凸」（曲線往下彎，像倒扣的碗）、x=1 之後是「凹」（曲線往上彎，像盛水的碗）——拐點就是彎法轉變的那一點。</div>
+  </div>
+  <div class="hint-card">① \(f''(x) > 0\)　→　圖象是「凹」的（像碗一樣，會盛到水）</div>
+  <div class="hint-card">② \(f''(x) < 0\)　→　圖象是「凸」的（像倒扣的碗，水會流走）</div>
+  <p>小提示：凹凸性同單調性（遞增／遞減）係兩件唔同嘅事——遞增的圖象可以是凹的，都可以是凸的，要分開看。</p>
+
+  <div class="section-h">三、拐點——凹凸性「轉變」的點</div>
+  <p>如果圖象喺某一點左右兩側，凹凸性由「凹」變「凸」（或由「凸」變「凹」），呢一點就叫「拐點」（inflection point）。</p>
+  <div class="hint-card">搵拐點嘅步驟：①求 \(f''(x)\)　②解 \(f''(x)=0\)，搵出可能嘅 x 值　③檢查呢個 x 左右兩側 \(f''(x)\) 是否真係變號——變咗號先係拐點，冇變號就唔算。</div>
+
+  <div class="section-h">四、範例：求三次函數的凹凸區間與拐點</div>
+  <p>設 \(f(x)=x^3-3x^2\)：</p>
+  <div class="worked-example">跟著這四個固定步驟，之後每一題都用同一套框架，不用重新想。這套框架接下來會用在《練習》的每一題上。</div>
+  <table class="worked-tbl">
+    <tr><th colspan="2">算式</th><th>這一步在做什麼</th></tr>
+    <tr><td class="eq">\( f'(x) \)</td><td class="rhs">＝\( 3x^2-6x \)</td><td class="why">① 求一階導數</td></tr>
+    <tr><td class="eq">\( f''(x) \)</td><td class="rhs">＝\( 6x-6 \)</td><td class="why">　再求二階導數</td></tr>
+    <tr><td class="eq">\( 6x-6 \)</td><td class="rhs">＝\( 0 \)</td><td class="why">② 令 f''(x)=0，解可能拐點</td></tr>
+    <tr><td colspan="2" class="span">解得 \(x=1\)（候選拐點，仲未確定）</td><td class="why"></td></tr>
+    <tr><td colspan="2" class="span">③ \(x<1\)（如 \(x=0\)）：\(f''(0)=6\times0-6=-6<0\) → 凸</td><td class="why" rowspan="2">檢查候選點左右正負</td></tr>
+    <tr><td colspan="2" class="span">　\(x>1\)（如 \(x=2\)）：\(f''(2)=6\times2-6=6>0\) → 凹</td></tr>
+    <tr><td colspan="2" class="span ans">∴ \(x<1\) 時凸、\(x>1\) 時凹，左右變號，拐點為 \((1,f(1))=(1,-2)\)</td><td class="why">④ 正負真的變號，寫結論；拐點 y 坐標 \(f(1)=1-3=-2\)</td></tr>
+  </table>
+
+  <div class="section-h">五、常見錯誤 vs 正確寫法：f''(x₀)=0 唔一定係拐點</div>
+  <table class="dual-track">
+    <tr><th>✗ 常見寫法</th><th>✓ 正確寫法</th></tr>
+    <tr>
+      <td>✗ 只要 \(f''(x_0)=0\)，就直接寫：「\((x_0,f(x_0))\) 一定是拐點」——冇檢查左右正負是否真的變號。</td>
+      <td class="correct">✓ \(f''(x_0)=0\) 只是拐點的「必要條件」，※ 仲要檢查左右正負係咪真係變咗——例如 \(f(x)=x^4\)：\(f''(x)=12x^2\)，\(f''(0)=0\)，但 0 左右 \(f''(x)\) 都 ≥0（冇變號），所以 x=0 唔係拐點。</td>
+    </tr>
+  </table>
+
+  <div class="worked-example">接下來請拿《二階導數與函數的凹凸性、拐點——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table>
+      <tr><th>本份採用的主設計</th><td>D5 圖文雙軌</td></tr>
+      <tr><th>輔助設計</th><td>D2 手順卡、D14 錯誤分析對比</td></tr>
+      <tr><th>選用理由</th><td>S4 函數與圖像：凹凸性的核心正是「圖象點樣彎」，原本用文字覆述「像碗」「倒扣的碗」兩張沒畫出來的圖，違反「講圖就要出圖」，改用實際函數圖直接呈現；D14 專治「f''(x₀)=0 就當一定是拐點」這個已知高頻錯誤（原本只藏在練習C第6題答案，現在提升到講義正文明確教一次）。</td></tr>
+      <tr><th>鷹架密度</th><td>抽離小班（Tier 2）</td></tr>
+      <tr><th>褪除路徑</th><td>圖＋完整步驟卡＋D14對比框 → 只給圖，步驟自己寫 → 只給空白數線，自己畫段測正負</td></tr>
+      <tr><th>對應官方輔助措施代碼</th><td>a3 提示題目重點（公式卡＋手順卡）、a11 提供公式卡</td></tr>
+    </table>
+  </div>
+
+  <div class="footer">高三數學．導數補充單元</div>
+</div>
+</body>
+</html>

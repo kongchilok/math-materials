@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>空間向量的數量積 —— 課堂講義（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 6px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .diagram-wrap { text-align: center; margin: 8px 0; }
+  .diagram-cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .eq { text-align: right; }
+  .worked-tbl .rhs { text-align: left; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .ans { font-weight: 700; }
+  .dual-track { width: 100%; border-collapse: collapse; font-size: 11pt; margin: 8px 0; break-inside: avoid; }
+  .dual-track th { background: #e8e8e8; padding: 4px 6px; border: 1px solid #999; }
+  .dual-track td { padding: 6px 8px; border: 1px solid #999; vertical-align: top; width: 50%; }
+  .dual-track img { max-width: 100%; height: auto; }
+  .teacher-notes { break-before: page; font-size: 10.5pt; }
+  .teacher-notes table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .teacher-notes th, .teacher-notes td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .teacher-notes th { background: #e8e8e8; width: 26%; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：空間向量的數量積</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、兩個向量的夾角</div>
+  <p>兩個非零向量 \(\vec{a}\)、\(\vec{b}\)，將佢哋移到同一個起點，中間嗰隻角就叫「夾角」，記做 \(\langle\vec{a},\vec{b}\rangle\)，範圍是 0° 到 180° 之間（包含 0° 和 180°）。</p>
+
+  <div class="section-h">二、數量積的定義</div>
+  <div class="hint-card">\(\vec{a}\cdot\vec{b}=|\vec{a}||\vec{b}|\cos\langle\vec{a},\vec{b}\rangle\)</div>
+  <p>注意：數量積嘅結果係一個數（純量），唔係向量！呢點好易同「數乘」（\(\lambda\vec{a}\)，結果係向量）攪混，要分清楚。</p>
+  <p>特別情況：\(\vec{a}\cdot\vec{a}=|\vec{a}|^2\)（即係模嘅平方）；零向量同任何向量嘅數量積都是 0。</p>
+
+  <div class="section-h">三、數量積的重要性質</div>
+  <div class="hint-card">① 交換律：\(\vec{a}\cdot\vec{b}=\vec{b}\cdot\vec{a}\)　　② 分配律：\(\vec{a}\cdot(\vec{b}+\vec{c})=\vec{a}\cdot\vec{b}+\vec{a}\cdot\vec{c}\)</div>
+  <div class="hint-card">③ 數乘結合：\((\lambda\vec{a})\cdot\vec{b}=\lambda(\vec{a}\cdot\vec{b})\)　　④【最重要】\(\vec{a}\perp\vec{b} \Leftrightarrow \vec{a}\cdot\vec{b}=0\)（\(\vec{a}\)、\(\vec{b}\) 都不是零向量）</div>
+  <p>性質④之後成日用嚟判斷垂直、或者已知垂直去化簡計算，一定要記熟。</p>
+
+  <div class="section-h">四、範例：用分配律求夾角</div>
+  <p>正方體 \(ABCD\text{-}A_1B_1C_1D_1\) 棱長為 \(a\)，求 \(\vec{AB}\) 與 \(\vec{AC_1}\) 的夾角餘弦值。</p>
+  <div class="worked-example">跟著這四個固定步驟，之後每一題都用同一套框架。這套框架接下來會用在《練習》的每一題上。</div>
+  <table class="dual-track">
+    <tr><th>圖形上發生什麼</th><th>算式上寫什麼</th></tr>
+    <tr><td><img src="_assets/u1_fig1.png" width="220" alt="正方體 ABCD-A1B1C1D1，粗箭嘴由A指向C1表示體對角線"></td>
+        <td>已知：正方體棱長 a，AC₁ 拆做 AB+BC+CC₁ 三條互相垂直的棱（圖中粗箭嘴）。要求：AB 與 AC₁ 的夾角餘弦值。</td></tr>
+  </table>
+  <table class="worked-tbl">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td colspan="2" class="span">① 用返上一課學過嘅拆法：\(\vec{AC_1}=\vec{AB}+\vec{BC}+\vec{CC_1}\)</td><td class="why"></td></tr>
+    <tr><td colspan="2" class="span">② 求 \(\vec{AB}\cdot\vec{AC_1}\)，用分配律展開，並用性質④（互相垂直的邊，數量積為0）：\(\vec{AB}\cdot\vec{AC_1}=\vec{AB}\cdot\vec{AB}+\vec{AB}\cdot\vec{BC}+\vec{AB}\cdot\vec{CC_1}=a^2+0+0=a^2\)（\(\vec{AB}\) 與 \(\vec{BC}\) 垂直、\(\vec{AB}\) 與 \(\vec{CC_1}\) 垂直，都是正方體相鄰的棱）</td><td class="why"></td></tr>
+    <tr><td class="eq">\(|\vec{AC_1}|^2\)</td><td class="rhs">＝\(a^2+a^2+a^2=3a^2\)</td><td class="why">③ 求 |AC₁|：因為三條棱互相垂直</td></tr>
+    <tr><td colspan="2" class="span">所以 \(|\vec{AC_1}|=\sqrt{3}a\)</td><td class="why"></td></tr>
+    <tr><td colspan="2" class="span ans">∴ \(\cos\langle\vec{AB},\vec{AC_1}\rangle=\dfrac{\vec{AB}\cdot\vec{AC_1}}{|\vec{AB}||\vec{AC_1}|}=\dfrac{a^2}{a\cdot\sqrt{3}a}=\dfrac{1}{\sqrt{3}}=\dfrac{\sqrt{3}}{3}\)</td><td class="why">④ 代入定義式，反推餘弦值</td></tr>
+  </table>
+
+  <div class="worked-example">接下來請拿《空間向量的數量積——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高三數學．空間向量單元</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table>
+      <tr><th>本份採用的主設計</th><td>D5 圖文雙軌</td></tr>
+      <tr><th>輔助設計</th><td>D2 手順卡</td></tr>
+      <tr><th>選用理由</th><td>S9 立體幾何與空間：分配律展開靠「邊與邊互相垂直」呢個空間事實去消去交叉項，純睇代數式睇唔出邊兩條係垂直，一定要對住圖先睇到；四步驟固定框架以D2手順卡落地。</td></tr>
+      <tr><th>鷹架密度</th><td>抽離小班（Tier 2）</td></tr>
+      <tr><th>褪除路徑</th><td>圖文雙軌完整版 → 只給圖，步驟自己寫 → 不給圖，只憑向量式自己畫</td></tr>
+      <tr><th>對應官方輔助措施代碼</th><td>a3 提示題目重點（公式卡＋手順卡）、a6 增加行距（書寫空間已加寬）</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

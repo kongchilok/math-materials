@@ -43,6 +43,15 @@
   .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
   .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
   .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig > img { width: 340px; height: auto; }
+  .fig .cap { font-size: 10pt; color: #444; margin-top: 3px; text-align: left; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .ans { font-weight: 700; }
   .step-card td:first-child { width: 56%; font-weight: 700; }
   .step-card .pitfall { font-weight: 400; font-size: 11pt; }
   .mk { font-weight: 700; }
@@ -79,11 +88,14 @@
 
   <div class="section-h">四、範例：求 ∫(6x²−4x+3)dx（我做——老師先示範一次）</div>
   <div class="worked-example">跟著這套固定流程走，之後每一題（不管幾項）都用同一套框架。留意：算式裡每一項都標了同一個號碼<span class="mk">①②③</span>，代表「原式這一項」一路對應到「答案這一項」，是同一件事，只是換了個樣子。</div>
-  <div><span class="mk">①</span> 先看清楚這是幾項相加減——三項，逐項標號：\(\displaystyle\int(\underset{①}{6x^2}\underset{②}{-4x}\underset{③}{+3})\,dx\)</div>
-  <div><span class="mk">②</span> 用和差法則拆開，每項再用常數倍法則把係數提出來：\(\underset{①}{6\int x^2 dx}\underset{②}{-4\int x\,dx}\underset{③}{+3\int 1\,dx}\)</div>
-  <div><span class="mk">③</span> 對每一項套用公式卡的冪函數公式（第2條）逐項計算：\(\underset{①}{6\cdot\frac{x^3}{3}}\underset{②}{-4\cdot\frac{x^2}{2}}\underset{③}{+3x}\)</div>
-  <div><span class="mk">④</span> 化簡每一項：\(\underset{①}{2x^3}\underset{②}{-2x^2}\underset{③}{+3x}\)</div>
-  <div><span class="mk">⑤</span> 所有項合併，最後只加「一個」C（不是每項各加一個C）：\(2x^3-2x^2+3x+C\)</div>
+  <table class="worked-tbl">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td class="span">\(\displaystyle\int(\underset{①}{6x^2}\underset{②}{-4x}\underset{③}{+3})\,dx\)</td><td class="why">① 先看清楚是幾項相加減，逐項標號</td></tr>
+    <tr><td class="span">\(\underset{①}{6\int x^2 dx}\underset{②}{-4\int x\,dx}\underset{③}{+3\int 1\,dx}\)</td><td class="why">② 用和差法則拆開，每項再用常數倍法則提出係數</td></tr>
+    <tr><td class="span">\(\underset{①}{6\cdot\frac{x^3}{3}}\underset{②}{-4\cdot\frac{x^2}{2}}\underset{③}{+3x}\)</td><td class="why">③ 對每項套用公式卡第2條逐項計算</td></tr>
+    <tr><td class="span">\(\underset{①}{2x^3}\underset{②}{-2x^2}\underset{③}{+3x}\)</td><td class="why">④ 化簡每一項</td></tr>
+    <tr><td class="span ans">∴ \(2x^3-2x^2+3x+C\)</td><td class="why">⑤ 所有項合併，最後只加「一個」C（不是每項各加一個C）</td></tr>
+  </table>
 
   <div class="section-h">五、範例：求 ∫(9x²+2x−5)dx（我們做——你跟老師一起完成）</div>
   <div>先幫每一項標號，再照「我做」的五個步驟自己走一次，每一步寫在下面：</div>

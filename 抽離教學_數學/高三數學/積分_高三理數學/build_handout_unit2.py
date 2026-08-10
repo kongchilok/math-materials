@@ -27,10 +27,12 @@ P.append(blank())
 # ---------------- 三、範例：我做1 → 我們做1（13.3計算，D2+D11） ----------------
 P.append(heading('三、範例：求 ∫₁³(2x+1)dx（我做——老師先示範一次）'))
 P.append(shaded_box('固定四步驟，跟不定積分單元同一套邏輯，只是多了「代入上下限相減」。算式裡每一項都標了同一個號碼①②③④，代表同一件事在不同步驟的樣子。', kind='worked', keep_next=True))
-P.append(para("① 先求被積函數的一個原函數（不用加C，因為相減時C會抵消）：{F(x)=x^2+x}"))
-P.append(para('② 代入上限 b=3：{F(3)=3^2+3=12}'))
-P.append(para('③ 代入下限 a=1：{F(1)=1^2+1=2}'))
-P.append(para('④ 上限的值減下限的值：{∫[1,3](2x+1)dx=F(3)−F(1)=12−2=10}'))
+P.append(worked_example_table([
+    span_row('① 先求被積函數的一個原函數（不用加C，因為相減時C會抵消）：{F(x)=x^2+x}'),
+    eq_row('{F(3)}', '{3^2+3=12}', '② 代入上限 b=3'),
+    eq_row('{F(1)}', '{1^2+1=2}', '③ 代入下限 a=1'),
+    answer_row('{∫[1,3](2x+1)dx=F(3)−F(1)=12−2=10}', '④ 上限的值減下限的值'),
+], why_pct=0.4))
 P.append(shaded_box('雙重檢查：這條函數是直線，圖形剛好是梯形——x=1時y=3，x=3時y=7，梯形面積=(3+7)/2×2=10，跟算出來的一樣，可以互相驗證。'))
 P.append(blank())
 
@@ -44,13 +46,19 @@ P.append(blank())
 P.append(heading('五、公式卡：定積分求平面圖形面積'))
 P.append(shaded_box('若 f(x)≥0，曲線 y=f(x) 與x軸、直線x=a、x=b 圍成的面積：{S=∫[a,b] f(x)dx}'))
 P.append(shaded_box('⚠ 陷阱：若 f(x) 在區間內有正有負（圖形一部份在x軸上方、一部份在下方），不能直接整段積分——正負會互相抵消，算出來的不是面積。要先分段、負的部份取絕對值，再相加（練習C會考這一點）。'))
+P.append(image_para(os.path.join(OUT, '_assets', 'fig_area_sign_trap.png'), width_cm=7.0,
+                     caption='y=x 在 [−1,2]：陰影一部分在x軸下方（x從−1到0）、一部分在上方（x從0到2）——直接整段積分兩部分會互相抵消，不是實際面積，一定要先分段、負的部分取絕對值再相加。'))
 P.append(blank())
 
 P.append(heading('六、範例：求 y=x²、x=0、x=2、x軸所圍的面積（我做——老師先示範一次）'))
 P.append(shaded_box('面積應用只是多一步：先確認 f(x)≥0（這裡 x²≥0 恆成立），再直接套用定積分公式。', kind='worked', keep_next=True))
-P.append(para('① 寫出面積公式：{S=∫[0,2] x^2 dx}'))
-P.append(para('② 求原函數：{F(x)=frac(x^3,3)}'))
-P.append(para('③④ 代入上下限相減：{F(2)−F(0)=frac(8,3)−0=frac(8,3)}'))
+P.append(image_para(os.path.join(OUT, '_assets', 'fig_area_trapezoid.png'), width_cm=7.0,
+                     caption='y=x² 在 [0,2] 與x軸圍成的曲邊梯形——陰影部分就是要求的面積 S。'))
+P.append(worked_example_table([
+    span_row('{S=∫[0,2] x^2 dx}', '① 寫出面積公式'),
+    span_row('{F(x)=frac(x^3,3)}', '② 求原函數'),
+    answer_row('{F(2)−F(0)=frac(8,3)−0=frac(8,3)}', '③④ 代入上下限相減'),
+], why_pct=0.4))
 P.append(blank())
 
 P.append(heading('七、範例：求 y=2x、x=1、x=3、x軸所圍的面積（我們做——你跟老師一起完成）'))

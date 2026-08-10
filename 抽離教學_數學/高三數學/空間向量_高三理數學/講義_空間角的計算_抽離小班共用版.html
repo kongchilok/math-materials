@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>空間角的計算 —— 課堂講義（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 6px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .diagram-wrap { text-align: center; margin: 8px 0; }
+  .diagram-cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .eq { text-align: right; }
+  .worked-tbl .rhs { text-align: left; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .ans { font-weight: 700; }
+  .dual-track { width: 100%; border-collapse: collapse; font-size: 11pt; margin: 8px 0; break-inside: avoid; }
+  .dual-track th { background: #e8e8e8; padding: 4px 6px; border: 1px solid #999; }
+  .dual-track td { padding: 6px 8px; border: 1px solid #999; vertical-align: top; width: 50%; }
+  .dual-track img { max-width: 100%; height: auto; }
+  .teacher-notes { break-before: page; font-size: 10.5pt; }
+  .teacher-notes table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .teacher-notes th, .teacher-notes td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .teacher-notes th { background: #e8e8e8; width: 26%; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：空間角的計算</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、直線與平面所成的角</div>
+  <p>定義：一條直線 l 與佢喺平面 α 內嘅射影所成嘅角，範圍係 0° 到 90° 之間。</p>
+  <div class="hint-card">設直線 l 的方向向量是 \(\vec{v}\)，平面 α 的法向量是 \(\vec{n}\)：\(\sin\theta=|\cos\langle\vec{v},\vec{n}\rangle|=\dfrac{|\vec{v}\cdot\vec{n}|}{|\vec{v}||\vec{n}|}\)</div>
+  <p>注意：呢度用嘅係 \(\sin\theta\)（唔係 \(\cos\theta\)）！因為「方向向量與法向量的夾角」同「直線與平面所成角」係互餘關係——一個變大，另一個就變細，加埋等於90°。</p>
+
+  <div class="section-h">二、二面角</div>
+  <p>定義：由一條公共棱發出嘅兩個半平面組成嘅圖形，範圍係 0° 到 180° 之間。</p>
+  <div class="hint-card">分別求兩個面嘅法向量 \(\vec{n_1}\)、\(\vec{n_2}\)：\(|\cos\theta|=|\cos\langle\vec{n_1},\vec{n_2}\rangle|=\dfrac{|\vec{n_1}\cdot\vec{n_2}|}{|\vec{n_1}||\vec{n_2}|}\)</div>
+  <p>【非常重要】：呢條公式淨係俾到 \(|\cos\theta|\)，即係話真正嘅二面角可能係計出嚟嗰個銳角，都可能係佢嘅補角（180°減嗰個銳角）。一定要睇返個立體圖形嘅實際形狀，判斷二面角本身係銳角定係鈍角，先至揀啱嗰個——唔可以計完數就直接當答案，呢步判斷唔可以省略。</p>
+
+  <div class="section-h">三、範例：求線面角</div>
+  <p>正方體 \(ABCD\text{-}A_1B_1C_1D_1\) 棱長為2，以 D 為原點建系（同之前幾課一樣）。求 \(\vec{AB_1}\) 與底面 \(ABCD\) 所成角的正弦值。</p>
+  <div class="worked-example">跟著這四個固定步驟，之後每一題都用同一套框架。這套框架接下來會用在《練習》的每一題上。</div>
+  <table class="dual-track">
+    <tr><th>圖形上發生什麼</th><th>算式上寫什麼</th></tr>
+    <tr><td><img src="_assets/u4_fig1.png" width="220" alt="正方體 ABCD-A1B1C1D1 疊加空間直角坐標系，D為原點"></td>
+        <td>已知：正方體棱長2，底面ABCD法向量n=(0,0,1)。要求：AB₁與底面ABCD所成角θ的正弦值。</td></tr>
+  </table>
+  <table class="worked-tbl">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td colspan="2" class="span">① 底面 \(ABCD\) 就是 \(z=0\) 平面，法向量可以直接取 \(\vec{n}=(0,0,1)\)（z軸方向）</td><td class="why"></td></tr>
+    <tr><td class="eq">\(\vec{AB_1}\)</td><td class="rhs">＝\(A(2,0,0)\)、\(B_1(2,2,2)\)，\(\vec{AB_1}=(0,2,2)\)</td><td class="why">② 寫出坐標，求 AB₁</td></tr>
+    <tr><td colspan="2" class="span ans">∴ \(\sin\theta=\dfrac{|\vec{AB_1}\cdot\vec{n}|}{|\vec{AB_1}||\vec{n}|}=\dfrac{|0+0+2|}{\sqrt{0+4+4}\times1}=\dfrac{2}{2\sqrt2}=\dfrac{1}{\sqrt2}=\dfrac{\sqrt2}{2}\)</td><td class="why">③ 代入公式</td></tr>
+    <tr><td colspan="2" class="span">④ 所以正弦值是 \(\dfrac{\sqrt2}{2}\)，即 \(\theta=45°\)。（可以用返中二學過嘅直角三角形驗算：AB是底邊、\(BB_1\)是高，兩者都是棱長2，\(\tan\theta=\dfrac{2}{2}=1\)，一樣得45°）</td><td class="why"></td></tr>
+  </table>
+
+  <div class="section-h">四、範例：求二面角（示範判斷銳鈍角嗰步）</div>
+  <p>求二面角 D₁-AC-B（棱是AC，一邊嘅半平面有 \(D_1\)，另一邊有 B）的大小。</p>
+  <table class="dual-track">
+    <tr><th>圖形上發生什麼</th><th>算式上寫什麼</th></tr>
+    <tr><td><img src="_assets/u4_fig1.png" width="220" alt="正方體 ABCD-A1B1C1D1 疊加空間直角坐標系，D為原點"></td>
+        <td>已知：D₁ 喺正方體上方、B 喺底面，兩者分處AC兩側。要求：判斷二面角 D₁-AC-B 是銳角定係鈍角，再求大小。</td></tr>
+  </table>
+  <table class="worked-tbl">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td colspan="2" class="span">① 分別求平面 \(ACD_1\) 和平面 \(ACB\) 的法向量：平面 \(ACD_1\) 上一課求過 \(\vec{n_1}=(1,1,1)\)；平面 \(ACB\) 就是底面，\(\vec{n_2}=(0,0,1)\)</td><td class="why"></td></tr>
+    <tr><td colspan="2" class="span ans">∴ \(|\cos\theta|=\dfrac{|\vec{n_1}\cdot\vec{n_2}|}{|\vec{n_1}||\vec{n_2}|}=\dfrac{|1|}{\sqrt3\times1}=\dfrac{1}{\sqrt3}=\dfrac{\sqrt3}{3}\)</td><td class="why">② 代入公式</td></tr>
+    <tr><td colspan="2" class="span">③ 判斷銳鈍角：\(D_1\) 喺正方體上方、B 喺底面，兩者分處 \(AC\) 兩側，張開嘅角明顯超過90°（睇返個正方體嘅圖），所以呢個二面角係鈍角。</td><td class="why"></td></tr>
+    <tr><td colspan="2" class="span">④ 所以二面角 \(=180°-\arccos\dfrac{\sqrt3}{3}\approx125.3°\)（唔係嗰個約54.7°嘅銳角）。</td><td class="why"></td></tr>
+  </table>
+  <div class="hint-card">提提大家：呢度兩個範例啱啱好都係鈍角，但唔代表二面角例牌都係鈍角——每一題都要獨立判斷，唔可以憑上次經驗直接當晒。</div>
+
+  <div class="worked-example">接下來請拿《空間角的計算——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高三數學．空間向量單元</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table>
+      <tr><th>本份採用的主設計</th><td>D7 判定定理卡</td></tr>
+      <tr><th>輔助設計</th><td>D5 圖文雙軌、D2 手順卡</td></tr>
+      <tr><th>選用理由</th><td>S9 立體幾何與空間：線面角用sinθ、二面角用|cosθ|，兩條公式極易撞埋（研究明確警告的記憶檢索失敗），以D7提示卡把「觸發語（問乜嘢角）→用邊條公式→sin定cos」三件套個人化；二面角嘅銳鈍角判斷一定要對住圖先做到，用D5圖文雙軌；四步驟固定框架以D2手順卡落地。</td></tr>
+      <tr><th>鷹架密度</th><td>抽離小班（Tier 2）</td></tr>
+      <tr><th>褪除路徑</th><td>判定卡完整版（放桌面）→ 只留「線面角=sin／二面角=|cos|」一句提示 → 移除</td></tr>
+      <tr><th>對應官方輔助措施代碼</th><td>a3 提示題目重點（公式卡＋手順卡）、a6 增加行距（書寫空間已加寬）</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>

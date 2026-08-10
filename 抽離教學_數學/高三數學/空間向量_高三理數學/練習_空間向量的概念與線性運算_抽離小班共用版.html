@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>空間向量的概念與線性運算 —— 課堂練習（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; } .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; } .write-lines .line:last-child { border-bottom: none; }
+  .diagram-wrap { text-align: center; margin: 8px 0; }
+  .diagram-cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .page-break { break-before: page; }
+  .answer-key p { margin: 4px 0; font-size: 11.5pt; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：空間向量的概念與線性運算</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <p>下面全部題目都用返呢個正方體 \(ABCD\text{-}A_1B_1C_1D_1\)：</p>
+  <div class="diagram-wrap">
+    <img src="_assets/u1_fig2.png" width="320" height="286" alt="正方體 ABCD-A1B1C1D1，八個頂點已標示">
+  </div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）—— 向量加法基本運用</div>
+  <div class="problem"><div>1．化簡：\(\vec{DA}+\vec{AB}\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>2．化簡：\(\vec{DC}+\vec{CC_1}\)</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+  <div class="problem"><div>3．已知 M 是 AB 的中點，設 \(\vec{DA}=\vec{a}\)，\(\vec{DB}=\vec{b}\)，用 \(\vec{a}\)、\(\vec{b}\) 表示 \(\vec{DM}\)。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）—— 較長的化簡與判斷</div>
+  <div class="problem">
+    <div>4．化簡：\(\vec{AB}+\vec{BC}+\vec{CC_1}+\vec{C_1D_1}\)</div>
+    <div class="hint-card">提示：一步步用三角形法則「首尾相接」，逐項合併，唔使一次過諗晒成條式。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>5．化簡：\(\vec{AB}+\vec{CD}\)</div>
+    <div class="hint-card">提示：先睇下 \(\vec{AB}\) 和 \(\vec{CD}\) 的方向、大小有咩關係（睇返個正方體），未必要硬套三角形法則。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="page-break"></div>
+  <div class="problem">
+    <div>6．\(\vec{DB_1}\) 是正方體的體對角線，M 是 \(\vec{DB_1}\) 的中點。設 \(\vec{DA}=\vec{a}\)，\(\vec{DC}=\vec{b}\)，\(\vec{DD_1}=\vec{c}\)，用 \(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 表示 \(\vec{DM}\)。</div>
+    <div class="hint-card">提示：先用 \(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 表示 \(\vec{DB_1}\)（睇下由 D 去 B₁ 點樣行），再用中點公式。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）—— 綜合應用</div>
+  <div class="problem">
+    <div>7．空間四邊形 ABCD（四點不一定在同一平面），M、N 分別是對角線 AC、BD 的中點。求證：</div>
+    <div class="hint-card">\(\vec{MN}=\dfrac{1}{2}(\vec{AB}+\vec{CD})\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="page-break"></div>
+  <div class="problem">
+    <div>8．在正方體 \(ABCD\text{-}A_1B_1C_1D_1\) 中，P 是 \(\vec{CC_1}\) 的中點。設 \(\vec{DA}=\vec{a}\)，\(\vec{DC}=\vec{b}\)，\(\vec{DD_1}=\vec{c}\)，用 \(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 表示 \(\vec{AP}\)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="page-break">
+    <div class="section-h">教師用：參考答案</div>
+    <div class="answer-key">
+      <p>1．\(\vec{DB}\)</p>
+      <p>2．\(\vec{DC_1}\)</p>
+      <p>3．\(\vec{DM}=\dfrac{1}{2}(\vec{a}+\vec{b})\)</p>
+      <p>4．\(\vec{AD_1}\)（四項首尾相接，逐步合併：AB+BC=AC，AC+CC₁=AC₁，AC₁+C₁D₁=AD₁）</p>
+      <p>5．\(\vec{0}\)（因為 ABCD 是正方形，\(\vec{AB}\) 與 \(\vec{CD}\) 大小相等、方向相反，即 \(\vec{CD}=-\vec{AB}\)）</p>
+      <p>6．\(\vec{DM}=\dfrac{1}{2}(\vec{a}+\vec{b}+\vec{c})\)（先由 \(\vec{DB_1}=\vec{DA}+\vec{AB}+\vec{BB_1}=\vec{a}+\vec{b}+\vec{c}\)，再用中點公式取一半）</p>
+      <p>7．證明：設 O 為空間任意一點。M 是 AC 中點：\(\vec{OM}=\dfrac{1}{2}(\vec{OA}+\vec{OC})\)；N 是 BD 中點：\(\vec{ON}=\dfrac{1}{2}(\vec{OB}+\vec{OD})\)。</p>
+      <p>　\(\vec{MN}=\vec{ON}-\vec{OM}=\dfrac{1}{2}[(\vec{OB}-\vec{OA})+(\vec{OD}-\vec{OC})]=\dfrac{1}{2}(\vec{AB}+\vec{CD})\)　　得證。</p>
+      <p>8．\(\vec{AP}=-\vec{a}+\vec{b}+\dfrac{1}{2}\vec{c}\)（P 是 C、C₁ 中點，先表示 \(\vec{DP}=\vec{b}+\dfrac{1}{2}\vec{c}\)，再算 \(\vec{AP}=\vec{DP}-\vec{DA}\)）</p>
+    </div>
+    <div class="footer">高三數學．空間向量單元</div>
+  </div>
+</div>
+</body>
+</html>

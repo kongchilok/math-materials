@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>空間向量基本定理 —— 課堂講義（抽離小班共用版）</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', mtextInheritFont: true, displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif; font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999; padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 6px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .diagram-wrap { text-align: center; margin: 8px 0; }
+  .diagram-cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+  .worked-tbl { width: 100%; border-collapse: collapse; font-size: 11.5pt; margin: 8px 0; break-inside: avoid; }
+  .worked-tbl th { background: #e8e8e8; font-weight: 700; padding: 4px 6px; text-align: left; border-bottom: 2px solid #333; }
+  .worked-tbl td { padding: 5px 6px; border-bottom: 1px solid #ccc; vertical-align: middle; }
+  .worked-tbl .eq { text-align: right; }
+  .worked-tbl .rhs { text-align: left; }
+  .worked-tbl .span { text-align: left; }
+  .worked-tbl .why { border-left: 1px solid #333; font-size: 10.5pt; color: #333; width: 34%; }
+  .worked-tbl .ans { font-weight: 700; }
+  .dual-track { width: 100%; border-collapse: collapse; font-size: 11pt; margin: 8px 0; break-inside: avoid; }
+  .dual-track th { background: #e8e8e8; padding: 4px 6px; border: 1px solid #999; }
+  .dual-track td { padding: 6px 8px; border: 1px solid #999; vertical-align: top; width: 50%; }
+  .dual-track img { max-width: 100%; height: auto; }
+  .teacher-notes { break-before: page; font-size: 10.5pt; }
+  .teacher-notes table { width: 100%; border-collapse: collapse; margin-top: 8px; }
+  .teacher-notes th, .teacher-notes td { border: 1px solid #999; padding: 5px 8px; text-align: left; vertical-align: top; }
+  .teacher-notes th { background: #e8e8e8; width: 26%; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：空間向量基本定理</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、複習：平面向量基本定理</div>
+  <p>若 \(\vec{e_1}\)、\(\vec{e_2}\) 是同一平面內兩個不共線的向量，咁呢個平面內任何一個向量 \(\vec{a}\) 都可以【唯一】咁樣表示做：</p>
+  <div class="hint-card">\(\vec{a}=x\vec{e_1}+y\vec{e_2}\)　（x、y 是實數）</div>
+  <p>\(\vec{e_1}\)、\(\vec{e_2}\) 就叫做呢個平面嘅一組「基底」。</p>
+
+  <div class="section-h">二、共面向量定理（新）</div>
+  <p>若 \(\vec{a}\)、\(\vec{b}\) 不共線，咁向量 \(\vec{p}\) 與 \(\vec{a}\)、\(\vec{b}\) 共面 ⟺ 存在【唯一】一對實數 x、y，使得：</p>
+  <div class="hint-card">\(\vec{p}=x\vec{a}+y\vec{b}\)</div>
+
+  <div class="section-h">三、空間向量基本定理</div>
+  <p>若三個向量 \(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 不共面，咁空間入面任何一個向量 \(\vec{p}\) 都可以【唯一】咁樣表示做：</p>
+  <div class="hint-card">\(\vec{p}=x\vec{a}+y\vec{b}+z\vec{c}\)　（x、y、z 是實數）</div>
+  <p>\(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 就叫做空間嘅一組「基底」。</p>
+  <p>注意：基底唔需要互相垂直，都唔需要長度相等——淨係要求三個向量唔喺同一個平面（唔共面）就得。之前幾課用嘅正方體三條棱，只係一種方便、常見嘅特殊情況。</p>
+
+  <div class="section-h">四、範例：用基底表示向量</div>
+  <p>正方體 \(ABCD\text{-}A_1B_1C_1D_1\) 中，設 \(\vec{DA}=\vec{a}\)，\(\vec{DC}=\vec{b}\)，\(\vec{DD_1}=\vec{c}\)（\(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 是一組基底）。M 是 \(A_1C_1\) 的中點，用 \(\vec{a}\)、\(\vec{b}\)、\(\vec{c}\) 表示 \(\vec{DM}\)。</p>
+  <div class="worked-example">跟著這四個固定步驟，之後每一題都用同一套框架。這套框架接下來會用在《練習》的每一題上。</div>
+  <table class="dual-track">
+    <tr><th>圖形上發生什麼</th><th>算式上寫什麼</th></tr>
+    <tr><td><img src="_assets/u1_fig2.png" width="220" alt="正方體 ABCD-A1B1C1D1，八個頂點已標示"></td>
+        <td>已知：a=DA、b=DC、c=DD₁ 是一組基底，M 是 A₁C₁ 的中點。要求：用 a、b、c 表示 DM。</td></tr>
+  </table>
+  <table class="worked-tbl">
+    <tr><th>算式</th><th>這一步在做什麼</th></tr>
+    <tr><td colspan="2" class="span">① 先用基底表示 \(A_1\)、\(C_1\) 的位置向量（以 D 為參考點）：\(\vec{DA_1}=\vec{DA}+\vec{AA_1}=\vec{a}+\vec{c}\)（\(\vec{AA_1}=\vec{DD_1}=\vec{c}\)，正方體對邊平行且相等）；同理：\(\vec{DC_1}=\vec{DC}+\vec{CC_1}=\vec{b}+\vec{c}\)</td><td class="why"></td></tr>
+    <tr><td class="eq">\(\vec{DM}\)</td><td class="rhs">＝\(\dfrac{1}{2}(\vec{DA_1}+\vec{DC_1})\)</td><td class="why">② 用中點公式</td></tr>
+    <tr><td colspan="2" class="span">代入①嘅結果：\(\vec{DA_1}+\vec{DC_1}=(\vec{a}+\vec{c})+(\vec{b}+\vec{c})=\vec{a}+\vec{b}+2\vec{c}\)</td><td class="why"></td></tr>
+    <tr><td colspan="2" class="span ans">∴ \(\vec{DM}=\dfrac{1}{2}(\vec{a}+\vec{b}+2\vec{c})=\dfrac{1}{2}\vec{a}+\dfrac{1}{2}\vec{b}+\vec{c}\)</td><td class="why">③ 化簡</td></tr>
+    <tr><td colspan="2" class="span">④ 所以 \(x=\dfrac{1}{2}\)、\(y=\dfrac{1}{2}\)、\(z=1\)——根據基本定理，呢組係數係【唯一】嘅，冇第二種寫法。</td><td class="why"></td></tr>
+  </table>
+
+  <div class="worked-example">接下來請拿《空間向量基本定理——課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高三數學．空間向量單元</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table>
+      <tr><th>本份採用的主設計</th><td>D5 圖文雙軌</td></tr>
+      <tr><th>輔助設計</th><td>D2 手順卡</td></tr>
+      <tr><th>選用理由</th><td>S9 立體幾何與空間：基底分解（DA₁=DA+AA₁）需要同時追蹤「代數式子」同「圖上邊嘅對應關係」（例如AA₁=DD₁靠正方體對邊平行相等），圖文雙軌把兩者釘在一起；四步驟固定框架以D2手順卡落地。</td></tr>
+      <tr><th>鷹架密度</th><td>抽離小班（Tier 2）</td></tr>
+      <tr><th>褪除路徑</th><td>圖文雙軌完整版 → 只給圖，步驟自己寫 → 不給圖，只憑向量式自己畫</td></tr>
+      <tr><th>對應官方輔助措施代碼</th><td>a3 提示題目重點（公式卡＋手順卡）、a6 增加行距（書寫空間已加寬）</td></tr>
+    </table>
+  </div>
+</div>
+</body>
+</html>
