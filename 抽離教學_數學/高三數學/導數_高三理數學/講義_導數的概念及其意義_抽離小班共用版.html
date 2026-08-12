@@ -81,7 +81,22 @@
     <tr><td colspan="2" class="span">④ 令 \(\Delta x\to 0\)：\( \displaystyle\lim_{\Delta x\to 0}(2x+\Delta x)=2x \)</td><td class="why">把 Δx 壓縮到 0，這就是「瞬時」變化率</td></tr>
     <tr><td colspan="2" class="span ans">∴ \( f'(x)=2x \)</td><td class="why"></td></tr>
   </table>
-  <div class="section-h">三、順便一提：導數也可以用來「線性估計」</div>
+  <div class="section-h">三、導數的幾何意義：求切線方程</div>
+  <p>剛才那張「割線→切線」的圖已經告訴你答案：導數 \(f'(x_0)\) 就是曲線在該點切線的斜率。知道斜率，配合切點坐標，就能寫出切線方程。</p>
+  <div class="hint-card">求切線方程三步：① 求導數 \(f'(x)\)，代入 \(x_0\) 得斜率 k（同時代入原函數求切點 y 坐標）→ ② 寫出點斜式 \(y-y_0=k(x-x_0)\) → ③ 展開化簡</div>
+  <p>以 \(f(x)=x^2+x\) 為例：</p>
+  <table class="worked-tbl">
+    <tr><th colspan="2">算式</th><th>這一步在做什麼</th></tr>
+    <tr><td class="eq">\( f'(x) \)</td><td class="rhs">＝\( 2x+1 \)</td><td class="why">① 先求導數</td></tr>
+    <tr><td class="eq">\( f'(1) \)</td><td class="rhs">＝\( 3 \)</td><td class="why">　代入 \(x_0=1\)，得切線斜率 k</td></tr>
+    <tr><td class="eq">\( f(1) \)</td><td class="rhs">＝\( 2 \)</td><td class="why">　同時代入原函數，求切點 y 坐標</td></tr>
+    <tr><td colspan="2" class="span">切點 \(P(1,2)\)，斜率 \(k=3\)</td><td class="why">② 讀出切點與斜率，準備寫點斜式</td></tr>
+    <tr><td class="eq">\( y-2 \)</td><td class="rhs">＝\( 3(x-1) \)</td><td class="why">③ 代入點斜式 \(y-y_0=k(x-x_0)\)</td></tr>
+    <tr><td class="eq">\( y \)</td><td class="rhs">＝\( 3x-1 \)</td><td class="why">　化簡</td></tr>
+    <tr><td colspan="2" class="span ans">∴ 切線方程為 \( y=3x-1 \)</td><td class="why"></td></tr>
+  </table>
+
+  <div class="section-h">四、順便一提：導數也可以用來「線性估計」</div>
   <p>如果 \(\Delta x\) 很小，切線幾乎貼著曲線，所以可以用切線去估計 \(f(x_0+\Delta x)\)：</p>
   <div class="hint-card">公式卡（線性估計）：\( f(x_0+\Delta x) \approx f(x_0) + f'(x_0)\cdot\Delta x \)</div>
   <p>例如：\(f(x)=\sqrt{x}\)，已知 \(f(4)=2\)、\(f'(4)=\dfrac{1}{4}\)，估計 \(\sqrt{4.1}\)：</p>

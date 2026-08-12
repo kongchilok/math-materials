@@ -3,6 +3,11 @@
 # 2026-08-10 重出：範例改用 worked_example_table（house-style 書寫規範）＋
 # 新增割線→切線圖（D5 圖文雙軌，教學設計：主D5＋輔D2手順卡＋輔D14錯誤對比，
 # 本課屬 S10 全新概念導入，D14「不要用在全新概念第一次教學」故本課不放 D14）。
+# 2026-08-12 補「三、導數的幾何意義：求切線方程」新節：整合舊《功課_導數的概念及其
+# 意義(變化率問題)》類型三（曲線的切線方程），對應教案 2026/09/04、09/08 兩堂缺的
+# 內容（原講義只教到用定義求導數＋線性估計，沒有切線方程）；原「三、順便一提」
+# 順延為「四」。舊功課類型三共3題，其中一題（f(x)=x²-2x+3於x=2）改當本節worked
+# example，另外兩題移去《練習》C（見 build_practice.py）。
 import sys, os
 sys.path.insert(0, r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-generator\scripts")
 from omml_docx import *
@@ -60,7 +65,27 @@ P.append(worked_example_table([
 ], why_pct=0.38))
 P.append(blank())
 
-P.append(heading('三、順便一提：導數也可以用來「線性估計」'))
+P.append(heading('三、導數的幾何意義：求切線方程'))
+P.append(para([('t', '剛才那張「割線→切線」的圖已經告訴你答案：導數 '), ('m', omath(mr("f'("), sub(mr('x'), mr('0')), mr(')'))), ('t', ' 就是曲線在該點切線的斜率。知道斜率，配合切點坐標，就能寫出切線方程。')]))
+P.append(shaded_box([
+    ('t', '求切線方程三步：① 求導數 '), ('m', omath(mr("f'(x)"))), ('t', '，代入 '), ('m', omath(sub(mr('x'), mr('0')))),
+    ('t', ' 得斜率 k（同時代入原函數求切點 y 坐標）→ ② 寫出點斜式 '),
+    ('m', omath(mr('y-'), sub(mr('y'), mr('0')), mr('=k(x-'), sub(mr('x'), mr('0')), mr(')'))),
+    ('t', ' → ③ 展開化簡'),
+], kind='hint'))
+P.append(para('以 {f(x)=x^2+x} 為例：'))
+P.append(worked_example_table([
+    eq_row("{f'(x)}", '{2x+1}', '① 先求導數'),
+    eq_row("{f'(1)}", '{3}', '　代入 {x_0=1}，得切線斜率 k'),
+    eq_row('{f(1)}', '{2}', '　同時代入原函數，求切點 y 坐標'),
+    span_row('切點 P(1, 2)，斜率 {k=3}', '② 讀出切點與斜率，準備寫點斜式'),
+    eq_row('{y-2}', '{3(x-1)}', '③ 代入點斜式 {y-y_0=k(x-x_0)}'),
+    eq_row('{y}', '{3x-1}', '　化簡'),
+    answer_row('{y=3x-1}'),
+], why_pct=0.36))
+P.append(blank())
+
+P.append(heading('四、順便一提：導數也可以用來「線性估計」'))
 P.append(para('如果 {Δx} 很小，切線幾乎貼著曲線，所以可以用切線去估計 {f(x_0+Δx)}：'))
 P.append(shaded_box([('t', '公式卡（線性估計）：'), ('m', omath(mr('f('), sub(mr('x'), mr('0')), mr('+Δx)'), mr(' ≈ '), mr('f('), sub(mr('x'), mr('0')), mr(')+'), mr("f'("), sub(mr('x'), mr('0')), mr(')·Δx')))], kind='hint'))
 P.append(para('例如：{f(x)=sqrt(x)}，已知 {f(4)=2}、{f\'(4)=frac(1,4)}，估計 {sqrt(4.1)}：'))
