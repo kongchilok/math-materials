@@ -33,7 +33,11 @@
 | 驗收／檢查產出 | skill `math-deliverable-qa` | 詳見 CLAUDE-DETAILED.md §5 |
 | 轉 PDF | skill `office-pdf-convert` | 內建本機備援梯級；不要手寫 Word COM |
 | 上傳／更新 NotebookLM | skill `notebooklm-sync` | 上傳後必核 source_count |
+| 課室海報／關鍵詞彙卡 | skill `math-visual-scaffold-generator` | 沿用該單元講義已定的設計；**詞彙卡是每單元常設項，≤10 個詞** |
 | 開工／收工 | skill `startup`／`shutdown` | Obsidian 工作筆記＋git |
+| **L 級／進程階梯／基力條號／評級協調／教學計劃** | 先讀 `G:\我的雲端硬碟\AI learing\2ndBrain\每日筆記\3.0\數學科課程指引補充本（特殊教育）研讀筆記.md`，再查 `~\.claude\skills\macau-iep-math-goals\references\` 的 `lapl-math.md`（L1–L18）與 `bac-index.md`（基力條目） | L 級**只做落差診斷**，不可抄成目標文字（官方七禁區）；落差以學段正規帶**下限**起算；年級序列查《澳門大綱》表6，**不可由 L 級推** |
+
+> ⚠️ **筆記庫的正確根目錄是 `G:\我的雲端硬碟\AI learing\2ndBrain\每日筆記\`**（注意中間有 `AI learing` 一層）。`G:\我的雲端硬碟\2ndBrain\每日筆記\` **不存在**——2026-08-14 在 4 個 skill 檔查到 8 處寫錯，已修正。日後新增引用照正確路徑寫。
 
 ## 2. 鐵律（除非使用者當次明說偏離）
 1. **數學式必須原生**：docx 用 OMML（優先 `{}` 標記語法），HTML 用 MathJax。禁止公式截圖、純文字硬湊、`.doc` 舊格式。
