@@ -154,7 +154,7 @@ P.append(worked_example_table([
 ]))
 
 # 範例2：一般式
-P.append(shaded_box('範例2（一般式）：已知圖像過 (0, 1)、(1, 4)、(2, 11) 三點，求解析式。', keep_next=True))
+P.append(shaded_box('範例2（一般式）：已知圖像過 (0, 1)、(1, 4)、(2, 11) 三點，求解析式。', keep_next=True, page_break_before=True))
 P.append(worked_example_table([
     span_row('設 {y=ax^2+bx+c}', '一般式：三個未知數，要列三條方程'),
     eq_row('{c}', '{1}', '代入 (0,1)：x=0 時 y=c'),
