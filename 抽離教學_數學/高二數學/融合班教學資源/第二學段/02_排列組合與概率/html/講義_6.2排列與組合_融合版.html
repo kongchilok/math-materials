@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_6.2排列與組合_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure { text-align: center; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure .cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：6.2 排列與組合</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、排列與組合：差別只在「順序」</div>
+  <div>排列＝把選出來的元素「排隊」，誰先誰後有分別；組合＝把選出來的元素「組隊」，只看選了誰，不看次序。</div>
+  <div class="hint-card">交換測試：把選出的兩個元素對調，如果算「新結果」→ 排列；如果「還是同一個結果」→ 組合。</div>
+
+  <div class="section-h">（1）排列數</div>
+  <div>從 \(n\) 個不同元素中取出 \(m\) 個排成一列，排列數記作 \(A_n^m\)：</div>
+  <div>\[ A_n^m = n(n-1)(n-2)\cdots(n-m+1) \]</div>
+  <div>（由 \(n\) 開始遞減，共乘 \(m\) 個數）。特別地，\(n\) 個元素全部排一排：\(A_n^n = n! = n(n-1)\cdots 2\times 1\)。</div>
+
+  <div class="figure">
+    <svg xmlns="http://www.w3.org/2000/svg" width="540" height="187" viewBox="0 0 1240 430" font-family="Microsoft JhengHei, sans-serif">
+      <rect x="0" y="0" width="1240" height="430" fill="#ffffff"/>
+      <text x="60" y="70" font-size="34" font-weight="bold" fill="#1a1a1a">用 1,2,3,4 組成沒有重複數字的三位數：一格一格填</text>
+      <rect x="120" y="120" width="160" height="130" fill="#ffffff" stroke="#1a1a1a" stroke-width="4"/>
+      <rect x="340" y="120" width="160" height="130" fill="#ffffff" stroke="#1a1a1a" stroke-width="4"/>
+      <rect x="560" y="120" width="160" height="130" fill="#ffffff" stroke="#1a1a1a" stroke-width="4"/>
+      <text x="200" y="105" font-size="30" text-anchor="middle" fill="#555555">百位</text>
+      <text x="420" y="105" font-size="30" text-anchor="middle" fill="#555555">十位</text>
+      <text x="640" y="105" font-size="30" text-anchor="middle" fill="#555555">個位</text>
+      <text x="200" y="205" font-size="52" text-anchor="middle" font-weight="bold" fill="#1a1a1a">4</text>
+      <text x="420" y="205" font-size="52" text-anchor="middle" font-weight="bold" fill="#1a1a1a">3</text>
+      <text x="640" y="205" font-size="52" text-anchor="middle" font-weight="bold" fill="#1a1a1a">2</text>
+      <text x="310" y="200" font-size="44" text-anchor="middle" fill="#1a1a1a">×</text>
+      <text x="530" y="200" font-size="44" text-anchor="middle" fill="#1a1a1a">×</text>
+      <text x="200" y="300" font-size="28" text-anchor="middle" fill="#555555">4 個數字任選</text>
+      <text x="420" y="300" font-size="28" text-anchor="middle" fill="#555555">剩 3 個可選</text>
+      <text x="640" y="300" font-size="28" text-anchor="middle" fill="#555555">剩 2 個可選</text>
+      <text x="790" y="200" font-size="42" font-weight="bold" fill="#1a1a1a">＝ 4×3×2 ＝ 24 個</text>
+      <text x="790" y="260" font-size="30" fill="#555555">這就是排列數 A(4,3)</text>
+      <text x="60" y="390" font-size="30" fill="#1a1a1a">口訣：取幾個就畫幾個格子，數字一格比一格小 1，全部乘起來。</text>
+    </svg>
+    <div class="cap">圖：畫格子＝排列數的算法</div>
+  </div>
+
+  <div class="section-h">（2）組合數</div>
+  <div>從 \(n\) 個不同元素中取出 \(m\) 個作為一組，組合數記作 \(C_n^m\)：</div>
+  <div>\[ C_n^m = \frac{A_n^m}{m!} = \frac{n!}{m!\,(n-m)!} \]</div>
+  <div>道理：先當排列算，再除以 \(m!\) 把「同一組人的不同排法」合併成一種。</div>
+  <div>常用性質：\(C_n^m = C_n^{\,n-m}\)（選出 \(m\) 個＝留下 \(n-m\) 個，例如 \(C_{10}^{7}=C_{10}^{3}\)，算小的那邊比較快）。</div>
+
+  <div class="section-h">二、範例</div>
+  <div class="problem">
+    <div>從 5 名同學中：(1) 選 2 名分別擔任正、副班長；(2) 選 2 名參加大掃除。各有多少種選法？</div>
+    <div style="margin-top:6px;">步驟①　從幾個中取幾個？——從 5 取 2。</div>
+    <div>步驟②　交換測試：(1)「甲正乙副」對調變「乙正甲副」，是新結果 → 排列；(2) 大掃除的「甲乙」對調還是同一組人 → 組合。</div>
+    <div>步驟③　選公式：(1) 用 \(A_5^2\)；(2) 用 \(C_5^2\)。</div>
+    <div>步驟④　計算：(1) \(A_5^2 = 5\times 4 = 20\) 種；(2) \(C_5^2 = \dfrac{5\times 4}{2\times 1} = 10\) 種。</div>
+  </div>
+  <div class="hint-card">檢查：組合的答案（10）剛好是排列（20）的一半，因為每 2 人一組有 2 種排法被合併了。</div>
+
+  <div>接下來請拿《練習_6.2排列與組合_融合版》，依同樣的四步驟完成練習A、B、C。</div>
+
+  <div class="footer">高二數學．排列與組合（6.2）．課堂講義</div>
+</div>
+</body>
+</html>

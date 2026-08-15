@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>直線方程的五種形式．課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：直線方程的五種形式</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>請先複習《直線方程的五種形式．課堂講義》中的範例，再完成以下練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>1．已知點 (1, 4) 和斜率 k=2，代入點斜式：\(y-\_\_\_=2(x-\_\_\_)\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知斜率 k=3，y 軸截距 b=−1，代入斜截式：\(y=\_\_\_x+(\_\_\_)\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．已知 x 軸截距 a=5，y 軸截距 b=−2，代入截距式：\(\dfrac{x}{\_\_\_}+\dfrac{y}{\_\_\_}=1\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>4．已知一般式方程 3x−2y+6=0，求斜率：\(k=-\dfrac{\_\_\_}{\_\_\_}=\_\_\_\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高二數學．直線方程的五種形式</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>1．已知直線過點 (−1, 2)，斜率為 −3，求點斜式方程，並化為一般式。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知直線經過兩點 (1, 4) 和 (3, −2)，求這條直線的兩點式方程，並化為斜截式。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．已知直線在 x 軸、y 軸上的截距分別為 4 和 −3，求這條直線的截距式方程，並化為一般式。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>4．已知直線的一般式方程為 2x+5y−10=0，求其斜截式方程，並指出斜率與 y 軸截距。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高二數學．直線方程的五種形式</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>1．已知直線 l₁: 2x+ay−1=0 與直線 l₂: 4x−2y+3=0 互相垂直，求 a 的值。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知直線 l 經過點 A(1, 2)，且與直線 l₁: x−y−3=0 平行，求 l 的方程（化為一般式）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．已知直線 l₁: 2x+y−3=0。請你自己設定一點 A，寫出：(a) 過 A 且與 l₁ 平行的直線方程；(b) 過 A 且與 l₁ 垂直的直線方程。並驗證你的答案。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高二數學．直線方程的五種形式　第 1 頁</div>
+
+  <!-- ================= 教師用參考答案（另頁） ================= -->
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高二數學</span><span>單元：直線方程的五種形式</span><span>類型：課堂練習．教師用參考答案</span></div>
+
+  <div class="section-h">練習A（<span class="stars">★☆☆</span>）參考答案</div>
+  <div>1. y−4 = 2(x−1)</div>
+  <div>2. y = 3x + (−1)，即 y=3x−1</div>
+  <div>3. x/5 + y/(−2) = 1</div>
+  <div>4. k = −3/(−2) = 3/2</div>
+
+  <div class="section-h">練習B（<span class="stars">★★☆</span>）參考答案</div>
+  <div>1. y−2=−3(x+1) → y=−3x−1 → 3x+y+1=0</div>
+  <div>2. 斜率=(−2−4)/(3−1)=−3；兩點式：(y−4)/(−6)=(x−1)/2；斜截式：y=−3x+7</div>
+  <div>3. x/4+y/(−3)=1，兩邊乘12：3x−4y=12，即 3x−4y−12=0</div>
+  <div>4. 5y=−2x+10 → y=−2/5 x+2，斜率=−2/5，y 軸截距=2</div>
+
+  <div class="footer">高二數學．直線方程的五種形式．教師用參考答案</div>
+
+  <div class="section-h">練習C（<span class="stars">★★★</span>）參考答案</div>
+  <div>1. l₂ 斜率=−4/(−2)=2。l₁ 斜率=−2/a。垂直：(−2/a)×2=−1 → a=4</div>
+  <div>2. l₁ 斜率=1（y=x−3）。過(1,2)且斜率為1：y−2=x−1 → y=x+1 → x−y+1=0</div>
+  <div>3. 開放題。範例：取 A(0,0)。(a) 平行（斜率−2）：y=−2x，即 2x+y=0。(b) 垂直（斜率1/2）：y=(1/2)x，即 x−2y=0</div>
+
+  <div class="footer">高二數學．直線方程的五種形式　第 2 頁</div>
+
+</div>
+</body>
+</html>

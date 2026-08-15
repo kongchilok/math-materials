@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_概率3_分佈列與期望_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure { text-align: center; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure .cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .figure img { max-width: 100%; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：概率(三) 分佈列與期望值</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、隨機變量與分佈列</div>
+  <div>把隨機試驗的結果用一個數 X 表示（例如「摸出的紅球個數」），X 就是隨機變量。把 X 的每個可能值和對應概率排成一張表，就是分佈列。</div>
+
+  <div class="figure"><img src="images/dist_66.png" width="560" alt="分佈列表格">
+    <div class="cap">圖：分佈列表格與期望的算法</div>
+  </div>
+
+  <div class="hint-card">分佈列兩個必查：每個概率 ≥ 0；全部概率相加＝1。算完先檢查這兩點再往下做。</div>
+
+  <div class="section-h">二、期望值 E(X)：加權平均</div>
+  <div>期望＝每個值 × 自己的概率，再全部相加：</div>
+  <div>\[ E(X) = x_1 p_1 + x_2 p_2 + \cdots + x_n p_n \]</div>
+  <div>它代表「平均而言 X 是多少」，是長期平均的水平，不一定是 X 真的能取到的值。</div>
+
+  <div class="section-h">三、二項分布：n 次獨立重複試驗</div>
+  <div>同一件事獨立重複做 \(n\) 次，每次成功概率都是 \(p\)，X＝成功次數，則</div>
+  <div>\[ P(X=k) = C_n^k\, p^k (1-p)^{n-k}\text{，且 } E(X) = np \]</div>
+  <div class="hint-card">認出二項分布的三個條件：次數固定、每次獨立、每次成功概率相同（例如投籃 4 次、拋硬幣 5 次）。</div>
+
+  <div class="section-h">四、範例</div>
+  <div class="problem">
+    <div>袋中有 2 個紅球、1 個白球，不放回摸出 2 個球，設 X＝摸到的紅球個數。求 X 的分佈列與期望 E(X)。</div>
+    <div style="margin-top:6px;">步驟①　X 可以取哪些值？——摸 2 球至少 1 紅（白球只有 1 個），X＝1 或 2。</div>
+    <div>步驟②　算各值概率：全部取法 \(C_3^2=3\)；X＝2（兩紅）佔 1 種 → P＝\(\dfrac{1}{3}\)；X＝1（一紅一白）佔 2 種 → P＝\(\dfrac{2}{3}\)。</div>
+    <div>步驟③　列分佈列（見上圖表格），檢查 \(\dfrac{2}{3}+\dfrac{1}{3}=1\) ✓。</div>
+    <div>步驟④　期望：\(E(X) = 1\times\dfrac{2}{3} + 2\times\dfrac{1}{3} = \dfrac{4}{3}\)。意義：平均每次約摸到 1.33 個紅球。</div>
+  </div>
+
+  <div>接下來請拿《練習_概率3_分佈列與期望_融合版》，依同樣的四步驟完成練習A、B、C。</div>
+
+  <div class="footer">高二數學．概率(三) 分佈列與期望值．課堂講義</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_概率3_分佈列與期望_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .fill { display: inline-block; min-width: 70px; border-bottom: 1px solid #1a1a1a; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .anskey div { margin: 4px 0; }
+  table.dist { border-collapse: collapse; margin: 6px 0; }
+  table.dist td, table.dist th { border: 1px solid #1a1a1a; padding: 4px 18px; text-align: center; font-weight: normal; }
+  table.dist th { background: #f0f0f0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：概率(三) 分佈列與期望值</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div>請先回看《講義》的範例，四步驟：①X 取哪些值　②算各值概率（相加要＝1）　③列表　④E(X)＝每值×概率再相加。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>A-1．隨機變量 X 的分佈列如下：</div>
+    <table class="dist"><tr><th>X</th><td>0</td><td>1</td><td>2</td></tr><tr><th>P</th><td>0.2</td><td>0.5</td><td>m</td></tr></table>
+    <div>(1) 求 m＝<span class="fill">&nbsp;</span>（用「全部概率相加＝1」）；</div>
+    <div>(2) E(X)＝0×0.2＋1×0.5＋2×<span class="fill">&nbsp;</span>＝<span class="fill">&nbsp;</span>。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：0.2＋0.5＋m＝1。</div>
+
+  <div class="problem">
+    <div>A-2．擲一枚均勻骰子，X＝擲出的點數。</div>
+    <div>(1) 列出 X 的分佈列（每個點數的概率都一樣）；</div>
+    <div>(2) 求 E(X)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：E(X)＝(1＋2＋3＋4＋5＋6)×\(\dfrac{1}{6}\)。</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>B-1．隨機變量 X 的分佈列如下，求 m 與 E(X)。</div>
+    <table class="dist"><tr><th>X</th><td>−1</td><td>0</td><td>1</td></tr><tr><th>P</th><td>\(\dfrac{1}{2}\)</td><td>\(\dfrac{1}{3}\)</td><td>m</td></tr></table>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先用概率和＝1 求 m；E(X) 有負值項，小心正負相消。</div>
+
+  <div class="problem">
+    <div>B-2．盒子中有 3 個紅球、2 個白球（除顏色外相同），隨機取出 2 個球，X＝取到的紅球個數。</div>
+    <div>(1) 列出 X 的分佈列（X 可取 0、1、2）；</div>
+    <div>(2) 求 E(X)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：分母都是 \(C_5^2=10\)；三個概率算完先相加檢查＝1。</div>
+
+  <div class="problem">
+    <div>B-3．某籃球運動員投籃命中率是 \(\dfrac{2}{3}\)，他投 4 次（每次獨立）。求恰好投進 3 球的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：二項分布：\(C_4^3\left(\dfrac{2}{3}\right)^3\left(\dfrac{1}{3}\right)^1\)。</div>
+
+  <div class="problem">
+    <div>B-4．某批產品正品率為 \(\dfrac{3}{4}\)。從中抽取 5 件（每次獨立），X＝抽到的正品數。求 X 的期望 E(X)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：二項分布的期望有快捷公式 E(X)＝np。</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>C-1．承 B-4：正品率 \(\dfrac{3}{4}\)、抽 5 件。求「恰有 3 件正品」的概率（結果用分數表示）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：\(C_5^3=10\)；分母是 \(4^5=1024\)。</div>
+
+  <div class="problem">
+    <div>C-2．某彩票每張 2 元，共發行 10000 張：1 張中 5000 元，10 張各中 100 元，100 張各中 10 元，其餘不中獎。</div>
+    <div>(1) 設 X＝一張彩票的獎金，求 E(X)；</div>
+    <div>(2) 平均而言，買一張彩票是賺還是虧？虧多少？你會怎樣向家人解釋「買彩票值不值得」？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：E(X)＝5000×\(\dfrac{1}{10000}\)＋100×\(\dfrac{10}{10000}\)＋10×\(\dfrac{100}{10000}\)；再跟票價 2 元比較。</div>
+
+  <div class="problem">
+    <div>C-3．羽毛球單打三局兩勝制。甲每局獲勝的概率為 \(\dfrac{2}{3}\)（各局獨立）。求甲奪冠的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：分兩類：直落二（2:0）；前兩局 1 勝 1 負、第三局甲勝（2:1，注意前兩局哪局輸有 2 種排法）。</div>
+
+
+  <div class="page-break"></div>
+
+  <div class="section-h">教師用參考答案</div>
+  <div class="anskey">
+    <div>A-1．(1) m＝1－0.2－0.5＝0.3。(2) E(X)＝0＋0.5＋0.6＝1.1。</div>
+    <div>A-2．(1) 每個點數概率 \(\dfrac{1}{6}\)。(2) E(X)＝\(\dfrac{21}{6}\)＝3.5。</div>
+    <div>B-1．m＝1－\(\dfrac{1}{2}\)－\(\dfrac{1}{3}\)＝\(\dfrac{1}{6}\)；E(X)＝\(-\dfrac{1}{2}+0+\dfrac{1}{6}=-\dfrac{1}{3}\)。</div>
+    <div>B-2．(1) P(X=0)＝\(\dfrac{1}{10}\)、P(X=1)＝\(\dfrac{6}{10}\)、P(X=2)＝\(\dfrac{3}{10}\)（檢查相加＝1 ✓）。(2) E(X)＝0×0.1＋1×0.6＋2×0.3＝1.2。</div>
+    <div>B-3．\(C_4^3\left(\dfrac{2}{3}\right)^3\left(\dfrac{1}{3}\right)=4\times\dfrac{8}{27}\times\dfrac{1}{3}=\dfrac{32}{81}\)。</div>
+    <div>B-4．E(X)＝np＝5×\(\dfrac{3}{4}\)＝3.75 件。</div>
+    <div>C-1．\(C_5^3\left(\dfrac{3}{4}\right)^3\left(\dfrac{1}{4}\right)^2=10\times\dfrac{27}{64}\times\dfrac{1}{16}=\dfrac{270}{1024}=\dfrac{135}{512}\approx 0.264\)。</div>
+    <div>C-2．(1) E(X)＝0.5＋0.1＋0.1＝0.7 元。(2) 0.7＜2，平均每張虧 1.3 元。解釋要點：期望是長期平均，偶爾有人中大獎，但平均而言買的人一定虧。</div>
+    <div>C-3．2:0：\(\left(\dfrac{2}{3}\right)^2=\dfrac{4}{9}\)。2:1：\(2\times\dfrac{2}{3}\times\dfrac{1}{3}\times\dfrac{2}{3}=\dfrac{8}{27}\)。合計 \(\dfrac{4}{9}+\dfrac{8}{27}=\dfrac{20}{27}\)。</div>
+  </div>
+
+  <div class="footer">高二數學．概率(三) 分佈列與期望值．課堂練習　答案頁</div>
+</div>
+</body>
+</html>

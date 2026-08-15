@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：二元一次不等式與平面區域</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px 40px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .lead { margin: 6px 0 10px; }
+  .steps-list { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps-list li { margin: 6px 0; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .problem .q { font-weight: 600; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 6px 12px; margin: 8px 0; break-inside: avoid; }
+  .worked-example .st { margin: 5px 0; }
+  .fig { text-align: center; margin: 10px 0 4px; break-inside: avoid; }
+  .fig svg { width: auto; max-width: 340px; height: auto; }
+  .cap { font-size: 10.5pt; color: #555; text-align: center; margin-bottom: 6px; }
+  .write-lines { margin-top: 6px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans .problem { border-color: #333; }
+  .page-break { break-before: page; page-break-before: always; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高二數學</span><span>單元：二元一次不等式與平面區域</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="section-h">一、概念導入</div>
+  <p class="lead">一元一次不等式（例如 \(x \gt 1\)）的解，在「數線」上是一條射線；而二元一次不等式（例如 \(x+y \gt 1\)）的解，畫在「坐標平面」上，是被一條直線分成的其中一整邊——一個「半平面」區域。</p>
+  <p class="lead">要畫出二元一次不等式（\(Ax+By+C \gt 0\)、\(\lt 0\)、\(\ge 0\) 或 \(\le 0\)）所代表的區域，固定用下面三個步驟。</p>
+  <div class="section-h">二、畫區域的三個步驟</div>
+  <ol class="steps-list">
+    <li><b>步驟①　畫界線：</b>把不等號改成等號，畫出直線 \(Ax+By+C=0\)。若原式含 \(\ge\) 或 \(\le\)，界線畫<b>實線</b>（邊界上的點也是解）；若含 \(\gt\) 或 \(\lt\)，界線畫<b>虛線</b>（邊界上的點不是解）。</li>
+    <li><b>步驟②　選測試點：</b>在界線以外任選一點代入原不等式。只要界線不經過原點，就用最方便的原點 \((0,0)\)。</li>
+    <li><b>步驟③　定區域：</b>測試點若使不等式成立，測試點那一邊就是解；若不成立，就取另一邊，把該半平面塗上陰影。</li>
+  </ol>
+  <div class="section-h">三、範例</div>
+  <div class="worked-example">
+    <div class="st"><b>範例：</b>在坐標平面上，畫出 \(2x+y-4 \lt 0\) 所代表的區域。</div>
+    <div class="st"><b>步驟①（畫界線）：</b>把 \(\lt\) 改成 \(=\)，得界線 \(2x+y=4\)，通過 \((2,0)\) 與 \((0,4)\)。因為是「\(\lt\)」，界線畫虛線。</div>
+    <div class="st"><b>步驟②（選測試點）：</b>界線不過原點，取 \((0,0)\) 代入左邊：\(2\times 0+0-4=-4\)。</div>
+    <div class="st"><b>步驟③（定區域）：</b>因為 \(-4 \lt 0\) 成立，含原點那一側就是解，塗上陰影（不含界線），如下圖。</div>
+  </div>
+  <div class="fig"><svg viewBox="0 0 188 236" data-w="188" data-h="236" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Noto Sans TC, Arial, sans-serif"><line x1="22" y1="22" x2="22" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="46" y1="22" x2="46" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="70" y1="22" x2="70" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="94" y1="22" x2="94" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="118" y1="22" x2="118" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="142" y1="22" x2="142" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="166" y1="22" x2="166" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="214" x2="166" y2="214" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="190" x2="166" y2="190" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="166" x2="166" y2="166" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="142" x2="166" y2="142" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="118" x2="166" y2="118" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="94" x2="166" y2="94" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="70" x2="166" y2="70" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="46" x2="166" y2="46" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="22" x2="166" y2="22" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="166" x2="166" y2="166" stroke="#333" stroke-width="1.5"/><polygon points="166,166 159,162 159,170" fill="#333"/><line x1="46" y1="214" x2="46" y2="22" stroke="#333" stroke-width="1.5"/><polygon points="46,22 42,29 50,29" fill="#333"/><text x="169" y="171" font-size="12" fill="#333">x</text><text x="53" y="26" font-size="12" fill="#333">y</text><text x="33" y="180" font-size="11" fill="#666">O</text><text x="19" y="180" font-size="10" fill="#777">-1</text><text x="67" y="180" font-size="10" fill="#777">1</text><text x="91" y="180" font-size="10" fill="#777">2</text><text x="115" y="180" font-size="10" fill="#777">3</text><text x="139" y="180" font-size="10" fill="#777">4</text><text x="40" y="217" font-size="10" fill="#777" text-anchor="end">-2</text><text x="40" y="193" font-size="10" fill="#777" text-anchor="end">-1</text><text x="40" y="145" font-size="10" fill="#777" text-anchor="end">1</text><text x="40" y="121" font-size="10" fill="#777" text-anchor="end">2</text><text x="40" y="97" font-size="10" fill="#777" text-anchor="end">3</text><text x="40" y="73" font-size="10" fill="#777" text-anchor="end">4</text><text x="40" y="49" font-size="10" fill="#777" text-anchor="end">5</text><polygon points="22,214 118.0,214.0 22.0,22.0 22,22" fill="#8a8f96" fill-opacity="0.3" stroke="none"/><line x1="22" y1="22.0" x2="118.0" y2="214" stroke="#111" stroke-width="2.2" stroke-dasharray="6,4"/><circle cx="94" cy="166" r="3.2" fill="#111"/><text x="100" y="158" font-size="11" fill="#111">(2,0)</text><circle cx="46" cy="70" r="3.2" fill="#111"/><text x="54" y="66" font-size="11" fill="#111">(0,4)</text><circle cx="46" cy="166" r="3.2" fill="#111"/><text x="54" y="182" font-size="11" fill="#111">(0,0)</text></svg></div><div class="cap">2x + y − 4 &lt; 0 的區域（虛線界線，陰影為解）</div>
+  <div class="hint-card">小提醒：虛線代表「界線上的點不算解」。若把原式改成 \(2x+y-4 \le 0\)，界線就要改畫實線，陰影也包含界線。</div>
+  <div class="section-h">四、換你試</div>
+  <p class="lead">接下來請取出《二元一次不等式與平面區域　課堂練習》，依「畫界線 → 選測試點 → 定區域」這三個步驟，完成練習A、B、C。</p>
+  <div class="footer">高二數學．二元一次不等式與平面區域</div>
+</div>
+</body>
+</html>

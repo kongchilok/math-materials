@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_複合函數_高一數學</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .worked-example { break-inside: avoid; page-break-inside: avoid; }
+  .worked-example b { display: block; margin-bottom: 3px; }
+  .worked-example div { margin: 2px 0; }
+  .diagram { text-align: center; margin: 8px 0; }
+  .diagram .cap { font-size: 10.5pt; color: #555; margin-top: 2px; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：複合函數（補充）</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、什麼是複合函數</div>
+  <p>把一個函數的輸出，當作另一個函數的輸入，接連運算兩次，就得到「複合函數」。可以想成兩台機器串在一起：</p>
+  <div class="diagram">
+    <svg viewBox="0 0 540 150" width="500" height="139" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Arial, sans-serif">
+      <text x="18" y="80" font-size="20" fill="#1a1a1a">x</text>
+      <line x1="34" y1="74" x2="92" y2="74" stroke="#1a1a1a" stroke-width="2"/>
+      <polygon points="92,74 82,69 82,79" fill="#1a1a1a"/>
+      <rect x="94" y="44" width="110" height="60" rx="6" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2"/>
+      <text x="149" y="70" font-size="17" fill="#1a1a1a" text-anchor="middle">g　機器</text>
+      <text x="149" y="92" font-size="13" fill="#555" text-anchor="middle">（內層）</text>
+      <line x1="204" y1="74" x2="286" y2="74" stroke="#1a1a1a" stroke-width="2"/>
+      <polygon points="286,74 276,69 276,79" fill="#1a1a1a"/>
+      <text x="245" y="64" font-size="16" fill="#1a1a1a" text-anchor="middle">g(x)</text>
+      <rect x="288" y="44" width="110" height="60" rx="6" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2"/>
+      <text x="343" y="70" font-size="17" fill="#1a1a1a" text-anchor="middle">f　機器</text>
+      <text x="343" y="92" font-size="13" fill="#555" text-anchor="middle">（外層）</text>
+      <line x1="398" y1="74" x2="456" y2="74" stroke="#1a1a1a" stroke-width="2"/>
+      <polygon points="456,74 446,69 446,79" fill="#1a1a1a"/>
+      <text x="462" y="80" font-size="18" fill="#1a1a1a">f(g(x))</text>
+      <text x="270" y="132" font-size="13" fill="#555" text-anchor="middle">x 先進 g 機器，得到 g(x)；再把 g(x) 送進 f 機器，得到 f(g(x))</text>
+    </svg>
+    <div class="cap">圖：x 先經過 g 機器，再經過 f 機器</div>
+  </div>
+  <div class="hint-card">一般地，設 \(y=f(u)\)，而 \(u=g(x)\)，把 \(u=g(x)\) 代進去就得到 \(y=f(g(x))\)，這個函數叫做由 \(f\) 和 \(g\) 複合而成的複合函數。其中 \(g\) 是內層、\(f\) 是外層，\(u\) 叫中間變量。</div>
+  <div class="hint-card">求 \(f(g(x))\) 的解析式，方法只有一句話：把 \(f(x)\) 式子裡的每一個 \(x\)，整個換成 \(g(x)\)。</div>
+
+  <div class="worked-example">
+    <b>範例一：求複合函數的解析式</b>
+    <div>已知 \(f(x)=x^2+3x+2\)，\(g(x)=x+1\)，求 \(f(g(x))\) 的解析式。</div>
+    <div>① 認內外層：內層 \(g(x)=x+1\)，外層 \(f(x)=x^2+3x+2\)。</div>
+    <div>② 代入：把 \(f(x)\) 裡的每個 \(x\) 換成 \((x+1)\)，得 \(f(g(x))=(x+1)^2+3(x+1)+2\)。</div>
+    <div>③ 展開：\((x+1)^2=x^2+2x+1\)，\(3(x+1)=3x+3\)，合起來 \(=x^2+2x+1+3x+3+2\)。</div>
+    <div>④ 整理：\(f(g(x))=x^2+5x+6\)。</div>
+  </div>
+
+  <div class="section-h">二、兩件要小心的事</div>
+  <p>（1）複合的順序會影響結果——\(f(g(x))\) 通常不等於 \(g(f(x))\)。</p>
+  <div class="worked-example">
+    <b>範例二：換個順序，答案不一樣</b>
+    <div>已知 \(f(x)=2x\)，\(g(x)=x+3\)。</div>
+    <div>先 g 後 f：\(f(g(x))=2(x+3)=2x+6\)。</div>
+    <div>先 f 後 g：\(g(f(x))=2x+3\)（把 \(g\) 裡的 \(x\) 換成 \(f(x)=2x\)）。</div>
+    <div>兩者不同，所以做複合函數一定要先看清楚「誰在裡面、誰在外面」。</div>
+  </div>
+
+  <p>（2）複合函數的定義域——\(x\) 要能讓內層 \(g(x)\) 算得出來，算出的 \(g(x)\) 還要落在外層 \(f\) 的定義域裡。</p>
+  <div class="worked-example">
+    <b>範例三：帶定義域的複合函數</b>
+    <div>已知 \(f(x)=\sqrt{x}\)，\(g(x)=x-3\)，求 \(f(g(x))\) 的解析式與定義域。</div>
+    <div>① 解析式：\(f(g(x))=\sqrt{x-3}\)。</div>
+    <div>② 定義域：根號裡要 \(\ge 0\)，即 \(x-3 \ge 0\)，解得 \(x \ge 3\)。</div>
+    <div>③ 結論：\(f(g(x))=\sqrt{x-3}\)，定義域是 \(x \ge 3\)。</div>
+  </div>
+
+  <p>接下來請拿《複合函數（補充）課堂練習》，依這套方法完成練習A、B、C。</p>
+
+  <div class="footer">高一數學．複合函數（補充）</div>
+
+</div>
+</body>
+</html>

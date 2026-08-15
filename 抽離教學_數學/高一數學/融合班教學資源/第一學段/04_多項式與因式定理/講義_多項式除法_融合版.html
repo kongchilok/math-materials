@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>多項式除法 講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .syn-table { border-collapse: collapse; margin: 8px 0; }
+  .syn-table td { padding: 3px 14px; text-align: center; font-size: 12pt; }
+  .syn-table .sep { border-right: 1.5px solid #000; }
+  .syn-table .line td { border-top: 1px solid #000; }
+  .page-break { break-before: page; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：多項式除法（長除法與綜合除法）</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、從「數的除法」談起</div>
+  <div>我們先想一個大家都算過的除法：17 ÷ 5 = 3 餘 2，也就是：</div>
+  <div>\[ 17 = 5 \times 3 + 2 \]</div>
+  <div>換句話說：被除數 = 除數 × 商 + 餘數，而且餘數（2）一定比除數（5）小。多項式的除法是同一個道理，只是把「數」換成「x 的式子」。</div>
+
+  <div class="section-h">二、除法原理</div>
+  <div>設 \(f(x)\)、\(g(x)\) 為多項式，\(g(x)\neq 0\)，則恰好存在 \(q(x)\) 和 \(r(x)\)，使得：</div>
+  <div>\[ f(x) = g(x)\cdot q(x) + r(x) \]</div>
+  <div class="hint-card">f(x)：被除式　g(x)：除式　q(x)：商式　r(x)：餘式（r(x) 的次數要比 g(x) 的次數小）</div>
+
+  <div class="section-h">三、範例（一）長除法 —— 求 \(x^3+2x^2+3x+1 \div (x-1)\)</div>
+  <div>做法跟「數」的長除法一樣：每次拿最高次項去除，乘回去再相減，一步一步把次數降下來。</div>
+  <div class="hint-card">步驟1　\(x^3 \div x = x^2\) → 商式先寫下 \(x^2\)</div>
+  <div class="hint-card">步驟2　\(x^2\times(x-1)=x^3-x^2\)，相減得 \(3x^2+3x+1\)</div>
+  <div class="hint-card">步驟3　\(3x^2\div x=3x\) → 商式加上 \(3x\)；\(3x\times(x-1)=3x^2-3x\)，相減得 \(6x+1\)</div>
+  <div class="hint-card">步驟4　\(6x\div x=6\) → 商式加上 6；\(6\times(x-1)=6x-6\)，相減得 7</div>
+  <div>故商式為 \(x^2+3x+6\)，餘式為 7，即：\(x^3+2x^2+3x+1=(x-1)(x^2+3x+6)+7\)</div>
+
+  <div class="section-h">四、範例（二）綜合除法 —— 除式 x 的係數為 1</div>
+  <div>長除法「夠準確但慢」；綜合除法只留下係數，速度快很多。求 \(x^2+3x+6 \div (x+1)\) 的商式及餘式：</div>
+  <div class="hint-card">操作：除式的常數項變號（口訣：除式常數變號，之後全程「先乘後加」）</div>
+  <table class="syn-table">
+    <tr><td>1</td><td>+3</td><td class="sep">+6</td></tr>
+    <tr><td></td><td>−1</td><td class="sep">−2</td></tr>
+    <tr class="line"><td>1</td><td>+2</td><td class="sep">4</td></tr>
+  </table>
+  <div style="font-size:10.5pt;">（除式常數項變號為 −1，寫在右上角；每一欄先乘 −1、再往下加）</div>
+  <div>故商式為 \(x+2\)，餘式為 4 —— 跟長除法算出來的答案一致！</div>
+
+  <div class="section-h">五、範例（三）綜合除法 —— 除式 x 的係數不為 1</div>
+  <div>求 \(4x^3+4x^2-x-3 \div (2x+1)\) 的商式及餘式：</div>
+  <div class="hint-card">多一個步驟：先把除式 2x+1 看成「2 倍的 (x+½)」，用 −½ 做綜合除法，算完的商式係數要「再除以 2」</div>
+  <table class="syn-table">
+    <tr><td>4</td><td>+4</td><td>−1</td><td class="sep">−3</td></tr>
+    <tr><td></td><td>−2</td><td>−1</td><td class="sep">+1</td></tr>
+    <tr class="line"><td>4</td><td>+2</td><td>−2</td><td class="sep">−2</td></tr>
+  </table>
+  <div style="font-size:10.5pt;">（c = −½）算得 4, 2, −2 之後，再把前三個數除以 2，得商式係數 2, 1, −1；餘式 −2 不必再除。</div>
+  <div>故商式為 \(2x^2+x-1\)，餘式為 −2。</div>
+
+  <div class="section-h">六、接下來</div>
+  <div>請拿出《多項式除法 —— 課堂練習》，依照這三個範例的框架完成練習 A、B、C。</div>
+
+  <div class="footer">高一數學．多項式除法單元　第 1 頁</div>
+</div>
+</body>
+</html>

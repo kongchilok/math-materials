@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<title>澳門四校聯考 2026 數學正卷 教師版</title>
+<script>
+MathJax = { tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}, svg:{fontCache:'global',displayAlign:'left',displayIndent:'0'} };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+  @page { size:A4; margin:0.5cm 1cm 1cm 1cm; }
+  * { box-sizing:border-box; }
+  html { font-size:12pt; }
+  body { font-family:"Noto Serif TC","Times New Roman","Songti TC",serif; color:#111; line-height:1.5; margin:0; padding:0; background:#f3f3f3; }
+  .sheet { max-width:820px; margin:0 auto; background:#fff; padding:0.5cm 1cm 1cm; }
+  .ws-header { border-bottom:2px solid #111; padding-bottom:5px; margin-bottom:8px; }
+  .ws-title { font-size:14pt; font-weight:700; letter-spacing:0.04em; }
+  .ws-tag { display:inline-block; font-size:10pt; background:#b6532c; color:#fff; padding:1px 10px; border-radius:99px; margin-left:8px; vertical-align:middle; }
+  .ws-meta { display:flex; gap:26px; margin-top:5px; font-size:11pt; }
+  .ws-meta .u { display:inline-block; min-width:110px; border-bottom:1px solid #111; }
+  .ws-note { font-size:9.5pt; color:#555; margin-top:4px; }
+
+  .sec-head { font-size:12pt; font-weight:700; margin:10px 0 8px; padding:3px 10px; background:#1d1c1a; color:#fff; border-radius:3px; break-after:avoid; }
+  .sec-head .sec-sub { font-size:9pt; font-weight:400; color:#d8d2c4; margin-left:8px; }
+  .sec-break { page-break-before:always; }
+
+  .q-head { display:flex; align-items:baseline; gap:9px; margin-bottom:3px; }
+  .q-no { font-weight:700; font-size:12pt; color:#b6532c; }
+  .q-tag,.q-type { font-size:8.5pt; color:#888; border:1px solid #ddd; border-radius:99px; padding:0 8px; }
+  .q-body { font-size:12pt; }
+
+  .img-float { float:right; margin:0 0 6px 14px; text-align:center; }
+  .img-float img { max-width:240px; max-height:180px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .img-big { clear:both; text-align:center; margin:8px 0; }
+  .img-big img { max-width:96%; max-height:320px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .clear { clear:both; }
+
+  .box { border-radius:4px; padding:5px 11px; margin:6px 0; font-size:10.5pt; }
+  .box ul { margin:2px 0 0; padding-left:20px; } .box li { margin:1px 0; }
+  .formula { background:#eef3f5; border:1px solid #a9c4cc; } .formula .lbl { font-weight:700; color:#2a5560; margin-right:6px; }
+  .hint { background:#f5f0e3; border:1px solid #d6bf86; color:#6a5212; } .hint .lbl { font-weight:700; color:#8a6a1e; margin-right:6px; }
+  .ans { background:#e3f0e8; border:1px solid #7fb89a; } .ans .lbl { font-weight:700; color:#2f6b4f; margin-right:6px; }
+
+  .opts { margin:6px 0 2px; display:flex; flex-wrap:wrap; gap:6px 22px; }
+  .opt { display:inline-flex; align-items:baseline; gap:5px; font-size:11.5pt; white-space:nowrap; }
+  .opt-key { font-weight:700; color:#2a5560; }
+
+  .q { border:1px solid #d8d6cd; border-radius:4px; padding:8px 12px 10px; margin-bottom:9px; page-break-inside:avoid; overflow:hidden; }
+  .work { margin-top:10px; border:1px solid #c9c7bd; border-radius:3px; overflow:hidden; display:flex; flex-direction:column; background:#fff; }
+  .work-lbl { flex:0 0 auto; font-size:8.5pt; color:#aaa; padding:2px 0 0 8px; }
+  .rules { flex:1 1 auto; overflow:hidden; }
+  .rule { height:0.82cm; border-bottom:1px solid #d4dadd; } .rule:last-child { border-bottom:none; }
+  .work-mc { min-height:2.46cm; }
+  .ans-line { margin-top:7px; font-size:11pt; font-weight:600; }
+  .ans-box { display:inline-block; min-width:130px; border-bottom:1.5px solid #111; height:1.1em; vertical-align:bottom; }
+  .sol-fullpage { height:27.4cm; display:flex; flex-direction:column; page-break-before:always; overflow:hidden; }
+  .sol-fullpage .sec-head { flex:0 0 auto; }
+  .sol-fullpage .q-long { flex:1 1 auto; }
+  .q-long { display:flex; flex-direction:column; page-break-inside:avoid; }
+  .q-long .work-sol { flex:1 1 auto; margin-top:8px; }
+
+  .tq { border:1px solid #d8d6cd; border-radius:4px; padding:8px 13px 10px; margin-bottom:10px; }
+  .tq-break { page-break-inside:avoid; }
+  .sol-title { font-weight:700; font-size:11pt; margin:9px 0 4px; padding-bottom:2px; border-bottom:1.5px solid #1d1c1a; }
+  .part { font-weight:700; color:#b6532c; margin:7px 0 4px; font-size:11pt; }
+  .row { display:flex; gap:9px; align-items:stretch; flex-wrap:wrap; margin-bottom:3px; }
+  .region { flex:1 1 auto; border:1px solid #d8d6cd; border-radius:5px; padding:4px 10px 6px; break-inside:avoid; }
+  .region-h { font-size:9.5pt; font-weight:700; color:#fff; background:#2a5560; border-radius:3px; padding:1px 8px; display:inline-block; margin-bottom:3px; }
+  .region .math { font-size:10.5pt; }
+  .region .math mjx-container { margin:0 !important; }
+  .fill { margin-top:3px; border-top:1px dashed #e0ddd2; background:#fcfcfa; }
+</style></head><body>
+<div class="sheet">
+  <div class="ws-header">
+    <div class="ws-title">澳門四校聯考　2026 年試題　數學正卷<span class="ws-tag">教師版</span></div>
+  </div>
+  
+  <div class="sec-head">第一部分　選擇題<span class="sec-sub">共 15 題 · 含正確答案與詳解</span></div>
+  <div class="tq">
+  <div class="q-head"><span class="q-no">1.</span><span class="q-type">第一類型：基本概念</span></div>
+  
+  <div class="q-body">\(A=\{x\mid x^2+x-2\le0\}\)，\(B=\{x\mid|x-1|\ge1\}\)，求 \(A\cap B\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>二次不等式因式分解</li><li>\(|x-a|\ge k\Leftrightarrow x\ge a+k\) 或 \(x\le a-k\)</li><li>數線取交集</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\([-2,0]\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 解 \(A\)</span><div class="math">\[\begin{aligned}
+(x+2)(x-1) &amp;\le 0 \\
+A &amp;= [-2,1]
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 解 \(B\)</span><div class="math">\[\begin{aligned}
+|x-1| &amp;\ge 1 \\
+x\ge2 &amp;\ \text{或}\ x\le0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 取交集</span><div class="math">\[\begin{aligned}
+A\cap B &amp;= [-2,0]
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">2.</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">若 \(\dfrac{3x+5y}{2y-x}=5\)，求 \(\dfrac{x}{y}\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>交叉相乘</li><li>移項合併同類項</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(\tfrac{5}{8}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 交叉相乘</span><div class="math">\[\begin{aligned}
+3x+5y &amp;= 5(2y-x)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 移項求比</span><div class="math">\[\begin{aligned}
+8x &amp;= 5y \\
+\frac{x}{y} &amp;= \frac{5}{8}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">3.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">若方程 \(3x-a=5-bx\) 有無限多個解，求 \(a-b\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>無限多解：\(x\) 係數與常數項皆相等（整理後皆為 0）</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(a-b=-2\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 整理</span><div class="math">\[\begin{aligned}
+(3+b)x+(-a-5) &amp;= 0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 係數與常數皆 0</span><div class="math">\[\begin{aligned}
+b &amp;= -3 \\
+a &amp;= -5
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求 \(a-b\)</span><div class="math">\[\begin{aligned}
+a-b &amp;= -2
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">4.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">若 \(x^2-6x+k=0\) 有兩個不相等實根，求 \(k\) 的範圍。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>判別式 \(\Delta=b^2-4ac&gt;0\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(k&lt;9\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 兩相異實根須 \(\Delta&gt;0\)</span><div class="math">\[\begin{aligned}
+36-4k &amp;&gt; 0 \\
+k &amp;&lt; 9
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">5.</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">求多項式 \(x^{1000}+x^{999}+\cdots+x+1\) 除以 \(x+3\) 的餘數。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>餘式定理：除以 \(x-a\) 餘 \(f(a)\)</li><li>等比數列求和</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(\dfrac{1+3^{1001}}{4}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 餘式定理</span><div class="math">\[\begin{aligned}
+\text{餘} &amp;= f(-3)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 等比和</span><div class="math">\[\begin{aligned}
+f(-3) &amp;= \frac{1-(-3)^{1001}}{1-(-3)} \\
+&amp;= \frac{1+3^{1001}}{4}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">6.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">若 \(a,b\) 為 \(2x^2-5x+1=0\) 的兩根，求 \(a^2+b^2\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(a+b=-\tfrac{b}{a},\ ab=\tfrac{c}{a}\)</li><li>\(a^2+b^2=(a+b)^2-2ab\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(\tfrac{21}{4}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 根與係數</span><div class="math">\[\begin{aligned}
+a+b &amp;= \tfrac52 \\
+ab &amp;= \tfrac12
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 恆等式</span><div class="math">\[\begin{aligned}
+a^2+b^2 &amp;= (a+b)^2-2ab \\
+&amp;= \tfrac{25}{4}-1=\tfrac{21}{4}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">7.</span><span class="q-type">第八類型：對數與指數函數</span></div>
+  
+  <div class="q-body">若 \(\log_a ab=x\)，以 \(x\) 表示 \(\log_b ab\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\log_a ab=1+\log_a b\)</li><li>換底 \(\log_b ab=\dfrac{\log_a ab}{\log_a b}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(\dfrac{x}{x-1}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 求 \(\log_a b\)</span><div class="math">\[\begin{aligned}
+\log_a ab=1+\log_a b &amp;= x \\
+\log_a b &amp;= x-1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 換底</span><div class="math">\[\begin{aligned}
+\log_b ab &amp;= \frac{x}{x-1}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">8.</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgMzAwIDI2MCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI2MCIgZmlsbD0id2hpdGUiLz4KICA8bGluZSB4MT0iMTAiIHkxPSIxODAiIHgyPSIyOTAiIHkyPSIxODAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8cG9seWdvbiBwb2ludHM9IjI5MCwxODAgMjgzLDE4MyAyODMsMTc3IiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iMjg2IiB5PSIxOTMiIGZvbnQtc2l6ZT0iMTEiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+eDwvdGV4dD4KICA8bGluZSB4MT0iMTIwIiB5MT0iMjUwIiB4Mj0iMTIwIiB5Mj0iMjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8cG9seWdvbiBwb2ludHM9IjEyMCwyMCAxMjMsMjcgMTE3LDI3IiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iMTI2IiB5PSIyNCIgZm9udC1zaXplPSIxMSIgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljIj55PC90ZXh0PgogIDxjaXJjbGUgY3g9IjEwMiIgY3k9IjEyNiIgcj0iOTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzJmNmI0ZiIgc3Ryb2tlLXdpZHRoPSIxLjgiLz4KICA8IS0tIGNlbnRyZSBPKC0xLDMpIC0tPgogIDxwYXRoIGQ9Ik05NywxMjEgTDEwNywxMzEgTTEwNywxMjEgTDk3LDEzMSIgc3Ryb2tlPSIjMjIyIiBzdHJva2Utd2lkdGg9IjEuNCIvPgogIDx0ZXh0IHg9IjEwOCIgeT0iMTIwIiBmb250LXNpemU9IjExIiBmaWxsPSIjMjIyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPk8oLTEsMyk8L3RleHQ+CiAgPCEtLSByYWRpdXMgT1AgKGJsdWUgZGFzaGVkKSAtLT4KICA8bGluZSB4MT0iMTAyIiB5MT0iMTI2IiB4Mj0iNDgiIHkyPSIxOTgiIHN0cm9rZT0iIzMzNjZjYyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1kYXNoYXJyYXk9IjUgMyIvPgogIDx0ZXh0IHg9IjU4IiB5PSIxNTAiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiMzMzY2Y2MiPnI9NTwvdGV4dD4KICA8IS0tIHRhbmdlbnQgbGluZSAzeCs0eSsxNj0wIChyZWQpIHRocm91Z2ggUCAtLT4KICA8bGluZSB4MT0iMTIiIHkxPSIxNzEiIHgyPSIxMDIiIHkyPSIyMzguNSIgc3Ryb2tlPSIjYzAzOTJiIiBzdHJva2Utd2lkdGg9IjEuOSIvPgogIDx0ZXh0IHg9IjE2IiB5PSIxNjYiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiNjMDM5MmIiPjN4KzR5KzE2PTA8L3RleHQ+CiAgPCEtLSByaWdodC1hbmdsZSBtYXJrZXIgYXQgUCBiZXR3ZWVuIHJhZGl1cyBhbmQgdGFuZ2VudCAtLT4KICA8cGF0aCBkPSJNNDEsMTg5IEw1MiwxODEgTDYwLDE5MiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjNTU1IiBzdHJva2Utd2lkdGg9IjEuMiIvPgogIDwhLS0gUCgtNCwtMSkgLS0+CiAgPGNpcmNsZSBjeD0iNDgiIGN5PSIxOTgiIHI9IjMuOCIgZmlsbD0iI2MwMzkyYiIvPjx0ZXh0IHg9IjIwIiB5PSIyMTQiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiNjMDM5MmIiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+UCgtNCwtMSk8L3RleHQ+Cjwvc3ZnPg==" alt="第8題圖示"></div>
+  <div class="q-body">圓 \(C:x^2+y^2+2x-6y-15=0\) 在點 \((-4,-1)\) 的切線方程為（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>配方求圓心</li><li>切線 \(\perp\) 過切點的半徑</li><li>點斜式</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(3x+4y+16=0\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 配方求圓心</span><div class="math">\[\begin{aligned}
+(x+1)^2+(y-3)^2 &amp;= 25 \\
+\text{圓心} &amp;= (-1,3)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 切線斜率</span><div class="math">\[\begin{aligned}
+k_{\text{半徑}} &amp;= \frac{-1-3}{-4+1}=\tfrac43 \\
+k_{\text{切}} &amp;= -\tfrac34
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 點斜式</span><div class="math">\[\begin{aligned}
+y+1 &amp;= -\tfrac34(x+4) \\
+3x+4y+16 &amp;= 0
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">9.</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">\(f(x)=ax^3-8x^2+bx-4\)，\(f(2)=-6\)，求 \(f(-2)\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>整體代換：把 \(8a+2b\) 當一個整體</li><li>奇偶項符號變化</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(f(-2)=-66\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 由 \(f(2)\) 求整體</span><div class="math">\[\begin{aligned}
+8a+2b-36 &amp;= -6 \\
+8a+2b &amp;= 30
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 求 \(f(-2)\)</span><div class="math">\[\begin{aligned}
+f(-2) &amp;= -(8a+2b)-36 \\
+&amp;= -66
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">10.</span><span class="q-type">第十類型：排列與組合</span></div>
+  
+  <div class="q-body">6 男 4 女中選 5 人，要求至少 3 男且至少 1 女，求組合數。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>分類討論（男 3 或 4）</li><li>\(C^n_r\) 相乘相加</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(180\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 3 男 2 女</span><div class="math">\[\begin{aligned}
+C^6_3C^4_2 &amp;= 120
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 4 男 1 女</span><div class="math">\[\begin{aligned}
+C^6_4C^4_1 &amp;= 60
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 相加</span><div class="math">\[\begin{aligned}
+120+60 &amp;= 180
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">11.</span><span class="q-type">第九類型：非線性方程</span></div>
+  
+  <div class="q-body">求 \(\sqrt{3x^2-4x+1}-\sqrt{3x^2-2x+4}=-1\) 的解集。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>移項、平方</li><li>務必驗根</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(\{0,3\}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 移項平方</span><div class="math">\[\begin{aligned}
+x+2 &amp;= \sqrt{3x^2-2x+4}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 再平方</span><div class="math">\[\begin{aligned}
+2x(x-3) &amp;= 0 \\
+x &amp;= 0\ \text{或}\ 3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 驗根</span><div class="math">\[\begin{aligned}
+&amp;\text{皆成立}\Rightarrow\{0,3\}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">12.</span><span class="q-type">第十三類型：三角</span></div>
+  
+  <div class="q-body">若 \(\tan\!\left(\tfrac{9\pi}{4}+x\right)=-7\)，求 \(\dfrac{1-\sin2x}{\cos2x}\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>週期 \(\tan(2\pi+\theta)=\tan\theta\)</li><li>\(\dfrac{1-\sin2x}{\cos2x}=\dfrac{1-\tan x}{1+\tan x}\)</li><li>\(\tan(\tfrac\pi4+x)=\dfrac{1+\tan x}{1-\tan x}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(-\tfrac{1}{7}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 化簡角度</span><div class="math">\[\begin{aligned}
+\tan\!\left(\tfrac{9\pi}{4}+x\right) &amp;= \tan\!\left(\tfrac{\pi}{4}+x\right)=-7
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 目標化為倒數</span><div class="math">\[\begin{aligned}
+\frac{1-\sin2x}{\cos2x} &amp;= \frac{1-\tan x}{1+\tan x} \\
+&amp;= \frac{1}{\tan\!\left(\frac{\pi}{4}+x\right)}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求值</span><div class="math">\[\begin{aligned}
+&amp;= \frac{1}{-7}=-\tfrac17
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">13.</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">等比數列中 \(2S_3=a_4-a_1\)，\(a_3+a_5=7\)，則 \(a_5+a_7=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>以 \(a,q\) 表示各項</li><li>\(S_3=a(1+q+q^2)\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(a_5+a_7=63\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 由第一式求 \(q\)</span><div class="math">\[\begin{aligned}
+2a(1+q+q^2) &amp;= a(q^3-1) \\
+q &amp;= 3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 由第二式求 \(a\)</span><div class="math">\[\begin{aligned}
+a_3+a_5=90a &amp;= 7 \\
+a &amp;= \tfrac{7}{90}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求目標</span><div class="math">\[\begin{aligned}
+a_5+a_7 &amp;= 810a=63
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">14.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyODAiIGhlaWdodD0iMjIwIiB2aWV3Qm94PSIwIDAgMjgwIDIyMCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIyMCIgZmlsbD0id2hpdGUiLz4KICA8bGluZSB4MT0iMzgiIHkxPSIxMjYuNzUiIHgyPSIyNjgiIHkyPSIxMjYuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwb2x5Z29uIHBvaW50cz0iMjY4LDEyNi43NSAyNjAuNzkyLDEzMC4yMjEgMjYwLjc5MiwxMjMuMjc5IiBmaWxsPSIjMzMzIi8+CiAgPGxpbmUgeDE9IjE3OCIgeTE9IjE5MiIgeDI9IjE3OCIgeTI9IjEyIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS41IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8cG9seWdvbiBwb2ludHM9IjE3OCwxMiAxODEuNDcxLDE5LjIwOCAxNzQuNTI5LDE5LjIwOCIgZmlsbD0iIzMzMyIvPgogIDx0ZXh0IHg9IjI3NiIgeT0iMTI2Ljc1IiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjMjIyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPng8L3RleHQ+CiAgPHRleHQgeD0iMTc4IiB5PSIyIiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjMjIyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPnk8L3RleHQ+CiAgPGxpbmUgeDE9IjM4IiB5MT0iMTIyLjc1IiB4Mj0iMzgiIHkyPSIxMzAuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjM4IiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTU8L3RleHQ+CiAgPGxpbmUgeDE9IjY2IiB5MT0iMTIyLjc1IiB4Mj0iNjYiIHkyPSIxMzAuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjY2IiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTQ8L3RleHQ+CiAgPGxpbmUgeDE9Ijk0IiB5MT0iMTIyLjc1IiB4Mj0iOTQiIHkyPSIxMzAuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9Ijk0IiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTM8L3RleHQ+CiAgPGxpbmUgeDE9IjEyMiIgeTE9IjEyMi43NSIgeDI9IjEyMiIgeTI9IjEzMC43NSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTIyIiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTI8L3RleHQ+CiAgPGxpbmUgeDE9IjE1MCIgeTE9IjEyMi43NSIgeDI9IjE1MCIgeTI9IjEzMC43NSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTUwIiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTE8L3RleHQ+CiAgPGxpbmUgeDE9IjIwNiIgeTE9IjEyMi43NSIgeDI9IjIwNiIgeTI9IjEzMC43NSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMjA2IiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+MTwvdGV4dD4KICA8bGluZSB4MT0iMjM0IiB5MT0iMTIyLjc1IiB4Mj0iMjM0IiB5Mj0iMTMwLjc1IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIyMzQiIHk9IjEzOS43NSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij4yPC90ZXh0PgogIDxsaW5lIHgxPSIyNjIiIHkxPSIxMjIuNzUiIHgyPSIyNjIiIHkyPSIxMzAuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjI2MiIgeT0iMTM5Ljc1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjM8L3RleHQ+CiAgPGxpbmUgeDE9IjE3NCIgeTE9IjE5MiIgeDI9IjE4MiIgeTI9IjE5MiIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTY4IiB5PSIxOTIiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTM8L3RleHQ+CiAgPGxpbmUgeDE9IjE3NCIgeTE9IjE3MC4yNSIgeDI9IjE4MiIgeTI9IjE3MC4yNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTY4IiB5PSIxNzAuMjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTI8L3RleHQ+CiAgPGxpbmUgeDE9IjE3NCIgeTE9IjE0OC41IiB4Mj0iMTgyIiB5Mj0iMTQ4LjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjE2OCIgeT0iMTQ4LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTE8L3RleHQ+CiAgPGxpbmUgeDE9IjE3NCIgeTE9IjEwNSIgeDI9IjE4MiIgeTI9IjEwNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTY4IiB5PSIxMDUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+MTwvdGV4dD4KICA8bGluZSB4MT0iMTc0IiB5MT0iODMuMjUiIHgyPSIxODIiIHkyPSI4My4yNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTY4IiB5PSI4My4yNSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0iZW5kIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij4yPC90ZXh0PgogIDxsaW5lIHgxPSIxNzQiIHkxPSI2MS41IiB4Mj0iMTgyIiB5Mj0iNjEuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTY4IiB5PSI2MS41IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjM8L3RleHQ+CiAgPGxpbmUgeDE9IjE3NCIgeTE9IjM5Ljc1IiB4Mj0iMTgyIiB5Mj0iMzkuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjE2OCIgeT0iMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+NDwvdGV4dD4KICA8bGluZSB4MT0iMTc0IiB5MT0iMTgiIHgyPSIxODIiIHkyPSIxOCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTY4IiB5PSIxOCIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0iZW5kIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij41PC90ZXh0PgogIDx0ZXh0IHg9IjE2OSIgeT0iMTM5Ljc1IiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij5PPC90ZXh0PgogIDxwb2x5bGluZSBwb2ludHM9IjM4LDM4Ny43NSA0MC44LDM3MC41NjggNDMuNiwzNTMuODIgNDYuNCwzMzcuNTA4IDQ5LjIsMzIxLjYzIDUyLDMwNi4xODggNTQuOCwyOTEuMTggNTcuNiwyNzYuNjA3IDYwLjQsMjYyLjQ3IDYzLjIsMjQ4Ljc2NyA2NiwyMzUuNSA2OC44LDIyMi42NjcgNzEuNiwyMTAuMjcgNzQuNCwxOTguMzA4IDc3LjIsMTg2Ljc4IDgwLDE3NS42ODggODIuOCwxNjUuMDMgODUuNiwxNTQuODA3IDg4LjQsMTQ1LjAyIDkxLjIsMTM1LjY2NyA5NCwxMjYuNzUgOTYuOCwxMTguMjY4IDk5LjYsMTEwLjIyIDEwMi40LDEwMi42MDcgMTA1LjIsOTUuNDMgMTA4LDg4LjY4OCAxMTAuOCw4Mi4zOCAxMTMuNiw3Ni41MDcgMTE2LjQsNzEuMDcgMTE5LjIsNjYuMDY3IDEyMiw2MS41IDEyNC44LDU3LjM2OCAxMjcuNiw1My42NyAxMzAuNCw1MC40MDggMTMzLjIsNDcuNTggMTM2LDQ1LjE4OCAxMzguOCw0My4yMyAxNDEuNiw0MS43MDcgMTQ0LjQsNDAuNjIgMTQ3LjIsMzkuOTY3IDE1MCwzOS43NSAxNTIuOCwzOS45NjcgMTU1LjYsNDAuNjIgMTU4LjQsNDEuNzA3IDE2MS4yLDQzLjIzIDE2NCw0NS4xODggMTY2LjgsNDcuNTggMTY5LjYsNTAuNDA4IDE3Mi40LDUzLjY3IDE3NS4yLDU3LjM2OCAxNzgsNjEuNSAxODAuOCw2Ni4wNjggMTgzLjYsNzEuMDcgMTg2LjQsNzYuNTA4IDE4OS4yLDgyLjM4IDE5Miw4OC42ODggMTk0LjgsOTUuNDMgMTk3LjYsMTAyLjYwOCAyMDAuNCwxMTAuMjIgMjAzLjIsMTE4LjI2OCAyMDYsMTI2Ljc1IDIwOC44LDEzNS42NjggMjExLjYsMTQ1LjAyIDIxNC40LDE1NC44MDggMjE3LjIsMTY1LjAzIDIyMCwxNzUuNjg4IDIyMi44LDE4Ni43OCAyMjUuNiwxOTguMzA4IDIyOC40LDIxMC4yNyAyMzEuMiwyMjIuNjY4IDIzNCwyMzUuNSAyMzYuOCwyNDguNzY4IDIzOS42LDI2Mi40NyAyNDIuNCwyNzYuNjA4IDI0NS4yLDI5MS4xOCAyNDgsMzA2LjE4OCAyNTAuOCwzMjEuNjMgMjUzLjYsMzM3LjUwOCAyNTYuNCwzNTMuODIgMjU5LjIsMzcwLjU2NyAyNjIsMzg3Ljc1IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNjUzMmMiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgPHRleHQgeD0iMTY4IiB5PSIzOS43NSIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjYjY1MzJjIj7plovlj6PlkJHkuIs8L3RleHQ+CgogIDxsaW5lIHgxPSIxNTAiIHkxPSIzNSIgeDI9IjE1MCIgeTI9IjE1MCIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPHRleHQgeD0iMTUzIiB5PSIzMyIgZm9udC1zaXplPSI5IiBmaWxsPSIjNTU1Ij7lsI3nqLHou7ggeD0oYS0xKS8zIOKJpCAtMTwvdGV4dD4KICA8bGluZSB4MT0iMTUwIiB5MT0iMTI2Ljc1IiB4Mj0iMjU1IiB5Mj0iMTI2Ljc1IiBzdHJva2U9IiNjMDM5MmIiIHN0cm9rZS13aWR0aD0iMy40Ii8+CiAgPHBvbHlnb24gcG9pbnRzPSIyNTUsMTI2Ljc1IDI0NywxMjIuNSAyNDcsMTMxIiBmaWxsPSIjYzAzOTJiIi8+CiAgPHRleHQgeD0iMTcyIiB5PSIxMjAiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiNjMDM5MmIiPumBnua4m+WNgOmWkyBbLTEsIOKInik8L3RleHQ+Cjwvc3ZnPg==" alt="第14題圖示"></div>
+  <div class="q-body">\(f(x)=-3x^2+2(a-1)x+2\)，對 \(x_1,x_2\in[-1,\infty)\) 有 \((x_2-x_1)(f(x_2)-f(x_1))&lt;0\)，求 \(a\) 的範圍。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>條件即在 \([-1,\infty)\) 遞減</li><li>開口向下：對稱軸右側遞減</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(a\le-2\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 對稱軸</span><div class="math">\[\begin{aligned}
+x &amp;= \frac{a-1}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 遞減條件（軸 \(\le-1\)）</span><div class="math">\[\begin{aligned}
+\frac{a-1}{3} &amp;\le -1 \\
+a &amp;\le -2
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">15.</span><span class="q-type">第十五類型：函數圖形</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNDAiIGhlaWdodD0iMjIwIiB2aWV3Qm94PSIwIDAgMzQwIDIyMCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMzQwIiBoZWlnaHQ9IjIyMCIgZmlsbD0id2hpdGUiLz4KICA8bGluZSB4MT0iMTQiIHkxPSIxMzAiIHgyPSIzMjYiIHkyPSIxMzAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8cG9seWdvbiBwb2ludHM9IjMyNiwxMzAgMzE5LDEzMyAzMTksMTI3IiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iMzIyIiB5PSIxNDMiIGZvbnQtc2l6ZT0iMTEiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+eDwvdGV4dD4KICA8bGluZSB4MT0iMTYwIiB5MT0iMjA1IiB4Mj0iMTYwIiB5Mj0iMTgiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiLz4KICA8cG9seWdvbiBwb2ludHM9IjE2MCwxOCAxNjMsMjUgMTU3LDI1IiBmaWxsPSIjMzMzIi8+PHRleHQgeD0iMTY2IiB5PSIyMiIgZm9udC1zaXplPSIxMSIgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljIj55PC90ZXh0PgogIDx0ZXh0IHg9IjE1MCIgeT0iMTQzIiBmb250LXNpemU9IjkiIGZpbGw9IiM1NTUiPk88L3RleHQ+CiAgPCEtLSB5PXggZm9yIC00PHg8NCA6ICgtNCwtNCktPig4MCwyMDIpIDsgKDQsNCktPigyNDAsNTgpIC0tPgogIDxsaW5lIHgxPSI4MCIgeTE9IjIwMiIgeDI9IjI0MCIgeTI9IjU4IiBzdHJva2U9IiMyZjZiNGYiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgPGNpcmNsZSBjeD0iODAiIGN5PSIyMDIiIHI9IjMuMiIgZmlsbD0id2hpdGUiIHN0cm9rZT0iIzJmNmI0ZiIvPgogIDxjaXJjbGUgY3g9IjI0MCIgY3k9IjU4IiByPSIzLjIiIGZpbGw9IndoaXRlIiBzdHJva2U9IiMyZjZiNGYiLz4KICA8dGV4dCB4PSIyNDQiIHk9IjU2IiBmb250LXNpemU9IjkiIGZpbGw9IiMyZjZiNGYiPnk9eDwvdGV4dD4KICA8IS0tIHNxcnQoeCkgeD49NCA6IHg9NC0+MiAoMjQwLDk0KTsgNS0+Mi4yMzYoMjYwLDg5LjcpOzYtPjIuNDQ5KDI4MCw4NS45KTs3LT4yLjY0NigzMDAsODIuNCkgLS0+CiAgPHBvbHlsaW5lIHBvaW50cz0iMjQwLDk0IDI2MCw4OS43IDI4MCw4NS45IDMwMCw4Mi40IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNjUzMmMiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgPGNpcmNsZSBjeD0iMjQwIiBjeT0iOTQiIHI9IjMuMiIgZmlsbD0iI2I2NTMyYyIvPgogIDx0ZXh0IHg9IjI3MCIgeT0iNzgiIGZvbnQtc2l6ZT0iOSIgZmlsbD0iI2I2NTMyYyI+4oiaeDwvdGV4dD4KICA8IS0tIHNxcnQoLXgpIHg8PS00IG1pcnJvciA6IHg9LTQtPjIgKDgwLDk0KTstNy0+Mi42NDYgKDIwLDgyLjQpIC0tPgogIDxwb2x5bGluZSBwb2ludHM9IjgwLDk0IDYwLDg5LjcgNDAsODUuOSAyMCw4Mi40IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNjUzMmMiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgPGNpcmNsZSBjeD0iODAiIGN5PSI5NCIgcj0iMy4yIiBmaWxsPSIjYjY1MzJjIi8+CiAgPHRleHQgeD0iMzQiIHk9Ijc4IiBmb250LXNpemU9IjkiIGZpbGw9IiNiNjUzMmMiPuKImnx4fDwvdGV4dD4KICA8IS0tIHNhZmUgcmVnaW9uIHJlZCBvbiB4LWF4aXM6ICgtaW5mLC00XSBhbmQgWzAsaW5mKSAtLT4KICA8bGluZSB4MT0iMjAiIHkxPSIxMzAiIHgyPSI4MCIgeTI9IjEzMCIgc3Ryb2tlPSIjYzAzOTJiIiBzdHJva2Utd2lkdGg9IjMuNCIvPgogIDxsaW5lIHgxPSIxNjAiIHkxPSIxMzAiIHgyPSIzMDAiIHkyPSIxMzAiIHN0cm9rZT0iI2MwMzkyYiIgc3Ryb2tlLXdpZHRoPSIzLjQiLz4KICA8IS0tIHRyYXAgcmVnaW9uIGJsdWUgKC00LDApIC0tPgogIDxsaW5lIHgxPSI4MCIgeTE9IjEzMCIgeDI9IjE2MCIgeTI9IjEzMCIgc3Ryb2tlPSIjMzM2NmNjIiBzdHJva2Utd2lkdGg9IjMuNCIvPgogIDx0ZXh0IHg9Ijg0IiB5PSIxNTIiIGZvbnQtc2l6ZT0iOSIgZmlsbD0iIzMzNjZjYyI+6Zm36ZixKC00LDAp77ya6Ly45Ye66LKg5YC8PC90ZXh0PgogIDx0ZXh0IHg9IjE5NiIgeT0iMTI0IiBmb250LXNpemU9IjkiIGZpbGw9IiNjMDM5MmIiPuWuieWFqO+8mmcg5YC85Z+f5Y+WIFswLOKInik8L3RleHQ+CiAgPGxpbmUgeDE9IjEyMCIgeTE9IjE0OCIgeDI9IjgwIiB5Mj0iMTMzIiBzdHJva2U9IiMzMzY2Y2MiIHN0cm9rZS13aWR0aD0iMC44Ii8+Cjwvc3ZnPg==" alt="第15題圖示"></div>
+  <div class="q-body">\(f(x)=\begin{cases}\sqrt{|x|},&amp;|x|\ge4\\x,&amp;|x|&lt;4\end{cases}\)，\(g(x)\) 為二次函數且 \(f(g(x))\) 的值域為 \([0,\infty)\)，求 \(g(x)\) 的值域。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>避免 \(f\) 輸出負值</li><li>二次函數值域為連續區間</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\([0,\infty)\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 避開負輸出</span><div class="math">\[\begin{aligned}
+t\in(-4,0) &amp;\Rightarrow f(t)&lt;0\ \text{須避開}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 覆蓋 \([0,\infty)\)</span><div class="math">\[\begin{aligned}
+t\ge0 &amp;\Rightarrow f\ \text{覆蓋}\ [0,\infty)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 連續區間結論</span><div class="math">\[\begin{aligned}
+g\ \text{值域} &amp;= [0,\infty)
+\end{aligned}\]</div></div></div>
+</div>
+  <div class="sec-head sec-break">第二部分　解答題<span class="sec-sub">共 5 題 · 含參考答案與詳解</span></div>
+  <div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 1 題</span><span class="q-type">第十六類型：概率和統計</span></div>
+  
+  <div class="q-body">A、B 隊各 3 人，A 隊得分概率 \(\tfrac34,\tfrac23,\tfrac12\)，B 隊全為 \(\tfrac34\)，各有一次得分機會。<br>(a) 求 A 隊得 0,1,2,3 分的概率。<br>(b) 已知兩隊共得 3 分，求「B 隊分數高於 A 隊」的條件機率。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>獨立事件乘法</li><li>條件機率 \(P(B\!&gt;\!A\mid\text{總}3)=\dfrac{P(\cap)}{P(\text{總}3)}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(P_0=\tfrac1{24},P_1=\tfrac14,P_2=\tfrac{11}{24},P_3=\tfrac14\)　(b) \(\tfrac{9}{14}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）A 隊各分數機率</div><div class="row"><div class="region"><span class="region-h">工序 1 · 逐一列舉</span><div class="math">\[\begin{aligned}
+P(0) &amp;= \tfrac{1}{24} \\
+P(1) &amp;= \tfrac{1}{4} \\
+P(2) &amp;= \tfrac{11}{24} \\
+P(3) &amp;= \tfrac{1}{4}
+\end{aligned}\]</div></div></div><div class="part">（b）條件機率 \(B&gt;A\)</div><div class="row"><div class="region"><span class="region-h">工序 2 · 共 3 分機率</span><div class="math">\[\begin{aligned}
+P(\text{總}3) &amp;= \tfrac{49}{256}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · \(B&gt;A\) 部分</span><div class="math">\[\begin{aligned}
+P(B&gt;A,\text{總}3) &amp;= \tfrac{63}{512}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 相除</span><div class="math">\[\begin{aligned}
+P &amp;= \frac{63/512}{49/256}=\tfrac{9}{14}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 2 題</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyODAiIGhlaWdodD0iMjIwIiB2aWV3Qm94PSIwIDAgMjgwIDIyMCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMjgwIiBoZWlnaHQ9IjIyMCIgZmlsbD0id2hpdGUiLz4KICA8bGluZSB4MT0iMzgiIHkxPSIxMjYuNzUiIHgyPSIyNjgiIHkyPSIxMjYuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwb2x5Z29uIHBvaW50cz0iMjY4LDEyNi43NSAyNjAuNzkyLDEzMC4yMjEgMjYwLjc5MiwxMjMuMjc5IiBmaWxsPSIjMzMzIi8+CiAgPGxpbmUgeDE9IjExMi42NjciIHkxPSIxOTIiIHgyPSIxMTIuNjY3IiB5Mj0iMTIiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjUiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDxwb2x5Z29uIHBvaW50cz0iMTEyLjY2NywxMiAxMTYuMTM4LDE5LjIwOCAxMDkuMTk2LDE5LjIwOCIgZmlsbD0iIzMzMyIvPgogIDx0ZXh0IHg9IjI3NiIgeT0iMTI2Ljc1IiBmb250LXNpemU9IjEyIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjMjIyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPng8L3RleHQ+CiAgPHRleHQgeD0iMTEyLjY2NyIgeT0iMiIgZm9udC1zaXplPSIxMiIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzIyMiIgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljIj55PC90ZXh0PgogIDxsaW5lIHgxPSI2Mi44ODkiIHkxPSIxMjIuNzUiIHgyPSI2Mi44ODkiIHkyPSIxMzAuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjYyLjg4OSIgeT0iMTM5Ljc1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi0yPC90ZXh0PgogIDxsaW5lIHgxPSIxNjIuNDQ0IiB5MT0iMTIyLjc1IiB4Mj0iMTYyLjQ0NCIgeTI9IjEzMC43NSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTYyLjQ0NCIgeT0iMTM5Ljc1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjI8L3RleHQ+CiAgPGxpbmUgeDE9IjIxMi4yMjIiIHkxPSIxMjIuNzUiIHgyPSIyMTIuMjIyIiB5Mj0iMTMwLjc1IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIyMTIuMjIyIiB5PSIxMzkuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+NDwvdGV4dD4KICA8bGluZSB4MT0iMjYyIiB5MT0iMTIyLjc1IiB4Mj0iMjYyIiB5Mj0iMTMwLjc1IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIyNjIiIHk9IjEzOS43NSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij42PC90ZXh0PgogIDxsaW5lIHgxPSIxMDguNjY3IiB5MT0iMTkyIiB4Mj0iMTE2LjY2NyIgeTI9IjE5MiIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTAyLjY2NyIgeT0iMTkyIiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi02PC90ZXh0PgogIDxsaW5lIHgxPSIxMDguNjY3IiB5MT0iMTcwLjI1IiB4Mj0iMTE2LjY2NyIgeTI9IjE3MC4yNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTAyLjY2NyIgeT0iMTcwLjI1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi00PC90ZXh0PgogIDxsaW5lIHgxPSIxMDguNjY3IiB5MT0iMTQ4LjUiIHgyPSIxMTYuNjY3IiB5Mj0iMTQ4LjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjEwMi42NjciIHk9IjE0OC41IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi0yPC90ZXh0PgogIDxsaW5lIHgxPSIxMDguNjY3IiB5MT0iMTA1IiB4Mj0iMTE2LjY2NyIgeTI9IjEwNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTAyLjY2NyIgeT0iMTA1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjI8L3RleHQ+CiAgPGxpbmUgeDE9IjEwOC42NjciIHkxPSI4My4yNSIgeDI9IjExNi42NjciIHkyPSI4My4yNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTAyLjY2NyIgeT0iODMuMjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+NDwvdGV4dD4KICA8bGluZSB4MT0iMTA4LjY2NyIgeTE9IjYxLjUiIHgyPSIxMTYuNjY3IiB5Mj0iNjEuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTAyLjY2NyIgeT0iNjEuNSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0iZW5kIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij42PC90ZXh0PgogIDxsaW5lIHgxPSIxMDguNjY3IiB5MT0iMzkuNzUiIHgyPSIxMTYuNjY3IiB5Mj0iMzkuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjEwMi42NjciIHk9IjM5Ljc1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjg8L3RleHQ+CiAgPGxpbmUgeDE9IjEwOC42NjciIHkxPSIxOCIgeDI9IjExNi42NjciIHkyPSIxOCIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTAyLjY2NyIgeT0iMTgiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+MTA8L3RleHQ+CiAgPHRleHQgeD0iMTAzLjY2NyIgeT0iMTM5Ljc1IiBmb250LXNpemU9IjEwIiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij5PPC90ZXh0PgogIDxwb2x5bGluZSBwb2ludHM9IjM4LDMwMC43NSA0MC44LDI4OC42NTMgNDMuNiwyNzYuODMyIDQ2LjQsMjY1LjI4NiA0OS4yLDI1NC4wMTUgNTIsMjQzLjAxOSA1NC44LDIzMi4yOTkgNTcuNiwyMjEuODU0IDYwLjQsMjExLjY4NCA2My4yLDIwMS43ODkgNjYsMTkyLjE3IDY4LjgsMTgyLjgyNiA3MS42LDE3My43NTcgNzQuNCwxNjQuOTY0IDc3LjIsMTU2LjQ0NiA4MCwxNDguMjAzIDgyLjgsMTQwLjIzNSA4NS42LDEzMi41NDMgODguNCwxMjUuMTI2IDkxLjIsMTE3Ljk4NCA5NCwxMTEuMTE3IDk2LjgsMTA0LjUyNiA5OS42LDk4LjIxIDEwMi40LDkyLjE2OSAxMDUuMiw4Ni40MDQgMTA4LDgwLjkxNCAxMTAuOCw3NS42OTkgMTEzLjYsNzAuNzU5IDExNi40LDY2LjA5NSAxMTkuMiw2MS43MDYgMTIyLDU3LjU5MiAxMjQuOCw1My43NTMgMTI3LjYsNTAuMTkgMTMwLjQsNDYuOTAyIDEzMy4yLDQzLjg4OSAxMzYsNDEuMTUyIDEzOC44LDM4LjY5IDE0MS42LDM2LjUwMyAxNDQuNCwzNC41OTEgMTQ3LjIsMzIuOTU1IDE1MCwzMS41OTQgMTUyLjgsMzAuNTA4IDE1NS42LDI5LjY5NyAxNTguNCwyOS4xNjIgMTYxLjIsMjguOTAyIDE2NCwyOC45MTcgMTY2LjgsMjkuMjA4IDE2OS42LDI5Ljc3NCAxNzIuNCwzMC42MTUgMTc1LjIsMzEuNzMxIDE3OCwzMy4xMjMgMTgwLjgsMzQuNzkgMTgzLjYsMzYuNzMyIDE4Ni40LDM4Ljk1IDE4OS4yLDQxLjQ0MiAxOTIsNDQuMjEgMTk0LjgsNDcuMjU0IDE5Ny42LDUwLjU3MiAyMDAuNCw1NC4xNjYgMjAzLjIsNTguMDM1IDIwNiw2Mi4xOCAyMDguOCw2Ni41OTkgMjExLjYsNzEuMjk0IDIxNC40LDc2LjI2NSAyMTcuMiw4MS41MSAyMjAsODcuMDMxIDIyMi44LDkyLjgyNyAyMjUuNiw5OC44OTggMjI4LjQsMTA1LjI0NSAyMzEuMiwxMTEuODY3IDIzNCwxMTguNzY0IDIzNi44LDEyNS45MzYgMjM5LjYsMTMzLjM4NCAyNDIuNCwxNDEuMTA3IDI0NS4yLDE0OS4xMDUgMjQ4LDE1Ny4zNzggMjUwLjgsMTY1LjkyNyAyNTMuNiwxNzQuNzUxIDI1Ni40LDE4My44NTEgMjU5LjIsMTkzLjIyNSAyNjIsMjAyLjg3NSIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMmY2YjRmIiBzdHJva2Utd2lkdGg9IjEuOCIvPgogIDx0ZXh0IHg9IjE4MC40NDQiIHk9IjI4Ljg3NSIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjMmY2YjRmIj55PS14wrIrNHgrNTwvdGV4dD4KICA8bGluZSB4MT0iMTEyLjY2NyIgeTE9IjE4MS4xMjUiIHgyPSIxNjIuNDQ0IiB5Mj0iMjguODc1IiBzdHJva2U9IiMzMzY2Y2MiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8Y2lyY2xlIGN4PSIxMTIuNjY3IiBjeT0iNzIuMzc1IiByPSI0IiBmaWxsPSIjYjY1MzJjIi8+CiAgPHRleHQgeD0iMTIzLjY2NyIgeT0iNjMuMzc1IiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiNiNjUzMmMiPlA8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMTYyLjQ0NCIgY3k9IjI4Ljg3NSIgcj0iNCIgZmlsbD0iIzJmNmI0ZiIvPgogIDx0ZXh0IHg9IjE3My40NDQiIHk9IjE5Ljg3NSIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjMmY2YjRmIj5RPC90ZXh0PgogIDxjaXJjbGUgY3g9IjExMi42NjciIGN5PSIxODEuMTI1IiByPSI0IiBmaWxsPSIjODg4Ii8+CiAgPHRleHQgeD0iMTIzLjY2NyIgeT0iMTcyLjEyNSIgZm9udC1zaXplPSIxMSIgdGV4dC1hbmNob3I9InN0YXJ0IiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjODg4Ij5QJzwvdGV4dD4KCiAgPGxpbmUgeDE9IjExMi42NjciIHkxPSI3Mi4zNzUiIHgyPSIxMTIuNjY3IiB5Mj0iMTgxLjEyNSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPGxpbmUgeDE9IjExMi42NjciIHkxPSI3Mi4zNzUiIHgyPSIxMzAuNDQ1IiB5Mj0iMTI2Ljc1IiBzdHJva2U9IiNjMDM5MmIiIHN0cm9rZS13aWR0aD0iMS42Ii8+CiAgPGxpbmUgeDE9IjE2Mi40NDQiIHkxPSIyOC44NzUiIHgyPSIxMzAuNDQ1IiB5Mj0iMTI2Ljc1IiBzdHJva2U9IiNjMDM5MmIiIHN0cm9rZS13aWR0aD0iMS42Ii8+CiAgPGNpcmNsZSBjeD0iMTMwLjQ0NSIgY3k9IjEyNi43NSIgcj0iNCIgZmlsbD0iI2MwMzkyYiIvPgogIDx0ZXh0IHg9IjEzNCIgeT0iMTM4IiBmb250LXNpemU9IjEwIiBmaWxsPSIjYzAzOTJiIj5NKDUvNywwKTwvdGV4dD4KICA8dGV4dCB4PSIxNTAiIHk9IjYwIiBmb250LXNpemU9IjkiIGZpbGw9IiMzMzY2Y2MiPlAnUSDpgKPnt5rkuqQgeCDou7ggPSBNPC90ZXh0Pgo8L3N2Zz4=" alt="第2題圖示"></div>
+  <div class="q-body">\(f(x)=-x^2+4x+5\)，\(P\) 為與 \(y\) 軸交點，\(Q\) 為頂點。<br>(a) 求 \(P,Q\)。<br>(b) \(M\) 為 \(x\) 軸上一點，使 \(|PM|+|QM|\) 最小，求 \(M\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>頂點 \(x=-\tfrac{b}{2a}\)</li><li>將軍飲馬：作對稱點 \(P'\)，\(P'Q\) 交 \(x\) 軸即 \(M\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(P(0,5),Q(2,9)\)　(b) \(M\!\left(\tfrac57,0\right)\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(P,Q\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 交點與頂點</span><div class="math">\[\begin{aligned}
+P &amp;= (0,5) \\
+Q &amp;= (2,9)
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(M\)</div><div class="row"><div class="region"><span class="region-h">工序 2 · 作對稱點與連線</span><div class="math">\[\begin{aligned}
+P' &amp;= (0,-5) \\
+P'Q:\ y &amp;= 7x-5
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 與 \(x\) 軸交</span><div class="math">\[\begin{aligned}
+y=0 &amp;\Rightarrow x=\tfrac57 \\
+M &amp;= \left(\tfrac57,0\right)
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 3 題</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">等差數列中 \(a_5=44\)，\(S_5=140\)。<br>(a) 求 \(a_n\)。<br>(b) 設 \(b_n=\tfrac{1}{S_n}\)，求前 \(n\) 項和 \(T_n\)。<br>(c) 求證 \(\tfrac{1}{12}\le T_n&lt;\tfrac{3}{16}\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(S_5=\tfrac{5(a_1+a_5)}{2}\)</li><li>裂項 \(\tfrac{1}{n(n+2)}=\tfrac12(\tfrac1n-\tfrac1{n+2})\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(a_n=8n+4\)　(b) \(T_n=\tfrac{3}{16}-\tfrac{1}{8(n+1)}-\tfrac{1}{8(n+2)}\)　(c) 見證明</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(a_n\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 求首項與公差</span><div class="math">\[\begin{aligned}
+a_1=12,\ d &amp;= 8 \\
+a_n &amp;= 8n+4
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(T_n\)</div><div class="row"><div class="region"><span class="region-h">工序 2 · 求 \(S_n\) 並裂項</span><div class="math">\[\begin{aligned}
+S_n &amp;= 4n(n+2) \\
+b_n &amp;= \tfrac18\!\left(\tfrac1n-\tfrac1{n+2}\right)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 裂項相消</span><div class="math">\[\begin{aligned}
+T_n &amp;= \tfrac{3}{16}-\tfrac{1}{8(n+1)}-\tfrac{1}{8(n+2)}
+\end{aligned}\]</div></div></div><div class="part">（c）求證範圍</div><div class="row"><div class="region"><span class="region-h">工序 4 · 上界</span><div class="math">\[\begin{aligned}
+T_n &amp;&lt; \tfrac{3}{16}\ (\text{減正數})
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 5 · 下界</span><div class="math">\[\begin{aligned}
+T_n\ \text{遞增},\ T_1 &amp;= \tfrac{1}{12} \\
+\tfrac{1}{12}\le T_n &amp;&lt; \tfrac{3}{16}\ \square
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 4 題</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNDAiIGhlaWdodD0iMjUwIiB2aWV3Qm94PSIwIDAgMzQwIDI1MCIgZm9udC1mYW1pbHk9Ikdlb3JnaWEsICdUaW1lcyBOZXcgUm9tYW4nLCBzZXJpZiI+CiAgPCEtLSAyMDI2IOino+etlOesrDTpoYzvvJrpm5nmm7Lnt5ogeF4yLzQgLSB5XjIvMiA9IDHvvIznm7Tnt5og4oSTIOmBjig2LDAp5Lqk5Y+z5pSv5pa8IEEsQu+8m00oMiwwKe+8jOaxguitiSBBTeKKpUJNIC0tPgogIDwhLS0g56S65oSP5ZyW77yI5LiN5oyJ5q+U5L6L77yJ44CC5pig5bCE77yaIHB4ID0gMTUwICsgMTd4IO+8jCBweSA9IDEzMCAtIDE3eSAtLT4KICA8IS0tIHgg6Lu4IC0tPgogIDxsaW5lIHgxPSIxMCIgeTE9IjEzMCIgeDI9IjMzMCIgeTI9IjEzMCIgc3Ryb2tlPSIjMjIyIiBzdHJva2Utd2lkdGg9IjEuMyIvPgogIDxwb2x5Z29uIHBvaW50cz0iMzMwLDEzMCAzMjIsMTI2IDMyMiwxMzQiIGZpbGw9IiMyMjIiLz4KICA8IS0tIHkg6Lu4IC0tPgogIDxsaW5lIHgxPSIxNTAiIHkxPSIyNDAiIHgyPSIxNTAiIHkyPSI4IiBzdHJva2U9IiMyMjIiIHN0cm9rZS13aWR0aD0iMS4zIi8+CiAgPHBvbHlnb24gcG9pbnRzPSIxNTAsOCAxNDYsMTYgMTU0LDE2IiBmaWxsPSIjMjIyIi8+CiAgPCEtLSDlj7PmlK8gLS0+CiAgPHBhdGggZD0iTSAyODYsMzcgQyAyMTAsODAgMTg0LDEwOCAxODQsMTMwIEMgMTg0LDE1MiAyMTAsMTgwIDI4NiwyMjMiIGZpbGw9Im5vbmUiIHN0cm9rZT0iIzFmOGE0YyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPCEtLSDlt6bmlK8gLS0+CiAgPHBhdGggZD0iTSAxNCwzNyBDIDkwLDgwIDExNiwxMDggMTE2LDEzMCBDIDExNiwxNTIgOTAsMTgwIDE0LDIyMyIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMWY4YTRjIiBzdHJva2Utd2lkdGg9IjIiLz4KICA8IS0tIOebtOe3miDihJMg6YGOIEEsQiDoiIcgKDYsMCkgLS0+CiAgPGxpbmUgeDE9IjIwNiIgeTE9IjI0NSIgeDI9IjMxMiIgeTI9IjIyIiBzdHJva2U9IiMyNDU2YzgiIHN0cm9rZS13aWR0aD0iMS43Ii8+CiAgPCEtLSBNIOWIsCBB44CBTSDliLAgQiDpgKPnt5rvvIjomZvnt5rvvIkgLS0+CiAgPGxpbmUgeDE9IjE4NCIgeTE9IjEzMCIgeDI9IjIxOCIgeTI9IjE4MCIgc3Ryb2tlPSIjYjIzYTNhIiBzdHJva2Utd2lkdGg9IjEuMyIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPGxpbmUgeDE9IjE4NCIgeTE9IjEzMCIgeDI9IjI2MyIgeTI9IjYzIiBzdHJva2U9IiNiMjNhM2EiIHN0cm9rZS13aWR0aD0iMS4zIiBzdHJva2UtZGFzaGFycmF5PSI0IDMiLz4KICA8IS0tIE0g6JmV55u06KeS6KiY6JmfIC0tPgogIDxwYXRoIGQ9Ik0gMTk2LDE0MCBMIDIwMSwxMzEgTCAxOTIsMTI2IiBmaWxsPSJub25lIiBzdHJva2U9IiNiMjNhM2EiIHN0cm9rZS13aWR0aD0iMS4xIi8+CiAgPCEtLSDpu54gLS0+CiAgPGNpcmNsZSBjeD0iMTg0IiBjeT0iMTMwIiByPSIyLjYiIGZpbGw9IiMxMTEiLz4KICA8Y2lyY2xlIGN4PSIyMTgiIGN5PSIxODAiIHI9IjIuNiIgZmlsbD0iIzExMSIvPgogIDxjaXJjbGUgY3g9IjI2MyIgY3k9IjYzIiByPSIyLjYiIGZpbGw9IiMxMTEiLz4KICA8Y2lyY2xlIGN4PSIyNTIiIGN5PSIxMzAiIHI9IjIuMiIgZmlsbD0iIzExMSIvPgogIDwhLS0g5qiZ57GkIC0tPgogIDx0ZXh0IHg9IjE3MCIgeT0iMTI0IiBmb250LXNpemU9IjE0IiBmb250LXN0eWxlPSJpdGFsaWMiPk08L3RleHQ+CiAgPHRleHQgeD0iMjIyIiB5PSIxOTQiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtc3R5bGU9Iml0YWxpYyI+QTwvdGV4dD4KICA8dGV4dCB4PSIyNjgiIHk9IjYwIiBmb250LXNpemU9IjE0IiBmb250LXN0eWxlPSJpdGFsaWMiPkI8L3RleHQ+CiAgPHRleHQgeD0iMjQ2IiB5PSIxNDgiIGZvbnQtc2l6ZT0iMTEiPig2LDApPC90ZXh0PgogIDx0ZXh0IHg9IjMyMCIgeT0iMTI0IiBmb250LXNpemU9IjE0IiBmb250LXN0eWxlPSJpdGFsaWMiPng8L3RleHQ+CiAgPHRleHQgeD0iMTM2IiB5PSIyMCIgZm9udC1zaXplPSIxNCIgZm9udC1zdHlsZT0iaXRhbGljIj55PC90ZXh0PgogIDx0ZXh0IHg9IjI5MiIgeT0iMzAiIGZvbnQtc2l6ZT0iMTQiIGZvbnQtc3R5bGU9Iml0YWxpYyIgZmlsbD0iIzI0NTZjOCI+4oSTPC90ZXh0PgogIDx0ZXh0IHg9IjMwMCIgeT0iMjEwIiBmb250LXNpemU9IjEzIiBmb250LXN0eWxlPSJpdGFsaWMiIGZpbGw9IiMxZjhhNGMiPkU8L3RleHQ+CiAgPHRleHQgeD0iMTAiIHk9IjI0NiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzY2NiI+56S65oSP5ZyW77yI5LiN5oyJ5q+U5L6L77yJPC90ZXh0Pgo8L3N2Zz4K" alt="第4題圖示"></div>
+  <div class="q-body">雙曲線 \(E:\dfrac{x^2}{a^2}-\dfrac{y^2}{b^2}=1\)，離心率 \(\tfrac{\sqrt6}{2}\)，過 \((2\sqrt3,2)\)。斜率 1 且過 \((6,0)\) 的直線交 \(E\) 於 \(A,B\)。<br>(a) 求 \(E\) 的方程。<br>(b) 設 \(M(2,0)\)，求證 \(AM\perp BM\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(e^2=1+\tfrac{b^2}{a^2}\)</li><li>韋達定理</li><li>\(\vec{MA}\cdot\vec{MB}=0\Leftrightarrow\perp\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\dfrac{x^2}{4}-\dfrac{y^2}{2}=1\)　(b) \(AM\perp BM\)（得證）</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(E\) 的方程</div><div class="row"><div class="region"><span class="region-h">工序 1 · 離心率關係</span><div class="math">\[\begin{aligned}
+e^2=\tfrac32 &amp;\Rightarrow a^2=2b^2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代點求 \(a^2,b^2\)</span><div class="math">\[\begin{aligned}
+b^2=2,\ a^2 &amp;= 4 \\
+\frac{x^2}{4}-\frac{y^2}{2} &amp;= 1
+\end{aligned}\]</div></div></div><div class="part">（b）證 \(AM\perp BM\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · 聯立與韋達</span><div class="math">\[\begin{aligned}
+x^2-24x+76 &amp;= 0 \\
+x_1+x_2=24,\ x_1x_2 &amp;= 76
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 驗垂直</span><div class="math">\[\begin{aligned}
+\vec{MA}\cdot\vec{MB} &amp;= 2x_1x_2-8(x_1+x_2)+40 \\
+&amp;= 152-192+40=0 \\
+&amp;\Rightarrow AM\perp BM
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 5 題</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">\(f(x)=\dfrac{3x}{x+3}\)，\(x_n=f(x_{n-1})\)，\(x_1=\tfrac32\)。<br>(a) 求 \(x_2,x_3\)。<br>(b) 猜想 \(x_n\) 並用數學歸納法證明。<br>(c) 設 \(g(x)=\dfrac{f(x^2)}{x}\,(x&gt;0)\)，求最大值。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>遞推代入</li><li>數學歸納法</li><li>算幾不等式 \(x+\tfrac3x\ge2\sqrt3\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(x_2=1,x_3=\tfrac34\)　(b) \(x_n=\dfrac{3}{n+1}\)　(c) 最大值 \(\dfrac{\sqrt3}{2}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(x_2,x_3\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 逐步代入</span><div class="math">\[\begin{aligned}
+x_2 &amp;= 1 \\
+x_3 &amp;= \tfrac34
+\end{aligned}\]</div></div></div><div class="part">（b）猜想並證明</div><div class="row"><div class="region"><span class="region-h">工序 2 · 猜想</span><div class="math">\[\begin{aligned}
+x_n &amp;= \frac{3}{n+1}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 歸納步</span><div class="math">\[\begin{aligned}
+x_{k+1} &amp;= \frac{3x_k}{x_k+3}=\frac{3}{k+2}\ \square
+\end{aligned}\]</div></div></div><div class="part">（c）求 \(g(x)\) 最大值</div><div class="row"><div class="region"><span class="region-h">工序 4 · 化簡 \(g\)</span><div class="math">\[\begin{aligned}
+g(x) &amp;= \frac{3x}{x^2+3}=\frac{3}{x+\frac3x}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 5 · 算幾不等式</span><div class="math">\[\begin{aligned}
+x+\tfrac3x &amp;\ge 2\sqrt3 \\
+g(x) &amp;\le \frac{3}{2\sqrt3}=\frac{\sqrt3}{2}
+\end{aligned}\]</div></div></div>
+</div>
+</div></body></html>

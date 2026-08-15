@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "four-school-math-preview",
+      "runtimeExecutable": "python",
+      "runtimeArgs": ["-m", "http.server", "8791", "--directory", "C:/Users/KongChiLok/Documents/four-school-math"],
+      "port": 8791
+    }
+  ]
+}

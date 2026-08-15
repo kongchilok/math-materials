@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>直線的傾斜角與斜率．課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：直線的傾斜角與斜率</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>請先複習《直線的傾斜角與斜率．課堂講義》中的範例，再完成以下練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>1．已知傾斜角 α=45°，斜率 \(k=\tan\alpha=\)______（提示：\(\tan45°=1\)）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知傾斜角 α=60°，斜率 \(k=\tan60°=\)______（提示：\(\tan60°=\sqrt3\)）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．已知 A(2, 5)、B(6, 5)，代入斜率公式：\(k=\dfrac{\_\_-\_\_}{\_\_-\_\_}=\)______</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>4．已知 l₁ 的斜率 k₁=4，l₂ 的斜率 k₂=4。因為 k₁______k₂（填「=」或「≠」），所以 l₁ 與 l₂______（填「平行」或「不平行」）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>5．已知 l₁ 的斜率 k₁=5，l₂ 的斜率 k₂=−1/5。因為 k₁×k₂=______，所以 l₁ 與 l₂______（填「垂直」或「不垂直」）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高二數學．直線的傾斜角與斜率</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>1．已知 A(3, 2)、B(−4, −5)，求直線 AB 的斜率，並判斷傾斜角是銳角還是鈍角。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知 l₁ 經過 (2, 3) 和 (5, 9)，l₂ 經過 (−1, 4) 和 (2, 10)，判斷 l₁ 與 l₂ 是否平行，並說明理由。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．已知 l₁ 的斜率為 −3/4，l₂ 經過 C(0, 1)、D(4, −2)，判斷 l₁ 與 l₂ 是否垂直，並說明理由。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>4．已知 A(2, m)、B(5, 1) 兩點的直線，與經過 C(0, 0)、D(1, −1) 兩點的直線互相垂直，求 m 的值。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高二數學．直線的傾斜角與斜率</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>1．已知 A(1, 1)、B(3, 5)、C(0, −1) 三點，試判斷這三點是否在同一條直線上，並說明理由。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知四邊形 ABCD 的四個頂點為 A(1, 1)、B(4, 0)、C(5, 3)、D(2, 4)，試利用斜率判斷四邊形 ABCD 的形狀，並說明理由。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．請你自己設計兩個點的座標，使得它們連線的斜率恰好是 −2，並寫出你的計算過程，與同學互相檢查是否正確。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">高二數學．直線的傾斜角與斜率　第 1 頁</div>
+
+  <!-- ================= 教師用參考答案（另頁） ================= -->
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高二數學</span><span>單元：直線的傾斜角與斜率</span><span>類型：課堂練習．教師用參考答案</span></div>
+
+  <div class="section-h">練習A（<span class="stars">★☆☆</span>）參考答案</div>
+  <div>1. k = tan45° = 1</div>
+  <div>2. k = tan60° = √3</div>
+  <div>3. k = (5−5)/(6−2) = 0/4 = 0</div>
+  <div>4. k₁ = k₂，所以 l₁ 與 l₂ 平行</div>
+  <div>5. k₁×k₂ = 5×(−1/5) = −1，所以 l₁ 與 l₂ 垂直</div>
+
+  <div class="section-h">練習B（<span class="stars">★★☆</span>）參考答案</div>
+  <div>1. k = (−5−2)/(−4−3) = (−7)/(−7) = 1 > 0，傾斜角為銳角</div>
+  <div>2. k₁ = (9−3)/(5−2) = 2；k₂ = (10−4)/(2−(−1)) = 2。k₁=k₂ 且兩線不重合（l₁: y=2x−1，l₂: y=2x+6），所以 l₁ // l₂</div>
+  <div>3. l₂ 斜率 = (−2−1)/(4−0) = −3/4。k₁×k₂ = (−3/4)×(−3/4) = 9/16 ≠ −1，所以不垂直（事實上 k₁=k₂，兩線是平行關係）</div>
+  <div>4. 直線 CD 斜率 = (−1−0)/(1−0) = −1。設直線 AB 斜率為 k，由垂直關係 k×(−1)=−1，得 k=1。又 k=(1−m)/(5−2)=1，解得 1−m=3，所以 m=−2</div>
+
+  <div class="footer">高二數學．直線的傾斜角與斜率．教師用參考答案</div>
+
+  <div class="section-h">練習C（<span class="stars">★★★</span>）參考答案</div>
+  <div>1. kAB=(5−1)/(3−1)=2；kAC=(−1−1)/(0−1)=2。kAB=kAC 且兩線段有共同點 A，所以 A、B、C 三點共線</div>
+  <div>2. kAB=(0−1)/(4−1)=−1/3；kCD=(4−3)/(2−5)=−1/3，所以 AB//CD。kBC=(3−0)/(5−4)=3；kDA=(1−4)/(1−2)=3，所以 BC//DA。兩組對邊分別平行，故 ABCD 為平行四邊形</div>
+  <div>3. 開放題，答案不唯一。範例：取 (0,0) 和 (1,−2)，斜率 = (−2−0)/(1−0) = −2 ✓</div>
+
+  <div class="footer">高二數學．直線的傾斜角與斜率　第 2 頁</div>
+
+</div>
+</body>
+</html>

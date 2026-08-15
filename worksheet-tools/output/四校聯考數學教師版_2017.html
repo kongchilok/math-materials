@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<title>澳門四校聯考 2017 數學正卷 教師版</title>
+<script>
+MathJax = { tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}, svg:{fontCache:'global',displayAlign:'left',displayIndent:'0'} };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+  @page { size:A4; margin:0.5cm 1cm 1cm 1cm; }
+  * { box-sizing:border-box; }
+  html { font-size:12pt; }
+  body { font-family:"Noto Serif TC","Times New Roman","Songti TC",serif; color:#111; line-height:1.5; margin:0; padding:0; background:#f3f3f3; }
+  .sheet { max-width:820px; margin:0 auto; background:#fff; padding:0.5cm 1cm 1cm; }
+  .ws-header { border-bottom:2px solid #111; padding-bottom:5px; margin-bottom:8px; }
+  .ws-title { font-size:14pt; font-weight:700; letter-spacing:0.04em; }
+  .ws-tag { display:inline-block; font-size:10pt; background:#b6532c; color:#fff; padding:1px 10px; border-radius:99px; margin-left:8px; vertical-align:middle; }
+  .ws-meta { display:flex; gap:26px; margin-top:5px; font-size:11pt; }
+  .ws-meta .u { display:inline-block; min-width:110px; border-bottom:1px solid #111; }
+  .ws-note { font-size:9.5pt; color:#555; margin-top:4px; }
+
+  .sec-head { font-size:12pt; font-weight:700; margin:10px 0 8px; padding:3px 10px; background:#1d1c1a; color:#fff; border-radius:3px; break-after:avoid; }
+  .sec-head .sec-sub { font-size:9pt; font-weight:400; color:#d8d2c4; margin-left:8px; }
+  .sec-break { page-break-before:always; }
+
+  .q-head { display:flex; align-items:baseline; gap:9px; margin-bottom:3px; }
+  .q-no { font-weight:700; font-size:12pt; color:#b6532c; }
+  .q-tag,.q-type { font-size:8.5pt; color:#888; border:1px solid #ddd; border-radius:99px; padding:0 8px; }
+  .q-body { font-size:12pt; }
+
+  .img-float { float:right; margin:0 0 6px 14px; text-align:center; }
+  .img-float img { max-width:240px; max-height:180px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .img-big { clear:both; text-align:center; margin:8px 0; }
+  .img-big img { max-width:96%; max-height:320px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .clear { clear:both; }
+
+  .box { border-radius:4px; padding:5px 11px; margin:6px 0; font-size:10.5pt; }
+  .box ul { margin:2px 0 0; padding-left:20px; } .box li { margin:1px 0; }
+  .formula { background:#eef3f5; border:1px solid #a9c4cc; } .formula .lbl { font-weight:700; color:#2a5560; margin-right:6px; }
+  .hint { background:#f5f0e3; border:1px solid #d6bf86; color:#6a5212; } .hint .lbl { font-weight:700; color:#8a6a1e; margin-right:6px; }
+  .ans { background:#e3f0e8; border:1px solid #7fb89a; } .ans .lbl { font-weight:700; color:#2f6b4f; margin-right:6px; }
+
+  .opts { margin:6px 0 2px; display:flex; flex-wrap:wrap; gap:6px 22px; }
+  .opt { display:inline-flex; align-items:baseline; gap:5px; font-size:11.5pt; white-space:nowrap; }
+  .opt-key { font-weight:700; color:#2a5560; }
+
+  .q { border:1px solid #d8d6cd; border-radius:4px; padding:8px 12px 10px; margin-bottom:9px; page-break-inside:avoid; overflow:hidden; }
+  .work { margin-top:10px; border:1px solid #c9c7bd; border-radius:3px; overflow:hidden; display:flex; flex-direction:column; background:#fff; }
+  .work-lbl { flex:0 0 auto; font-size:8.5pt; color:#aaa; padding:2px 0 0 8px; }
+  .rules { flex:1 1 auto; overflow:hidden; }
+  .rule { height:0.82cm; border-bottom:1px solid #d4dadd; } .rule:last-child { border-bottom:none; }
+  .work-mc { min-height:2.46cm; }
+  .ans-line { margin-top:7px; font-size:11pt; font-weight:600; }
+  .ans-box { display:inline-block; min-width:130px; border-bottom:1.5px solid #111; height:1.1em; vertical-align:bottom; }
+  .sol-fullpage { height:27.4cm; display:flex; flex-direction:column; page-break-before:always; overflow:hidden; }
+  .sol-fullpage .sec-head { flex:0 0 auto; }
+  .sol-fullpage .q-long { flex:1 1 auto; }
+  .q-long { display:flex; flex-direction:column; page-break-inside:avoid; }
+  .q-long .work-sol { flex:1 1 auto; margin-top:8px; }
+
+  .tq { border:1px solid #d8d6cd; border-radius:4px; padding:8px 13px 10px; margin-bottom:10px; }
+  .tq-break { page-break-inside:avoid; }
+  .sol-title { font-weight:700; font-size:11pt; margin:9px 0 4px; padding-bottom:2px; border-bottom:1.5px solid #1d1c1a; }
+  .part { font-weight:700; color:#b6532c; margin:7px 0 4px; font-size:11pt; }
+  .row { display:flex; gap:9px; align-items:stretch; flex-wrap:wrap; margin-bottom:3px; }
+  .region { flex:1 1 auto; border:1px solid #d8d6cd; border-radius:5px; padding:4px 10px 6px; break-inside:avoid; }
+  .region-h { font-size:9.5pt; font-weight:700; color:#fff; background:#2a5560; border-radius:3px; padding:1px 8px; display:inline-block; margin-bottom:3px; }
+  .region .math { font-size:10.5pt; }
+  .region .math mjx-container { margin:0 !important; }
+  .fill { margin-top:3px; border-top:1px dashed #e0ddd2; background:#fcfcfa; }
+</style></head><body>
+<div class="sheet">
+  <div class="ws-header">
+    <div class="ws-title">澳門四校聯考　2017 年試題　數學正卷<span class="ws-tag">教師版</span></div>
+  </div>
+  
+  <div class="sec-head">第一部分　選擇題<span class="sec-sub">共 15 題 · 含正確答案與詳解</span></div>
+  <div class="tq">
+  <div class="q-head"><span class="q-no">1.</span><span class="q-type">第一類型：基本概念</span></div>
+  
+  <div class="q-body">設 \(P=\{-2,\,a-2,\,3\}\)，\(Q=\{1,\,a^2-a-3,\,-5\}\)。若 \(P\cap Q=\{3\}\)，則</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>3 必須是 \(Q\) 的元素：\(a^2-a-3=3\)</li><li>集合元素互不相同，驗證無重複</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(a=-2\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 由 \(3\in Q\) 求 \(a\)</span><div class="math">\[\begin{aligned}
+a^2-a-3 &amp;= 3 \\
+(a-3)(a+2) &amp;= 0 \\
+a &amp;= 3 \ \text{或}\ -2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 驗 \(a=3\)</span><div class="math">\[\begin{aligned}
+P &amp;= \{-2,1,3\} \\
+Q &amp;= \{1,3,-5\} \\
+P\cap Q &amp;= \{1,3\}\ \text{（不合）}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 驗 \(a=-2\)</span><div class="math">\[\begin{aligned}
+P &amp;= \{-2,-4,3\} \\
+Q &amp;= \{1,3,-5\} \\
+P\cap Q &amp;= \{3\}\ \text{（合）}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">2.</span><span class="q-type">第七類型：代數不等式</span></div>
+  
+  <div class="q-body">解不等式 \(\dfrac{x+2}{3}\lt \dfrac{4x+5}{6}\lt \dfrac{7x+8}{9}\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>複合不等式拆為兩個不等式，分別求解再取交集</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(x&gt;-\tfrac{1}{2}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 左半不等式</span><div class="math">\[\begin{aligned}
+\frac{x+2}{3} &amp;&lt; \frac{4x+5}{6} \\
+2(x+2) &amp;&lt; 4x+5 \\
+x &amp;&gt; -\tfrac{1}{2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 右半不等式</span><div class="math">\[\begin{aligned}
+\frac{4x+5}{6} &amp;&lt; \frac{7x+8}{9} \\
+12x+15 &amp;&lt; 14x+16 \\
+x &amp;&gt; -\tfrac{1}{2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 取交集</span><div class="math">\[\begin{aligned}
+x &amp;&gt; -\tfrac{1}{2}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">3.</span><span class="q-type">第二類型：百分數</span></div>
+  
+  <div class="q-body">把 5000 元存入銀行，每年計息一次，以複利計算，2 年後本利和為 5408 元，年利率為</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>複利：\(A=P(1+r)^n\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(r=4\%\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 代入複利公式</span><div class="math">\[\begin{aligned}
+5000(1+r)^2 &amp;= 5408 \\
+(1+r)^2 &amp;= 1.0816
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 解 \(r\)</span><div class="math">\[\begin{aligned}
+1+r &amp;= 1.04 \\
+r &amp;= 4\%
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">4.</span><span class="q-type">第八類型：對數與指數函數</span></div>
+  <div class="q-img img-float"><img src="data:image/png;base64,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" alt="第4題圖示"></div>
+  <div class="q-body">\(x\) 與 \(\log_2 y\) 之間的線性關係如圖所示。若 \(y=ab^x\)，則 \(a+b=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>對 \(y=ab^x\) 取對數：\(\log_2 y=\log_2 a+(\log_2 b)\,x\)</li><li>所以「斜率 \(=\log_2 b\)」、「\(\log_2 y\) 截距 \(=\log_2 a\)」</li><li>直線斜率公式：\(\dfrac{y_2-y_1}{x_2-x_1}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(a+b=20\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 取以 2 為底對數</span><div class="math">\[\begin{aligned}
+y &amp;= ab^x \\
+\log_2 y &amp;= \log_2 a+(\log_2 b)x
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 由 \((-2,0),(0,4)\) 求直線</span><div class="math">\[\begin{aligned}
+\text{斜率} &amp;= \frac{4-0}{0-(-2)} \\
+&amp;= 2 \\
+\log_2 y &amp;= 2x+4
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 對照求 \(a,b\)</span><div class="math">\[\begin{aligned}
+\log_2 a=4 &amp;\Rightarrow a=16 \\
+\log_2 b=2 &amp;\Rightarrow b=4
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 求 \(a+b\)</span><div class="math">\[\begin{aligned}
+a+b &amp;= 20
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">5.</span><span class="q-type">第九類型：非線性方程</span></div>
+  
+  <div class="q-body">若 \(x+\dfrac{1}{x}=6+\dfrac{1}{6}\)，則 \(x=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(x+1/x=a+1/a\Rightarrow x=a\) 或 \(x=1/a\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(x=6\) 或 \(\tfrac{1}{6}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 觀察對稱結構</span><div class="math">\[\begin{aligned}
+x+\frac{1}{x} &amp;= 6+\frac{1}{6}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 直接讀解</span><div class="math">\[\begin{aligned}
+x &amp;= 6 \ \text{或}\ \frac{1}{6}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">6.</span><span class="q-type">第八類型：對數與指數函數</span></div>
+  
+  <div class="q-body">求 \(\left(\dfrac{2\log_{10}2+\log_{10}6}{-\log_{10}3-3\log_{10}2}\right)^{5}-9^{5}\times 3^{-11}\) 之值。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>對數相加：\(\log a+\log b=\log(ab)\)；係數移入次方：\(n\log a=\log a^n\)</li><li>\(9^5=(3^2)^5=3^{10}\)，再用 \(3^{10}\times3^{-11}=3^{-1}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(-\tfrac{4}{3}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 分子</span><div class="math">\[\begin{aligned}
+2\log_{10}2+\log_{10}6 &amp;= \log_{10}4+\log_{10}6 \\
+&amp;= \log_{10}24
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 分母</span><div class="math">\[\begin{aligned}
+-\log_{10}3-3\log_{10}2 &amp;= -(\log_{10}3+\log_{10}8) \\
+&amp;= -\log_{10}24
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 括號的 5 次方</span><div class="math">\[\begin{aligned}
+\left(\frac{\log_{10}24}{-\log_{10}24}\right)^{5} &amp;= (-1)^5 \\
+&amp;= -1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 後項</span><div class="math">\[\begin{aligned}
+9^5\times3^{-11} &amp;= 3^{10}\times3^{-11} \\
+&amp;= \frac{1}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 5 · 合計</span><div class="math">\[\begin{aligned}
+-1-\frac{1}{3} &amp;= -\frac{4}{3}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">7.</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">若 \(x^3+3x-a-3\) 能被 \((x-1)\) 整除，則 \(a=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>因式定理：\((x-c)\mid f(x)\Leftrightarrow f(c)=0\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(a=1\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 因式定理代入</span><div class="math">\[\begin{aligned}
+f(1) &amp;= 1+3-a-3 \\
+&amp;= 1-a
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 令 \(f(1)=0\)</span><div class="math">\[\begin{aligned}
+1-a &amp;= 0 \\
+a &amp;= 1
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">8.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">求函數 \(6(7-x)+[\,9-(7-x)\,]x\) 的最小值。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>先展開化簡成 \(ax^2+bx+c\)</li><li>配方法：\(x^2+bx=(x+\tfrac{b}{2})^2-\tfrac{b^2}{4}\)，頂點即最小值（開口向上時）</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　最小值 \(=38\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 展開兩項</span><div class="math">\[\begin{aligned}
+6(7-x) &amp;= 42-6x \\
+[9-(7-x)]x &amp;= (2+x)x \\
+&amp;= x^2+2x
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 合併同類</span><div class="math">\[\begin{aligned}
+42-6x+x^2+2x &amp;= x^2-4x+42
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 配方求最小</span><div class="math">\[\begin{aligned}
+x^2-4x+42 &amp;= (x-2)^2+38 \\
+\text{最小值} &amp;= 38
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">9.</span><span class="q-type">第十三類型：三角</span></div>
+  
+  <div class="q-body">若 \(\sin x-\cos x=\dfrac{1}{3}\)，則 \(\sin x\cos x=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>平方公式：\((\sin x-\cos x)^2=\sin^2 x-2\sin x\cos x+\cos^2 x\)</li><li>基本恒等式：\(\sin^2 x+\cos^2 x=1\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(\sin x\cos x=\tfrac{4}{9}\)（不在 A–D，選 E）</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 兩邊平方</span><div class="math">\[\begin{aligned}
+(\sin x-\cos x)^2 &amp;= \tfrac{1}{9} \\
+\sin^2x-2\sin x\cos x+\cos^2x &amp;= \tfrac{1}{9}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 用 \(\sin^2+\cos^2=1\)</span><div class="math">\[\begin{aligned}
+1-2\sin x\cos x &amp;= \tfrac{1}{9} \\
+\sin x\cos x &amp;= \tfrac{4}{9}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 比對選項</span><div class="math">\[\begin{aligned}
+\tfrac{4}{9} &amp;\notin \{\text{A,B,C,D}\} \\
+&amp;\Rightarrow \text{選 (E)}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">10.</span><span class="q-type">第八類型：對數與指數函數</span></div>
+  
+  <div class="q-body">方程 \(\ln(x-1)+\ln x=\ln 6\) 有多少個實根？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\ln A+\ln B=\ln(AB)\)</li><li>需 \(A\gt 0,B\gt 0\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　1 個實根</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 合併對數</span><div class="math">\[\begin{aligned}
+\ln(x-1)+\ln x &amp;= \ln 6 \\
+x(x-1) &amp;= 6
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 解二次</span><div class="math">\[\begin{aligned}
+x^2-x-6 &amp;= 0 \\
+x &amp;= 3 \ \text{或}\ -2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 驗真數條件</span><div class="math">\[\begin{aligned}
+x=3 &amp;:\ \text{真數}&gt;0\ \text{（合）} \\
+x=-2 &amp;:\ \text{真數}&lt;0\ \text{（捨）} \\
+&amp;\Rightarrow 1\ \text{個實根}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">11.</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">已知 \(a_1,a_2,a_3,a_4\) 組成等比數列。若 \(a_1\) 和 \(a_4\) 是方程 \(3x^2-5x+2=0\) 的兩個根，則 \(a_2 a_3=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>韋達定理：\(a_1 a_4=c/a\)</li><li>等比：\(a_2 a_3=a_1 a_4\)（因 \(1+4=2+3\)）</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(a_2a_3=\tfrac{2}{3}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 韋達定理求積</span><div class="math">\[\begin{aligned}
+a_1a_4 &amp;= \frac{c}{a} \\
+&amp;= \frac{2}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 等比性質</span><div class="math">\[\begin{aligned}
+a_2a_3 &amp;= a_1a_4 \\
+&amp;= \frac{2}{3}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">12.</span><span class="q-type">第十五類型：函數圖形</span></div>
+  
+  <div class="q-body">指數函數 \(y=e^x\) 的圖像先向上移動一個單位，然後再向右平移一個單位，新圖像的函數表達式是</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>上移 \(k\)：加 \(k\)；右移 \(h\)：\(x\to x-h\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(y=e^{x-1}+1\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 上移 1 單位</span><div class="math">\[\begin{aligned}
+y &amp;= e^x+1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 右移 1 單位</span><div class="math">\[\begin{aligned}
+y &amp;= e^{x-1}+1
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">13.</span><span class="q-type">第十三類型：三角</span></div>
+  
+  <div class="q-body">設 \(\alpha\in(0,2\pi)\)。若 \(\cos\alpha\gt 0\) 且 \(\tan\alpha\lt 0\)，則</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>第四象限：\(\cos\gt 0,\sin\lt 0,\tan\lt 0\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(\alpha\in\left(\tfrac{3\pi}{2},2\pi\right)\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 各條件定象限</span><div class="math">\[\begin{aligned}
+\cos\alpha&gt;0 &amp;\Rightarrow \text{Q1 或 Q4} \\
+\tan\alpha&lt;0 &amp;\Rightarrow \text{Q2 或 Q4}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 取交集</span><div class="math">\[\begin{aligned}
+&amp;\Rightarrow \text{第四象限} \\
+\alpha &amp;\in \left(\tfrac{3\pi}{2},2\pi\right)
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">14.</span><span class="q-type">第十四類型：解析幾何</span></div>
+  
+  <div class="q-body">若 \(F_1,F_2\) 是橢圓 \(\dfrac{x^2}{9}+\dfrac{y^2}{25}=1\) 的兩個焦點，\(M\) 是橢圓上任意一點，則 \(\triangle MF_1F_2\) 的周長為</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>橢圓 \(a^2=25,b^2=9,c=\sqrt{a^2-b^2}=4\)</li><li>周長 \(=MF_1+MF_2+2c=2a+2c\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　周長 \(=18\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 求 \(a,c\)</span><div class="math">\[\begin{aligned}
+a &amp;= 5 \\
+c &amp;= \sqrt{25-9} \\
+&amp;= 4
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 三邊和為周長</span><div class="math">\[\begin{aligned}
+MF_1+MF_2 &amp;= 2a=10 \\
+F_1F_2 &amp;= 2c=8 \\
+\text{周長} &amp;= 18
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">15.</span><span class="q-type">第十類型：排列與組合</span></div>
+  
+  <div class="q-body">在 \(\left(x-\dfrac{1}{x}\right)^{10}\) 展開式中，常數項是多少？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>通項 \(T_{k+1}=\binom{10}{k}(-1)^k x^{10-2k}\)</li><li>令 \(10-2k=0\) 得 \(k=5\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　常數項 \(=-252\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 通項定常數項</span><div class="math">\[\begin{aligned}
+T_{k+1} &amp;= \binom{10}{k}(-1)^k x^{10-2k} \\
+10-2k &amp;= 0 \\
+k &amp;= 5
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代入求值</span><div class="math">\[\begin{aligned}
+T_6 &amp;= \binom{10}{5}(-1)^5 \\
+&amp;= 252\times(-1) \\
+&amp;= -252
+\end{aligned}\]</div></div></div>
+</div>
+  <div class="sec-head sec-break">第二部分　解答題<span class="sec-sub">共 5 題 · 含參考答案與詳解</span></div>
+  <div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 1 題</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">把 \(\dfrac{x^3+x}{x^2-3x+2}\) 化為部分分式。（8 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>多項式除法（分子次數 \(\gt \) 分母次數時先做除法）</li><li>\(x^2-3x+2=(x-1)(x-2)\)</li><li>部分分式：\(\dfrac{A}{x-1}+\dfrac{B}{x-2}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>\(\dfrac{x^3+x}{x^2-3x+2}=x+3-\dfrac{2}{x-1}+\dfrac{10}{x-2}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 長除法</span><div class="math">\[\begin{aligned}
+x^3+x &amp;= (x^2-3x+2)(x+3)+(8x-6) \\
+\text{原式} &amp;= (x+3)+\frac{8x-6}{(x-1)(x-2)}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 設部分分式</span><div class="math">\[\begin{aligned}
+\frac{8x-6}{(x-1)(x-2)} &amp;= \frac{A}{x-1}+\frac{B}{x-2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求 \(A\)（代 \(x=1\)）</span><div class="math">\[\begin{aligned}
+A &amp;= \frac{8(1)-6}{1-2} \\
+&amp;= -2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 求 \(B\)（代 \(x=2\)）</span><div class="math">\[\begin{aligned}
+B &amp;= \frac{8(2)-6}{2-1} \\
+&amp;= 10
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 5 · 結果</span><div class="math">\[\begin{aligned}
+&amp;= (x+3)-\frac{2}{x-1}+\frac{10}{x-2}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 2 題</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/png;base64,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" alt="第2題圖示"></div>
+  <div class="q-body">圓 \(C\) 的圓心為 \((2,3)\)，\(x\) 軸為 \(C\) 的切線。直線 \(L\) 斜率為 \(-1\)，\(y\) 截距為 \(b\)。<br>(a) 求圓 \(C\) 的方程。（2 分）<br>(b) 求 \(b\) 的範圍使 \(L\) 與 \(C\) 相交於兩不同點。（3 分）<br>(c) 已知 \(|AB|=2\)，求 \(b\)。（3 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>切線條件：圓心到切線距離 \(=r\)</li><li>相交條件：\(d\lt r\)</li><li>弦長：\(|AB|=2\sqrt{r^2-d^2}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \((x-2)^2+(y-3)^2=9\)　(b) \(5-3\sqrt{2}&lt;b&lt;5+3\sqrt{2}\)　(c) \(b=1\) 或 \(9\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求圓 \(C\) 的方程</div><div class="row"><div class="region"><span class="region-h">工序 1 · 半徑（圓心到 \(x\) 軸）</span><div class="math">\[\begin{aligned}
+r &amp;= 3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 圓方程</span><div class="math">\[\begin{aligned}
+(x-2)^2+(y-3)^2 &amp;= 9
+\end{aligned}\]</div></div></div><div class="part">（b）求相交於兩點的 \(b\) 範圍</div><div class="row"><div class="region"><span class="region-h">工序 3 · 圓心到 \(L\) 距離</span><div class="math">\[\begin{aligned}
+L &amp;:\ x+y-b=0 \\
+d &amp;= \frac{|2+3-b|}{\sqrt{2}}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 相交條件 \(d&lt;r\)</span><div class="math">\[\begin{aligned}
+\frac{|5-b|}{\sqrt{2}} &amp;&lt; 3 \\
+|5-b| &amp;&lt; 3\sqrt{2} \\
+5-3\sqrt{2} &amp;&lt; b &lt; 5+3\sqrt{2}
+\end{aligned}\]</div></div></div><div class="part">（c）由 \(|AB|=2\) 求 \(b\)</div><div class="row"><div class="region"><span class="region-h">工序 5 · 弦長公式求 \(d^2\)</span><div class="math">\[\begin{aligned}
+\sqrt{r^2-d^2} &amp;= 1 \\
+d^2 &amp;= 8
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 6 · 解 \(b\)</span><div class="math">\[\begin{aligned}
+\frac{(5-b)^2}{2} &amp;= 8 \\
+(5-b)^2 &amp;= 16 \\
+b &amp;= 1 \ \text{或}\ 9
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 3 題</span><span class="q-type">第十六類型：概率和統計</span></div>
+  
+  <div class="q-body">從 3 名男生和 4 名女生中隨機選出 3 人，求：<br>(a) 3 人都是男生。（2 分）<br>(b) 1 男 2 女。（2 分）<br>(c) 2 男 1 女。（2 分）<br>(d) 至少 1 名女生。（2 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\binom{n}{k}\)</li><li>\(P(\geq1\text{女})=1-P(0\text{女})\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\tfrac{1}{35}\)　(b) \(\tfrac{18}{35}\)　(c) \(\tfrac{12}{35}\)　(d) \(\tfrac{34}{35}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">總取法 \(\binom{7}{3}=35\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · (a) 3 男</span><div class="math">\[\begin{aligned}
+P &amp;= \frac{\binom{3}{3}}{\binom{7}{3}} \\
+&amp;= \frac{1}{35}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · (b) 1 男 2 女</span><div class="math">\[\begin{aligned}
+P &amp;= \frac{\binom{3}{1}\binom{4}{2}}{\binom{7}{3}} \\
+&amp;= \frac{18}{35}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · (c) 2 男 1 女</span><div class="math">\[\begin{aligned}
+P &amp;= \frac{\binom{3}{2}\binom{4}{1}}{\binom{7}{3}} \\
+&amp;= \frac{12}{35}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · (d) 至少 1 女</span><div class="math">\[\begin{aligned}
+P &amp;= 1-\frac{1}{35} \\
+&amp;= \frac{34}{35}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 4 題</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">等差數列 \(\{a_n\}\) 滿足 \(a_1+a_2+a_3=0\) 及 \(a_1+a_2+a_3+a_4+a_5=5\)。<br>(a) 求通項 \(a_n\)。（4 分）<br>(b) 設 \(b_n=\dfrac{1}{a_{n+3}\,a_{n+4}}\)（\(n\ge1\)），求 \(\{b_n\}\) 的前 \(n\) 項和 \(S_n\)。（4 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>等差三項和 \(S_3=3a_2\)；五項和 \(S_5=5a_3\)（中間項 × 項數）</li><li>裂項相消：\(\dfrac{1}{a_{n+3}a_{n+4}}=\dfrac{1}{d}\left(\dfrac{1}{a_{n+3}}-\dfrac{1}{a_{n+4}}\right)\)（此處公差 \(d=1\)）</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(a_n=n-2\)　(b) \(S_n=\dfrac{n}{2(n+2)}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求通項 \(a_n\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 由 \(S_3,S_5\) 求中項</span><div class="math">\[\begin{aligned}
+3a_2 &amp;= 0 \\
+a_2 &amp;= 0 \\
+5a_3 &amp;= 5 \\
+a_3 &amp;= 1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 公差與通項</span><div class="math">\[\begin{aligned}
+d &amp;= a_3-a_2 \\
+&amp;= 1 \\
+a_1 &amp;= a_2-d \\
+&amp;= -1 \\
+a_n &amp;= n-2
+\end{aligned}\]</div></div></div><div class="part">（b）求前 \(n\) 項和 \(S_n\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · 裂項</span><div class="math">\[\begin{aligned}
+a_{n+3} &amp;= n+1 \\
+a_{n+4} &amp;= n+2 \\
+b_n &amp;= \frac{1}{(n+1)(n+2)} \\
+&amp;= \frac{1}{n+1}-\frac{1}{n+2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 裂項相消</span><div class="math">\[\begin{aligned}
+S_n &amp;= \left(\frac{1}{2}-\frac{1}{3}\right)+\cdots+\left(\frac{1}{n+1}-\frac{1}{n+2}\right) \\
+&amp;= \frac{1}{2}-\frac{1}{n+2} \\
+&amp;= \frac{n}{2(n+2)}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 5 題</span><span class="q-type">第一類型：基本概念</span></div>
+  
+  <div class="q-body">用數學歸納法證明對於任一正整數 \(n\)，\(3^{3n+1}-5^{n+2}\) 能被 22 整除。（8 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>數學歸納法：基礎步 + 歸納步</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>對所有正整數 \(n\)，\(22\mid 3^{3n+1}-5^{n+2}\)（得證）</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">數學歸納法</div><div class="row"><div class="region"><span class="region-h">工序 1 · 基礎 \(n=1\)</span><div class="math">\[\begin{aligned}
+3^4-5^3 &amp;= 81-125 \\
+&amp;= -44 \\
+&amp;= -2\times22
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 歸納假設</span><div class="math">\[\begin{aligned}
+&amp;\text{設 }22\mid(3^{3k+1}-5^{k+2})
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 歸納步 \(n=k+1\)</span><div class="math">\[\begin{aligned}
+3^{3k+4}-5^{k+3} &amp;= 27\cdot3^{3k+1}-5\cdot5^{k+2} \\
+&amp;= 27(3^{3k+1}-5^{k+2})+22\cdot5^{k+2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 結論</span><div class="math">\[\begin{aligned}
+&amp;\text{兩項皆被 22 整除} \\
+&amp;\Rightarrow n=k+1\ \text{成立}\ \square
+\end{aligned}\]</div></div></div>
+</div>
+</div></body></html>

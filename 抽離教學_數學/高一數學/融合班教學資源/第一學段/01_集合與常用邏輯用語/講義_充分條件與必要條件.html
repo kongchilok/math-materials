@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>充分條件與必要條件．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "\3000"; font-weight: 700; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .diagram { text-align: center; margin: 10px 0; }
+  .diagram svg { max-width: 320px; height: auto; }
+  .indent { margin-left: 1.4em; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：充分條件與必要條件</span><span>類型：課堂講義</span></div><div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div><div class="section-h">一、核心概念</div><p>1．命題：可以判斷真假的陳述句。中學數學中的命題常寫成「若p，則q」的形式，p稱為條件，q稱為結論。</p><p>2．若「若p，則q」為真命題（即p成立可以推出q成立），記作 \(p \Rightarrow q\)，這時我們說：p是q的充分條件，q是p的必要條件。</p><p>3．若「若p，則q」為假命題（由p不能推出q，可以舉出一個反例），記作 \(p \not\Rightarrow q\)，這時p不是q的充分條件，q也不是p的必要條件。</p><p>4．若同時有 \(p \Rightarrow q\) 和 \(q \Rightarrow p\)，則稱p是q的充要條件，記作 \(p \Leftrightarrow q\)。</p><p>5．圖解：若p對應的x所成的集合是P，q對應的x所成的集合是Q，那麼 p⇒q 恰好對應 P⊆Q（回顧1.2節子集的概念）。</p><div class="diagram"><svg viewBox="0 0 320 220" width="320" height="220" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif"><rect x="1" y="1" width="318" height="218" fill="none" stroke="none"/><circle cx="176.0" cy="110.0" r="85" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="246.0" y="45.0" font-size="16" fill="#1a1a1a">Q</text><circle cx="158.0" cy="110.0" r="42" fill="#e3e3e3" stroke="#1a1a1a" stroke-width="1.5"/><text x="152.0" y="115.0" font-size="16" fill="#1a1a1a" text-anchor="middle">P</text><text x="160.0" y="212" font-size="13" fill="#555" text-anchor="middle">p⇒q 對應 P⊆Q（p成立則q一定成立）</text></svg></div><div class="section-h">二、範例</div><p>題目：判斷「x = 2」是否為「\(x^2 = 4\)」的充分條件？是否為必要條件？</p><div class="worked-example"><p>① 理解題意：p：「x = 2」，q：「\(x^2 = 4\)」。</p><p>② 檢驗 p⇒q：x = 2 時，\(x^2 = 4\) 成立，所以 p⇒q 為真，p是q的充分條件。</p><p>③ 檢驗 q⇒p：\(x^2 = 4\) 時，x = 2 或 x = −2，舉反例：x = −2 時 \(x^2 = 4\) 成立但 x ≠ 2，所以 q⇏p，p不是q的必要條件。</p><p>④ 下結論：p是q的充分不必要條件。</p></div><p>接下來請拿《充分條件與必要條件課堂練習》，依這套框架完成練習A、B、C。</p><div class="footer">高一數學．充分條件與必要條件　第 1 頁</div></div>
+</body>
+</html>

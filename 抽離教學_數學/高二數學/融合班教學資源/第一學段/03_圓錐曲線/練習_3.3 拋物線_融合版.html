@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>3.3 拋物線 課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "\3000"; font-weight: 700; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .diagram { text-align: center; margin: 10px 0; }
+  .diagram svg { max-width: 100%; height: auto; }
+  .diagram .cap { font-size: 10pt; color: #555; margin-top: 2px; }
+</style>
+</head>
+<body>
+<div class="page"><div class="masthead"><span>科目：高二數學</span><span>單元：3.3 拋物線</span><span>類型：課堂練習</span></div><div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div><div>提示：作答前，先回頭看《3.3 拋物線 課堂講義》的範例框架。</div><div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div><div class="problem">1．拋物線 \( y^2=12x \)，請依框架依序填寫：<br>開口方向＝<span class="ans-box"></span>　p＝<span class="ans-box"></span>　焦點座標＝<span class="ans-box"></span>　準線方程＝<span class="ans-box"></span><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="problem">2．拋物線的準線方程是 x = 3，則它的標準方程為？（選出正確答案）<br><span class="choices"><span>(A) y²=12x</span><span>(B) y²=-12x</span><span>(C) y²=6x</span></span><br>提示：準線在 y 軸右邊，代表拋物線開口朝左。<div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div><div class="problem">3．求關於 x 軸對稱，且經過點 M(2,-4) 的拋物線標準方程。<br>提示：關於 x 軸對稱 → 設方程為 y²=2px 或 y²=-2px，把 M 的座標代入求 p。<div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem">4．已知拋物線 \( y^2=8x \)，其上與焦點的距離等於 9 的點的座標是？<br>提示：焦半徑＝該點到準線的距離＝x 座標 + p/2，先用這個關係求出 x，再代回方程求 y。<div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="section-h">三、練習C（<span class="stars">★★★</span>）</div><div class="diagram" style="max-width:380px;margin-left:auto;margin-right:auto;"><svg width="380" height="360" viewBox="0 0 380 360" xmlns="http://www.w3.org/2000/svg"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#333"/></marker></defs><rect x="0" y="0" width="380" height="360" fill="#fff"/><line x1="34.0" y1="326.0" x2="34.0" y2="34.0" stroke="#e0e0e0" stroke-width="1"/><line x1="91.8" y1="326.0" x2="91.8" y2="34.0" stroke="#e0e0e0" stroke-width="1"/><line x1="149.6" y1="326.0" x2="149.6" y2="34.0" stroke="#e0e0e0" stroke-width="1"/><line x1="207.3" y1="326.0" x2="207.3" y2="34.0" stroke="#e0e0e0" stroke-width="1"/><line x1="265.1" y1="326.0" x2="265.1" y2="34.0" stroke="#e0e0e0" stroke-width="1"/><line x1="322.9" y1="326.0" x2="322.9" y2="34.0" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="326.0" x2="346.0" y2="326.0" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="280.4" x2="346.0" y2="280.4" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="234.8" x2="346.0" y2="234.8" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="189.1" x2="346.0" y2="189.1" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="143.5" x2="346.0" y2="143.5" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="97.9" x2="346.0" y2="97.9" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="52.3" x2="346.0" y2="52.3" stroke="#e0e0e0" stroke-width="1"/><line x1="34.0" y1="180.0" x2="346.0" y2="180.0" stroke="#333" stroke-width="1.4" marker-end="url(#arrow)"/><line x1="114.9" y1="326.0" x2="114.9" y2="34.0" stroke="#333" stroke-width="1.4" marker-end="url(#arrow)"/><text x="342.0" y="172.0" font-size="13" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif" text-anchor="end">x</text><text x="122.9" y="46.0" font-size="13" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif">y</text><text x="104.9" y="196.0" font-size="12" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif" fill="#555" text-anchor="end">O</text><polyline points="346.0,309.0 341.4,307.8 336.8,306.5 332.3,305.2 327.9,303.9 323.5,302.6 319.1,301.3 314.8,300.0 310.5,298.7 306.3,297.4 302.1,296.1 298.0,294.9 293.9,293.6 289.8,292.3 285.8,291.0 281.9,289.7 278.0,288.4 274.1,287.1 270.3,285.8 266.5,284.5 262.8,283.2 259.1,281.9 255.5,280.7 251.9,279.4 248.4,278.1 244.9,276.8 241.4,275.5 238.0,274.2 234.7,272.9 231.4,271.6 228.1,270.3 224.9,269.0 221.8,267.8 218.6,266.5 215.6,265.2 212.5,263.9 209.6,262.6 206.6,261.3 203.7,260.0 200.9,258.7 198.1,257.4 195.3,256.1 192.6,254.8 190.0,253.6 187.4,252.3 184.8,251.0 182.3,249.7 179.8,248.4 177.4,247.1 175.0,245.8 172.7,244.5 170.4,243.2 168.1,241.9 165.9,240.7 163.8,239.4 161.7,238.1 159.6,236.8 157.6,235.5 155.7,234.2 153.7,232.9 151.9,231.6 150.0,230.3 148.3,229.0 146.5,227.7 144.8,226.5 143.2,225.2 141.6,223.9 140.1,222.6 138.6,221.3 137.1,220.0 135.7,218.7 134.3,217.4 133.0,216.1 131.7,214.8 130.5,213.6 129.3,212.3 128.2,211.0 127.1,209.7 126.1,208.4 125.1,207.1 124.1,205.8 123.2,204.5 122.4,203.2 121.6,201.9 120.8,200.6 120.1,199.4 119.4,198.1 118.8,196.8 118.2,195.5 117.7,194.2 117.2,192.9 116.8,191.6 116.4,190.3 116.0,189.0 115.7,187.7 115.5,186.5 115.3,185.2 115.1,183.9 115.0,182.6 114.9,181.3 114.9,180.0 114.9,178.7 115.0,177.4 115.1,176.1 115.3,174.8 115.5,173.5 115.7,172.3 116.0,171.0 116.4,169.7 116.8,168.4 117.2,167.1 117.7,165.8 118.2,164.5 118.8,163.2 119.4,161.9 120.1,160.6 120.8,159.4 121.6,158.1 122.4,156.8 123.2,155.5 124.1,154.2 125.1,152.9 126.1,151.6 127.1,150.3 128.2,149.0 129.3,147.7 130.5,146.4 131.7,145.2 133.0,143.9 134.3,142.6 135.7,141.3 137.1,140.0 138.6,138.7 140.1,137.4 141.6,136.1 143.2,134.8 144.8,133.5 146.5,132.3 148.3,131.0 150.0,129.7 151.9,128.4 153.7,127.1 155.7,125.8 157.6,124.5 159.6,123.2 161.7,121.9 163.8,120.6 165.9,119.3 168.1,118.1 170.4,116.8 172.7,115.5 175.0,114.2 177.4,112.9 179.8,111.6 182.3,110.3 184.8,109.0 187.4,107.7 190.0,106.4 192.6,105.2 195.3,103.9 198.1,102.6 200.9,101.3 203.7,100.0 206.6,98.7 209.6,97.4 212.5,96.1 215.6,94.8 218.6,93.5 221.8,92.2 224.9,91.0 228.1,89.7 231.4,88.4 234.7,87.1 238.0,85.8 241.4,84.5 244.9,83.2 248.4,81.9 251.9,80.6 255.5,79.3 259.1,78.1 262.8,76.8 266.5,75.5 270.3,74.2 274.1,72.9 278.0,71.6 281.9,70.3 285.8,69.0 289.8,67.7 293.9,66.4 298.0,65.1 302.1,63.9 306.3,62.6 310.5,61.3 314.8,60.0 319.1,58.7 323.5,57.4 327.9,56.1 332.3,54.8 336.8,53.5 341.4,52.2 346.0,51.0" fill="none" stroke="#1f5fa8" stroke-width="2.2"/><circle cx="143.8" cy="180.0" r="3.2" fill="#1a1a1a"/><text x="149.8" y="172.0" font-size="12.5" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif" fill="#1a1a1a" text-anchor="start">F(1,0)</text><line x1="86.0" y1="326.0" x2="86.0" y2="34.0" stroke="#555" stroke-width="1.6" stroke-dasharray="5,3"/><text x="90.0" y="320.0" font-size="12" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif" fill="#555" text-anchor="start">x=-1</text><polyline points="80.2,230.2 172.7,157.2 265.1,84.2" fill="none" stroke="#c0392b" stroke-width="1.8"/></svg></div><div class="problem">5．拋物線 \( y^2=4x \) 上，過焦點 F 且斜率為 1 的直線交拋物線於 A、B 兩點，求 |AB|。<br>提示：先求焦點座標與 p，寫出直線方程，代入拋物線方程，再用焦半徑公式 |AB|=x₁+x₂+p 求弦長。<div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="footer">高二數學．3.3 拋物線　第 1 頁</div><div class="page-break"></div><div class="masthead"><span>科目：高二數學</span><span>單元：3.3 拋物線</span><span>類型：教師用參考答案</span></div><div class="section-h">練習A</div><div>1．2p=12→p=6；開口向右；焦點(3,0)；準線 x=-3。</div><div>2．準線 x=3 在 y 軸右側，開口向左，設 y²=-2px，p/2=3→p=6，方程為 y²=-12x。答案：(B)。</div><div class="section-h">練習B</div><div>3．設 y²=2px（開口向右，因 x=2&gt;0），代入(2,-4)：16=4p→p=4。方程為 y²=8x。</div><div>4．p=4，p/2=2。焦半徑 x+2=9→x=7。代回 y²=8(7)=56，化簡得 \( y=\pm2\sqrt{14} \)。點座標為 \( (7, \pm2\sqrt{14}) \)。</div><div class="section-h">練習C</div><div>5．y²=4x→p=2，焦點F=(1,0)。直線 y=x-1，代入得 y²-4y-4=0（以 x=y+1 代入），y₁+y₂=4。x₁+x₂=(y₁+1)+(y₂+1)=y₁+y₂+2=6。由焦半徑公式 |AB|=x₁+x₂+p=6+2=8。</div><div class="footer">高二數學．3.3 拋物線　教師用參考答案　第 2 頁</div></div></body></html>

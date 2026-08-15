@@ -1,0 +1,700 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>四校聯考數學練習 · 視覺方向對照</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Crimson+Pro:ital,wght@0,400;0,600;0,700;1,400&family=Manrope:wght@400;500;600;800&family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Serif:ital,wght@0,400;0,600;1,400&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   SHELL — quiet cool neutral, mockups float as objects
+   ============================================================ */
+:root{
+  --shell-bg:#E9EBEE; --shell-panel:#FFFFFF; --shell-ink:#14171C;
+  --shell-soft:#5C6470; --shell-line:#D3D7DD; --shell-mark:#2547E8;
+  --shell-warn:#9A3412;
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --shell-bg:#15171B; --shell-panel:#1D2026; --shell-ink:#E8EAEE;
+    --shell-soft:#98A0AC; --shell-line:#2C3138; --shell-mark:#7E9CFF;
+    --shell-warn:#E7A06A;
+  }
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{
+  background:var(--shell-bg); color:var(--shell-ink);
+  font-family:"Atkinson Hyperlegible","Noto Sans TC",system-ui,sans-serif;
+  line-height:1.65; -webkit-font-smoothing:antialiased;
+  padding:clamp(1.5rem,4vw,3.5rem) clamp(1rem,4vw,3rem) 5rem;
+}
+.wrap{max-width:1500px;margin:0 auto;display:flex;flex-direction:column;gap:2.5rem}
+
+.doc-head{max-width:62ch;display:flex;flex-direction:column;gap:.9rem}
+.doc-eyebrow{
+  font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;
+  color:var(--shell-soft);font-weight:700;
+}
+.doc-head h1{
+  font-family:"Noto Serif TC",serif;font-size:clamp(1.6rem,3.4vw,2.3rem);
+  font-weight:700;line-height:1.25;text-wrap:balance;letter-spacing:.01em;
+}
+.doc-head p{color:var(--shell-soft);font-size:.98rem}
+.doc-head strong{color:var(--shell-ink);font-weight:700}
+
+.evidence{
+  background:var(--shell-panel);border:1px solid var(--shell-line);
+  border-radius:10px;padding:1.15rem 1.35rem;display:flex;flex-direction:column;gap:.55rem;
+  max-width:62ch;
+}
+.evidence h2{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--shell-soft);font-weight:700}
+.evidence ul{list-style:none;display:flex;flex-direction:column;gap:.4rem}
+.evidence li{font-size:.92rem;color:var(--shell-soft);padding-left:1.1rem;position:relative}
+.evidence li::before{content:"";position:absolute;left:0;top:.62em;width:5px;height:5px;border-radius:50%;background:var(--shell-mark)}
+.evidence li b{color:var(--shell-ink);font-variant-numeric:tabular-nums}
+
+/* deck of frames */
+.deck{
+  display:grid;gap:2rem;
+  grid-template-columns:repeat(auto-fit,minmax(340px,1fr));
+  align-items:start;
+}
+.slot{display:flex;flex-direction:column;gap:.95rem;min-width:0}
+.slot-head{display:flex;flex-direction:column;gap:.45rem}
+.slot-tag{
+  display:inline-flex;align-items:center;gap:.5rem;align-self:flex-start;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:700;
+  color:var(--shell-soft);
+}
+.slot-tag .dot{width:9px;height:9px;border-radius:2px}
+.slot-head h3{font-family:"Noto Serif TC",serif;font-size:1.18rem;font-weight:700;letter-spacing:.01em}
+.slot-head p{font-size:.88rem;color:var(--shell-soft);line-height:1.6}
+.slot-meta{
+  font-size:.76rem;color:var(--shell-soft);display:flex;flex-wrap:wrap;gap:.35rem .8rem;
+  padding-top:.15rem;
+}
+.slot-meta span{display:inline-flex;gap:.3rem}
+.slot-meta b{color:var(--shell-ink);font-weight:700}
+
+/* phone frame */
+.phone{
+  width:375px;max-width:100%;height:718px;
+  border-radius:22px;overflow:hidden;position:relative;
+  border:1px solid var(--shell-line);
+  box-shadow:0 1px 2px rgba(0,0,0,.06),0 12px 34px -10px rgba(0,0,0,.22);
+  background:#fff;
+}
+.screen{position:absolute;inset:0;overflow-y:auto;overflow-x:hidden}
+.screen::-webkit-scrollbar{width:0}
+
+/* chrome-height annotation overlay */
+.chrome-band{
+  position:absolute;left:0;right:0;top:0;pointer-events:none;z-index:9;
+  border-bottom:2px dashed rgba(154,52,18,.85);
+}
+.chrome-band::after{
+  content:attr(data-note);position:absolute;right:8px;bottom:6px;
+  background:var(--shell-warn);color:#fff;font-size:.66rem;font-weight:700;
+  letter-spacing:.04em;padding:.2rem .5rem;border-radius:3px;
+  font-family:"Atkinson Hyperlegible",sans-serif;
+}
+/* short bands sit above the content they measure, so hang the label under the rule
+   instead of over the finder controls it would otherwise cover */
+.chrome-band.below::after{bottom:auto;top:6px}
+
+/* ============================================================
+   SHARED MOCK PRIMITIVES (scoped per direction below)
+   ============================================================ */
+.mk{min-height:100%;display:flex;flex-direction:column}
+.mk-main{flex:1;padding:1rem .95rem 2rem;display:flex;flex-direction:column;gap:.85rem}
+.mv{font-style:italic}
+.opt-row{display:flex;align-items:flex-start;gap:.7rem;width:100%;text-align:left;cursor:pointer;font:inherit}
+.helpbar{display:flex;gap:.45rem;flex-wrap:wrap;margin-top:.2rem}
+.navrow{display:flex;justify-content:space-between;gap:.6rem;margin-top:.4rem}
+
+/* ============================================================
+   DIRECTION A — 印刷考卷 / Letterpress Exam
+   paper + true ink + official navy. Hairline rules, no card chrome.
+   ============================================================ */
+.dir-a{
+  --pa-paper:#FBFAF7; --pa-ink:#16181C; --pa-soft:#565A62;
+  --pa-rule:#DAD6CC; --pa-navy:#1E3A6E; --pa-navy-soft:#E7EBF3;
+  --pa-ok:#136B43; --pa-ok-soft:#E4F0E9; --pa-no:#9E1B1B;
+  background:var(--pa-paper); color:var(--pa-ink);
+  font-family:"Crimson Pro","Noto Serif TC",Georgia,serif;
+}
+.dir-a .a-top{
+  padding:.7rem .95rem .6rem;border-bottom:1px solid var(--pa-ink);
+  display:flex;align-items:baseline;justify-content:space-between;gap:.6rem;
+}
+.dir-a .a-mast{
+  font-family:"Atkinson Hyperlegible",sans-serif;font-size:.78rem;font-weight:700;
+  letter-spacing:.02em;color:var(--pa-ink);
+}
+.dir-a .a-mast em{font-style:normal;color:var(--pa-navy)}
+.dir-a .a-menu{
+  width:44px;height:44px;margin:-8px -8px -8px 0;border:0;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--pa-soft);
+}
+.dir-a .a-finder{
+  padding:.5rem .95rem;border-bottom:1px solid var(--pa-rule);
+  display:flex;align-items:center;gap:.4rem;
+  font-family:"Atkinson Hyperlegible",sans-serif;
+}
+.dir-a .a-pick{
+  flex:1;min-width:0;min-height:44px;border:1px solid var(--pa-rule);background:#fff;border-radius:3px;
+  font:inherit;font-size:.85rem;color:var(--pa-ink);padding:0 .35rem;cursor:pointer;
+}
+.dir-a .a-go{
+  flex:0 0 auto;white-space:nowrap;
+  min-height:44px;padding:0 .85rem;border:1px solid var(--pa-navy);background:var(--pa-navy);
+  color:#fff;border-radius:3px;font:inherit;font-size:.85rem;font-weight:700;cursor:pointer;
+}
+.dir-a .a-slug{
+  font-family:"Atkinson Hyperlegible",sans-serif;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--pa-soft);font-weight:700;
+}
+.dir-a .a-qhead{display:flex;align-items:baseline;gap:.7rem;border-bottom:2px solid var(--pa-ink);padding-bottom:.5rem}
+.dir-a .a-qno{
+  font-size:2.6rem;font-weight:700;line-height:.85;color:var(--pa-ink);
+  font-variant-numeric:tabular-nums;letter-spacing:-.03em;
+}
+.dir-a .a-qtype{
+  font-family:"Atkinson Hyperlegible",sans-serif;font-size:.7rem;color:var(--pa-navy);
+  font-weight:700;letter-spacing:.03em;
+}
+.dir-a .a-body{font-size:1.16rem;line-height:1.7}
+.dir-a .a-given{
+  border-left:2px solid var(--pa-navy);padding:.1rem 0 .1rem .75rem;
+  display:flex;flex-direction:column;gap:.2rem;font-size:1rem;color:var(--pa-soft);
+}
+.dir-a .a-opts{display:flex;flex-direction:column}
+.dir-a .a-opt{
+  border:0;border-top:1px solid var(--pa-rule);background:none;color:inherit;
+  padding:.72rem .2rem;min-height:48px;align-items:center;
+}
+.dir-a .a-opt:last-child{border-bottom:1px solid var(--pa-rule)}
+.dir-a .a-key{
+  font-family:"Atkinson Hyperlegible",sans-serif;font-size:.8rem;font-weight:700;
+  width:26px;height:26px;flex:0 0 26px;border:1px solid var(--pa-ink);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+}
+.dir-a .a-opt.is-right{background:var(--pa-ok-soft)}
+.dir-a .a-opt.is-right .a-key{background:var(--pa-ok);border-color:var(--pa-ok);color:#fff}
+.dir-a .a-otext{font-size:1.06rem}
+.dir-a .a-help{
+  font-family:"Atkinson Hyperlegible",sans-serif;font-size:.78rem;font-weight:700;
+  min-height:44px;padding:0 .8rem;border:1px solid var(--pa-rule);background:#fff;
+  border-radius:3px;color:var(--pa-soft);cursor:pointer;
+}
+.dir-a .a-nav{
+  font-family:"Atkinson Hyperlegible",sans-serif;font-size:.82rem;font-weight:700;
+  min-height:44px;padding:0 1rem;border:1px solid var(--pa-rule);background:#fff;
+  border-radius:3px;color:var(--pa-ink);cursor:pointer;
+}
+
+/* ============================================================
+   DIRECTION B — 答題卡 / Optical Mark Sheet
+   the OMR bubble as the interface. cool sheet grey, machine blue.
+   ============================================================ */
+.dir-b{
+  --pb-sheet:#EDF0F4; --pb-card:#FFFFFF; --pb-ink:#0B1220; --pb-soft:#5B6575;
+  --pb-line:#D6DCE5; --pb-blue:#2547E8; --pb-blue-soft:#E7EBFE;
+  --pb-ok:#0E7A4E; --pb-ok-soft:#E3F3EC; --pb-no:#C42B2B;
+  background:var(--pb-sheet); color:var(--pb-ink);
+  font-family:"Manrope","Noto Sans TC",system-ui,sans-serif;
+}
+.dir-b .b-top{
+  background:var(--pb-ink);color:#fff;padding:.62rem .95rem;
+  display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+}
+.dir-b .b-mast{font-size:.78rem;font-weight:800;letter-spacing:.01em}
+.dir-b .b-mast span{color:#93A2C4;font-weight:500}
+.dir-b .b-menu{
+  width:44px;height:44px;margin:-10px -10px -10px 0;border:0;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:#93A2C4;
+}
+.dir-b .b-finder{
+  background:var(--pb-card);border-bottom:1px solid var(--pb-line);
+  padding:.55rem .95rem;display:flex;gap:.4rem;align-items:center;
+}
+.dir-b .b-chip{
+  flex:1;min-height:44px;border:1px solid var(--pb-line);background:var(--pb-sheet);
+  border-radius:8px;font:inherit;font-size:.85rem;font-weight:600;color:var(--pb-ink);
+  padding:0 .5rem;cursor:pointer;
+}
+.dir-b .b-go{
+  min-height:44px;width:44px;flex:0 0 44px;border:0;background:var(--pb-blue);color:#fff;
+  border-radius:8px;cursor:pointer;display:flex;align-items:center;justify-content:center;
+}
+.dir-b .b-card{
+  background:var(--pb-card);border:1px solid var(--pb-line);border-radius:12px;
+  padding:1.05rem 1rem;display:flex;flex-direction:column;gap:.85rem;position:relative;
+}
+.dir-b .b-reg{position:absolute;width:7px;height:7px;border:1.5px solid var(--pb-line)}
+.dir-b .b-reg.tl{top:7px;left:7px;border-right:0;border-bottom:0}
+.dir-b .b-reg.tr{top:7px;right:7px;border-left:0;border-bottom:0}
+.dir-b .b-qhead{display:flex;align-items:center;gap:.55rem}
+.dir-b .b-qno{
+  width:30px;height:30px;flex:0 0 30px;border-radius:8px;background:var(--pb-ink);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-size:.9rem;font-weight:800;
+  font-variant-numeric:tabular-nums;
+}
+.dir-b .b-qtype{
+  font-size:.68rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--pb-blue);background:var(--pb-blue-soft);padding:.28rem .55rem;border-radius:5px;
+}
+.dir-b .b-body{font-size:1.02rem;line-height:1.72;font-family:"IBM Plex Serif","Noto Serif TC",serif}
+.dir-b .b-given{
+  background:var(--pb-sheet);border-radius:8px;padding:.6rem .75rem;
+  display:flex;flex-direction:column;gap:.25rem;font-size:.92rem;color:var(--pb-soft);
+  font-family:"IBM Plex Serif","Noto Serif TC",serif;
+}
+.dir-b .b-opts{display:flex;flex-direction:column;gap:.45rem}
+.dir-b .b-opt{
+  border:1.5px solid var(--pb-line);background:var(--pb-card);border-radius:10px;
+  padding:.6rem .7rem;min-height:52px;align-items:center;color:inherit;
+}
+.dir-b .b-bub{
+  width:30px;height:30px;flex:0 0 30px;border:2px solid var(--pb-soft);border-radius:50%;
+  display:flex;align-items:center;justify-content:center;font-size:.8rem;font-weight:800;
+  color:var(--pb-soft);
+}
+.dir-b .b-opt.is-right{border-color:var(--pb-ok);background:var(--pb-ok-soft)}
+.dir-b .b-opt.is-right .b-bub{background:var(--pb-ok);border-color:var(--pb-ok);color:#fff}
+.dir-b .b-otext{font-size:1rem;font-family:"IBM Plex Serif","Noto Serif TC",serif}
+.dir-b .b-help{
+  font:inherit;font-size:.8rem;font-weight:700;min-height:44px;padding:0 .85rem;
+  border:1.5px solid var(--pb-line);background:var(--pb-card);border-radius:8px;
+  color:var(--pb-soft);cursor:pointer;
+}
+.dir-b .b-nav{
+  font:inherit;font-size:.85rem;font-weight:700;min-height:46px;padding:0 1rem;
+  border:0;background:var(--pb-card);border:1.5px solid var(--pb-line);border-radius:10px;
+  color:var(--pb-ink);cursor:pointer;
+}
+
+/* ============================================================
+   DIRECTION C — 草稿紙 / Working Paper
+   engineering grid ground, drafting teal, mono for working steps.
+   ============================================================ */
+.dir-c{
+  --pc-paper:#F4F7F5; --pc-card:#FDFEFD; --pc-ink:#141A18; --pc-soft:#525C58;
+  --pc-grid:#DCE6E1; --pc-line:#CBD7D2; --pc-teal:#0F5F52; --pc-teal-soft:#E2EFEC;
+  --pc-ok:#0F5F52; --pc-no:#9C2A2A;
+  background:var(--pc-paper); color:var(--pc-ink);
+  font-family:"IBM Plex Serif","Noto Serif TC",serif;
+  background-image:linear-gradient(var(--pc-grid) 1px,transparent 1px),
+                   linear-gradient(90deg,var(--pc-grid) 1px,transparent 1px);
+  background-size:22px 22px;
+}
+.dir-c .c-top{
+  background:var(--pc-card);border-bottom:1px solid var(--pc-line);
+  padding:.65rem .95rem;display:flex;align-items:center;justify-content:space-between;gap:.6rem;
+}
+.dir-c .c-mast{
+  font-family:"IBM Plex Mono",monospace;font-size:.74rem;font-weight:600;
+  letter-spacing:.02em;color:var(--pc-ink);
+}
+.dir-c .c-mast span{color:var(--pc-teal)}
+.dir-c .c-menu{
+  width:44px;height:44px;margin:-10px -10px -10px 0;border:0;background:none;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;color:var(--pc-soft);
+}
+.dir-c .c-finder{
+  background:var(--pc-card);border-bottom:1px solid var(--pc-line);
+  padding:.5rem .95rem;display:flex;gap:.4rem;align-items:center;
+}
+.dir-c .c-pick{
+  flex:1;min-width:0;min-height:44px;border:1px solid var(--pc-line);background:var(--pc-paper);
+  border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;
+  color:var(--pc-ink);padding:0 .4rem;cursor:pointer;
+}
+.dir-c .c-go{
+  flex:0 0 auto;white-space:nowrap;
+  min-height:44px;padding:0 .85rem;border:1px solid var(--pc-teal);background:var(--pc-teal);
+  color:#fff;border-radius:2px;font-family:"IBM Plex Mono",monospace;font-size:.82rem;
+  font-weight:600;cursor:pointer;
+}
+.dir-c .c-card{
+  background:var(--pc-card);border:1px solid var(--pc-line);border-radius:2px;
+  padding:1rem .95rem;display:flex;flex-direction:column;gap:.8rem;
+  box-shadow:0 1px 0 var(--pc-line);
+}
+.dir-c .c-qhead{
+  display:flex;align-items:baseline;gap:.6rem;
+  font-family:"IBM Plex Mono",monospace;
+  border-bottom:1px dashed var(--pc-line);padding-bottom:.5rem;
+}
+.dir-c .c-qno{font-size:1.4rem;font-weight:600;color:var(--pc-teal);font-variant-numeric:tabular-nums}
+.dir-c .c-qtype{font-size:.7rem;color:var(--pc-soft);letter-spacing:.02em}
+.dir-c .c-body{font-size:1.05rem;line-height:1.75}
+.dir-c .c-given{
+  background:var(--pc-teal-soft);border-radius:2px;padding:.6rem .75rem;
+  display:flex;flex-direction:column;gap:.25rem;font-size:.95rem;color:var(--pc-soft);
+}
+.dir-c .c-opts{display:flex;flex-direction:column;gap:.4rem}
+.dir-c .c-opt{
+  border:1px solid var(--pc-line);background:var(--pc-card);border-radius:2px;
+  padding:.6rem .7rem;min-height:48px;align-items:center;color:inherit;
+}
+.dir-c .c-key{
+  font-family:"IBM Plex Mono",monospace;font-size:.82rem;font-weight:600;
+  width:27px;height:27px;flex:0 0 27px;border:1px solid var(--pc-soft);border-radius:2px;
+  display:flex;align-items:center;justify-content:center;color:var(--pc-soft);
+}
+.dir-c .c-opt.is-right{border-color:var(--pc-teal);background:var(--pc-teal-soft)}
+.dir-c .c-opt.is-right .c-key{background:var(--pc-teal);border-color:var(--pc-teal);color:#fff}
+.dir-c .c-otext{font-size:1rem}
+.dir-c .c-help{
+  font-family:"IBM Plex Mono",monospace;font-size:.76rem;font-weight:500;
+  min-height:44px;padding:0 .8rem;border:1px solid var(--pc-line);background:var(--pc-card);
+  border-radius:2px;color:var(--pc-soft);cursor:pointer;
+}
+.dir-c .c-nav{
+  font-family:"IBM Plex Mono",monospace;font-size:.8rem;font-weight:500;
+  min-height:44px;padding:0 1rem;border:1px solid var(--pc-line);background:var(--pc-card);
+  border-radius:2px;color:var(--pc-ink);cursor:pointer;
+}
+
+/* ============================================================
+   CURRENT / BEFORE frame — faithful reproduction of live page
+   ============================================================ */
+.dir-now{
+  --n-bg:#f5f4ef; --n-surface:#ffffff; --n-ink:#1d1c1a; --n-soft:#57554f;
+  --n-muted:#706f69; --n-line:#e3e1d8; --n-accent:#aa4d29; --n-gold:#c8973f;
+  --n-given-bg:#fbf7f0; --n-given-line:#d9c9a8;
+  background:var(--n-bg);color:var(--n-ink);
+  font-family:"Noto Serif TC",Georgia,serif;line-height:1.75;
+}
+.dir-now .n-header{background:var(--n-ink);color:var(--n-bg);padding:2.2rem 1.2rem 1.6rem;position:relative;overflow:hidden}
+.dir-now .n-rule{position:absolute;right:-40px;top:-40px;width:200px;height:200px;border:1px solid rgba(200,151,63,.25);border-radius:50%}
+.dir-now .n-eyebrow{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;color:var(--n-gold);margin-bottom:.6rem;font-family:system-ui,sans-serif}
+.dir-now .n-h1{font-size:1.4rem;font-weight:600;line-height:1.3}
+.dir-now .n-sub{color:var(--n-muted);font-size:.92rem;margin-top:.45rem}
+.dir-now .n-ctl{background:var(--n-bg);border-bottom:1px solid var(--n-line);padding:.75rem 1rem}
+.dir-now .n-inner{display:flex;align-items:flex-end;gap:.45rem;flex-wrap:wrap}
+.dir-now .n-lab{font-size:.66rem;letter-spacing:.1em;color:var(--n-muted);text-transform:uppercase;font-family:system-ui,sans-serif;display:block;margin-bottom:.28rem}
+.dir-now .n-sel{font-family:system-ui,sans-serif;font-size:.86rem;padding:.42rem .7rem;min-height:2.75rem;border:1px solid var(--n-line);border-radius:4px;background:var(--n-surface);color:var(--n-ink);min-width:4.2rem}
+.dir-now .n-find{font-family:system-ui,sans-serif;font-size:.92rem;font-weight:600;padding:.46rem 1.5rem;min-height:2.75rem;border:1px solid var(--n-accent);border-radius:4px;background:var(--n-accent);color:#fff}
+.dir-now .n-themes{display:flex;align-items:center;gap:.55rem;width:100%;margin-top:.5rem}
+.dir-now .n-tb{width:30px;height:30px;border-radius:50%;border:1.5px solid var(--n-line);padding:0}
+.dir-now .n-tb.on{border-color:var(--n-accent);box-shadow:0 0 0 2px #f3e6df}
+.dir-now .n-slug{font-family:system-ui,sans-serif;font-size:.78rem;letter-spacing:.08em;color:var(--n-accent);text-transform:uppercase;font-weight:600;margin-bottom:1.1rem}
+.dir-now .n-q{background:var(--n-surface);border:1px solid var(--n-line);border-radius:4px;padding:1.3rem 1.2rem}
+.dir-now .n-qtop{display:flex;align-items:baseline;gap:.7rem;margin-bottom:.9rem}
+.dir-now .n-qno{font-family:system-ui,sans-serif;font-weight:700;font-size:1.05rem;color:var(--n-accent)}
+.dir-now .n-qtype{font-family:system-ui,sans-serif;font-size:.72rem;color:var(--n-muted);background:var(--n-bg);border:1px solid var(--n-line);padding:.15rem .6rem;border-radius:99px}
+.dir-now .n-body{font-size:1.04rem}
+.dir-now .n-given{margin-top:1rem;background:var(--n-given-bg);border:1px solid var(--n-given-line);border-radius:4px;padding:.8rem 1rem}
+.dir-now .n-gh{font-family:system-ui,sans-serif;font-size:.74rem;font-weight:600;letter-spacing:.08em;color:var(--n-soft);margin-bottom:.5rem}
+.dir-now .n-gl{font-size:.95rem;color:var(--n-soft)}
+.dir-now .n-opts{margin-top:1.2rem;display:flex;flex-direction:column;gap:.55rem}
+.dir-now .n-opt{display:flex;align-items:flex-start;gap:.8rem;padding:.7rem .95rem;border:1px solid var(--n-line);border-radius:4px;background:var(--n-surface);font-size:1rem;text-align:left;color:var(--n-ink);font-family:inherit}
+.dir-now .n-key{font-family:system-ui,sans-serif;font-weight:700;font-size:.82rem;width:1.5rem;height:1.5rem;flex-shrink:0;border:1px solid var(--n-line);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--n-soft);background:var(--n-bg)}
+
+/* footer note */
+.note{
+  background:var(--shell-panel);border:1px solid var(--shell-line);border-radius:10px;
+  padding:1.15rem 1.35rem;max-width:72ch;display:flex;flex-direction:column;gap:.6rem;
+}
+.note h2{font-size:.76rem;letter-spacing:.14em;text-transform:uppercase;color:var(--shell-soft);font-weight:700}
+.note p{font-size:.9rem;color:var(--shell-soft)}
+.note b{color:var(--shell-ink)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="doc-head">
+    <div class="doc-eyebrow">視覺方向對照 · 決策用</div>
+    <h1>四校聯考數學練習 — 三個重新設計方向</h1>
+    <p>四個框都係 <strong>375 × 812 手機</strong>，顯示<strong>同一條題目</strong>（2026 選擇題第 1 題），
+       都已經作答並顯示正確答案。左一係現況，用嚟對照。揀一個方向，我就照住佢改 index.html。</p>
+  </div>
+
+  <div class="evidence">
+    <h2>三個方向共同修正嘅嘢</h2>
+    <ul>
+      <li>頁首 + 控制列由 <b>416px</b> 壓到 <b>106–113px</b>；812px 手機第一屏可見內容由 <b>49%</b> 升到 <b>86%</b></li>
+      <li>四套主題收入右上選單，觸控目標由 <b>30×30</b> 升到 <b>44×44</b></li>
+      <li>控制列唔再 wrap 成三行，全部一行入曬</li>
+      <li>最細字級由 <b>10.56px</b> 升到 <b>12px</b> 以上</li>
+    </ul>
+    <p style="font-size:.82rem;color:var(--shell-soft);margin-top:.15rem">
+      框內每個 <b>px / %</b> 都係頁面載入時即場量出嚟，唔係手打。百分比以 812px 手機為準；
+      四個框為咗並排睇而裁短咗，所以框本身冇 812px 高。</p>
+  </div>
+
+  <div class="deck">
+
+    <!-- ========== 現況 ========== -->
+    <div class="slot">
+      <div class="slot-head">
+        <span class="slot-tag"><span class="dot" style="background:#aa4d29"></span>現況 · 對照組</span>
+        <h3>而家線上嘅版本</h3>
+        <p>暖米色 + 襯線 + 赤陶 + 燙金。呢個組合本身冇問題，但已經係 AI 生成設計最常見嘅套路之一，加上手機空間分配失衡。</p>
+        <div class="slot-meta"><span>頁首+控制列 <b class="js-chrome">—</b></span><span>第一屏內容 <b class="js-content">—</b></span></div>
+      </div>
+      <div class="phone">
+        <div class="chrome-band" style="height:417px" data-note="417px chrome · 51%"></div>
+        <div class="screen dir-now">
+          <div class="mk">
+            <div class="n-header">
+              <div class="n-rule"></div>
+              <div class="n-eyebrow">Joint Admission Examination · Macao</div>
+              <div class="n-h1">澳門四高校聯合入學考試 · 數學練習</div>
+              <div class="n-sub">歷屆試題 2017–2026 · 選定年份與題號，按「尋找」顯示單一題目</div>
+            </div>
+            <div class="n-ctl">
+              <div class="n-inner">
+                <label><span class="n-lab">年份</span><select class="n-sel"><option>2026 年</option></select></label>
+                <label><span class="n-lab">類型</span><select class="n-sel"><option>選擇題</option></select></label>
+                <label><span class="n-lab">題號</span><select class="n-sel"><option>第 1 題</option></select></label>
+                <button class="n-find">尋找</button>
+                <div class="n-themes">
+                  <span class="n-lab" style="margin:0">背景</span>
+                  <button class="n-tb on" style="background:#f5f4ef"></button>
+                  <button class="n-tb" style="background:#e8e4d6"></button>
+                  <button class="n-tb" style="background:#25241f"></button>
+                  <button class="n-tb" style="background:linear-gradient(135deg,#fff 50%,#000 50%)"></button>
+                </div>
+              </div>
+            </div>
+            <div class="mk-main" style="gap:0">
+              <div class="n-slug">2026 年 · 選擇題 第 1 題</div>
+              <div class="n-q">
+                <div class="n-qtop"><span class="n-qno">1</span><span class="n-qtype">第一類型：基本概念</span></div>
+                <div class="n-body">設 <span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}，<span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}，求 <span class="mv">A</span> ∩ <span class="mv">B</span>。</div>
+                <div class="n-given">
+                  <div class="n-gh">✎ 已知條件</div>
+                  <div class="n-gl">• <span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}</div>
+                  <div class="n-gl">• <span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}</div>
+                </div>
+                <div class="n-opts">
+                  <button class="n-opt"><span class="n-key">A</span><span>[−2, 0]</span></button>
+                  <button class="n-opt"><span class="n-key">B</span><span>[−2, −1]</span></button>
+                  <button class="n-opt"><span class="n-key">C</span><span>[0, 2]</span></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== A · 印刷考卷 ========== -->
+    <div class="slot">
+      <div class="slot-head">
+        <span class="slot-tag"><span class="dot" style="background:#1E3A6E"></span>方向 A · 印刷考卷</span>
+        <h3>Letterpress — 正卷嘅印刷精度</h3>
+        <p>唔靠暖色營造學術感，改為靠<strong>印刷工藝</strong>：真紙白、真墨黑、一支官方藏青。細線分隔取代卡片邊框，題號做成鉛字級大字，選項排成有欄線嘅表。最接近你原本嘅氣質，但完全避開米色赤陶套路。</p>
+        <div class="slot-meta"><span>字體 <b>Crimson Pro</b> + <b>Atkinson Hyperlegible</b></span><span>chrome <b class="js-chrome">—</b></span><span>第一屏內容 <b class="js-content">—</b></span></div>
+      </div>
+      <div class="phone">
+        <div class="chrome-band below" style="height:96px" data-note="96px chrome · 12%"></div>
+        <div class="screen dir-a">
+          <div class="mk">
+            <div class="a-top">
+              <div class="a-mast">四校聯考 · 數學正卷 <em>2017–2026</em></div>
+              <button class="a-menu" aria-label="設定與主題">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg>
+              </button>
+            </div>
+            <div class="a-finder">
+              <select class="a-pick"><option>2026</option></select>
+              <select class="a-pick"><option>選擇題</option></select>
+              <select class="a-pick"><option>第 1 題</option></select>
+              <button class="a-go">尋找</button>
+            </div>
+            <div class="mk-main">
+              <div class="a-slug">2026 · 選擇題 · 15 題之 1</div>
+              <div class="a-qhead">
+                <span class="a-qno">1</span>
+                <span class="a-qtype">一、基本概念</span>
+              </div>
+              <div class="a-body">設 <span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}，<span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}，求 <span class="mv">A</span> ∩ <span class="mv">B</span>。</div>
+              <div class="a-given">
+                <div><span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}</div>
+                <div><span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}</div>
+              </div>
+              <div class="a-opts">
+                <button class="a-opt opt-row is-right"><span class="a-key">A</span><span class="a-otext">[−2, 0]</span></button>
+                <button class="a-opt opt-row"><span class="a-key">B</span><span class="a-otext">[−2, −1]</span></button>
+                <button class="a-opt opt-row"><span class="a-key">C</span><span class="a-otext">[0, 2]</span></button>
+                <button class="a-opt opt-row"><span class="a-key">D</span><span class="a-otext">[−2, 1]</span></button>
+                <button class="a-opt opt-row"><span class="a-key">E</span><span class="a-otext">[−2, 2]</span></button>
+              </div>
+              <div class="helpbar">
+                <button class="a-help">相關公式</button>
+                <button class="a-help">方向提示</button>
+                <button class="a-help">完整詳解</button>
+              </div>
+              <div class="navrow">
+                <button class="a-nav">← 上一題</button>
+                <button class="a-nav">下一題 →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== B · 答題卡 ========== -->
+    <div class="slot">
+      <div class="slot-head">
+        <span class="slot-tag"><span class="dot" style="background:#2547E8"></span>方向 B · 答題卡</span>
+        <h3>Answer Sheet — 選項就係塗卡圈</h3>
+        <p>直接借用<strong>機讀答題卡</strong>嘅語言：A–E 塗卡圈、定位角標、冷灰藍底、機器藍。塗卡圈本身就係 30px 觸控靶，配 52px 行高，手機上最好撳。三個之中最有產品感、最獨特。</p>
+        <div class="slot-meta"><span>字體 <b>Manrope</b> + <b>IBM Plex Serif</b></span><span>chrome <b class="js-chrome">—</b></span><span>第一屏內容 <b class="js-content">—</b></span></div>
+      </div>
+      <div class="phone">
+        <div class="chrome-band below" style="height:100px" data-note="100px chrome · 12%"></div>
+        <div class="screen dir-b">
+          <div class="mk">
+            <div class="b-top">
+              <div class="b-mast">四校聯考數學 <span>· 2017–2026</span></div>
+              <button class="b-menu" aria-label="設定與主題">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+              </button>
+            </div>
+            <div class="b-finder">
+              <select class="b-chip"><option>2026</option></select>
+              <select class="b-chip"><option>選擇題</option></select>
+              <select class="b-chip"><option>第 1 題</option></select>
+              <button class="b-go" aria-label="尋找">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+              </button>
+            </div>
+            <div class="mk-main">
+              <div class="b-card">
+                <span class="b-reg tl"></span><span class="b-reg tr"></span>
+                <div class="b-qhead">
+                  <span class="b-qno">1</span>
+                  <span class="b-qtype">一、基本概念</span>
+                </div>
+                <div class="b-body">設 <span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}，<span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}，求 <span class="mv">A</span> ∩ <span class="mv">B</span>。</div>
+                <div class="b-given">
+                  <div><span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}</div>
+                  <div><span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}</div>
+                </div>
+                <div class="b-opts">
+                  <button class="b-opt opt-row is-right"><span class="b-bub">A</span><span class="b-otext">[−2, 0]</span></button>
+                  <button class="b-opt opt-row"><span class="b-bub">B</span><span class="b-otext">[−2, −1]</span></button>
+                  <button class="b-opt opt-row"><span class="b-bub">C</span><span class="b-otext">[0, 2]</span></button>
+                  <button class="b-opt opt-row"><span class="b-bub">D</span><span class="b-otext">[−2, 1]</span></button>
+                  <button class="b-opt opt-row"><span class="b-bub">E</span><span class="b-otext">[−2, 2]</span></button>
+                </div>
+                <div class="helpbar">
+                  <button class="b-help">相關公式</button>
+                  <button class="b-help">方向提示</button>
+                  <button class="b-help">完整詳解</button>
+                </div>
+              </div>
+              <div class="navrow">
+                <button class="b-nav">← 上一題</button>
+                <button class="b-nav">下一題 →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== C · 草稿紙 ========== -->
+    <div class="slot">
+      <div class="slot-head">
+        <span class="slot-tag"><span class="dot" style="background:#0F5F52"></span>方向 C · 草稿紙</span>
+        <h3>Working Paper — 學生真係做嘢嗰張紙</h3>
+        <p>底層係<strong>方格草稿紙</strong>，題卡浮喺上面。等寬字放題號同控制項（數字對齊得好靚），襯線字放題幹。製圖筆墨綠取代赤陶。最貼近「做數」嘅實際手感，日後加詳解步驟會好夾。</p>
+        <div class="slot-meta"><span>字體 <b>IBM Plex Serif</b> + <b>IBM Plex Mono</b></span><span>chrome <b class="js-chrome">—</b></span><span>第一屏內容 <b class="js-content">—</b></span></div>
+      </div>
+      <div class="phone">
+        <div class="chrome-band below" style="height:98px" data-note="98px chrome · 12%"></div>
+        <div class="screen dir-c">
+          <div class="mk">
+            <div class="c-top">
+              <div class="c-mast">MATH · 四校聯考 <span>2017–2026</span></div>
+              <button class="c-menu" aria-label="設定與主題">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
+              </button>
+            </div>
+            <div class="c-finder">
+              <select class="c-pick"><option>2026</option></select>
+              <select class="c-pick"><option>選擇</option></select>
+              <select class="c-pick"><option>1</option></select>
+              <button class="c-go">尋找</button>
+            </div>
+            <div class="mk-main">
+              <div class="c-card">
+                <div class="c-qhead">
+                  <span class="c-qno">01</span>
+                  <span class="c-qtype">一、基本概念 · 選擇</span>
+                </div>
+                <div class="c-body">設 <span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}，<span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}，求 <span class="mv">A</span> ∩ <span class="mv">B</span>。</div>
+                <div class="c-given">
+                  <div><span class="mv">A</span> = {<span class="mv">x</span> : <span class="mv">x</span>² + <span class="mv">x</span> − 2 ≤ 0}</div>
+                  <div><span class="mv">B</span> = {<span class="mv">x</span> : |<span class="mv">x</span> − 1| ≥ 1}</div>
+                </div>
+                <div class="c-opts">
+                  <button class="c-opt opt-row is-right"><span class="c-key">A</span><span class="c-otext">[−2, 0]</span></button>
+                  <button class="c-opt opt-row"><span class="c-key">B</span><span class="c-otext">[−2, −1]</span></button>
+                  <button class="c-opt opt-row"><span class="c-key">C</span><span class="c-otext">[0, 2]</span></button>
+                  <button class="c-opt opt-row"><span class="c-key">D</span><span class="c-otext">[−2, 1]</span></button>
+                  <button class="c-opt opt-row"><span class="c-key">E</span><span class="c-otext">[−2, 2]</span></button>
+                </div>
+                <div class="helpbar">
+                  <button class="c-help">相關公式</button>
+                  <button class="c-help">方向提示</button>
+                  <button class="c-help">完整詳解</button>
+                </div>
+              </div>
+              <div class="navrow">
+                <button class="c-nav">← 上一題</button>
+                <button class="c-nav">下一題 →</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="note">
+    <h2>睇嘅時候留意</h2>
+    <p><b>紅色虛線</b>係「題目出現之前用咗幾多螢幕」。現況條線喺半屏度，三個方向都壓到頂部一條。</p>
+    <p><b>數學式係手打模擬</b>。真正實作會照用返而家嘅 MathJax，顯示效果同現時一樣，唔會有變。</p>
+    <p><b>呢個檔淨係 mockup</b>，冇郁過 <b>output/index.html</b>。你揀完方向我先動正本。</p>
+  </div>
+
+</div>
+
+<script>
+/* The chrome-height figures are measured from the rendered mockups, not hand-typed —
+   each band sizes itself to the real header+finder stack it sits in front of.
+   Percentages are against a 812px iPhone viewport, not this frame: the frames are
+   cropped short so four fit side by side, so frame-relative figures would overstate. */
+var DEVICE_H = 812;
+(function () {
+  document.querySelectorAll('.phone').forEach(function (phone) {
+    var band = phone.querySelector('.chrome-band');
+    var screen = phone.querySelector('.screen');
+    if (!band || !screen) return;
+    var top = screen.firstElementChild.children[0];
+    var finder = screen.firstElementChild.children[1];
+    var h = Math.round(top.getBoundingClientRect().height + finder.getBoundingClientRect().height);
+    var pct = Math.round(h / DEVICE_H * 100);
+    band.style.height = h + 'px';
+    band.dataset.note = h + 'px chrome · ' + pct + '%';
+    var meta = phone.parentElement.querySelector('.js-chrome');
+    if (meta) meta.textContent = h + 'px';
+    var content = phone.parentElement.querySelector('.js-content');
+    if (content) content.textContent = (100 - pct) + '%';
+  });
+})();
+</script>
+</body>
+</html>

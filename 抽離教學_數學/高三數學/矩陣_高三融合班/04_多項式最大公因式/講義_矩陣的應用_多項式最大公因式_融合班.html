@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_矩陣的應用_多項式最大公因式_融合班</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls){ if(!urls.length) return; var s=document.createElement('script'); s.src=urls[0];
+  s.onerror=function(){loadMathJax(urls.slice(1));}; document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+   'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+   'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm 0.5cm 1.3cm 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC","Microsoft JhengHei","PingFang TC",Arial,Verdana,sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .worked-example, .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .eq { margin: 6px 0; }
+  .footer { position: fixed; bottom: 0.3cm; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff;
+    font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：矩陣的應用：求多項式最大公因式（※選學）</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、想法：用「係數行」代表多項式</div>
+  <div>求兩個多項式的最大公因式（HCF），可以把它們的「係數」排成矩陣的橫行，再用行相減來做。</div>
+  <div class="hint-card">三步驟：①把每個多項式的係數「按次數對齊」寫成一行（缺哪個次方就補 0）。②用「行相減」消去最高次項，得到一個次數較低的多項式。③把剩下的行約掉常數倍，就是最大公因式。</div>
+
+  <div class="section-h">二、範例1：兩式同次數</div>
+  <div>求 \(f(x)=x^{2}+3x+2\) 與 \(g(x)=x^{2}-1\) 的最大公因式。</div>
+  <div class="eq">①寫成係數行（次數 2、1、0）：\(f\to\begin{bmatrix}1&3&2\end{bmatrix}\)，\(g\to\begin{bmatrix}1&0&-1\end{bmatrix}\)，合起來 \(\begin{bmatrix}1&3&2\\1&0&-1\end{bmatrix}\)。</div>
+  <div class="eq">②R1−R2：\(\begin{bmatrix}0&3&3\end{bmatrix}\)，代表 \(3x+3=3(x+1)\)。</div>
+  <div class="eq">③約掉常數 3，得候選最大公因式 \(x+1\)。</div>
+  <div class="worked-example">驗證：\(f=(x+1)(x+2)\)、\(g=(x+1)(x-1)\)，兩者都有因式 \(x+1\)，所以 HCF \(=x+1\)。</div>
+
+  <div class="section-h">三、範例2：兩式次數不同（先左移對齊）</div>
+  <div>求 \(f(x)=x^{3}-1\) 與 \(g(x)=x^{2}-1\) 的最大公因式。</div>
+  <div class="eq">對齊次數 3、2、1、0：\(f\to\begin{bmatrix}1&0&0&-1\end{bmatrix}\)，\(g\to\begin{bmatrix}0&1&0&-1\end{bmatrix}\)。</div>
+  <div class="eq">因為 \(f\) 比 \(g\) 高一次，先把 \(g\) 乘 \(x\)（係數整列左移一格）：\(x\cdot g\to\begin{bmatrix}1&0&-1&0\end{bmatrix}\)。</div>
+  <div class="eq">再算 \(f-x\cdot g\)：\(\begin{bmatrix}0&0&1&-1\end{bmatrix}\)，代表 \(x-1\)。</div>
+  <div class="worked-example">驗證：\(g=(x-1)(x+1)\)、\(f=(x-1)(x^{2}+x+1)\)，兩者都有因式 \(x-1\)，所以 HCF \(=x-1\)。</div>
+
+  <div style="margin-top:14px;">接下來請拿《求多項式最大公因式課堂練習》，依這三步驟完成練習 A、B、C。</div>
+  <div class="footer">高三數學．矩陣：多項式最大公因式（※選學）</div>
+</div>
+</body>
+</html>

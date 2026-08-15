@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_6.2排列與組合_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .fill { display: inline-block; min-width: 70px; border-bottom: 1px solid #1a1a1a; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .anskey div { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：6.2 排列與組合</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div>請先回看《講義》的範例，每一題照四步驟作答：①從幾個取幾個　②交換測試（排列還是組合）　③選公式 A 還是 C　④計算。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>A-1．從甲、乙、丙 3 人中選 2 人排成一排拍照。</div>
+    <div>(1) 把所有排法列出來（已開頭）：甲乙、乙甲、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span></div>
+    <div>(2) 對照公式：\(A_3^2 = 3\times 2 =\) <span class="fill">&nbsp;</span>，跟 (1) 數出來的一樣嗎？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：「甲乙」和「乙甲」左右位置不同，算兩種 → 這是排列。</div>
+
+  <div class="problem">
+    <div>A-2．從甲、乙、丙 3 人中選 2 人當圖書館義工（工作相同，不分先後）。</div>
+    <div>(1) 把所有選法列出來：｛甲、乙｝、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span></div>
+    <div>(2) 對照公式：\(C_3^2 = \dfrac{3\times2}{2\times1} =\) <span class="fill">&nbsp;</span>，跟 (1) 數出來的一樣嗎？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：義工不分先後，「甲乙」＝「乙甲」→ 這是組合。</div>
+
+  <div class="problem">
+    <div>A-3．計算下列各值：</div>
+    <div>\(A_4^2 =\) <span class="fill">&nbsp;</span>　　\(A_5^3 =\) <span class="fill">&nbsp;</span>　　\(4! =\) <span class="fill">&nbsp;</span></div>
+    <div>\(C_4^2 =\) <span class="fill">&nbsp;</span>　　\(C_5^3 =\) <span class="fill">&nbsp;</span>　　\(C_7^5 = C_7^2 =\) <span class="fill">&nbsp;</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：A 由大數開始乘、乘指定個數就停；C 先算 A 再除以 \(m!\)；上標接近 \(n\) 時先用性質換小的。</div>
+
+  <div class="problem">
+    <div>A-4．圈出正確的類型（排列／組合）：</div>
+    <div>(i) 9 輛共享單車選 3 輛騎走（不分誰騎哪輛）　→　排列／組合</div>
+    <div>(ii) 9 輛共享單車選 3 輛分別給 3 位同學　→　排列／組合</div>
+    <div>(iii) 5 位同學選 2 位分別任隊長、副隊長　→　排列／組合</div>
+    <div>(iv) 52 張撲克牌抽出 2 張（一起拿在手上）　→　排列／組合</div>
+  </div>
+  <div class="hint-card">提示：每一題都做「交換測試」——對調之後算不算新結果？</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>B-1．4 位同學排成一排拍照，共有多少種不同的排法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：4 個人「全部」排一排 → 全排列 \(4!\)。</div>
+
+  <div class="problem">
+    <div>B-2．用 1、2、3、4、5 這五個數字，組成沒有重複數字的三位數，共有多少個？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：畫三個格子（百位、十位、個位），像講義的格子圖那樣。</div>
+
+  <div class="problem">
+    <div>B-3．10 件產品中有 8 件合格品、2 件次品，從中任取 3 件檢查。</div>
+    <div>(1) 共有多少種不同的取法？</div>
+    <div>(2) 取出的 3 件全是合格品的取法有多少種？</div>
+    <div>(3) 取出的 3 件中恰有 1 件次品的取法有多少種？</div>
+    <div>(4) 取出的 3 件中至少有 1 件次品的取法有多少種？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：取產品不分先後 → 全用組合；「至少 1 件次品」＝全部取法－全是合格品。</div>
+
+  <div class="problem">
+    <div>B-4．博物館要從 3 名男生、5 名女生中選 4 名志願者，其中男生、女生各 2 名，不同的選法有（　　）種</div>
+    <div class="choices"><span>A．30</span><span>B．13</span><span>C．60</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：分兩步：先從男生選 2、再從女生選 2，兩步相乘。</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>C-1．甲、乙、丙、丁 4 人排成一排：</div>
+    <div>(1) 甲、乙必須相鄰，有多少種排法？</div>
+    <div>(2) 甲、乙不相鄰，有多少種排法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(1) 捆綁法——把甲乙捆成一個「大元素」再排，別忘了捆內部還能對調；(2) 可用「全部排法－相鄰排法」。</div>
+
+  <div class="problem">
+    <div>C-2．3 名男生、4 名女生排成一排：</div>
+    <div>(1) 4 名女生必須排在一起，有多少種排法？</div>
+    <div>(2) 3 名男生互不相鄰，有多少種排法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(1) 捆綁法；(2) 插空法——先排 4 名女生，再把男生插進 5 個空位中的 3 個。</div>
+
+  <div class="problem">
+    <div>C-3．從 5 名男生、4 名女生中選 3 人參加創新比賽，要求至少有 1 名女生。請用兩種方法解，並檢查答案是否一樣：</div>
+    <div>方法一（排除法）：全部選法－全是男生的選法；</div>
+    <div>方法二（分類法）：按女生人數 1、2、3 名分三類相加。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：兩種方法答案一定相同；若不同，回頭檢查哪一類算漏或算重了。</div>
+
+
+  <div class="page-break"></div>
+
+  <div class="section-h">教師用參考答案</div>
+  <div class="anskey">
+    <div>A-1．(1) 甲乙、乙甲、甲丙、丙甲、乙丙、丙乙，共 6 種。(2) \(A_3^2=6\)，一致。</div>
+    <div>A-2．(1) ｛甲乙｝、｛甲丙｝、｛乙丙｝，共 3 種。(2) \(C_3^2=3\)，一致。</div>
+    <div>A-3．\(A_4^2=12\)；\(A_5^3=60\)；\(4!=24\)；\(C_4^2=6\)；\(C_5^3=10\)；\(C_7^5=21\)。</div>
+    <div>A-4．(i) 組合　(ii) 排列　(iii) 排列　(iv) 組合。</div>
+    <div>B-1．\(4!=24\) 種。</div>
+    <div>B-2．\(A_5^3=5\times4\times3=60\) 個。</div>
+    <div>B-3．(1) \(C_{10}^3=120\)。(2) \(C_8^3=56\)。(3) \(C_2^1\times C_8^2=2\times28=56\)。(4) \(120-56=64\)。</div>
+    <div>B-4．A。\(C_3^2\times C_5^2=3\times10=30\)。</div>
+    <div>C-1．(1) 捆綁：甲乙成 1 個大元素，與丙、丁共 3 個元素排列 \(3!=6\)，捆內對調 \(2!=2\)，共 \(6\times2=12\) 種。(2) 全排列 \(4!=24\)，不相鄰＝\(24-12=12\) 種。</div>
+    <div>C-2．(1) 女生捆成 1 個大元素，與 3 名男生共 4 個元素：\(4!=24\)；捆內 \(4!=24\)；共 \(24\times24=576\) 種。(2) 先排女生 \(4!=24\)，產生 5 個空位，插入 3 名男生 \(A_5^3=60\)，共 \(24\times60=1440\) 種。</div>
+    <div>C-3．方法一：\(C_9^3-C_5^3=84-10=74\)。方法二：\(C_4^1C_5^2+C_4^2C_5^1+C_4^3=40+30+4=74\)。兩法一致，共 74 種。</div>
+  </div>
+
+  <div class="footer">高二數學．排列與組合（6.2）．課堂練習　答案頁</div>
+</div>
+</body>
+</html>

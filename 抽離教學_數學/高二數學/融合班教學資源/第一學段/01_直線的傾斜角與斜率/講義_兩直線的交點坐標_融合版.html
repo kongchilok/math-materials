@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>兩直線的交點坐標 課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：＿＿＿＿＿＿</span><span>單元：兩直線的交點坐標</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、觀念說明</div>
+  <p>兩條直線的交點 P，同時在這兩條直線上，所以 P 的坐標必須同時滿足兩條直線的方程 —— 也就是解聯立方程組。</p>
+  <p>解聯立方程組會出現三種情況：</p>
+  <ul class="steps">
+    <li data-n="‧">有「唯一解」→ 兩直線「相交」，這個解就是交點坐標</li>
+    <li data-n="‧">「無解」（化簡後出現矛盾，例如 0=9）→ 兩直線「平行」</li>
+    <li data-n="‧">「無窮多解」（兩式其實是同一條方程）→ 兩直線「重合」</li>
+  </ul>
+
+  <div class="section-h">二、範例</div>
+  <div class="worked-example">
+    <p>例：求直線 \(l_1: x+2y-4=0\) 與 \(l_2: 2x-y-3=0\) 的交點坐標。</p>
+    <p>步驟1．列出聯立方程組：\(l_1: x+2y-4=0\)　\(l_2: 2x-y-3=0\)</p>
+    <p>步驟2．消去一個未知數（代入法）：由 \(l_1\) 得 \(x=4-2y\)，代入 \(l_2\)：<br>
+       \(2(4-2y)-y-3=0 \to 8-4y-y-3=0 \to -5y+5=0 \to y=1\)</p>
+    <p>步驟3．代回求另一未知數：\(x=4-2(1)=2\)</p>
+    <p>步驟4．寫出交點坐標並驗算：交點為 \((2,1)\)；代入 \(l_1\)：\(2+2(1)-4=0\) ✓；代入 \(l_2\)：\(2(2)-1-3=0\) ✓</p>
+  </div>
+  <div class="hint-card">提示卡：消元的關鍵是「先用一條方程式把其中一個未知數表示出來，再代入另一條」。</div>
+  <p>接下來請拿《兩直線的交點坐標 課堂練習》，依這套框架完成練習A、練習B、練習C。</p>
+
+  <div class="footer">高中數學．直線的交點坐標　第 1 頁</div>
+
+</div>
+</body>
+</html>

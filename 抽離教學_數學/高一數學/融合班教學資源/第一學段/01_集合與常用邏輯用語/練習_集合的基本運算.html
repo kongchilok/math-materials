@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>集合的基本運算．課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "\3000"; font-weight: 700; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .diagram { text-align: center; margin: 10px 0; }
+  .diagram svg { max-width: 320px; height: auto; }
+  .indent { margin-left: 1.4em; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：集合的基本運算</span><span>類型：課堂練習</span></div><div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div><p>提示：忘記怎麼做可以先回頭看《集合的基本運算課堂講義》的範例四步驟。</p><div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div><div class="problem"><p>1．已知 A = {1, 2, 3}，B = {3, 4, 5}。已經幫你抄好A的元素，請把B獨有的元素接著寫完成 A∪B：</p><p>A∪B = {1, 2, 3, ____, ____}</p><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>2．已知 A = {2, 4, 6, 8}，B = {4, 8, 12}。求 A∩B。</p><div class="hint-card">提示：交集就是兩個集合「都有」的元素。</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>3．已知 U = {1, 2, 3, 4, 5}，A = {2, 4}。求 \(\complement_U A\)。</p><div class="hint-card">提示：把U中不是A的元素挑出來。</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div><div class="problem"><p>4．設集合 \(A = \{x \mid -1 &lt; x &lt; 2\}\)，\(B = \{x \mid 1 &lt; x &lt; 3\}\)，求 A∪B、A∩B。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>5．已知 U = {1, 2, 3, 4, 5}，A = {1, 2, 3}，B = {2, 3, 4}，求 \((\complement_U A) \cap B\)。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>6．已知 U = {1, 2, 3, 4, 5}，A = {1, 2, 3}，B = {2, 3, 4}，如下圖，灰色部分（屬於A但不屬於B）表示的集合是什麼？</p><div class="diagram"><svg viewBox="0 0 320 230" width="320" height="230" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif"><rect x="10" y="10" width="300" height="180" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="20" y="28" font-size="14" fill="#1a1a1a">U</text><defs><clipPath id="circA_clipA8747"><circle cx="128.0" cy="100.0" r="62"/></clipPath><clipPath id="circB_clipA8747"><circle cx="192.0" cy="100.0" r="62"/></clipPath></defs><circle cx="128.0" cy="100.0" r="62" fill="#e3e3e3"/><circle cx="192.0" cy="100.0" r="62" fill="#fff" clip-path="url(#circA_clipA8747)"/><circle cx="128.0" cy="100.0" r="62" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><circle cx="192.0" cy="100.0" r="62" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><text x="90.0" y="60.0" font-size="16" fill="#1a1a1a">A</text><text x="222.0" y="60.0" font-size="16" fill="#1a1a1a">B</text><text x="160.0" y="210" font-size="13" fill="#555" text-anchor="middle">屬於A但不屬於B（灰色部分）</text></svg></div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="section-h">三、練習C（<span class="stars">★★★</span>）</div><div class="problem"><p>7．已知 \(A = \{x \mid x &lt; 1 \text{ 或 } x &gt; 4\}\)，\(B = \{x \mid a \le x \le a+2\}\)。若 A∩B = ∅，求 a 的取值範圍。（提示：A∩B=∅表示B必須完全落在[1,4]之內）</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>8．請你自己設計兩個用描述法表示的集合 A、B（與不等式有關），使得 \(A \cap B = \{x \mid 2 &lt; x &lt; 3\}\)，並說明你的設計方式。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>9．已知 A∪B = A。這個等式蘊含 A、B 之間有什麼關係？請說明理由，並舉一個具體例子驗證。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="footer">高一數學．集合的基本運算　第 1 頁</div><div class="page-break"><div class="section-h">教師用參考答案</div><p>1．A∪B = {1, 2, 3, 4, 5}</p><p>2．A∩B = {4, 8}</p><p>3．U中不屬於A(={2,4})的元素為1,3,5，所以 \(\complement_U A\) = {1, 3, 5}</p><p>4．A∪B = {x | −1 &lt; x &lt; 3}；A∩B = {x | 1 &lt; x &lt; 2}</p><p>5．\(\complement_U A\) = {4, 5}，再與B={2,3,4}取交集，得 \((\complement_U A) \cap B\) = {4}</p><p>6．圖中陰影是屬於A但不屬於B的部分：A中元素{1,2,3}扣掉同時在B中的{2,3}，得 {1}</p><p>7．A∩B=∅表示B={x|a≤x≤a+2}中所有元素都不在A中，即都落在[1,4]內，所以需要 a≥1 且 a+2≤4，解得 1≤a≤2</p><p>8．答案不唯一，例如 A={x|x&gt;2}，B={x|x&lt;3}，則 A∩B={x|2&lt;x&lt;3}，恰好符合要求。</p><p>9．A∪B=A 蘊含 B⊆A（B是A的子集）。例如 A={1,2,3}，B={1,2}，A∪B={1,2,3}=A，且確實 B⊆A。</p><div class="footer">高一數學．集合的基本運算　第 2 頁</div></div></div>
+</body>
+</html>

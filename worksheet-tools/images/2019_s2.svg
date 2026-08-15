@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="300" height="272" viewBox="0 0 300 272" font-family="Georgia, 'Times New Roman', serif">
+  <!-- 2019 解答第2題：A(-1,2)、B(0,5)，圓 C 圓心(1,3) r=√5，L 為 AB 垂直平分線 -->
+  <!-- 映射： px = 120 + 40x ， py = 230 - 40y -->
+  <!-- 圓 C -->
+  <circle cx="160" cy="110" r="89.4" fill="none" stroke="#1f8a4c" stroke-width="2"/>
+  <!-- x 軸 -->
+  <line x1="8" y1="230" x2="288" y2="230" stroke="#222" stroke-width="1.4"/>
+  <polygon points="288,230 280,226 280,234" fill="#222"/>
+  <!-- y 軸 -->
+  <line x1="120" y1="262" x2="120" y2="8" stroke="#222" stroke-width="1.4"/>
+  <polygon points="120,8 116,16 124,16" fill="#222"/>
+  <!-- 線段 AB -->
+  <line x1="80" y1="150" x2="120" y2="30" stroke="#222" stroke-width="1.3"/>
+  <!-- 垂直平分線 L -->
+  <line x1="6" y1="56.7" x2="284" y2="150" stroke="#2456c8" stroke-width="1.8"/>
+  <!-- 點 -->
+  <circle cx="80" cy="150" r="2.6" fill="#111"/>
+  <circle cx="120" cy="30" r="2.6" fill="#111"/>
+  <circle cx="160" cy="110" r="2.6" fill="#111"/>
+  <!-- 標籤 -->
+  <text x="62" y="150" font-size="15" font-style="italic">A</text>
+  <text x="126" y="30" font-size="15" font-style="italic">B</text>
+  <text x="166" y="106" font-size="14" font-style="italic">C(1,3)</text>
+  <text x="276" y="222" font-size="15" font-style="italic">x</text>
+  <text x="104" y="20" font-size="15" font-style="italic">y</text>
+  <text x="124" y="246" font-size="13" font-style="italic">O</text>
+  <text x="20" y="70" font-size="15" font-style="italic" fill="#2456c8">L</text>
+</svg>

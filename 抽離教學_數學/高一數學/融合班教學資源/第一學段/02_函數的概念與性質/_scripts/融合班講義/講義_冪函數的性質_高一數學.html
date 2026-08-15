@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_冪函數的性質_高一數學</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .worked-example { break-inside: avoid; page-break-inside: avoid; }
+  .worked-example b { display: block; margin-bottom: 3px; }
+  .worked-example div { margin: 2px 0; }
+  .ptable { border-collapse: collapse; width: 100%; font-size: 11pt; margin: 8px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ptable th, .ptable td { border: 0.75pt solid #000; padding: 4px 6px; text-align: left; vertical-align: middle; }
+  .ptable th { background: #f0f0f0; font-weight: 700; }
+  .diagram { text-align: center; margin: 8px 0; }
+  .diagram .cap { font-size: 10.5pt; color: #555; margin-top: 2px; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：冪函數的性質</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、什麼是冪函數</div>
+  <p>先看幾個熟悉的關係：正方形面積 \(S=a^2\)（面積是邊長的平方）、正方體體積 \(V=b^3\)（體積是稜長的立方）、正方形邊長 \(c=\sqrt{S}\)（邊長是面積的算術平方根）。把自變量統一寫成 \(x\)，這些關係都長成同一個樣子——底數是 \(x\)、指數是一個常數。</p>
+  <div class="hint-card">一般地，形如 \(y=x^{\alpha}\) 的函數叫做冪函數，其中 \(x\) 是自變量，\(\alpha\) 是常數。</div>
+  <div class="hint-card">關鍵辨識：冪函數的樣子一定是「\(y\) ＝ \(x\) 的某個常數次方」，\(x\) 前面的係數必須是 1。像 \(y=2x^2\)（係數是 2，不是 1）不是冪函數；\(y=2^x\)（\(x\) 跑到指數位置）是指數函數，也不是冪函數。</div>
+
+  <div class="worked-example">
+    <b>範例一：判斷哪些是冪函數</b>
+    <div>判斷下列三個函數哪些是冪函數：（1）\(y=x^3\)　（2）\(y=2x^2\)　（3）\(y=x^{\frac{1}{2}}\)</div>
+    <div>① 看形式：冪函數一定是 \(y=x^{\alpha}\)，係數為 1、指數為常數。</div>
+    <div>②（1）\(y=x^3\)：係數 1、指數 3 是常數 → 是冪函數。</div>
+    <div>③（2）\(y=2x^2\)：係數是 2 不是 1 → 不是冪函數。</div>
+    <div>④（3）\(y=x^{\frac{1}{2}}\)：係數 1、指數 \(\frac{1}{2}\) 是常數 → 是冪函數（就是 \(y=\sqrt{x}\)）。</div>
+  </div>
+
+  <div class="section-h">二、五個常見冪函數的圖象與性質</div>
+  <p>把 \(\alpha\) 取 \(1\)、\(2\)、\(3\)、\(\frac{1}{2}\)、\(-1\) 這五個值，畫在同一個坐標系裡，就得到最常用的五條冪函數圖象：</p>
+  <div class="diagram">
+    <svg viewBox="0 0 420 420" width="360" height="360" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Arial, sans-serif">
+    <line x1="46" y1="14" x2="46" y2="390" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="108" y1="14" x2="108" y2="390" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="170" y1="14" x2="170" y2="390" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="232" y1="14" x2="232" y2="390" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="294" y1="14" x2="294" y2="390" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="14" y1="384" x2="406" y2="384" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="14" y1="322" x2="406" y2="322" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="14" y1="260" x2="406" y2="260" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="14" y1="198" x2="406" y2="198" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="14" y1="136" x2="406" y2="136" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="14" y1="74" x2="406" y2="74" stroke="#e6e6e6" stroke-width="1"/>
+    <line x1="15.0" y1="260" x2="331.2" y2="260" stroke="#333" stroke-width="1.5"/>
+    <polygon points="331.2,260 323.2,256 323.2,264" fill="#333"/>
+    <line x1="170" y1="415.0" x2="170" y2="80.2" stroke="#333" stroke-width="1.5"/>
+    <polygon points="170,80.2 166,88.2 174,88.2" fill="#333"/>
+    <text x="321.2" y="276" font-size="13" fill="#333">x</text>
+    <text x="178" y="94.2" font-size="13" fill="#333">y</text>
+    <text x="156" y="276" font-size="11" fill="#666">O</text>
+    <text x="105" y="276" font-size="10" fill="#666">-1</text>
+    <text x="229" y="276" font-size="10" fill="#666">1</text>
+    <text x="176" y="325" font-size="10" fill="#666">-1</text>
+    <text x="176" y="201" font-size="10" fill="#666">1</text>
+    <text x="176" y="139" font-size="10" fill="#666">2</text>
+    <polyline points="45.8,384.2 108.7,321.3 170,260 232,198 294.2,135.9 336.0,94.0" fill="none" stroke="#1a1a1a" stroke-width="2.0"/>
+    <polyline points="63.6,77.3 108.7,199.5 145.7,250.5 170,260.0 194.4,249.7 229.2,203.4 260.7,127.2 277.2,74.8" fill="none" stroke="#1a1a1a" stroke-width="2.0" stroke-dasharray="6,3"/>
+    <polyline points="85.5,417.1 108.7,319.8 145.7,263.7 170,260.0 194.4,255.1 229.2,205.9 251.1,121.0 259.4,74.4" fill="none" stroke="#1a1a1a" stroke-width="2.0" stroke-dasharray="2,2"/>
+    <polyline points="170.0,260.0 185.3,229.2 204.9,213.5 232.8,197.6 265.6,183.0 300.4,170.1 337.4,158.1" fill="none" stroke="#1a1a1a" stroke-width="2.6"/>
+    <polyline points="191.1,77.6 210.3,164.6 232.0,198.0 260.5,217.5 300.2,230.5 337.4,237.0" fill="none" stroke="#1a1a1a" stroke-width="2.0" stroke-dasharray="8,3,2,3"/>
+    <polyline points="8.8,283.8 46.2,291.2 85.4,305.5 108.0,322.0 121.7,339.6 132.4,362.2 140.1,388.6 146.1,420.5" fill="none" stroke="#1a1a1a" stroke-width="2.0" stroke-dasharray="8,3,2,3"/>
+    <line x1="232" y1="260" x2="232" y2="198" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+    <line x1="170" y1="198" x2="232" y2="198" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+    <circle cx="232" cy="198" r="4" fill="#1a1a1a"/>
+    <text x="239" y="191" font-size="12" fill="#1a1a1a">(1,1)</text>
+    <text x="309.7" y="110.3" font-size="12" fill="#1a1a1a">y=x</text>
+    <text x="282.5" y="76.0" font-size="12" fill="#1a1a1a">y=x&#178;</text>
+    <text x="255.8" y="119.4" font-size="12" fill="#1a1a1a">y=x&#179;</text>
+    <text x="290.0" y="153.9" font-size="12" fill="#1a1a1a">y=&#8730;x</text>
+    <text x="120.0" y="108.4" font-size="12" fill="#1a1a1a">y=1/x</text>
+    </svg>
+    <div class="cap">圖：五個常見冪函數的圖象（它們都經過同一個點 (1, 1)）</div>
+  </div>
+  <p>把它們的性質整理成一張表：</p>
+  <table class="ptable">
+    <thead><tr><th>函數</th><th>定義域</th><th>值域</th><th>奇偶性</th><th>單調性</th></tr></thead>
+    <tbody>
+      <tr><td>\(y=x\)</td><td>R</td><td>R</td><td>奇函數</td><td>在 R 上遞增</td></tr>
+      <tr><td>\(y=x^2\)</td><td>R</td><td>[0, +∞)</td><td>偶函數</td><td>(−∞, 0] 遞減，[0, +∞) 遞增</td></tr>
+      <tr><td>\(y=x^3\)</td><td>R</td><td>R</td><td>奇函數</td><td>在 R 上遞增</td></tr>
+      <tr><td>\(y=x^{\frac{1}{2}}\)</td><td>[0, +∞)</td><td>[0, +∞)</td><td>非奇非偶</td><td>在 [0, +∞) 上遞增</td></tr>
+      <tr><td>\(y=x^{-1}\)</td><td>x ≠ 0</td><td>y ≠ 0</td><td>奇函數</td><td>(−∞, 0)、(0, +∞) 上都遞減</td></tr>
+    </tbody>
+  </table>
+  <div class="hint-card">記憶橋：這五個冪函數的圖象都經過同一個點 (1, 1)。判斷單調性、比較大小時，先在腦中把對應那條曲線的形狀想出來，會快很多。</div>
+
+  <div class="section-h">三、分數指數冪的運算</div>
+  <p>冪函數的指數可以是分數或負數，先掌握幾條換算規則（下面都假設 \(a \gt 0\)）：</p>
+  <div class="hint-card">\(a^{\frac{1}{2}}=\sqrt{a}\)　；　\(a^{\frac{1}{n}}=\sqrt[n]{a}\)　；　\(a^{\frac{m}{n}}=\sqrt[n]{a^m}\)　；　\(a^{-1}=\dfrac{1}{a}\)　；　\(a^{-n}=\dfrac{1}{a^n}\)</div>
+  <p>用具體數字感受一下：\(9^{\frac{1}{2}}=\sqrt{9}=3\)；\(8^{\frac{1}{3}}=\sqrt[3]{8}=2\)；\(4^{-1}=\dfrac{1}{4}\)。</p>
+
+  <div class="worked-example">
+    <b>範例二：把根式化成分數指數冪再求值</b>
+    <div>求 \(\sqrt[3]{8^2}\) 的值。</div>
+    <div>① 化成分數指數冪：\(\sqrt[3]{8^2}=8^{\frac{2}{3}}\)。</div>
+    <div>② 用規則 \(a^{\frac{m}{n}}=\sqrt[n]{a^m}\)，也可以先開立方根再平方：\(8^{\frac{2}{3}}=(\sqrt[3]{8})^2\)。</div>
+    <div>③ 計算：\(\sqrt[3]{8}=2\)，所以 \((2)^2=4\)。</div>
+    <div>④ 結論：\(\sqrt[3]{8^2}=4\)。</div>
+  </div>
+
+  <p>接下來請拿《冪函數的性質 課堂練習》，依這些規則與性質表完成練習A、B、C。</p>
+
+  <div class="footer">高一數學．冪函數的性質</div>
+
+</div>
+</body>
+</html>

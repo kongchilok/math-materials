@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_6.3二項式定理_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .fill { display: inline-block; min-width: 70px; border-bottom: 1px solid #1a1a1a; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .anskey div { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：6.3 二項式定理</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div>請先回看《講義》的範例，四步驟：①認出 \(a\)、\(b\)、\(n\)　②寫通項　③定 \(k\)（第幾項→\(k\)＝項數−1）　④計算。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>A-1．楊輝三角第 4 行是 1、4、6、4、1。請寫出第 5 行：</div>
+    <div>1、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span>、<span class="fill">&nbsp;</span>、1</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：每個數＝上一行「左上＋右上」，例如第 2 個數＝1＋4。</div>
+
+  <div class="problem">
+    <div>A-2．用楊輝三角第 3 行（1、3、3、1）把展開式填完整：</div>
+    <div>\((a+b)^3 =\) <span class="fill">&nbsp;</span>\(a^3\) ＋ <span class="fill">&nbsp;</span>\(a^2b\) ＋ <span class="fill">&nbsp;</span>\(ab^2\) ＋ <span class="fill">&nbsp;</span>\(b^3\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：\(a\) 的指數 3→2→1→0，\(b\) 的指數 0→1→2→3。</div>
+
+  <div class="problem">
+    <div>A-3．關於 \((x+1)^5\) 的展開式：</div>
+    <div>(1) 展開式共有多少項？</div>
+    <div>(2) 寫出展開式的第 2 項。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：\((a+b)^n\) 展開有 \(n+1\) 項；第 2 項用通項公式，\(k=1\)。</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>B-1．\((1+2x)^7\) 的展開式中，第 3 項的「係數」與「二項式係數」分別是多少？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：照範例四步驟；第 3 項 → \(k=2\)；係數要把 \(2^2\) 乘進去。</div>
+
+  <div class="problem">
+    <div>B-2．求 \(\left(x-\dfrac{2}{x}\right)^{5}\) 的展開式中含 \(x\) 的項的係數。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先寫通項，把 \(x\) 的指數整理成 \(5-2k\)；令指數＝1 解出 \(k\)，再算係數（別忘了負號）。</div>
+
+  <div class="problem">
+    <div>B-3．求 \(\left(x^{2}-\dfrac{1}{x}\right)^{6}\) 的展開式中的常數項。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：通項的 \(x\) 指數是 \(12-3k\)；常數項＝\(x\) 的指數為 0，解出 \(k\) 再算。</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>C-1．已知 \(\left(\sqrt{x}-\dfrac{1}{2x}\right)^{n}\) 的展開式中，所有項的二項式係數之和等於 512。</div>
+    <div>(1) 求 \(n\) 的值；</div>
+    <div>(2) 求展開式中的第 3 項。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(1) 二項式係數之和＝\(2^n=512\)；(2) 半次方也照通項公式算，\((\sqrt{x})^7 = x^{7/2}\)。</div>
+
+  <div class="problem">
+    <div>C-2．關於 \((1-2x)^5\)：</div>
+    <div>(1) 求展開式中所有項的「係數」之和；</div>
+    <div>(2) 求所有項的「二項式係數」之和，並比較兩者為何不同。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(1) 係數和＝把 \(x\) 換成 1 直接代入整條式；(2) 二項式係數和只跟 \(n\) 有關。</div>
+
+  <div class="problem">
+    <div>C-3．證明：\(11^{10}-1\) 能被 100 整除。請把下列證明填完整：</div>
+    <div>\(11^{10} = (10+1)^{10} = C_{10}^{0}10^{10} + \cdots + C_{10}^{8}10^{2} + C_{10}^{9}\times 10 + C_{10}^{10}\)</div>
+    <div>前面每一項都含有因數 <span class="fill">&nbsp;</span>；而 \(C_{10}^{9}\times 10 =\) <span class="fill">&nbsp;</span>；最後一項＝<span class="fill">&nbsp;</span>。</div>
+    <div>所以 \(11^{10}-1\)＝（含 100 的各項）＋100，能被 100 整除。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：把 11 寫成 10＋1 再展開，是「賦值／整除」證明的常用招。</div>
+
+
+  <div class="page-break"></div>
+
+  <div class="section-h">教師用參考答案</div>
+  <div class="anskey">
+    <div>A-1．1、5、10、10、5、1。</div>
+    <div>A-2．係數依次為 1、3、3、1：\((a+b)^3 = a^3 + 3a^2b + 3ab^2 + b^3\)。</div>
+    <div>A-3．(1) 6 項。(2) \(T_2 = C_5^1 x^4 \times 1 = 5x^4\)。</div>
+    <div>B-1．\(T_3 = C_7^2 (2x)^2 = 21\times 4x^2 = 84x^2\)；係數＝84，二項式係數＝\(C_7^2=21\)。</div>
+    <div>B-2．通項 \(C_5^k x^{5-k}(-2)^k x^{-k} = C_5^k (-2)^k x^{5-2k}\)；令 \(5-2k=1\) 得 \(k=2\)；係數＝\(C_5^2(-2)^2 = 10\times4 = 40\)。</div>
+    <div>B-3．通項 \(C_6^k (-1)^k x^{12-3k}\)；令 \(12-3k=0\) 得 \(k=4\)；常數項＝\(C_6^4 = 15\)。</div>
+    <div>C-1．(1) \(2^n = 512\)，\(n=9\)。(2) \(T_3 = C_9^2 (\sqrt{x})^7 \left(-\dfrac{1}{2x}\right)^2 = 36 \times \dfrac{1}{4} x^{7/2} x^{-2} = 9x^{3/2}\)。</div>
+    <div>C-2．(1) 令 \(x=1\)：\((1-2)^5 = (-1)^5 = -1\)。(2) \(2^5 = 32\)。不同：係數和把每項的數字（含負號）都算進去；二項式係數和只加楊輝三角的數，恆為正。</div>
+    <div>C-3．前面每一項都含因數 100（因為至少含 \(10^2\)）；\(C_{10}^{9}\times10 = 100\)；最後一項＝1。所以 \(11^{10}-1\) 是若干個 100 的倍數相加，能被 100 整除。</div>
+  </div>
+
+  <div class="footer">高二數學．二項式定理（6.3）．課堂練習　答案頁</div>
+</div>
+</body>
+</html>

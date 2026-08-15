@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>直線與圓的位置關係 — 課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .fig { margin: 10px 0; text-align: center; break-inside: avoid; page-break-inside: avoid; }
+  .fig svg { max-width: 100%; height: auto; }
+  .fig-cap { font-size: 9.5pt; font-style: italic; color: #444; margin-top: 2px; }
+  .page-break { break-before: page; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高二數學</span><span>單元：直線與圓的位置關係</span><span>類型：課堂練習</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<p>請先回頭看《直線與圓的位置關係 課堂講義》裡的範例，再依同一套步驟完成下面的練習。</p>
+<div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+<div class="problem"><div>A-1．判斷直線 l: x-y+1=0 與圓 C: x²+y²=3 的位置關係。</div><div class="hint-card">提示卡：圓C：圓心( ＿, ＿ )，半徑r=＿＿；再算d，填">"、"&lt;"或"="：d＿＿r</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+</div>
+<div class="fig" style="max-width:60%"><svg xmlns="http://www.w3.org/2000/svg" width="380" height="340" viewBox="0 0 380 340"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"/></marker></defs><rect width="380" height="340" fill="#fff"/><line x1="34" y1="306" x2="34" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="86" y1="306" x2="86" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="138" y1="306" x2="138" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="242" y1="306" x2="242" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="294" y1="306" x2="294" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="346" y1="306" x2="346" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="306" x2="346" y2="306" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="260.667" x2="346" y2="260.667" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="215.333" x2="346" y2="215.333" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="124.667" x2="346" y2="124.667" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="79.333" x2="346" y2="79.333" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="34" x2="346" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="170" x2="346" y2="170" stroke="#000" stroke-width="1.6" marker-end="url(#arrow)"/><line x1="190" y1="306" x2="190" y2="34" stroke="#000" stroke-width="1.6" marker-end="url(#arrow)"/><text x="342" y="162" font-size="15" font-family="Arial">x</text><text x="198" y="48" font-size="15" font-family="Arial">y</text><text x="176" y="186" font-size="13" font-family="Arial" fill="#555">O</text><text x="30" y="186" font-size="11" font-family="Arial" fill="#555">-3</text><text x="82" y="186" font-size="11" font-family="Arial" fill="#555">-2</text><text x="134" y="186" font-size="11" font-family="Arial" fill="#555">-1</text><text x="238" y="186" font-size="11" font-family="Arial" fill="#555">1</text><text x="290" y="186" font-size="11" font-family="Arial" fill="#555">2</text><text x="342" y="186" font-size="11" font-family="Arial" fill="#555">3</text><text x="196" y="310" font-size="11" font-family="Arial" fill="#555">-3</text><text x="196" y="264.667" font-size="11" font-family="Arial" fill="#555">-2</text><text x="196" y="219.333" font-size="11" font-family="Arial" fill="#555">-1</text><text x="196" y="128.667" font-size="11" font-family="Arial" fill="#555">1</text><text x="196" y="83.333" font-size="11" font-family="Arial" fill="#555">2</text><text x="196" y="38" font-size="11" font-family="Arial" fill="#555">3</text><circle cx="190" cy="170" r="90.067" fill="none" stroke="#000" stroke-width="2.0"/><circle cx="190" cy="170" r="2.6" fill="#000"/><text x="196" y="164" font-size="13" font-family="Arial" fill="#000">C：x²+y²=3</text></svg><div class="fig-cap">圓C已經畫出，請在圖上畫出直線l，看看它們有幾個交點</div></div>
+<div class="problem"><div>A-2．判斷直線 l: 3x+4y+2=0 與圓 C: x²+y²-2x=0 的位置關係。</div><div class="hint-card">提示卡：先把圓C化成標準式，求出圓心與半徑</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+</div>
+<div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+<div class="problem"><div>B-1．過點P(2,1)作圓O: x²+y²=1的切線l，求切線l的方程。</div><div class="hint-card">提示卡：設切線方程y-1=k(x-2)，利用「相切⇒d=r」解出k（注意：可能有兩個答案）</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+</div>
+<div class="fig" style="max-width:60%"><svg xmlns="http://www.w3.org/2000/svg" width="380" height="340" viewBox="0 0 380 340"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"/></marker></defs><rect width="380" height="340" fill="#fff"/><line x1="34" y1="306" x2="34" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="86" y1="306" x2="86" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="190" y1="306" x2="190" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="242" y1="306" x2="242" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="294" y1="306" x2="294" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="346" y1="306" x2="346" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="306" x2="346" y2="306" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="260.667" x2="346" y2="260.667" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="170" x2="346" y2="170" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="124.667" x2="346" y2="124.667" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="79.333" x2="346" y2="79.333" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="34" x2="346" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="215.333" x2="346" y2="215.333" stroke="#000" stroke-width="1.6" marker-end="url(#arrow)"/><line x1="138" y1="306" x2="138" y2="34" stroke="#000" stroke-width="1.6" marker-end="url(#arrow)"/><text x="342" y="207.333" font-size="15" font-family="Arial">x</text><text x="146" y="48" font-size="15" font-family="Arial">y</text><text x="124" y="231.333" font-size="13" font-family="Arial" fill="#555">O</text><text x="30" y="231.333" font-size="11" font-family="Arial" fill="#555">-2</text><text x="82" y="231.333" font-size="11" font-family="Arial" fill="#555">-1</text><text x="186" y="231.333" font-size="11" font-family="Arial" fill="#555">1</text><text x="238" y="231.333" font-size="11" font-family="Arial" fill="#555">2</text><text x="290" y="231.333" font-size="11" font-family="Arial" fill="#555">3</text><text x="342" y="231.333" font-size="11" font-family="Arial" fill="#555">4</text><text x="144" y="310" font-size="11" font-family="Arial" fill="#555">-2</text><text x="144" y="264.667" font-size="11" font-family="Arial" fill="#555">-1</text><text x="144" y="174" font-size="11" font-family="Arial" fill="#555">1</text><text x="144" y="128.667" font-size="11" font-family="Arial" fill="#555">2</text><text x="144" y="83.333" font-size="11" font-family="Arial" fill="#555">3</text><text x="144" y="38" font-size="11" font-family="Arial" fill="#555">4</text><circle cx="138" cy="215.333" r="52" fill="none" stroke="#000" stroke-width="2.0"/><circle cx="138" cy="215.333" r="2.6" fill="#000"/><text x="144" y="209.333" font-size="13" font-family="Arial" fill="#000">O</text><circle cx="242" cy="170" r="2.8" fill="#000"/><text x="248" y="164" font-size="13" font-family="Arial" fill="#000">P(2, 1)</text></svg><div class="fig-cap">圓O與點P已經描出，請在圖上畫出兩條切線</div></div>
+<div class="problem"><div>B-2．若直線l: 2x-y+2=0 與圓 C: (x-1)²+(y-2)²=4 相交，求直線l被圓C所截得的弦長。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+</div>
+<div class="page-break"></div>
+<div class="footer">高二數學．直線與圓的位置關係　第 2 頁</div>
+<div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+<div class="problem"><div>C-1．已知圓C的圓心在(1,-3)，且與直線3x-4y-5=0相切，求圓C的標準方程。</div><div class="hint-card">提示卡：先用點到直線距離公式算出d，因為相切所以r=d</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+</div>
+<div class="fig" style="max-width:60%"><svg xmlns="http://www.w3.org/2000/svg" width="420" height="340" viewBox="0 0 420 340"><defs><marker id="arrow" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="#000"/></marker></defs><rect width="420" height="340" fill="#fff"/><line x1="34" y1="306" x2="34" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="73.111" y1="306" x2="73.111" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="112.222" y1="306" x2="112.222" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="190.444" y1="306" x2="190.444" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="229.556" y1="306" x2="229.556" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="268.667" y1="306" x2="268.667" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="307.778" y1="306" x2="307.778" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="346.889" y1="306" x2="346.889" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="386" y1="306" x2="386" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="306" x2="386" y2="306" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="275.778" x2="386" y2="275.778" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="245.556" x2="386" y2="245.556" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="215.333" x2="386" y2="215.333" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="185.111" x2="386" y2="185.111" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="154.889" x2="386" y2="154.889" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="124.667" x2="386" y2="124.667" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="64.222" x2="386" y2="64.222" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="34" x2="386" y2="34" stroke="#dddddd" stroke-width="1"/><line x1="34" y1="94.444" x2="386" y2="94.444" stroke="#000" stroke-width="1.6" marker-end="url(#arrow)"/><line x1="151.333" y1="306" x2="151.333" y2="34" stroke="#000" stroke-width="1.6" marker-end="url(#arrow)"/><text x="382" y="86.444" font-size="15" font-family="Arial">x</text><text x="159.333" y="48" font-size="15" font-family="Arial">y</text><text x="137.333" y="110.444" font-size="13" font-family="Arial" fill="#555">O</text><text x="30" y="110.444" font-size="11" font-family="Arial" fill="#555">-3</text><text x="69.111" y="110.444" font-size="11" font-family="Arial" fill="#555">-2</text><text x="108.222" y="110.444" font-size="11" font-family="Arial" fill="#555">-1</text><text x="186.444" y="110.444" font-size="11" font-family="Arial" fill="#555">1</text><text x="225.556" y="110.444" font-size="11" font-family="Arial" fill="#555">2</text><text x="264.667" y="110.444" font-size="11" font-family="Arial" fill="#555">3</text><text x="303.778" y="110.444" font-size="11" font-family="Arial" fill="#555">4</text><text x="342.889" y="110.444" font-size="11" font-family="Arial" fill="#555">5</text><text x="382" y="110.444" font-size="11" font-family="Arial" fill="#555">6</text><text x="157.333" y="310" font-size="11" font-family="Arial" fill="#555">-7</text><text x="157.333" y="279.778" font-size="11" font-family="Arial" fill="#555">-6</text><text x="157.333" y="249.556" font-size="11" font-family="Arial" fill="#555">-5</text><text x="157.333" y="219.333" font-size="11" font-family="Arial" fill="#555">-4</text><text x="157.333" y="189.111" font-size="11" font-family="Arial" fill="#555">-3</text><text x="157.333" y="158.889" font-size="11" font-family="Arial" fill="#555">-2</text><text x="157.333" y="128.667" font-size="11" font-family="Arial" fill="#555">-1</text><text x="157.333" y="68.222" font-size="11" font-family="Arial" fill="#555">1</text><text x="157.333" y="38" font-size="11" font-family="Arial" fill="#555">2</text><circle cx="190.444" cy="185.111" r="2.8" fill="#000"/><text x="196.444" y="179.111" font-size="13" font-family="Arial" fill="#000">C(1, -3)</text><line x1="34" y1="200.222" x2="320.815" y2="34" stroke="#000" stroke-width="1.8"/><text x="326.815" y="28" font-size="13" font-family="Arial" fill="#000">3x-4y-5=0</text></svg><div class="fig-cap">圓心C與切線已經畫出，請算出半徑後把圓畫上去，驗證是否剛好相切</div></div>
+<div class="problem"><div>C-2．已知圓C: x²+2x+y²-2y=0 的圓心恰好在直線l: 3x+my-2m=0上，求m的值。</div><div class="hint-card">提示卡：先把圓C化成標準式求出圓心坐標，再代入直線方程</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+</div>
+<div class="footer">高二數學．直線與圓的位置關係　第 3 頁</div>
+<div class="page-break"></div>
+<div class="section-h">教師用參考答案</div>
+<p>A-1：圓C圓心(0,0)，r=√3≈1.73；d=|0-0+1|/√(1²+1²)=1/√2=√2/2≈0.71<√3　→　相交</p><p>A-2：圓C：(x-1)²+y²=1，圓心(1,0)，r=1；d=|3(1)+4(0)+2|/5=5/5=1=r　→　相切</p><p>B-1：設y-1=k(x-2)即kx-y+1-2k=0，由d=|1-2k|/√(k²+1)=1解得 k=0 或 k=4/3　→　切線為 y=1 或 4x-3y-5=0</p><p>B-2：圓心(1,2)，r=2；d=|2(1)-2+2|/√(2²+1²)=2/√5；弦長=2√(4-4/5)=2√(16/5)=8/√5=8√5/5</p><p>C-1：d=|3(1)-4(-3)-5|/√(3²+4²)=|3+12-5|/5=10/5=2=r　→　(x-1)²+(y+3)²=4</p><p>C-2：圓C化成標準式(x+1)²+(y-1)²=2，圓心(-1,1)；代入直線：3(-1)+m(1)-2m=0　→　-3-m=0　→　m=-3</p><div class="footer">高二數學．直線與圓的位置關係　第 4 頁</div>
+</div></body></html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：無理與指數對數不等式</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px 40px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .lead { margin: 6px 0 10px; }
+  .steps-list { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps-list li { margin: 6px 0; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .problem .q { font-weight: 600; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 6px 12px; margin: 8px 0; break-inside: avoid; }
+  .worked-example .st { margin: 5px 0; }
+  .fig { text-align: center; margin: 10px 0 4px; break-inside: avoid; }
+  .fig svg { width: auto; max-width: 340px; height: auto; }
+  .cap { font-size: 10.5pt; color: #555; text-align: center; margin-bottom: 6px; }
+  .write-lines { margin-top: 6px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans .problem { border-color: #333; }
+  .page-break { break-before: page; page-break-before: always; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高二數學</span><span>單元：無理與指數對數不等式</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="section-h">一、無理不等式</div>
+  <p class="lead">含有根號的（無理）不等式，主要用「平方去根號」，但一定要同時照顧兩件事：根號內 \(\ge 0\)（定義域），以及平方前兩邊的正負。常見三種型（設 \(c\) 為常數）：</p>
+  <ul class="steps-list">
+    <li>•　\(\sqrt{f(x)} \lt c\)（需 \(c \gt 0\)）：等價於 \(0 \le f(x) \lt c^2\)。</li>
+    <li>•　\(\sqrt{f(x)} \gt c\)（\(c \ge 0\)）：等價於 \(f(x) \gt c^2\)；若 \(c \lt 0\)，則只需 \(f(x) \ge 0\)。</li>
+    <li>•　\(\sqrt{f(x)} \lt \sqrt{g(x)}\)：等價於 \(0 \le f(x) \lt g(x)\)。</li>
+  </ul>
+  <div class="hint-card"><b>關鍵：</b>平方之前先確定兩邊都非負才可以平方；根號內必須 \(\ge 0\)，這一步不能漏。</div>
+  <div class="worked-example">
+    <div class="st"><b>範例1：</b>解 \(\sqrt{2x+1} \lt 3\)。</div>
+    <div class="st"><b>①</b> 定義域：\(2x+1 \ge 0\)，即 \(x \ge -\tfrac{1}{2}\)。</div>
+    <div class="st"><b>②</b> 兩邊皆非負，可平方：\(2x+1 \lt 9\)，得 \(x \lt 4\)。</div>
+    <div class="st"><b>③</b> 取交集：\(-\tfrac{1}{2} \le x \lt 4\)。解集 \(\{\,x \mid -\tfrac{1}{2} \le x \lt 4\,\}\)。</div>
+  </div>
+  <div class="worked-example">
+    <div class="st"><b>範例2：</b>解 \(\sqrt{x+3} \lt \sqrt{2x-1}\)。</div>
+    <div class="st"><b>①</b> 依 \(\sqrt{f} \lt \sqrt{g}\) 型：需 \(0 \le x+3 \lt 2x-1\)。</div>
+    <div class="st"><b>②</b> 由 \(x+3 \lt 2x-1\) 得 \(x \gt 4\)；此時 \(x+3 \ge 0\) 自動成立。解集 \(\{\,x \mid x \gt 4\,\}\)。</div>
+  </div>
+  <div class="section-h">二、指數與對數不等式</div>
+  <p class="lead">比較指數或對數的大小，先化成「同底」，再看底數 \(a\) 決定不等號方向：</p>
+  <ul class="steps-list">
+    <li>•　指數（\(a \gt 1\)）：\(a^m \lt a^n\) 等價於 \(m \lt n\)（同向）；（\(0 \lt a \lt 1\)）：\(a^m \lt a^n\) 等價於 \(m \gt n\)（反向）。</li>
+    <li>•　對數（\(a \gt 1\)）：\(\log_a M \lt \log_a N\) 等價於 \(0 \lt M \lt N\)；（\(0 \lt a \lt 1\)）：等價於 \(M \gt N \gt 0\)。</li>
+  </ul>
+  <div class="hint-card">對數不等式一定要先寫「定義域」：真數必須 \(\gt 0\)。底數 \(0 \lt a \lt 1\) 時，去對數／去指數後不等號要「反向」，這是最常錯的一步。</div>
+  <div class="worked-example">
+    <div class="st"><b>範例3：</b>解 \(3^x \lt 27\)。</div>
+    <div class="st"><b>①</b> 化同底：\(27=3^3\)，故 \(3^x \lt 3^3\)。</div>
+    <div class="st"><b>②</b> 底 \(3 \gt 1\)（同向）：\(x \lt 3\)，如下方數線。</div>
+  </div>
+  <div class="fig"><svg viewBox="0 0 332 58" data-w="332" data-h="58" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Arial, sans-serif"><line x1="6" y1="32" x2="326" y2="32" stroke="#333" stroke-width="1.4"/><polygon points="326,32 318,28 318,36" fill="#333"/><polygon points="6,32 14,28 14,36" fill="#333"/><line x1="26" y1="28" x2="26" y2="36" stroke="#333" stroke-width="1.1"/><text x="23" y="50" font-size="11" fill="#555">-1</text><line x1="66" y1="28" x2="66" y2="36" stroke="#333" stroke-width="1.1"/><text x="63" y="50" font-size="11" fill="#555">0</text><line x1="106" y1="28" x2="106" y2="36" stroke="#333" stroke-width="1.1"/><text x="103" y="50" font-size="11" fill="#555">1</text><line x1="146" y1="28" x2="146" y2="36" stroke="#333" stroke-width="1.1"/><text x="143" y="50" font-size="11" fill="#555">2</text><line x1="186" y1="28" x2="186" y2="36" stroke="#333" stroke-width="1.1"/><text x="183" y="50" font-size="11" fill="#555">3</text><line x1="226" y1="28" x2="226" y2="36" stroke="#333" stroke-width="1.1"/><text x="223" y="50" font-size="11" fill="#555">4</text><line x1="266" y1="28" x2="266" y2="36" stroke="#333" stroke-width="1.1"/><text x="263" y="50" font-size="11" fill="#555">5</text><line x1="306" y1="28" x2="306" y2="36" stroke="#333" stroke-width="1.1"/><text x="303" y="50" font-size="11" fill="#555">6</text><line x1="10" y1="32" x2="186" y2="32" stroke="#111" stroke-width="3.4"/><circle cx="186" cy="32" r="4.5" fill="#fff" stroke="#111" stroke-width="1.6"/></svg></div>
+  <p class="lead">解集：\(\{\,x \mid x \lt 3\,\}\)。</p>
+  <div class="worked-example">
+    <div class="st"><b>範例4：</b>解 \(\log_2(x-1) \lt 3\)。</div>
+    <div class="st"><b>①</b> 定義域：真數 \(x-1 \gt 0\)，即 \(x \gt 1\)。</div>
+    <div class="st"><b>②</b> 化同底：\(3=\log_2 8\)，故 \(\log_2(x-1) \lt \log_2 8\)。</div>
+    <div class="st"><b>③</b> 底 \(2 \gt 1\)（同向）：\(x-1 \lt 8\)，即 \(x \lt 9\)。取交集 \(1 \lt x \lt 9\)，如下方數線。</div>
+  </div>
+  <div class="fig"><svg viewBox="0 0 532 58" data-w="532" data-h="58" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Arial, sans-serif"><line x1="6" y1="32" x2="526" y2="32" stroke="#333" stroke-width="1.4"/><polygon points="526,32 518,28 518,36" fill="#333"/><polygon points="6,32 14,28 14,36" fill="#333"/><line x1="26" y1="28" x2="26" y2="36" stroke="#333" stroke-width="1.1"/><text x="23" y="50" font-size="11" fill="#555">-1</text><line x1="66" y1="28" x2="66" y2="36" stroke="#333" stroke-width="1.1"/><text x="63" y="50" font-size="11" fill="#555">0</text><line x1="106" y1="28" x2="106" y2="36" stroke="#333" stroke-width="1.1"/><text x="103" y="50" font-size="11" fill="#555">1</text><line x1="146" y1="28" x2="146" y2="36" stroke="#333" stroke-width="1.1"/><text x="143" y="50" font-size="11" fill="#555">2</text><line x1="186" y1="28" x2="186" y2="36" stroke="#333" stroke-width="1.1"/><text x="183" y="50" font-size="11" fill="#555">3</text><line x1="226" y1="28" x2="226" y2="36" stroke="#333" stroke-width="1.1"/><text x="223" y="50" font-size="11" fill="#555">4</text><line x1="266" y1="28" x2="266" y2="36" stroke="#333" stroke-width="1.1"/><text x="263" y="50" font-size="11" fill="#555">5</text><line x1="306" y1="28" x2="306" y2="36" stroke="#333" stroke-width="1.1"/><text x="303" y="50" font-size="11" fill="#555">6</text><line x1="346" y1="28" x2="346" y2="36" stroke="#333" stroke-width="1.1"/><text x="343" y="50" font-size="11" fill="#555">7</text><line x1="386" y1="28" x2="386" y2="36" stroke="#333" stroke-width="1.1"/><text x="383" y="50" font-size="11" fill="#555">8</text><line x1="426" y1="28" x2="426" y2="36" stroke="#333" stroke-width="1.1"/><text x="423" y="50" font-size="11" fill="#555">9</text><line x1="466" y1="28" x2="466" y2="36" stroke="#333" stroke-width="1.1"/><text x="463" y="50" font-size="11" fill="#555">10</text><line x1="506" y1="28" x2="506" y2="36" stroke="#333" stroke-width="1.1"/><text x="503" y="50" font-size="11" fill="#555">11</text><line x1="106" y1="32" x2="426" y2="32" stroke="#111" stroke-width="3.4"/><circle cx="106" cy="32" r="4.5" fill="#fff" stroke="#111" stroke-width="1.6"/><circle cx="426" cy="32" r="4.5" fill="#fff" stroke="#111" stroke-width="1.6"/></svg></div>
+  <p class="lead">解集：\(\{\,x \mid 1 \lt x \lt 9\,\}\)。</p>
+  <div class="section-h">三、換你試</div>
+  <p class="lead">接下來請取出《無理與指數對數不等式　課堂練習》，完成練習A、B、C。</p>
+  <div class="footer">高二數學．無理與指數對數不等式</div>
+</div>
+</body>
+</html>

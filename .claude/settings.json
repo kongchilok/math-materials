@@ -1,0 +1,25 @@
+{
+  "description": "notebookLM 專案設定 - 啟用 startup/shutdown 流程（教材生產工作區）",
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"Write-Host '💡 提示：輸入 /startup 來接續上次工作' -ForegroundColor Cyan\""
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "powershell -Command \"Write-Host '💡 提示：輸入 /shutdown 來同步今天工作到 Git + Obsidian' -ForegroundColor Cyan\""
+          }
+        ]
+      }
+    ]
+  }
+}

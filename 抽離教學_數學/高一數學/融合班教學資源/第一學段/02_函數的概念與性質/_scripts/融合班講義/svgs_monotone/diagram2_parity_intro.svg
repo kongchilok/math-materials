@@ -1,0 +1,22 @@
+<svg viewBox="0 0 520 220" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Arial, sans-serif">
+  <!-- left panel: even function -->
+  <line x1="10" y1="190" x2="230" y2="190" stroke="#333" stroke-width="1.2"/>
+  <line x1="120" y1="15" x2="120" y2="205" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+  <polyline points="30,28.72 45,78.0 60,118.32 75,149.68 90,172.07999999999998 105,185.52 120,190.0 135,185.52 150,172.07999999999998 165,149.68 180,118.32 195,78.0 210,28.72" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="106" y="216" font-size="13" fill="#333">y = x²（偶函數）</text>
+  <text x="8" y="14" font-size="12" fill="#555">y軸對稱</text>
+
+  <!-- divider -->
+  <line x1="255" y1="10" x2="255" y2="210" stroke="#ccc" stroke-width="1"/>
+
+  <!-- right panel: odd function -->
+  <line x1="270" y1="110" x2="500" y2="110" stroke="#333" stroke-width="1.2"/>
+  <line x1="380" y1="15" x2="380" y2="205" stroke="#333" stroke-width="1.2"/>
+  <polyline points="290,187.76 305,155.0 320,133.04 335,119.72 350,112.88 365,110.36 380,110.0 395,109.64 410,107.12 425,100.28 440,86.96000000000001 455,65.0 470,32.239999999999995" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+  <circle cx="380" cy="110" r="2.5" fill="#1a1a1a"/>
+  <circle cx="440" cy="86.96000000000001" r="3" fill="#1a1a1a"/>
+  <circle cx="320" cy="133.04" r="3" fill="#1a1a1a"/>
+  <line x1="440" y1="86.96000000000001" x2="320" y2="133.04" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+  <text x="350" y="216" font-size="13" fill="#333">y = x³（奇函數）</text>
+  <text x="272" y="14" font-size="12" fill="#555">原點對稱（轉180°重合）</text>
+</svg>

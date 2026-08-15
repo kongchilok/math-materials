@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="620" viewBox="0 0 1240 620" font-family="Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="1240" height="620" fill="#ffffff"/>
+  <text x="60" y="60" font-size="34" font-weight="bold" fill="#1a1a1a">兩個小孩的家庭：條件概率＝「縮小樣本空間」</text>
+  <!-- 2x2 grid: rows = 大孩(男/女), cols = 小孩(男/女) -->
+  <text x="330" y="130" font-size="28" text-anchor="middle" fill="#555555">小孩是男</text>
+  <text x="530" y="130" font-size="28" text-anchor="middle" fill="#555555">小孩是女</text>
+  <text x="185" y="225" font-size="28" text-anchor="end" fill="#555555">大孩是男</text>
+  <text x="185" y="425" font-size="28" text-anchor="end" fill="#555555">大孩是女</text>
+  <rect x="230" y="150" width="200" height="200" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="330" y="262" font-size="40" text-anchor="middle" font-weight="bold" fill="#1a1a1a">男男</text>
+  <rect x="430" y="150" width="200" height="200" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="530" y="262" font-size="40" text-anchor="middle" font-weight="bold" fill="#1a1a1a">男女</text>
+  <rect x="230" y="350" width="200" height="200" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="330" y="462" font-size="40" text-anchor="middle" font-weight="bold" fill="#1a1a1a">女男</text>
+  <rect x="430" y="350" width="200" height="200" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="5"/>
+  <text x="530" y="462" font-size="40" text-anchor="middle" font-weight="bold" fill="#1a1a1a">女女</text>
+  <!-- cross out 男男 -->
+  <line x1="240" y1="160" x2="420" y2="340" stroke="#555555" stroke-width="6"/>
+  <line x1="420" y1="160" x2="240" y2="340" stroke="#555555" stroke-width="6"/>
+  <!-- explanation -->
+  <text x="700" y="200" font-size="30" fill="#1a1a1a">已知「至少有一個女孩」，</text>
+  <text x="700" y="250" font-size="30" fill="#1a1a1a">「男男」被劃掉，</text>
+  <text x="700" y="300" font-size="30" fill="#1a1a1a">樣本空間縮小成 3 格：</text>
+  <text x="700" y="352" font-size="30" fill="#1a1a1a">｛男女、女男、女女｝</text>
+  <text x="700" y="440" font-size="30" fill="#1a1a1a">「兩個都是女孩」只佔其中 1 格，</text>
+  <text x="700" y="510" font-size="38" font-weight="bold" fill="#1a1a1a">所以 P ＝ 1/3（不是 1/4）</text>
+</svg>

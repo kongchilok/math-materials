@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_二次函數與一元二次不等式_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．二次函數與一元二次不等式</div></td></tr></tfoot>
+  <tbody><tr><td>
+  <div class="masthead"><span>科目：高一數學</span><span>單元：二次函數與一元二次不等式</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="section-h" style="break-after:avoid;page-break-after:avoid">一、由「等於 0」走到「大於 0」</div>
+  <div>上一課解過方程 \(x^2-5x+6=0\)，答案是 \(x_1=2\) 或 \(x_2=3\)——兩個數。</div>
+  <div>這一課問的是不等式 \(x^2-5x+6 \gt 0\)。答案不再是幾個數，而是一整段範圍。</div>
+  <div class="hint-card">解一元二次不等式 ＝ 看二次函數的圖象落在 x 軸的哪一邊。</div>
+  <div class="problem">
+    <div>圖象在 x 軸上方　→　\(y \gt 0\)</div>
+    <div>圖象在 x 軸下方　→　\(y \lt 0\)</div>
+    <div>圖象碰到 x 軸　　→　\(y = 0\)（那一點就是根）</div>
+  </div>
+  <div class="section-h" style="break-after:avoid;page-break-after:avoid">二、草圖怎麼畫、怎麼讀</div>
+  <div>草圖只要三樣東西：一條 x 軸、一條拋物線、軸上的根。不用畫 y 軸、不用畫格線、不用算頂點——三秒畫得完才有用。</div>
+  <div>以 \(y=x^2-5x+6\) 為例（根是 2 和 3，\(a=1 \gt 0\) 所以開口向上）：</div>
+  <table class="d-tbl dual-track">
+    <tr><th>草圖上看到什麼</th><th>寫成什麼</th></tr>
+    <tr><td><svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="65.3,27.2 67.1,30.7 68.8,34.1 70.6,37.4 72.4,40.6 74.1,43.8 75.9,46.9 77.6,49.9 79.4,52.9 81.2,55.7 82.9,58.6 84.7,61.3 86.5,64.0 88.2,66.5 90.0,69.1 91.8,71.5 93.5,73.9 95.3,76.2 97.1,78.4 98.8,80.5 100.6,82.6 102.4,84.6 104.1,86.6 105.9,88.4 107.6,90.2 109.4,91.9 111.2,93.6 112.9,95.1 114.7,96.6 116.5,98.0 118.2,99.4 120.0,100.7 121.8,101.9 123.5,103.0 125.3,104.1 127.1,105.0 128.8,106.0 130.6,106.8 132.4,107.6 134.1,108.2 135.9,108.9 137.6,109.4 139.4,109.9 141.2,110.3 142.9,110.6 144.7,110.9 146.5,111.1 148.2,111.2 150.0,111.2 151.8,111.2 153.5,111.1 155.3,110.9 157.1,110.6 158.8,110.3 160.6,109.9 162.4,109.4 164.1,108.9 165.9,108.2 167.6,107.6 169.4,106.8 171.2,106.0 172.9,105.0 174.7,104.1 176.5,103.0 178.2,101.9 180.0,100.7 181.8,99.4 183.5,98.0 185.3,96.6 187.1,95.1 188.8,93.6 190.6,91.9 192.4,90.2 194.1,88.4 195.9,86.6 197.6,84.6 199.4,82.6 201.2,80.5 202.9,78.4 204.7,76.2 206.5,73.9 208.2,71.5 210.0,69.1 211.8,66.5 213.5,63.9 215.3,61.3 217.1,58.6 218.8,55.7 220.6,52.9 222.4,49.9 224.1,46.9 225.9,43.8 227.6,40.6 229.4,37.4 231.2,34.1 232.9,30.7 234.7,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="100.4" cy="82.4" r="5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.8"/><text x="100.4" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">2</text><circle cx="199.6" cy="82.4" r="5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.8"/><text x="199.6" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">3</text><text x="20.0" y="48.8" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="start" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">y &gt; 0</text><text x="150.0" y="98.2" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" stroke="#ffffff" stroke-width="3.2" paint-order="stroke fill" stroke-linejoin="round">y &lt; 0</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">兩根之外：線在 x 軸上方</text></svg></td><td><div>\(x \lt 2\) 或 \(x \gt 3\) 這兩段，線在 x 軸上方</div><div><b>所以 \(y \gt 0\)</b></div></td></tr>
+    <tr><td><svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="100.4" y1="82.4" x2="199.6" y2="82.4" stroke="#1a1a1a" stroke-width="5"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="65.3,27.2 67.1,30.7 68.8,34.1 70.6,37.4 72.4,40.6 74.1,43.8 75.9,46.9 77.6,49.9 79.4,52.9 81.2,55.7 82.9,58.6 84.7,61.3 86.5,64.0 88.2,66.5 90.0,69.1 91.8,71.5 93.5,73.9 95.3,76.2 97.1,78.4 98.8,80.5 100.6,82.6 102.4,84.6 104.1,86.6 105.9,88.4 107.6,90.2 109.4,91.9 111.2,93.6 112.9,95.1 114.7,96.6 116.5,98.0 118.2,99.4 120.0,100.7 121.8,101.9 123.5,103.0 125.3,104.1 127.1,105.0 128.8,106.0 130.6,106.8 132.4,107.6 134.1,108.2 135.9,108.9 137.6,109.4 139.4,109.9 141.2,110.3 142.9,110.6 144.7,110.9 146.5,111.1 148.2,111.2 150.0,111.2 151.8,111.2 153.5,111.1 155.3,110.9 157.1,110.6 158.8,110.3 160.6,109.9 162.4,109.4 164.1,108.9 165.9,108.2 167.6,107.6 169.4,106.8 171.2,106.0 172.9,105.0 174.7,104.1 176.5,103.0 178.2,101.9 180.0,100.7 181.8,99.4 183.5,98.0 185.3,96.6 187.1,95.1 188.8,93.6 190.6,91.9 192.4,90.2 194.1,88.4 195.9,86.6 197.6,84.6 199.4,82.6 201.2,80.5 202.9,78.4 204.7,76.2 206.5,73.9 208.2,71.5 210.0,69.1 211.8,66.5 213.5,63.9 215.3,61.3 217.1,58.6 218.8,55.7 220.6,52.9 222.4,49.9 224.1,46.9 225.9,43.8 227.6,40.6 229.4,37.4 231.2,34.1 232.9,30.7 234.7,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="100.4" cy="82.4" r="5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="100.4" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">2</text><circle cx="199.6" cy="82.4" r="5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="199.6" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">3</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">兩根之間：線在 x 軸下方</text></svg></td><td><div>\(2 \lt x \lt 3\) 這一段，線在 x 軸下方</div><div><b>所以 \(y \lt 0\)</b></div></td></tr>
+  </table>
+  <div class="hint-card">所以同一幅草圖可以回答兩種問題：問 ＞ 0 就取兩邊，問 ＜ 0 就取中間。</div>
+  <div class="section-h page-break" style="break-after:avoid;page-break-after:avoid">三、根有幾個？判別式 Δ 決定草圖長什麼樣</div>
+  <div>待會手順卡的第 3 步要「數清楚有幾個根」，靠的就是判別式 \(\Delta=b^2-4ac\)（此處 \(a \gt 0\)）：</div>
+  <table class="d-tbl long">
+    <thead><tr><th style="width:13%">判別式</th><th style="width:30%">草圖長這樣</th><th style="width:27%">問 ＞ 0 時</th><th>問 ＜ 0 時</th></tr></thead>
+    <tbody>
+    <tr><td style="vertical-align:middle"><b>\(\Delta \gt 0\)</b></td><td style="vertical-align:middle"><svg xmlns="http://www.w3.org/2000/svg" width="220" height="158" viewBox="0 0 220 158" role="img"><rect width="220" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="14" y1="82.4" x2="206" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="204.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="52.6,27.2 53.8,30.7 55.0,34.1 56.2,37.4 57.4,40.6 58.6,43.8 59.8,46.9 61.0,49.9 62.2,52.9 63.4,55.7 64.6,58.6 65.8,61.3 67.0,64.0 68.2,66.5 69.4,69.1 70.5,71.5 71.7,73.9 72.9,76.2 74.1,78.4 75.3,80.5 76.5,82.6 77.7,84.6 78.9,86.6 80.1,88.4 81.3,90.2 82.5,91.9 83.7,93.6 84.9,95.1 86.1,96.6 87.3,98.0 88.5,99.4 89.7,100.7 90.9,101.9 92.1,103.0 93.3,104.1 94.5,105.0 95.7,106.0 96.8,106.8 98.0,107.6 99.2,108.2 100.4,108.9 101.6,109.4 102.8,109.9 104.0,110.3 105.2,110.6 106.4,110.9 107.6,111.1 108.8,111.2 110.0,111.2 111.2,111.2 112.4,111.1 113.6,110.9 114.8,110.6 116.0,110.3 117.2,109.9 118.4,109.4 119.6,108.9 120.8,108.2 122.0,107.6 123.2,106.8 124.3,105.9 125.5,105.0 126.7,104.1 127.9,103.0 129.1,101.9 130.3,100.7 131.5,99.4 132.7,98.0 133.9,96.6 135.1,95.1 136.3,93.6 137.5,91.9 138.7,90.2 139.9,88.4 141.1,86.6 142.3,84.6 143.5,82.6 144.7,80.5 145.9,78.4 147.1,76.2 148.3,73.9 149.5,71.5 150.6,69.1 151.8,66.5 153.0,63.9 154.2,61.3 155.4,58.6 156.6,55.7 157.8,52.9 159.0,49.9 160.2,46.9 161.4,43.8 162.6,40.6 163.8,37.4 165.0,34.1 166.2,30.7 167.4,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="76.4" cy="82.4" r="5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.8"/><text x="76.4" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">x₁</text><circle cx="143.6" cy="82.4" r="5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.8"/><text x="143.6" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">x₂</text><text x="110.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">交 x 軸兩點</text></svg></td><td style="vertical-align:middle"><div>取兩邊</div><div>\(\{x \mid x \lt x_1\) 或 \(x \gt x_2\}\)</div></td><td style="vertical-align:middle"><div>取中間</div><div>\(\{x \mid x_1 \lt x \lt x_2\}\)</div></td></tr>
+    <tr><td style="vertical-align:middle"><b>\(\Delta = 0\)</b></td><td style="vertical-align:middle"><svg xmlns="http://www.w3.org/2000/svg" width="220" height="158" viewBox="0 0 220 158" role="img"><rect width="220" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="14" y1="82.4" x2="206" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="204.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="39.4,27.2 40.9,29.5 42.4,31.7 43.8,33.9 45.3,36.0 46.8,38.1 48.3,40.1 49.7,42.1 51.2,44.1 52.7,46.0 54.1,47.8 55.6,49.6 57.1,51.4 58.5,53.1 60.0,54.7 61.5,56.3 63.0,57.9 64.4,59.4 65.9,60.8 67.4,62.3 68.8,63.6 70.3,64.9 71.8,66.2 73.2,67.4 74.7,68.6 76.2,69.7 77.7,70.8 79.1,71.8 80.6,72.8 82.1,73.8 83.5,74.6 85.0,75.5 86.5,76.3 87.9,77.0 89.4,77.7 90.9,78.4 92.4,79.0 93.8,79.5 95.3,80.0 96.8,80.5 98.2,80.9 99.7,81.2 101.2,81.5 102.7,81.8 104.1,82.0 105.6,82.2 107.1,82.3 108.5,82.4 110.0,82.4 111.5,82.4 112.9,82.3 114.4,82.2 115.9,82.0 117.4,81.8 118.8,81.5 120.3,81.2 121.8,80.9 123.2,80.5 124.7,80.0 126.2,79.5 127.6,79.0 129.1,78.4 130.6,77.7 132.1,77.0 133.5,76.3 135.0,75.5 136.5,74.6 137.9,73.8 139.4,72.8 140.9,71.8 142.3,70.8 143.8,69.7 145.3,68.6 146.8,67.4 148.2,66.2 149.7,64.9 151.2,63.6 152.6,62.3 154.1,60.8 155.6,59.4 157.0,57.9 158.5,56.3 160.0,54.7 161.4,53.1 162.9,51.3 164.4,49.6 165.9,47.8 167.3,46.0 168.8,44.1 170.3,42.1 171.7,40.1 173.2,38.1 174.7,36.0 176.2,33.9 177.6,31.7 179.1,29.5 180.6,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="110.0" cy="82.4" r="5" fill="#1a1a1a" stroke="#1a1a1a" stroke-width="1.8"/><text x="110.0" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">x₀</text><text x="110.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">碰 x 軸一點</text></svg></td><td style="vertical-align:middle"><div>除了那一點，全部都是解</div><div>\(\{x \mid x \ne x_0\}\)</div></td><td style="vertical-align:middle"><div>無解</div><div>（圖象沒有一段在 x 軸下方）</div></td></tr>
+    <tr><td style="vertical-align:middle"><b>\(\Delta \lt 0\)</b></td><td style="vertical-align:middle"><svg xmlns="http://www.w3.org/2000/svg" width="220" height="158" viewBox="0 0 220 158" role="img"><rect width="220" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="14" y1="82.4" x2="206" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="204.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="51.1,27.2 52.4,28.8 53.6,30.3 54.8,31.9 56.1,33.3 57.3,34.8 58.5,36.2 59.7,37.6 61.0,38.9 62.2,40.2 63.4,41.5 64.6,42.8 65.9,44.0 67.1,45.2 68.3,46.3 69.5,47.5 70.8,48.5 72.0,49.6 73.2,50.6 74.4,51.6 75.7,52.5 76.9,53.4 78.1,54.3 79.3,55.2 80.6,56.0 81.8,56.8 83.0,57.5 84.3,58.2 85.5,58.9 86.7,59.6 87.9,60.2 89.2,60.8 90.4,61.3 91.6,61.9 92.8,62.3 94.1,62.8 95.3,63.2 96.5,63.6 97.7,63.9 99.0,64.2 100.2,64.5 101.4,64.8 102.6,65.0 103.9,65.2 105.1,65.3 106.3,65.5 107.5,65.5 108.8,65.6 110.0,65.6 111.2,65.6 112.5,65.5 113.7,65.5 114.9,65.3 116.1,65.2 117.4,65.0 118.6,64.8 119.8,64.5 121.0,64.2 122.3,63.9 123.5,63.6 124.7,63.2 125.9,62.8 127.2,62.3 128.4,61.9 129.6,61.3 130.8,60.8 132.1,60.2 133.3,59.6 134.5,58.9 135.7,58.2 137.0,57.5 138.2,56.8 139.4,56.0 140.7,55.2 141.9,54.3 143.1,53.5 144.3,52.5 145.6,51.6 146.8,50.6 148.0,49.6 149.2,48.5 150.5,47.5 151.7,46.3 152.9,45.2 154.1,44.0 155.4,42.8 156.6,41.5 157.8,40.3 159.0,38.9 160.3,37.6 161.5,36.2 162.7,34.8 163.9,33.3 165.2,31.9 166.4,30.3 167.6,28.8 168.9,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><text x="110.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">不碰 x 軸</text></svg></td><td style="vertical-align:middle"><div>全部實數都是解</div><div>\(\{x \mid x\) 是任何實數\(\}\)</div></td><td style="vertical-align:middle"><div>無解</div><div>（整條都在 x 軸上方）</div></td></tr>
+    </tbody>
+  </table>
+  <div class="hint-card">Δ ＝ 0 和 Δ ＜ 0 這兩欄，答案常常是「全部實數」或「無解」，不要以為一定要寫出兩個數才叫答案。</div>
+  <div class="section-h page-break" style="break-after:avoid;page-break-after:avoid">四、手順卡：解一元二次不等式五步</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">解一元二次不等式　五步</th></tr>
+    <tr><td colspan="2" style="font-weight:400">什麼時候用：題目是 \(ax^2+bx+c \gt 0\)（或 \(\lt\)、\(\ge\)、\(\le\)）這種二次不等式</td></tr>
+    <tr><td>1. 把所有項搬到一邊，讓右邊變成 0</td><td class="pitfall">※ 過等號要變號；右邊不是 0 就不能往下做</td></tr>
+    <tr><td>2. 看二次項係數 a 的正負；a 是負數就整條乘 −1</td><td class="pitfall">※ 乘負數，不等號一定要反向——這一步最易漏</td></tr>
+    <tr><td>3. 把不等號換成等號，解方程求根，數清楚有幾個根</td><td class="pitfall">※ 因式分解或用公式；\(\Delta\) 決定有 2 個、1 個還是 0 個根</td></tr>
+    <tr><td>4. 畫草圖：開口向上，在 x 軸標出根</td><td class="pitfall">※ 只畫 x 軸和拋物線，不用畫 y 軸、不用畫格線</td></tr>
+    <tr><td>5. 對照草圖挑範圍，用「∴」寫成解集</td><td class="pitfall">※ 大於取兩邊，小於取中間</td></tr>
+  </table>
+  <div class="section-h" style="break-after:avoid;page-break-after:avoid">五、範例</div>
+  <div style="break-inside:avoid;page-break-inside:avoid">
+  <div class="sub-h lead"><b>★ 範例一：解 \(x^2-5x+6 \gt 0\)</b></div>
+  <table class="d-tbl worked long">
+    <thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ec1">\(x^2-5x+6\)</td><td class="ec2">\(\gt\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">第 1 步：右邊已經是 0，不用搬<br>第 2 步：\(a=1\)，是正數，不用乘 −1</td></tr>
+    <tr><td class="ec1">\(x^2-5x+6\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">第 3 步：把不等號換成等號，先求根</td></tr>
+    <tr><td class="ec1">\((x-2)(x-3)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">因式分解</td></tr>
+    <tr><td class="ec1">\(x-2\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x-3\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">分成兩支寫，中間寫「或」</td></tr>
+    <tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(2\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(3\)</td><td class="why">兩個不相等的根</td></tr>
+    </tbody>
+  </table>
+  <table class="d-tbl"><tr>
+    <td style="width:42%;vertical-align:middle"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="18.0" y1="82.4" x2="100.4" y2="82.4" stroke="#1a1a1a" stroke-width="5"/><line x1="199.6" y1="82.4" x2="276.0" y2="82.4" stroke="#1a1a1a" stroke-width="5"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="65.3,27.2 67.1,30.7 68.8,34.1 70.6,37.4 72.4,40.6 74.1,43.8 75.9,46.9 77.6,49.9 79.4,52.9 81.2,55.7 82.9,58.6 84.7,61.3 86.5,64.0 88.2,66.5 90.0,69.1 91.8,71.5 93.5,73.9 95.3,76.2 97.1,78.4 98.8,80.5 100.6,82.6 102.4,84.6 104.1,86.6 105.9,88.4 107.6,90.2 109.4,91.9 111.2,93.6 112.9,95.1 114.7,96.6 116.5,98.0 118.2,99.4 120.0,100.7 121.8,101.9 123.5,103.0 125.3,104.1 127.1,105.0 128.8,106.0 130.6,106.8 132.4,107.6 134.1,108.2 135.9,108.9 137.6,109.4 139.4,109.9 141.2,110.3 142.9,110.6 144.7,110.9 146.5,111.1 148.2,111.2 150.0,111.2 151.8,111.2 153.5,111.1 155.3,110.9 157.1,110.6 158.8,110.3 160.6,109.9 162.4,109.4 164.1,108.9 165.9,108.2 167.6,107.6 169.4,106.8 171.2,106.0 172.9,105.0 174.7,104.1 176.5,103.0 178.2,101.9 180.0,100.7 181.8,99.4 183.5,98.0 185.3,96.6 187.1,95.1 188.8,93.6 190.6,91.9 192.4,90.2 194.1,88.4 195.9,86.6 197.6,84.6 199.4,82.6 201.2,80.5 202.9,78.4 204.7,76.2 206.5,73.9 208.2,71.5 210.0,69.1 211.8,66.5 213.5,63.9 215.3,61.3 217.1,58.6 218.8,55.7 220.6,52.9 222.4,49.9 224.1,46.9 225.9,43.8 227.6,40.6 229.4,37.4 231.2,34.1 232.9,30.7 234.7,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="100.4" cy="82.4" r="5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="100.4" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">2</text><circle cx="199.6" cy="82.4" r="5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="199.6" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">3</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">開口向上，根是 2 和 3</text></svg></td>
+    <td style="vertical-align:middle"><div>第 4 步：畫草圖，標出兩個根</div><div style="margin-top:8px">第 5 步：問的是 ＞ 0，取 x 軸上方那兩段（粗線）</div></td>
+  </tr></table>
+  <table class="d-tbl worked">
+    <tbody>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) 解集為 \(\{x \mid x \lt 2\) 或 \(x \gt 3\}\)</td><td class="why">作答：最後一行用「∴」寫出解集</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div style="break-inside:avoid;page-break-inside:avoid">
+  <div class="sub-h lead"><b>★ 範例二：解 \(-x^2+4x-3 \gt 0\)（二次項係數是負數）</b></div>
+  <table class="d-tbl worked long">
+    <thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ec1">\(-x^2+4x-3\)</td><td class="ec2">\(\gt\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">第 1 步：右邊已經是 0</td></tr>
+    <tr><td class="ecs" colspan="7">\(a=-1\)</td><td class="why">第 2 步：a 是負數 → 整條乘 −1，而且不等號要反向。這一步最易漏</td></tr>
+    <tr><td class="ec1">\(x^2-4x+3\)</td><td class="ec2">\(\lt\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">乘 −1 之後：＞ 變成 ＜</td></tr>
+    <tr><td class="ec1">\(x^2-4x+3\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">第 3 步：把不等號換成等號，先求根</td></tr>
+    <tr><td class="ec1">\((x-1)(x-3)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">因式分解</td></tr>
+    <tr><td class="ec1">\(x-1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(0\)</td><td class="ec4">或</td><td class="ec5">\(x-3\)</td><td class="ec6">\(=\)</td><td class="ec7">\(0\)</td><td class="why">分成兩支寫，中間寫「或」</td></tr>
+    <tr><td class="ec1">\(x_1\)</td><td class="ec2">\(=\)</td><td class="ec3">\(1\)</td><td class="ec4">或</td><td class="ec5">\(x_2\)</td><td class="ec6">\(=\)</td><td class="ec7">\(3\)</td><td class="why">兩個不相等的根</td></tr>
+    </tbody>
+  </table>
+  <table class="d-tbl"><tr>
+    <td style="width:42%;vertical-align:middle"><svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><line x1="100.4" y1="82.4" x2="199.6" y2="82.4" stroke="#1a1a1a" stroke-width="5"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><polyline points="65.3,27.2 67.1,30.7 68.8,34.1 70.6,37.4 72.4,40.6 74.1,43.8 75.9,46.9 77.6,49.9 79.4,52.9 81.2,55.7 82.9,58.6 84.7,61.3 86.5,64.0 88.2,66.5 90.0,69.1 91.8,71.5 93.5,73.9 95.3,76.2 97.1,78.4 98.8,80.5 100.6,82.6 102.4,84.6 104.1,86.6 105.9,88.4 107.6,90.2 109.4,91.9 111.2,93.6 112.9,95.1 114.7,96.6 116.5,98.0 118.2,99.4 120.0,100.7 121.8,101.9 123.5,103.0 125.3,104.1 127.1,105.0 128.8,106.0 130.6,106.8 132.4,107.6 134.1,108.2 135.9,108.9 137.6,109.4 139.4,109.9 141.2,110.3 142.9,110.6 144.7,110.9 146.5,111.1 148.2,111.2 150.0,111.2 151.8,111.2 153.5,111.1 155.3,110.9 157.1,110.6 158.8,110.3 160.6,109.9 162.4,109.4 164.1,108.9 165.9,108.2 167.6,107.6 169.4,106.8 171.2,106.0 172.9,105.0 174.7,104.1 176.5,103.0 178.2,101.9 180.0,100.7 181.8,99.4 183.5,98.0 185.3,96.6 187.1,95.1 188.8,93.6 190.6,91.9 192.4,90.2 194.1,88.4 195.9,86.6 197.6,84.6 199.4,82.6 201.2,80.5 202.9,78.4 204.7,76.2 206.5,73.9 208.2,71.5 210.0,69.1 211.8,66.5 213.5,63.9 215.3,61.3 217.1,58.6 218.8,55.7 220.6,52.9 222.4,49.9 224.1,46.9 225.9,43.8 227.6,40.6 229.4,37.4 231.2,34.1 232.9,30.7 234.7,27.2" fill="none" stroke="#1a1a1a" stroke-width="2.6" stroke-linecap="round"/><circle cx="100.4" cy="82.4" r="5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="100.4" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">1</text><circle cx="199.6" cy="82.4" r="5" fill="#ffffff" stroke="#1a1a1a" stroke-width="1.8"/><text x="199.6" y="101.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle" font-weight="700">3</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">乘 −1 之後 a ＞ 0，開口向上</text></svg></td>
+    <td style="vertical-align:middle"><div>第 4 步：畫的是乘 −1 之後那條的草圖</div><div style="margin-top:8px">第 5 步：現在問的是 ＜ 0，取 x 軸下方那一段（粗線）</div></td>
+  </tr></table>
+  <table class="d-tbl worked">
+    <tbody>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) 解集為 \(\{x \mid 1 \lt x \lt 3\}\)</td><td class="why">作答：只有一段，不用寫「或」</td></tr>
+    </tbody>
+  </table>
+  </div>
+  <div>接下來請拿《二次函數與一元二次不等式 —— 課堂練習》，依這套五步框架完成練習 A、B、C。</div>
+  <div class="teacher-notes page-break">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl long">
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">本份採用的主設計</td><td>D2 手順卡（五步）</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">輔助設計</td><td>D5 圖文雙軌對照（草圖 ↔ 解集逐列對齊）、D12 自我核對清單</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">選用理由</td><td>本課屬 S2 多步驟程序運算（序列崩潰、漏「乘負數要反向」）疊 S4 函數與圖像（圖象與解集的對應無法內化）。瓶頸在前端的程序序列，故主設計取 D2；草圖是本課判斷解集的唯一依據，故 D5 升為輔助之首，並把「畫草圖」獨立成手順卡第 4 步，使它成為不可跳過的動作。</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">鷹架密度</td><td>全班共用</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">褪除路徑</td><td>本份紙面上已經做出三級：練習A 每題重印 ①②③ 提示 → 練習B 只在區塊開頭放一次共用提示 → 練習C 完全不放。（草圖框三層都保留：畫草圖是本課的核心動作，不是鷹架。）下一課起草圖框也撤走，只問「這題的草圖長什麼樣」→ 最後連手順卡一併移除。</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">課堂實施流程</td><td>F1 師徒制對話四步（老師畫一次草圖、學生說出取哪一邊）、F2 番茄鐘分段（A／B／C 三段，每段末的自我核對清單就是收口，段間有核對點）</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距、b5 提供步驟提示卡</td></tr>
+      <tr><td style="width:28%;background:#f0f0f0;font-weight:700">與教學簡報的對應</td><td>簡報_L8_一元二次不等式 用的是「四步走」；本份把「畫草圖」由第 3 步拆出來獨立成第 4 步，共五步。簡報只處理兩個相異實根，本份補回 Δ＝0、Δ＜0 兩種情況（見第三節）——上課用簡報帶完四步後，用本份第三節補這兩欄。</td></tr>
+    </table>
+  </div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>

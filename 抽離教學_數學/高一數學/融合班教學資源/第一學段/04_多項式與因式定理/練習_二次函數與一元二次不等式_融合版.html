@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_二次函數與一元二次不等式_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．二次函數與一元二次不等式</div></td></tr></tfoot>
+  <tbody><tr><td>
+  <div class="masthead"><span>科目：高一數學</span><span>單元：二次函數與一元二次不等式</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>忘記做法就先回頭看《…課堂講義》第四節的五步手順卡。每題都要畫草圖——畫得出草圖，範圍就挑得中。</div>
+  <div class="section-h" style="break-after:avoid;page-break-after:avoid">一、練習A（<span class="stars">★☆☆</span>）—— 先求根，再照草圖挑範圍</div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>1．</b>求不等式 \((x-1)(x-4) \gt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+      <div class="hintcard">
+        <div class="ht">提示</div>
+      <div>① 已經分解好，直接讀出兩個根</div>
+      <div>② 開口向上（\(a=1\)）</div>
+      <div>③ 問 ＞ 0 → 取兩邊</div>
+      </div>
+    </div>
+  </div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>2．</b>求不等式 \(x^2-x-6 \lt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+      <div class="hintcard">
+        <div class="ht">提示</div>
+      <div>① 先因式分解求根</div>
+      <div>② 開口向上</div>
+      <div>③ 問 ＜ 0 → 取中間</div>
+      </div>
+    </div>
+  </div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>3．</b>求不等式 \(x^2-7x+10 \gt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+      <div class="hintcard">
+        <div class="ht">提示</div>
+      <div>① 先因式分解求根</div>
+      <div>② 開口向上</div>
+      <div>③ 問 ＞ 0 → 取兩邊</div>
+      </div>
+    </div>
+  </div>
+  <div class="selfcheck">
+    <div><b>練習A 做完，先自己核對一次</b></div>
+    <div>☐ 每題都寫了算式，不是只寫答案</div>
+    <div>☐ 每題都畫了草圖：有 x 軸、有拋物線、根已標在軸上</div>
+    <div>☐ 解集用 \(\{x \mid \ldots\}\) 寫；分成兩段的中間有寫「或」</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+  <div class="section-h" style="break-after:avoid;page-break-after:avoid">二、練習B（<span class="stars">★★☆</span>）—— 根不一定有兩個</div>
+  <div class="hint-card">這一區的題目不一定有兩個根。每題先算 \(\Delta\)：\(\Delta \gt 0\) 兩個根、\(\Delta = 0\) 一個根、\(\Delta \lt 0\) 沒有根——草圖跟著變，解集也跟著變。</div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>4．</b>求不等式 \(x^2-6x+9 \le 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+    </div>
+  </div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>5．</b>求不等式 \(x^2-2x+5 \gt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+    </div>
+  </div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>6．</b>求不等式 \(2x^2-3x-2 \lt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+    </div>
+  </div>
+  <div class="selfcheck">
+    <div><b>練習B 做完，先自己核對一次</b></div>
+    <div>☐ 每題都先算了 \(\Delta\)</div>
+    <div>☐ 數清楚有幾個根（2 個、1 個、還是 0 個），草圖也照樣畫</div>
+    <div>☐ 「無解」和「全部實數」沒有寫反</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+  <div class="section-h" style="break-after:avoid;page-break-after:avoid">三、練習C（<span class="stars">★★★</span>）—— a 是負數、以及應用題</div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>7．</b>求不等式 \(-x^2+3x+4 \gt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+    </div>
+  </div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>8．</b>求不等式 \(x^2-4x+4 \gt 0\) 的解集。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+    </div>
+  </div>
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div><b>9．</b>一個球向上拋出，\(t\) 秒後的高度是 \(h=16t-t^2\)（公尺）。問在哪一段時間內，球的高度超過 60 公尺？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <svg xmlns="http://www.w3.org/2000/svg" width="300" height="158" viewBox="0 0 300 158" role="img"><rect width="300" height="158" fill="#ffffff"/><defs><marker id="skar" markerWidth="9" markerHeight="9" refX="7" refY="3" orient="auto"><path d="M0,0 L7,3 L0,6 z" fill="#1a1a1a"/></marker></defs><rect x="3.0" y="6.0" width="294.0" height="124.0" rx="3" fill="#ffffff" stroke="#888888" stroke-width="1" stroke-dasharray="4 3"/><line x1="14" y1="82.4" x2="286" y2="82.4" stroke="#1a1a1a" stroke-width="1.6" marker-end="url(#skar)"/><text x="284.0" y="71.4" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="12" fill="#1a1a1a" text-anchor="end" dominant-baseline="middle">x</text><text x="150.0" y="149.0" font-family="'Microsoft JhengHei','Noto Sans TC','PingFang TC',Arial,sans-serif" font-size="11.5" fill="#1a1a1a" text-anchor="middle" dominant-baseline="middle">草圖畫這裡</text></svg>
+    </div>
+  </div>
+  <div class="selfcheck">
+    <div><b>練習C 做完，先自己核對一次</b></div>
+    <div>☐ a 是負數的題目，已經乘 −1 並反向；草圖畫的是乘完之後那一條</div>
+    <div>☐ 應用題的答案有寫回一段時間，不是只留一個不等式</div>
+  </div>
+  <div class="section-h page-break" style="break-after:avoid;page-break-after:avoid">教師用參考答案</div>
+  <div class="problem">
+  <div><b>A1</b>　\((x-1)(x-4)=0\) → \(x_1=1\) 或 \(x_2=4\)；\(a \gt 0\) 開口向上，問 ＞ 0 取兩邊</div>
+  <div><b>∴ 解集為 \(\{x \mid x \lt 1\) 或 \(x \gt 4\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>A2</b>　\(x^2-x-6=(x+2)(x-3)\)；令它等於 0 → \(x_1=-2\) 或 \(x_2=3\)；問 ＜ 0 取中間</div>
+  <div><b>∴ 解集為 \(\{x \mid -2 \lt x \lt 3\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>A3</b>　\(x^2-7x+10=(x-2)(x-5)\)；令它等於 0 → \(x_1=2\) 或 \(x_2=5\)；問 ＞ 0 取兩邊</div>
+  <div><b>∴ 解集為 \(\{x \mid x \lt 2\) 或 \(x \gt 5\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>B4</b>　\(\Delta=36-36=0\)，重根 \(x=3\)（即 \((x-3)^2 \le 0\)）；開口向上，只有頂點碰到 x 軸</div>
+  <div>\((x-3)^2\) 永遠 \(\ge 0\)，所以「\(\le 0\)」只在頂點成立</div>
+  <div><b>∴ 解集為 \(\{x \mid x=3\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>B5</b>　\(\Delta=4-20=-16 \lt 0\)，沒有實根；\(a=1 \gt 0\) 開口向上，整條在 x 軸上方</div>
+  <div><b>∴ 解集為 \(\{x \mid x\) 是任何實數\(\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>B6</b>　\(2x^2-3x-2=(2x+1)(x-2)\)；令它等於 0 → \(x_1=-\frac{1}{2}\) 或 \(x_2=2\)；\(a=2 \gt 0\)，問 ＜ 0 取中間</div>
+  <div><b>∴ 解集為 \(\{x \mid -\frac{1}{2} \lt x \lt 2\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>C7</b>　\(a=-1 \lt 0\)，整條乘 −1 並把不等號反向：\(x^2-3x-4 \lt 0\)</div>
+  <div>\((x+1)(x-4)=0\) → \(x_1=-1\) 或 \(x_2=4\)；問 ＜ 0 取中間</div>
+  <div><b>∴ 解集為 \(\{x \mid -1 \lt x \lt 4\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>C8</b>　\(\Delta=16-16=0\)，重根 \(x=2\)（即 \((x-2)^2 \gt 0\)）；開口向上，只有頂點碰到 x 軸</div>
+  <div>除了 \(x=2\) 那一點之外，其餘每一點都在 x 軸上方</div>
+  <div><b>∴ 解集為 \(\{x \mid x \ne 2\}\)</b></div>
+  </div>
+  <div class="problem">
+  <div><b>C9</b>　\(16t-t^2 \gt 60\) → 搬到一邊：\(-t^2+16t-60 \gt 0\) → 乘 −1 並反向：\(t^2-16t+60 \lt 0\)</div>
+  <div>\((t-6)(t-10)=0\) → \(t_1=6\) 或 \(t_2=10\)；問 ＜ 0 取中間</div>
+  <div><b>∴ 解集為 \(\{t \mid 6 \lt t \lt 10\}\)</b>，即第 6 秒到第 10 秒之間</div>
+  </div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>

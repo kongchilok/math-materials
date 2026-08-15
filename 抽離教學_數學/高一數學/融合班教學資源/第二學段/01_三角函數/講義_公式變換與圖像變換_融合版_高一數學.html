@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>三角函數（三）公式變換與圖像變換．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .figure { text-align: center; margin: 8px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure img { max-width: 100%; }
+  .figcap { font-size: 10pt; color: #444; margin-top: 2px; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：三角函數（三）公式變換與圖像變換</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、兩角和與差的公式</div>
+<div class="problem"><p>\(\cos(\alpha-\beta) = \cos\alpha\cos\beta + \sin\alpha\sin\beta\)</p><p>\(\cos(\alpha+\beta) = \cos\alpha\cos\beta - \sin\alpha\sin\beta\)</p><p>\(\sin(\alpha+\beta) = \sin\alpha\cos\beta + \cos\alpha\sin\beta\)</p><p>\(\sin(\alpha-\beta) = \sin\alpha\cos\beta - \cos\alpha\sin\beta\)</p><p>\(\tan(\alpha+\beta) = \dfrac{\tan\alpha+\tan\beta}{1-\tan\alpha\tan\beta}\)　　\(\tan(\alpha-\beta) = \dfrac{\tan\alpha-\tan\beta}{1+\tan\alpha\tan\beta}\)</p></div>
+<div class="hint-card">提示：記法：cos 的展開是「同名相乘」（cos·cos、sin·sin），中間符號跟原式相反；sin 的展開是「異名相乘」（sin·cos、cos·sin），中間符號跟原式相同。</div><p>用途一：算非特殊角。例如 75° = 45° + 30°、15° = 45° − 30°。</p><p>用途二：把 sin 20° cos 40° + cos 20° sin 40° 這種展開式「收回去」變成 sin(20° + 40°) = sin 60°。</p><div class="section-h">二、二倍角公式（令 β = α 就得到）</div>
+<div class="problem"><p>\(\sin 2\alpha = 2\sin\alpha\cos\alpha\)</p><p>\(\cos 2\alpha = \cos^2\alpha-\sin^2\alpha = 2\cos^2\alpha-1 = 1-2\sin^2\alpha\)</p><p>\(\tan 2\alpha = \dfrac{2\tan\alpha}{1-\tan^2\alpha}\)</p></div>
+<div class="hint-card">提示：cos 2α 有三種寫法——題目給 sin α 就用「1 − 2sin²α」，給 cos α 就用「2cos²α − 1」，兩個都給才用「cos²α − sin²α」。</div><div class="section-h">三、輔助角公式（a sin x + b cos x 合成一個 sin）</div>
+<p>\(a\sin x + b\cos x = \sqrt{a^2+b^2}\,\sin(x+\varphi)\)</p><p>常用的兩個結果：\(\sin x+\cos x = \sqrt{2}\,\sin\!\left(x+\dfrac{\pi}{4}\right)\)；　\(\sqrt{3}\sin x+\cos x = 2\sin\!\left(x+\dfrac{\pi}{6}\right)\)</p><div class="hint-card">提示：合成之後，最大值就是前面的係數 \(\sqrt{a^2+b^2}\)，最小值是它加負號——這就是求「a sin x + b cos x 型」最值的固定套路。</div><div class="section-h">四、y = A sin(ωx + φ) + b 四個參數的作用</div>
+<p>A（振幅）：圖像縱向拉伸，最大 A、最小 −A。</p><p>ω：橫向壓縮或拉伸，週期變成 \(T=\dfrac{2\pi}{\omega}\)。</p><p>φ：左右平移——「左加右減」：x + φ 是向左移 φ，x − φ 是向右移 φ。</p><p>b：整條曲線上下平移 b。</p><div class="figure"><img src="figs/fig6_圖像變換.png" style="max-width:660px; width:100%;"><div class="figcap">圖1：四種變換各自的效果（虛線是原來的 y = sin x）</div></div>
+<div class="hint-card">提示：平移量說的是「x 本身」的變化。y = sin(2x + π/3) 要看成 sin 2(x + π/6)——先提出 2，才能讀出平移量是 π/6。</div><div class="section-h">五、範例（跟著四個步驟做）</div>
+<div class="problem"><p><b>求 cos 75° 的值。</b></p><ul class="steps"><li>步驟1　拆角：75° 不是特殊角，把它拆成兩個特殊角：75° = 45° + 30°。</li><li>步驟2　選公式：拆的是「和」，cos 的和公式中間變減號：cos(α + β) = cos α cos β − sin α sin β。</li><li>步驟3　代入計算：\(\cos 75^\circ = \dfrac{\sqrt{2}}{2}\cdot\dfrac{\sqrt{3}}{2}-\dfrac{\sqrt{2}}{2}\cdot\dfrac{1}{2} = \dfrac{\sqrt{6}-\sqrt{2}}{4}\)。</li><li>步驟4　檢查：75° 接近 90°，cos 應該接近 0 而且是正的。(2.45 − 1.41) ÷ 4 ≈ 0.26，合理。</li></ul></div>
+<p><b>接下來請拿《練習_公式變換與圖像變換_融合版》，依照上面範例的四個步驟完成練習A、B、C。</b></p><div class="footer">高一數學．三角函數（三）公式變換與圖像變換</div>
+
+</div>
+</body>
+</html>

@@ -1,0 +1,7 @@
+{
+  "name": "deck-quadratic-05-06",
+  "private": true,
+  "dependencies": {
+    "pptxgenjs": "^4.0.1"
+  }
+}

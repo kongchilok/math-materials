@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>單調性與奇偶性 課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .subhead { font-size: 12pt; font-weight: 700; margin: 10px 0 6px; }
+
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.8em; text-indent: -1.8em; }
+
+  .fig { text-align: center; margin: 10px 0; }
+  .fig svg { max-width: 100%; height: auto; }
+  .fig-cap { font-size: 10.5pt; color: #555; margin-top: 4px; }
+
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：單調性與奇偶性</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、單調性</div>
+  <div>觀察下面的圖象：從左到右看，如果曲線一直往下滑，x越大y越小，這一段就是「遞減」；如果曲線一直往上爬，x越大y越大，這一段就是「遞增」。曲線的最低點，就是這個函數的最小值。</div>
+  <div class="fig">
+    <svg viewBox="0 0 340 240" width="340" height="240" xmlns="http://www.w3.org/2000/svg">
+      <line x1="20" y1="140" x2="320" y2="140" stroke="#333" stroke-width="1.5"/>
+      <polygon points="320,140 312,136 312,144" fill="#333"/>
+      <line x1="170" y1="20" x2="170" y2="220" stroke="#333" stroke-width="1.5"/>
+      <polygon points="170,20 166,28 174,28" fill="#333"/>
+      <text x="322" y="154" font-size="13" fill="#333">x</text>
+      <text x="178" y="26" font-size="13" fill="#333">y</text>
+      <line x1="170" y1="190" x2="170" y2="140" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+      <polyline points="65,115 170,190 275,90" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+      <circle cx="65" cy="115" r="3" fill="#1a1a1a"/>
+      <circle cx="170" cy="190" r="3" fill="#1a1a1a"/>
+      <circle cx="275" cy="90" r="3" fill="#1a1a1a"/>
+      <text x="87.5" y="146.5" font-size="14" fill="#1a1a1a">遞減 ↘</text>
+      <text x="216.5" y="130.0" font-size="14" fill="#1a1a1a">↗ 遞增</text>
+      <text x="160" y="156" font-size="12" fill="#555">最低點</text>
+      <text x="8" y="16" font-size="12" fill="#555">O</text>
+    </svg>
+    <div class="fig-cap">圖1：先遞減後遞增的函數圖象</div>
+  </div>
+
+  <div>把這個直觀說法寫成嚴謹的代數定義：</div>
+  <div class="hint-card">設函數f(x)的定義域為D，區間I⊆D。如果對區間I內任意 \(x_1,x_2\)，當 \(x_1&lt;x_2\) 時都有 \(f(x_1)&lt;f(x_2)\)，那麼稱f(x)在I上單調遞增；如果都有 \(f(x_1)&gt;f(x_2)\)，那麼稱f(x)在I上單調遞減。</div>
+  <div class="hint-card">整個定義域上都遞增／都遞減，就分別叫做增函數／減函數，I叫做這個函數的單調區間。</div>
+
+  <div class="subhead">範例：證明一次函數的單調性</div>
+  <div>證明：函數 \(f(x)=2x+1\) 在R上是增函數。</div>
+  <div class="problem">
+    <div class="steps">
+      <li>①取值：設 \(x_1,x_2\) 為R內任意兩個實數，且 \(x_1&lt;x_2\)。</li>
+      <li>②作差：\(f(x_1)-f(x_2)=(2x_1+1)-(2x_2+1)=2x_1-2x_2\)</li>
+      <li>③變形：\(f(x_1)-f(x_2)=2(x_1-x_2)\)</li>
+      <li>④定號：因為 \(x_1&lt;x_2\)，所以 \(x_1-x_2&lt;0\)，於是 \(2(x_1-x_2)&lt;0\)，即 \(f(x_1)-f(x_2)&lt;0\)。</li>
+      <li>⑤結論：所以 \(f(x_1)&lt;f(x_2)\)，即 f(x) 在R上為增函數。</li>
+    </div>
+  </div>
+  <div class="hint-card">這五個步驟「①取值 ②作差 ③變形 ④定號 ⑤結論」是證明單調性的標準格式，之後每一題證明單調性都照這個框架寫，不用另外想寫法。</div>
+
+  <div class="section-h">二、奇偶性</div>
+  <div>如果一個函數的圖象以y軸為對稱軸（把圖象向左向右對摺會重合），就稱它為偶函數；如果圖象以原點為對稱中心（把圖象繞原點旋轉180°會重合），就稱它為奇函數。</div>
+  <div class="fig">
+    <svg viewBox="0 0 520 220" width="520" height="220" xmlns="http://www.w3.org/2000/svg">
+      <line x1="10" y1="190" x2="230" y2="190" stroke="#333" stroke-width="1.2"/>
+      <line x1="120" y1="15" x2="120" y2="205" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+      <polyline points="30,28.72 45,78.0 60,118.32 75,149.68 90,172.08 105,185.52 120,190.0 135,185.52 150,172.08 165,149.68 180,118.32 195,78.0 210,28.72" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+      <text x="106" y="216" font-size="13" fill="#333">y = x²（偶函數）</text>
+      <text x="8" y="14" font-size="12" fill="#555">y軸對稱</text>
+      <line x1="255" y1="10" x2="255" y2="210" stroke="#ccc" stroke-width="1"/>
+      <line x1="270" y1="110" x2="500" y2="110" stroke="#333" stroke-width="1.2"/>
+      <line x1="380" y1="15" x2="380" y2="205" stroke="#333" stroke-width="1.2"/>
+      <polyline points="290,187.76 305,155.0 320,133.04 335,119.72 350,112.88 365,110.36 380,110.0 395,109.64 410,107.12 425,100.28 440,86.96 455,65.0 470,32.24" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+      <circle cx="380" cy="110" r="2.5" fill="#1a1a1a"/>
+      <circle cx="440" cy="86.96" r="3" fill="#1a1a1a"/>
+      <circle cx="320" cy="133.04" r="3" fill="#1a1a1a"/>
+      <line x1="440" y1="86.96" x2="320" y2="133.04" stroke="#999" stroke-width="1" stroke-dasharray="3,3"/>
+      <text x="350" y="216" font-size="13" fill="#333">y = x³（奇函數）</text>
+      <text x="272" y="14" font-size="12" fill="#555">原點對稱（轉180°重合）</text>
+    </svg>
+    <div class="fig-cap">圖2：偶函數（y軸對稱，左）與奇函數（原點對稱，右）</div>
+  </div>
+
+  <div class="hint-card">偶函數：設f(x)的定義域為D。若對任意x∈D都有-x∈D，且 \(f(-x)=f(x)\) 恆成立，則稱f(x)為偶函數。</div>
+  <div class="hint-card">奇函數：若對任意x∈D都有-x∈D，且 \(f(-x)=-f(x)\) 恆成立，則稱f(x)為奇函數。</div>
+  <div class="hint-card">判斷前要先檢查定義域是否關於原點對稱——不對稱就直接判斷為非奇非偶函數。</div>
+
+  <div class="subhead">範例：判斷函數的奇偶性</div>
+  <div>判斷函數 \(f(x)=x+\dfrac{1}{x}\) 的奇偶性。</div>
+  <div class="problem">
+    <div class="steps">
+      <li>①求定義域：\(f(x)=x+\dfrac{1}{x}\) 要求 \(x\neq 0\)，所以定義域是所有不等於0的實數。</li>
+      <li>②驗證對稱：定義域關於原點對稱（x≠0時，-x也滿足-x≠0），可以繼續判斷。</li>
+      <li>③代入f(-x)：\(f(-x)=-x+\dfrac{1}{-x}=-x-\dfrac{1}{x}\)</li>
+      <li>④比對：\(f(-x)=-\left(x+\dfrac{1}{x}\right)=-f(x)\)</li>
+      <li>⑤結論：所以 f(x) 是奇函數。</li>
+    </div>
+  </div>
+  <div class="hint-card">判斷奇偶性的標準格式：①求定義域 ②驗證定義域關於原點對稱 ③代入f(-x)計算 ④跟f(x)、-f(x)比對 ⑤下結論（偶函數／奇函數／非奇非偶函數）。</div>
+
+  <div>接下來請拿《單調性與奇偶性 課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高一數學．單調性與奇偶性</div>
+
+</div>
+</body>
+</html>

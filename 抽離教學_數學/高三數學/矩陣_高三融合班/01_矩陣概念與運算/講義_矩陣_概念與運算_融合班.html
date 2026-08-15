@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_矩陣_概念與運算_融合班</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls){ if(!urls.length) return; var s=document.createElement('script'); s.src=urls[0];
+  s.onerror=function(){loadMathJax(urls.slice(1));}; document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+   'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+   'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm 0.5cm 1.3cm 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC","Microsoft JhengHei","PingFang TC",Arial,Verdana,sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .worked-example, .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .eq { margin: 6px 0; }
+  .footer { position: fixed; bottom: 0.3cm; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff;
+    font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：矩陣（概念與運算）</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、矩陣是什麼</div>
+  <div>把一堆數字排成長方形的表，再用中括號框住，就是一個「矩陣」。</div>
+  <div>橫的一排叫「行(row)」，直的一列叫「列(column)」。有 \(m\) 行、\(n\) 列的矩陣，稱為 \(m\times n\) 階矩陣。</div>
+  <div class="eq">例如 \(A=\begin{bmatrix}3&-1&0\\2&5&-4\end{bmatrix}\) 有 2 橫行、3 直列，所以 \(A\) 是 \(2\times 3\) 階矩陣。</div>
+  <div class="hint-card">關鍵詞：元素 \(a_{ij}\)＝第 \(i\) 行、第 \(j\) 列那個數。上例中 \(a_{21}=2\)（第 2 行第 1 列）、\(a_{13}=0\)（第 1 行第 3 列）。</div>
+  <div>幾個常見的特殊矩陣：</div>
+  <div>．零矩陣：所有元素都是 0。　．單位矩陣 \(I\)：對角線都是 1、其餘都是 0，例如 \(\begin{bmatrix}1&0\\0&1\end{bmatrix}\)。</div>
+  <div>．轉置矩陣 \(A^{T}\)：把「行」和「列」互換（橫的變直、直的變橫）。</div>
+
+  <div class="section-h">二、範例1：加法與減法（同階才可以做）</div>
+  <div>設 \(A=\begin{bmatrix}2&-1\\3&4\end{bmatrix}\)，\(B=\begin{bmatrix}1&5\\-2&0\end{bmatrix}\)，求 \(A+B\) 與 \(A-B\)。</div>
+  <div class="worked-example">步驟：①先看階數是否相同（都是 \(2\times2\)，可以做）②同一格對同一格，逐格相加或相減。</div>
+  <div class="eq">\(A+B=\begin{bmatrix}2+1&-1+5\\3+(-2)&4+0\end{bmatrix}=\begin{bmatrix}3&4\\1&4\end{bmatrix}\)</div>
+  <div class="eq">\(A-B=\begin{bmatrix}2-1&-1-5\\3-(-2)&4-0\end{bmatrix}=\begin{bmatrix}1&-6\\5&4\end{bmatrix}\)</div>
+
+  <div class="section-h">三、範例2：數乘（一個數乘整個矩陣）</div>
+  <div>設 \(A=\begin{bmatrix}3&-2\\1&4\end{bmatrix}\)，求 \(-2A\)。</div>
+  <div class="worked-example">步驟：把矩陣裡「每一格」都乘上那個數。</div>
+  <div class="eq">\(-2A=\begin{bmatrix}-2\times3&-2\times(-2)\\-2\times1&-2\times4\end{bmatrix}=\begin{bmatrix}-6&4\\-2&-8\end{bmatrix}\)</div>
+
+  <div class="section-h">四、範例3：矩陣乘法（最重要，跟著四步驟做）</div>
+  <div>設 \(A=\begin{bmatrix}1&2\\3&-1\end{bmatrix}\)，\(B=\begin{bmatrix}2&0\\1&4\end{bmatrix}\)，求 \(AB\)。</div>
+  <div class="worked-example">四步驟：①看階數：\((2\times2)\cdot(2\times2)\)，中間兩數相同 → 可以乘，答案是 \(2\times2\)。②答案第 \(i\) 行第 \(j\) 列＝\(A\) 的「第 \(i\) 橫行」對上 \(B\) 的「第 \(j\) 直列」，對應相乘再相加。</div>
+  <div class="eq">\(c_{11}=1\times2+2\times1=4\)　　\(c_{12}=1\times0+2\times4=8\)</div>
+  <div class="eq">\(c_{21}=3\times2+(-1)\times1=5\)　　\(c_{22}=3\times0+(-1)\times4=-4\)</div>
+  <div class="eq">所以 \(AB=\begin{bmatrix}4&8\\5&-4\end{bmatrix}\)。（提醒：一般情況 \(AB\) 不一定等於 \(BA\)）</div>
+
+  <div class="section-h">五、範例4：轉置矩陣</div>
+  <div>設 \(A=\begin{bmatrix}1&2&3\\4&5&6\end{bmatrix}\)，求 \(A^{T}\)。</div>
+  <div class="worked-example">步驟：原本的「第一橫行」變成答案的「第一直列」，依此類推。\(2\times3\) 轉置後變 \(3\times2\)。</div>
+  <div class="eq">\(A^{T}=\begin{bmatrix}1&4\\2&5\\3&6\end{bmatrix}\)</div>
+
+  <div style="margin-top:14px;">接下來請拿《矩陣（概念與運算）課堂練習》，依這套框架完成練習 A、B、C。</div>
+
+  <div class="footer">高三數學．矩陣：概念與運算</div>
+</div>
+</body>
+</html>

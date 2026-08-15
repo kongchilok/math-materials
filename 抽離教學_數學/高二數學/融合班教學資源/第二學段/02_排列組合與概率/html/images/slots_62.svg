@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="430" viewBox="0 0 1240 430" font-family="Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="1240" height="430" fill="#ffffff"/>
+  <text x="60" y="70" font-size="34" font-weight="bold" fill="#1a1a1a">用 1,2,3,4 組成沒有重複數字的三位數：一格一格填</text>
+  <!-- three slots -->
+  <rect x="120" y="120" width="160" height="130" fill="#ffffff" stroke="#1a1a1a" stroke-width="4"/>
+  <rect x="340" y="120" width="160" height="130" fill="#ffffff" stroke="#1a1a1a" stroke-width="4"/>
+  <rect x="560" y="120" width="160" height="130" fill="#ffffff" stroke="#1a1a1a" stroke-width="4"/>
+  <text x="200" y="105" font-size="30" text-anchor="middle" fill="#555555">百位</text>
+  <text x="420" y="105" font-size="30" text-anchor="middle" fill="#555555">十位</text>
+  <text x="640" y="105" font-size="30" text-anchor="middle" fill="#555555">個位</text>
+  <text x="200" y="205" font-size="52" text-anchor="middle" font-weight="bold" fill="#1a1a1a">4</text>
+  <text x="420" y="205" font-size="52" text-anchor="middle" font-weight="bold" fill="#1a1a1a">3</text>
+  <text x="640" y="205" font-size="52" text-anchor="middle" font-weight="bold" fill="#1a1a1a">2</text>
+  <text x="310" y="200" font-size="44" text-anchor="middle" fill="#1a1a1a">×</text>
+  <text x="530" y="200" font-size="44" text-anchor="middle" fill="#1a1a1a">×</text>
+  <text x="200" y="300" font-size="28" text-anchor="middle" fill="#555555">4 個數字任選</text>
+  <text x="420" y="300" font-size="28" text-anchor="middle" fill="#555555">剩 3 個可選</text>
+  <text x="640" y="300" font-size="28" text-anchor="middle" fill="#555555">剩 2 個可選</text>
+  <!-- result -->
+  <text x="790" y="200" font-size="42" font-weight="bold" fill="#1a1a1a">＝ 4×3×2 ＝ 24 個</text>
+  <text x="790" y="260" font-size="30" fill="#555555">這就是排列數 A(4,3)</text>
+  <text x="60" y="390" font-size="30" fill="#1a1a1a">口訣：取幾個就畫幾個格子，數字一格比一格小 1，全部乘起來。</text>
+</svg>

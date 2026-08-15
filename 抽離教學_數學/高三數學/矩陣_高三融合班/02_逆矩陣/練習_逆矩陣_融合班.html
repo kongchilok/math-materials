@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_逆矩陣_融合班</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls){ if(!urls.length) return; var s=document.createElement('script'); s.src=urls[0];
+  s.onerror=function(){loadMathJax(urls.slice(1));}; document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+   'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+   'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm 0.5cm 1.3cm 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC","Microsoft JhengHei","PingFang TC",Arial,Verdana,sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .ans p { margin: 6px 0; }
+  .footer { position: fixed; bottom: 0.3cm; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff;
+    font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：逆矩陣（反矩陣）</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>作答前，先回頭看《課堂講義》：2×2 公式法、初等行變換法、以及「行列式為 0 就不可逆」。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>1．設 \(A=\begin{bmatrix}3&1\\2&4\end{bmatrix}\)，求行列式 \(\begin{vmatrix}3&1\\2&4\end{vmatrix}\)。</div>
+    <div class="hint-card">提示：\(\begin{vmatrix}3&1\\2&4\end{vmatrix}=3\times4-1\times2=\)＿＿＿。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．設 \(A=\begin{bmatrix}4&1\\3&1\end{bmatrix}\)，用公式求 \(A^{-1}\)。</div>
+    <div class="hint-card">提示：先算 \(\det=4\times1-1\times3=\)＿＿；再套 \(A^{-1}=\dfrac{1}{\det}\begin{bmatrix}1&-1\\-3&4\end{bmatrix}\)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>3．下面兩個矩陣，哪個有逆矩陣？（算行列式是否為 0）　\(P=\begin{bmatrix}2&6\\1&3\end{bmatrix}\)　\(Q=\begin{bmatrix}2&3\\2&4\end{bmatrix}\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>4．設 \(A=\begin{bmatrix}4&2\\1&1\end{bmatrix}\)，用公式求 \(A^{-1}\)（答案會出現分數）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>5．設 \(A=\begin{bmatrix}1&3\\2&5\end{bmatrix}\)，用初等行變換求 \(A^{-1}\)。</div>
+    <div class="hint-card">提示：從 \(\left[\begin{array}{cc|cc}1&3&1&0\\2&5&0&1\end{array}\right]\) 開始，把左半變成單位矩陣。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>6．設 \(A=\begin{bmatrix}2&1\\3&2\end{bmatrix}\)，\(B=\begin{bmatrix}5\\8\end{bmatrix}\)，利用 \(X=A^{-1}B\) 解出 \(X\)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>7．設 \(A=\begin{bmatrix}3&5\\1&2\end{bmatrix}\)，\(B=\begin{bmatrix}2&-5\\-1&3\end{bmatrix}\)，計算 \(AB\)，判斷 \(B\) 是否為 \(A\) 的逆矩陣。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>8．設 \(A=\begin{bmatrix}1&1&1\\0&1&1\\0&0&1\end{bmatrix}\)，用初等行變換求 \(A^{-1}\)。</div>
+    <div class="hint-card">提示：從 \(\left[\begin{array}{ccc|ccc}1&1&1&1&0&0\\0&1&1&0&1&0\\0&0&1&0&0&1\end{array}\right]\) 開始（左半 \(A\)、右半 \(I\)）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>9．設 \(M=\begin{bmatrix}t&4\\1&t-3\end{bmatrix}\) 的逆矩陣不存在，求實數 \(t\)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>10．已知性質 \((AB)^{-1}=B^{-1}A^{-1}\)。請取 \(A=\begin{bmatrix}1&1\\0&1\end{bmatrix}\)、\(B=\begin{bmatrix}1&0\\1&1\end{bmatrix}\)，分別算出 \((AB)^{-1}\) 與 \(B^{-1}A^{-1}\)，驗證兩者相等。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h page-break">參考答案（教師用）</div>
+  <div class="ans">
+    <p>1．\(\begin{vmatrix}3&1\\2&4\end{vmatrix}=3\times4-1\times2=10\)。</p>
+    <p>2．\(\det=1\)，\(A^{-1}=\begin{bmatrix}1&-1\\-3&4\end{bmatrix}\)。</p>
+    <p>3．\(P\)：\(\det=2\times3-6\times1=0\) → 無逆矩陣；\(Q\)：\(\det=2\times4-3\times2=2\neq0\) → 有逆矩陣。</p>
+    <p>4．\(\det=4\times1-2\times1=2\)，\(A^{-1}=\dfrac{1}{2}\begin{bmatrix}1&-2\\-1&4\end{bmatrix}=\begin{bmatrix}\frac{1}{2}&-1\\-\frac{1}{2}&2\end{bmatrix}\)。</p>
+    <p>5．\(A^{-1}=\begin{bmatrix}-5&3\\2&-1\end{bmatrix}\)。</p>
+    <p>6．\(A^{-1}=\begin{bmatrix}2&-1\\-3&2\end{bmatrix}\)，\(X=A^{-1}B=\begin{bmatrix}2\\1\end{bmatrix}\)（即 \(x=2,\ y=1\)）。</p>
+    <p>7．\(AB=\begin{bmatrix}1&0\\0&1\end{bmatrix}=I\)，所以 \(B\) 是 \(A\) 的逆矩陣。</p>
+    <p>8．\(A^{-1}=\begin{bmatrix}1&-1&0\\0&1&-1\\0&0&1\end{bmatrix}\)。</p>
+    <p>9．\(\det(M)=t(t-3)-4=t^{2}-3t-4=0\)，即 \((t-4)(t+1)=0\)，所以 \(t=4\) 或 \(t=-1\)。</p>
+    <p>10．\(AB=\begin{bmatrix}2&1\\1&1\end{bmatrix}\)，\((AB)^{-1}=\begin{bmatrix}1&-1\\-1&2\end{bmatrix}\)；\(B^{-1}A^{-1}=\begin{bmatrix}1&-1\\-1&2\end{bmatrix}\)，兩者相等。</p>
+  </div>
+
+  <div class="footer">高三數學．矩陣：逆矩陣</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_6.3二項式定理_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure { text-align: center; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure .cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：6.3 二項式定理</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、楊輝三角與二項式定理</div>
+  <div>把 \((a+b)\) 自乘 \(n\) 次再展開，每一項的係數其實早就排在「楊輝三角」裡。</div>
+
+  <div class="figure">
+    <svg xmlns="http://www.w3.org/2000/svg" width="540" height="305" viewBox="0 0 1240 700" font-family="Microsoft JhengHei, sans-serif">
+      <rect x="0" y="0" width="1240" height="700" fill="#ffffff"/>
+      <text x="60" y="60" font-size="34" font-weight="bold" fill="#1a1a1a">楊輝三角：每個數＝左上＋右上</text>
+      <text x="130" y="150" font-size="30" fill="#555555">(a+b)¹</text>
+      <text x="130" y="240" font-size="30" fill="#555555">(a+b)²</text>
+      <text x="130" y="330" font-size="30" fill="#555555">(a+b)³</text>
+      <text x="130" y="420" font-size="30" fill="#555555">(a+b)⁴</text>
+      <text x="130" y="510" font-size="30" fill="#555555">(a+b)⁵</text>
+      <text x="650" y="150" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="750" y="150" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="600" y="240" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="700" y="240" font-size="36" text-anchor="middle" fill="#1a1a1a">2</text>
+      <text x="800" y="240" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="550" y="330" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="650" y="330" font-size="36" text-anchor="middle" fill="#1a1a1a">3</text>
+      <text x="750" y="330" font-size="36" text-anchor="middle" fill="#1a1a1a">3</text>
+      <text x="850" y="330" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="500" y="420" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="600" y="420" font-size="36" text-anchor="middle" fill="#1a1a1a">4</text>
+      <text x="700" y="420" font-size="36" text-anchor="middle" fill="#1a1a1a">6</text>
+      <text x="800" y="420" font-size="36" text-anchor="middle" fill="#1a1a1a">4</text>
+      <text x="900" y="420" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="450" y="510" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <text x="550" y="510" font-size="36" text-anchor="middle" fill="#1a1a1a">5</text>
+      <text x="650" y="510" font-size="36" text-anchor="middle" fill="#1a1a1a">10</text>
+      <text x="750" y="510" font-size="36" text-anchor="middle" fill="#1a1a1a">10</text>
+      <text x="850" y="510" font-size="36" text-anchor="middle" fill="#1a1a1a">5</text>
+      <text x="950" y="510" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+      <line x1="608" y1="432" x2="640" y2="485" stroke="#555555" stroke-width="3"/>
+      <line x1="692" y1="432" x2="660" y2="485" stroke="#555555" stroke-width="3"/>
+      <circle cx="600" cy="408" r="34" fill="none" stroke="#555555" stroke-width="2.5"/>
+      <circle cx="700" cy="408" r="34" fill="none" stroke="#555555" stroke-width="2.5"/>
+      <circle cx="650" cy="498" r="38" fill="none" stroke="#1a1a1a" stroke-width="3"/>
+      <text x="1010" y="505" font-size="30" fill="#555555">例：4＋6＝10</text>
+      <text x="60" y="620" font-size="30" fill="#1a1a1a">第 n 行的數，就是 (a+b)ⁿ 展開式各項的「二項式係數」C(n,0), C(n,1), …, C(n,n)。</text>
+      <text x="60" y="668" font-size="30" fill="#1a1a1a">每行左右對稱；每行全部加起來＝2ⁿ。</text>
+    </svg>
+    <div class="cap">圖：楊輝三角（每個數＝左上＋右上）</div>
+  </div>
+
+  <div>二項式定理：</div>
+  <div>\[ (a+b)^n = C_n^0 a^n + C_n^1 a^{n-1}b + \cdots + C_n^k a^{n-k}b^k + \cdots + C_n^n b^n \]</div>
+  <div class="hint-card">記法：\(a\) 的指數由 \(n\) 遞減到 0，\(b\) 的指數由 0 遞增到 \(n\)，每一項兩個指數加起來都是 \(n\)。</div>
+
+  <div class="section-h">（1）通項公式：展開式的第 \(k+1\) 項</div>
+  <div>\[ T_{k+1} = C_n^k\, a^{n-k}\, b^{k} \]</div>
+  <div>注意：\(k\) 由 0 開始數，所以「第 3 項」對應 \(k=2\)，「第 5 項」對應 \(k=4\)。</div>
+
+  <div class="section-h">（2）「二項式係數」與「係數」是兩回事</div>
+  <div>二項式係數＝楊輝三角那個 \(C_n^k\)；係數＝把數字全部乘完之後 \(x\) 前面的整個數（可能含負號）。</div>
+  <div>另外，把全部二項式係數加起來：\(C_n^0 + C_n^1 + \cdots + C_n^n = 2^n\)。</div>
+
+  <div class="section-h">二、範例</div>
+  <div class="problem">
+    <div>求 \((1+2x)^4\) 的展開式的第 3 項，並指出第 3 項的「二項式係數」和「係數」。</div>
+    <div style="margin-top:6px;">步驟①　認出 \(a\)、\(b\)、\(n\)：\(a=1\)，\(b=2x\)，\(n=4\)。</div>
+    <div>步驟②　寫通項：\(T_{k+1} = C_4^k\, 1^{4-k} (2x)^k\)。</div>
+    <div>步驟③　第 3 項 → \(k=2\)。</div>
+    <div>步驟④　計算：\(T_3 = C_4^2 (2x)^2 = 6\times 4x^2 = 24x^2\)。</div>
+    <div>所以：二項式係數＝\(C_4^2 = 6\)；係數＝24（把 \(2^2\) 也乘進去）。</div>
+  </div>
+  <div class="hint-card">檢查：楊輝三角第 4 行是 1、4、6、4、1，第 3 個數正是 6。</div>
+
+  <div>接下來請拿《練習_6.3二項式定理_融合版》，依同樣的四步驟完成練習A、B、C。</div>
+
+  <div class="footer">高二數學．二項式定理（6.3）．課堂講義</div>
+</div>
+</body>
+</html>

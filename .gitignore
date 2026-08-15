@@ -32,3 +32,9 @@ __pycache__/
 
 # 日誌
 *.log
+
+# git worktree（自己有獨立 .git，唔可以當普通檔案入版控）
+.claude/worktrees/
+
+# 原始 export dump（未整理、單檔超過 GitHub 100MB 上限）
+math-test/檔案_0*

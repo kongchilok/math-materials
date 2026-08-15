@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="560" viewBox="0 0 1240 560" font-family="Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="1240" height="560" fill="#ffffff"/>
+  <text x="60" y="56" font-size="34" font-weight="bold" fill="#1a1a1a">分佈列：把 X 的每個值和它的概率排成一張表</text>
+  <!-- table -->
+  <rect x="150" y="110" width="220" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="260" y="168" font-size="34" text-anchor="middle" font-weight="bold" fill="#1a1a1a">X（紅球數）</text>
+  <rect x="370" y="110" width="180" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="460" y="168" font-size="36" text-anchor="middle" fill="#1a1a1a">1</text>
+  <rect x="550" y="110" width="180" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="640" y="168" font-size="36" text-anchor="middle" fill="#1a1a1a">2</text>
+  <rect x="150" y="200" width="220" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="260" y="258" font-size="34" text-anchor="middle" font-weight="bold" fill="#1a1a1a">P（概率）</text>
+  <rect x="370" y="200" width="180" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="460" y="258" font-size="36" text-anchor="middle" fill="#1a1a1a">2/3</text>
+  <rect x="550" y="200" width="180" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="640" y="258" font-size="36" text-anchor="middle" fill="#1a1a1a">1/3</text>
+  <!-- checks -->
+  <text x="790" y="168" font-size="28" fill="#555555">← X 由小到大寫一排</text>
+  <text x="790" y="258" font-size="28" fill="#555555">← 概率加起來必須＝1 ✓</text>
+  <!-- expectation -->
+  <line x1="460" y1="290" x2="460" y2="360" stroke="#555555" stroke-width="3"/>
+  <line x1="640" y1="290" x2="640" y2="360" stroke="#555555" stroke-width="3"/>
+  <text x="60" y="420" font-size="32" fill="#1a1a1a">期望＝每個值 × 自己的概率，再全部相加：</text>
+  <text x="60" y="490" font-size="38" font-weight="bold" fill="#1a1a1a">E(X) ＝ 1×(2/3) ＋ 2×(1/3) ＝ 4/3</text>
+  <text x="700" y="490" font-size="28" fill="#555555">（＝平均每次摸到的紅球數）</text>
+</svg>

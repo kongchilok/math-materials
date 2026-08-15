@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>三角函數（一）角與三角函數的概念．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .figure { text-align: center; margin: 8px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure img { max-width: 100%; }
+  .figcap { font-size: 10pt; color: #444; margin-top: 2px; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：三角函數（一）角與三角函數的概念</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、任意角與象限</div>
+<p>角可以想像成一條射線繞著頂點旋轉：逆時針旋轉得到正角，順時針旋轉得到負角。</p><p>把角放在坐標系裡：頂點放在原點，始邊放在 x 軸正方向。終邊落在哪個象限，這個角就是哪個象限的角。</p><div class="figure"><img src="figs/fig1_象限與終邊.png" style="max-width:400px; width:100%;"><div class="figcap">圖1：始邊、終邊與四個象限（例：150° 是第二象限角）</div></div>
+<p>終邊相同的角：繞多一圈（±360°）終邊不變，所以與角 \(\alpha\) 終邊相同的角可寫成 \(\alpha + k\cdot 360^\circ\)（k 是整數）。</p><div class="hint-card">提示：判斷兩個角終邊是否相同，把它們相減，看差是不是 360° 的整數倍。例：390° − 30° = 360°，所以 390° 與 30° 終邊相同。</div><div class="section-h">二、弧度制</div>
+<p>弧度是角的另一種單位。關鍵只有一條：\(180^\circ = \pi\) rad。</p><p>度 → 弧度：乘 \(\dfrac{\pi}{180^\circ}\)；　弧度 → 度：乘 \(\dfrac{180^\circ}{\pi}\)。</p><p>常用對照：\(30^\circ=\dfrac{\pi}{6}\)、\(45^\circ=\dfrac{\pi}{4}\)、\(60^\circ=\dfrac{\pi}{3}\)、\(90^\circ=\dfrac{\pi}{2}\)、\(180^\circ=\pi\)。</p><p>半徑 r、圓心角 \(\alpha\)（弧度）的扇形：弧長 \(l = \alpha r\)；面積 \(S = \dfrac{1}{2}lr = \dfrac{1}{2}\alpha r^2\)。</p><div class="section-h">三、三角函數的定義</div>
+<p>設角 \(\alpha\) 的終邊與單位圓（半徑為 1 的圓）交於點 P(x, y)，規定：\(\sin\alpha = y\)、\(\cos\alpha = x\)、\(\tan\alpha = \dfrac{y}{x}\)（x ≠ 0）。</p><div class="figure"><img src="figs/fig2_單位圓定義.png" style="max-width:380px; width:100%;"><div class="figcap">圖2：單位圓上的定義——y 是正弦、x 是餘弦</div></div>
+<p>如果終邊經過的點不在單位圓上，例如 P(x, y)，先算 \(r = \sqrt{x^2+y^2}\)，然後 \(\sin\alpha = \dfrac{y}{r}\)、\(\cos\alpha = \dfrac{x}{r}\)、\(\tan\alpha = \dfrac{y}{x}\)。</p><p>各象限的正負號：</p><div class="figure"><img src="figs/fig8_符號口訣.png" style="max-width:400px; width:100%;"><div class="figcap">圖3：符號口訣——「一全正、二正弦、三正切、四餘弦」</div></div>
+<div class="section-h">四、同角三角函數的關係</div>
+<p>平方關係：\(\sin^2\alpha + \cos^2\alpha = 1\)；　商數關係：\(\tan\alpha = \dfrac{\sin\alpha}{\cos\alpha}\)。</p><div class="hint-card">提示：知道其中一個函數值＋角所在的象限，就能求出另外兩個。先用平方關係求出第二個，再用商數關係求第三個。</div><div class="section-h">五、範例（跟著四個步驟做）</div>
+<div class="problem"><p><b>已知角 \(\alpha\) 的終邊經過點 P(3, −4)，求 \(\sin\alpha\)、\(\cos\alpha\)、\(\tan\alpha\)。</b></p><ul class="steps"><li>步驟1　圈出重點：終邊經過 P(3, −4)，所以 x = 3，y = −4。</li><li>步驟2　選公式：點不在單位圓上，先求 \(r = \sqrt{x^2+y^2}\)。</li><li>步驟3　計算：\(r = \sqrt{3^2+(-4)^2} = \sqrt{25} = 5\)；\(\sin\alpha = -\dfrac{4}{5}\)、\(\cos\alpha = \dfrac{3}{5}\)、\(\tan\alpha = -\dfrac{4}{3}\)。</li><li>步驟4　檢查：P(3, −4) 在第四象限，第四象限只有 cos 為正——算出來 sin 負、cos 正、tan 負，符合。</li></ul></div>
+<p><b>接下來請拿《練習_角與三角函數的概念_融合版》，依照上面範例的四個步驟完成練習A、B、C。</b></p><div class="footer">高一數學．三角函數（一）角與三角函數的概念</div>
+
+</div>
+</body>
+</html>

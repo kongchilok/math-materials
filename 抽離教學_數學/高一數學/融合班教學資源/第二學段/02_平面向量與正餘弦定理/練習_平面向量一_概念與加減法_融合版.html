@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>平面向量（一）概念與加減法｜課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* footer：固定頁尾品牌列，含頁碼；HTML/PDF 走 CSS running footer 用 @page 較受限，
+     這裡用簡單頁尾段落置於每個 .page 區塊最後代替（若一頁一份可行；多頁文件請在各頁分段各自加一份） */
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：平面向量（一）概念與加減法</span><span>類型：課堂練習</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<p style="font-size:11pt;">開始前，請先翻開《平面向量（一）｜課堂講義》，看一次「範例」的四個步驟，再開始作答。</p><div class="section-h">一、練習A（<span class="stars">★☆☆</span>）　照著口訣填一填</div>
+<div class="problem"><div>A-1．口訣「中間字母相消」：<br>(1) \(\overrightarrow{AB} + \overrightarrow{BC}\) ＝ <span class="ans-box"></span>　(2) \(\overrightarrow{PQ} + \overrightarrow{QR}\) ＝ <span class="ans-box"></span></div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+<div class="problem"><div>A-2．口訣「負號＝掉頭」：<br>(1) \(-\overrightarrow{BA}\) ＝ <span class="ans-box"></span>　(2) \(-\overrightarrow{DC}\) ＝ <span class="ans-box"></span></div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+<div class="problem"><div>A-3．接龍：化簡 \(\overrightarrow{AB} + \overrightarrow{BC} + \overrightarrow{CA}\)。先算 \(\overrightarrow{AB} + \overrightarrow{BC}\) ＝ <span class="ans-box"></span>，再加 \(\overrightarrow{CA}\) 得 <span class="ans-box"></span>。</div><div class="hint-card">提示：繞一圈回到原點，結果是零向量，要寫 \(\vec{0}\)（不是數字 0）。</div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+<div class="section-h">二、練習B（<span class="stars">★★☆</span>）　測驗標準題型</div>
+<div class="problem"><div>B-1．化簡 \(\overrightarrow{BA} + \overrightarrow{AC}\) ＝（　　）</div><div class="choices"><span>(1) \(\overrightarrow{BC}\)</span><span>(2) \(\overrightarrow{CB}\)</span><span>(3) \(\overrightarrow{AC}\)</span></div><div class="write-lines"><div class="line"></div><div class="line"></div></div></div>
+<div class="problem"><div>B-2．化簡 \(\overrightarrow{AC} - \overrightarrow{AB} + \overrightarrow{CD}\) ＝（　　）</div><div class="choices"><span>(1) \(\overrightarrow{BD}\)</span><span>(2) \(\overrightarrow{DB}\)</span><span>(3) \(\overrightarrow{AD}\)</span></div><div class="hint-card">提示：先用「同起點相減」處理前兩項。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="problem"><div>B-3．化簡 \(\overrightarrow{AB} + \overrightarrow{CE} + \overrightarrow{BC}\) ＝（　　）</div><div class="choices"><span>(1) \(\overrightarrow{AE}\)</span><span>(2) \(\overrightarrow{EA}\)</span><span>(3) \(\overrightarrow{BE}\)</span></div><div class="hint-card">提示：加法可以交換順序——先把能接龍的排在一起。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div style="text-align:center;margin:8px 0;"><img src="fig/parallelogram.png" style="max-width:400px;width:100%;"><div style="font-size:10pt;color:#555;">B-4 附圖：平行四邊形 ABCD</div></div>
+<div class="problem"><div>B-4．如上圖，平行四邊形 ABCD 中 \(\overrightarrow{AB}=\vec a\)、\(\overrightarrow{AD}=\vec b\)，M 為對角線交點。用 \(\vec a\)、\(\vec b\) 表示：(1) \(\overrightarrow{AC}\) ＝ <span class="ans-box"></span>　(2) \(\overrightarrow{DB}\) ＝ <span class="ans-box"></span></div><div class="hint-card">提示：對角線 AC 用加法（平行四邊形法則）；DB 用減法（共起點 A 的兩向量相減）。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="section-h">三、練習C（<span class="stars">★★★</span>）　挑戰與創作</div>
+<div style="text-align:center;margin:8px 0;"><img src="fig/hexagon.png" style="max-width:330px;width:100%;"><div style="font-size:10pt;color:#555;">C-1 附圖：正六邊形 ABCDEF 與中心 O</div></div>
+<div class="problem"><div>C-1．如上圖，O 為正六邊形 ABCDEF 的中心，化簡 \(\overrightarrow{OA} + \overrightarrow{BO}\)，並指出它等於圖中哪一個以 O 為起點的向量。</div><div class="hint-card">提示：先把 \(\overrightarrow{BO}\) 改寫成 \(-\overrightarrow{OB}\)，得 \(\overrightarrow{OA} - \overrightarrow{OB} = \overrightarrow{BA}\)，再找與 \(\overrightarrow{BA}\) 長度相等、方向相同的向量。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="problem"><div>C-2．創作題：自己畫一條由 4 個向量首尾相接、最後回到起點的封閉折線，標上字母，並寫出對應的向量等式（和為 \(\vec{0}\)）。</div><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div>
+<div class="footer">高一數學．平面向量單元（一）</div>
+<div class="page-break"></div><div class="section-h">教師版參考答案</div>
+<p>A-1：(1) \(\overrightarrow{AC}\)　(2) \(\overrightarrow{PR}\)</p><p>A-2：(1) \(\overrightarrow{AB}\)　(2) \(\overrightarrow{CD}\)</p><p>A-3：\(\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}\)；\(\overrightarrow{AC}+\overrightarrow{CA}=\vec{0}\)。答案 \(\vec{0}\)</p><p>B-1：(1) \(\overrightarrow{BC}\)（中間字母 A 相消）</p><p>B-2：(1) \(\overrightarrow{BD}\)。過程：\(\overrightarrow{AC}-\overrightarrow{AB}=\overrightarrow{BC}\)，再 \(\overrightarrow{BC}+\overrightarrow{CD}=\overrightarrow{BD}\)</p><p>B-3：(1) \(\overrightarrow{AE}\)。過程：\(\overrightarrow{AB}+\overrightarrow{BC}=\overrightarrow{AC}\)，再 \(\overrightarrow{AC}+\overrightarrow{CE}=\overrightarrow{AE}\)</p><p>B-4：(1) \(\overrightarrow{AC}=\vec a+\vec b\)　(2) \(\overrightarrow{DB}=\vec a-\vec b\)</p><p>C-1：\(\overrightarrow{OA}+\overrightarrow{BO}=\overrightarrow{OA}-\overrightarrow{OB}=\overrightarrow{BA}\)；在正六邊形中 \(\overrightarrow{BA}\) 與 \(\overrightarrow{OF}\) 等長同向，答案 \(\overrightarrow{OF}\)。</p><p>C-2：開放答案。檢核：4 個向量首尾相接回到起點，等式形如 \(\overrightarrow{AB}+\overrightarrow{BC}+\overrightarrow{CD}+\overrightarrow{DA}=\vec{0}\)。</p><div class="footer">高一數學．平面向量單元（一）．答案頁</div>
+
+</div>
+</body>
+</html>

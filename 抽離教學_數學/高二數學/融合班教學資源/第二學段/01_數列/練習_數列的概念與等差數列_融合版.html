@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>數列的概念與等差數列 課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 70px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .page-break { break-before: page; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：數列的概念與等差數列</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>請先回頭看《數列的概念與等差數列 課堂講義》的範例，再依照同樣的步驟完成以下練習。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+  <div class="problem">
+    <div>1．數列的通項公式為 \( a_n = 3n-1 \)。請把下表填滿：</div>
+    <div>n＝1　\( a_1=2 \) 　　n＝2　\( a_2= \)<span class="ans-box"></span></div>
+    <div>n＝3　\( a_3=8 \) 　　n＝4　\( a_4= \)<span class="ans-box"></span></div>
+    <div>n＝5　\( a_5=14 \)</div>
+  </div>
+  <div class="hint-card">提示：把 n 代入 3n − 1，例如 \( a_2 = 3\times2-1 \)</div>
+
+  <div class="problem">
+    <div>2．小明在樓梯上放盆栽，第1階放1盆，之後每一階都比前一階多放2盆。</div>
+    <div>(1) \( a_1=1 \)，\( a_2 = 1+2 = \)<span class="ans-box"></span>，\( a_3 = \)<span class="ans-box"></span>\( +2 = \)<span class="ans-box"></span></div>
+    <div>(2) 這是一個等差數列，公差 d ＝ <span class="ans-box"></span></div>
+  </div>
+  <div class="hint-card">提示：每一階比前一階「多放2盆」，這個「多放的數量」就是公差 d。</div>
+
+  <div class="problem">
+    <div>3．已知等差數列 \( \{a_n\} \) 中，\( a_1=6 \)，d = 5。請完成：</div>
+    <div>\( a_2 = a_1+d = 6+5 = \)<span class="ans-box"></span></div>
+    <div>\( a_3 = a_2+d = \)<span class="ans-box"></span>\( +5 = \)<span class="ans-box"></span></div>
+    <div>\( a_n = a_1+(n-1)d = 6+5(n-1) = \)<span class="ans-box"></span></div>
+  </div>
+  <div class="hint-card">提示：一步一步代入公式，不用急著跳步驟。</div>
+
+  <div class="problem">
+    <div>4．求 10 和 24 的等差中項。</div>
+    <div>\( b = \dfrac{10+24}{2} = \)<span class="ans-box"></span>\( \div 2 = \)<span class="ans-box"></span></div>
+  </div>
+  <div class="hint-card">提示：等差中項 = 兩數相加後除以 2。</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+
+  <div class="problem">
+    <div>1．已知數列 \( \{a_n\} \) 的通項公式為 \( a_n = n^2-3 \)，判斷 46 是不是這個數列的項？如果是，是第幾項？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：把 \( a_n=46 \) 代入通項公式，解出 n 是否為正整數。</div>
+
+  <div class="problem">
+    <div>2．已知數列 \( \{a_n\} \) 的前 n 項和 \( S_n = n^2+3n \)，求 \( \{a_n\} \) 的通項公式。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先求 \( a_1=S_1 \)，再用 \( a_n=S_n-S_{n-1} \)（n ≥ 2），最後檢查兩個結果能不能合併成一條公式。</div>
+
+  <div class="problem">
+    <div>3．已知等差數列 \( \{a_n\} \) 中，\( a_1=-3 \)，d = 4，求 \( a_{10} \) 及 \( S_{10} \)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先用 \( a_n=a_1+(n-1)d \) 求 \( a_{10} \)，再用求和公式算 \( S_{10} \)</div>
+
+  <div class="problem">
+    <div>4．已知等差數列 \( \{a_n\} \) 中，\( a_3=7 \)，\( a_7=19 \)，求首項 \( a_1 \)、公差 d，及 \( S_{15} \)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：\( a_7-a_3=4d \)，先求出 d，再求 \( a_1 \)</div>
+
+  <div class="footer">高二數學．數列的概念與等差數列單元　第 1 頁</div>
+
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高二數學</span><span>單元：數列的概念與等差數列</span><span>類型：課堂練習</span></div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+
+  <div class="problem">
+    <div>1．請自己設計一個等差數列，使得它的第 3 項 \( a_3=10 \)。你可以自由選擇 \( a_1 \) 和 d，只要能讓 \( a_3=10 \) 就可以。寫出你選的 \( a_1 \)、d，並驗算。（全班答案應該都不一樣，比比看誰的公差最大／最小）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：只要 \( a_1+2d=10 \) 就可以，先選一個 d，再算出對應的 \( a_1 \)</div>
+
+  <div class="problem">
+    <div>2．判斷以下說法「對」或「錯」，並用計算說明理由：</div>
+    <div>「數列的前 n 項和只要是 n 的多項式，這個數列就一定是等差數列。」</div>
+    <div>（提示：試試看 \( S_n=n^3 \) 這個情況）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先用 \( S_n=n^3 \) 算出前 3 項，再檢查每一項與前一項的差是不是都相同。</div>
+
+  <div class="problem">
+    <div>3．學校禮堂共有 10 排座位，容納共 155 個座位。從第 2 排起，每一排都比前一排多 3 個座位。第 1 排應該安排多少個座位？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：設第一排是 \( a_1 \)，用 \( S_{10} = 10a_1 + \dfrac{10\times9}{2}d \) 列方程，d = 3。</div>
+
+  <div class="footer">高二數學．數列的概念與等差數列單元　第 2 頁</div>
+
+  <div class="page-break"></div>
+  <div class="masthead"><span>科目：高二數學</span><span>單元：數列的概念與等差數列</span><span>類型：教師參考答案</span></div>
+
+  <div class="section-h">練習A 答案</div>
+  <div>1．\( a_2=5 \)，\( a_4=11 \)</div>
+  <div>2．(1) \( a_2=3 \)，\( a_3=5 \) 　(2) d = 2</div>
+  <div>3．\( a_2=11 \)，\( a_3=16 \)，\( a_n=5n+1 \)</div>
+  <div>4．等差中項 = 17</div>
+
+  <div class="section-h">練習B 答案</div>
+  <div>1．\( n^2-3=46 \Rightarrow n^2=49 \Rightarrow n=7 \)（正整數解），所以 46 是這個數列的第 7 項。</div>
+  <div>2．\( a_1=S_1=4 \)；n ≥ 2 時 \( a_n=S_n-S_{n-1}=2n+2 \)；代入 n=1 也成立，所以 \( a_n=2n+2 \)</div>
+  <div>3．\( a_{10}=-3+4\times9=33 \)；\( S_{10}=(-3+33)\times10\div2=150 \)</div>
+  <div>4．d = 3，\( a_1=1 \)，\( S_{15}=330 \)</div>
+
+  <div class="section-h">練習C 答案</div>
+  <div>1．開放式答案，只要滿足 \( a_1+2d=10 \) 即可（例如 \( a_1=6 \)，d = 2；或 \( a_1=0 \)，d = 5）。</div>
+  <div>2．說法錯誤。若 \( S_n=n^3 \)，則 \( a_1=1 \)，\( a_2=8-1=7 \)，\( a_3=27-8=19 \)，差分別是 6 和 12，不相等，所以不是等差數列。（只有 \( S_n=An^2+Bn \) 這種「二次式」才保證是等差數列）</div>
+  <div>3．設第一排 \( a_1 \)，\( S_{10}=10a_1+45\times3=155 \Rightarrow 10a_1=20 \Rightarrow a_1=2 \)，第1排安排 2 個座位。</div>
+
+  <div class="footer">高二數學．數列的概念與等差數列單元　第 3 頁</div>
+
+</div>
+</body>
+</html>

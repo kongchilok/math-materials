@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1240" height="880" viewBox="0 0 1240 880" font-family="Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="1240" height="880" fill="#ffffff"/>
+  <text x="60" y="60" font-size="34" font-weight="bold" fill="#1a1a1a">擲兩枚骰子：36 個結果的「點數和」表</text>
+  <!-- table: origin (200,120), cell 90x90, 7x7 -->
+  <!-- header labels -->
+  <text x="150" y="620" font-size="28" fill="#555555" transform="rotate(-90 150 620)">第一枚骰子</text>
+  <text x="560" y="850" font-size="28" fill="#555555">第二枚骰子</text>
+  <!-- header row -->
+  <rect x="200" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="245" y="178" font-size="30" text-anchor="middle" fill="#1a1a1a">＋</text>
+  <rect x="290" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="335" y="178" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">1</text>
+  <rect x="380" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="425" y="178" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">2</text>
+  <rect x="470" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="515" y="178" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">3</text>
+  <rect x="560" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="605" y="178" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">4</text>
+  <rect x="650" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="695" y="178" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">5</text>
+  <rect x="740" y="120" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="785" y="178" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">6</text>
+  <!-- row 1 -->
+  <rect x="200" y="210" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="245" y="268" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">1</text>
+  <rect x="290" y="210" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="335" y="268" font-size="32" text-anchor="middle" fill="#1a1a1a">2</text>
+  <rect x="380" y="210" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="425" y="268" font-size="32" text-anchor="middle" fill="#1a1a1a">3</text>
+  <rect x="470" y="210" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="515" y="268" font-size="32" text-anchor="middle" fill="#1a1a1a">4</text>
+  <rect x="560" y="210" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="605" y="268" font-size="32" text-anchor="middle" fill="#1a1a1a">5</text>
+  <rect x="650" y="210" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="695" y="268" font-size="32" text-anchor="middle" fill="#1a1a1a">6</text>
+  <rect x="740" y="210" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><circle cx="785" cy="255" r="34" fill="none" stroke="#1a1a1a" stroke-width="3"/><text x="785" y="268" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">7</text>
+  <!-- row 2 -->
+  <rect x="200" y="300" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="245" y="358" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">2</text>
+  <rect x="290" y="300" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="335" y="358" font-size="32" text-anchor="middle" fill="#1a1a1a">3</text>
+  <rect x="380" y="300" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="425" y="358" font-size="32" text-anchor="middle" fill="#1a1a1a">4</text>
+  <rect x="470" y="300" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="515" y="358" font-size="32" text-anchor="middle" fill="#1a1a1a">5</text>
+  <rect x="560" y="300" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="605" y="358" font-size="32" text-anchor="middle" fill="#1a1a1a">6</text>
+  <rect x="650" y="300" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><circle cx="695" cy="345" r="34" fill="none" stroke="#1a1a1a" stroke-width="3"/><text x="695" y="358" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">7</text>
+  <rect x="740" y="300" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="785" y="358" font-size="32" text-anchor="middle" fill="#1a1a1a">8</text>
+  <!-- row 3 -->
+  <rect x="200" y="390" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="245" y="448" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">3</text>
+  <rect x="290" y="390" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="335" y="448" font-size="32" text-anchor="middle" fill="#1a1a1a">4</text>
+  <rect x="380" y="390" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="425" y="448" font-size="32" text-anchor="middle" fill="#1a1a1a">5</text>
+  <rect x="470" y="390" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="515" y="448" font-size="32" text-anchor="middle" fill="#1a1a1a">6</text>
+  <rect x="560" y="390" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><circle cx="605" cy="435" r="34" fill="none" stroke="#1a1a1a" stroke-width="3"/><text x="605" y="448" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">7</text>
+  <rect x="650" y="390" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="695" y="448" font-size="32" text-anchor="middle" fill="#1a1a1a">8</text>
+  <rect x="740" y="390" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="785" y="448" font-size="32" text-anchor="middle" fill="#1a1a1a">9</text>
+  <!-- row 4 -->
+  <rect x="200" y="480" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="245" y="538" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">4</text>
+  <rect x="290" y="480" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="335" y="538" font-size="32" text-anchor="middle" fill="#1a1a1a">5</text>
+  <rect x="380" y="480" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="425" y="538" font-size="32" text-anchor="middle" fill="#1a1a1a">6</text>
+  <rect x="470" y="480" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><circle cx="515" cy="525" r="34" fill="none" stroke="#1a1a1a" stroke-width="3"/><text x="515" y="538" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">7</text>
+  <rect x="560" y="480" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="605" y="538" font-size="32" text-anchor="middle" fill="#1a1a1a">8</text>
+  <rect x="650" y="480" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="695" y="538" font-size="32" text-anchor="middle" fill="#1a1a1a">9</text>
+  <rect x="740" y="480" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="785" y="538" font-size="32" text-anchor="middle" fill="#1a1a1a">10</text>
+  <!-- row 5 -->
+  <rect x="200" y="570" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="245" y="628" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">5</text>
+  <rect x="290" y="570" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="335" y="628" font-size="32" text-anchor="middle" fill="#1a1a1a">6</text>
+  <rect x="380" y="570" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><circle cx="425" cy="615" r="34" fill="none" stroke="#1a1a1a" stroke-width="3"/><text x="425" y="628" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">7</text>
+  <rect x="470" y="570" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="515" y="628" font-size="32" text-anchor="middle" fill="#1a1a1a">8</text>
+  <rect x="560" y="570" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="605" y="628" font-size="32" text-anchor="middle" fill="#1a1a1a">9</text>
+  <rect x="650" y="570" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="695" y="628" font-size="32" text-anchor="middle" fill="#1a1a1a">10</text>
+  <rect x="740" y="570" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="785" y="628" font-size="32" text-anchor="middle" fill="#1a1a1a">11</text>
+  <!-- row 6 -->
+  <rect x="200" y="660" width="90" height="90" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="2.5"/><text x="245" y="718" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">6</text>
+  <rect x="290" y="660" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><circle cx="335" cy="705" r="34" fill="none" stroke="#1a1a1a" stroke-width="3"/><text x="335" y="718" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">7</text>
+  <rect x="380" y="660" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="425" y="718" font-size="32" text-anchor="middle" fill="#1a1a1a">8</text>
+  <rect x="470" y="660" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="515" y="718" font-size="32" text-anchor="middle" fill="#1a1a1a">9</text>
+  <rect x="560" y="660" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="605" y="718" font-size="32" text-anchor="middle" fill="#1a1a1a">10</text>
+  <rect x="650" y="660" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="695" y="718" font-size="32" text-anchor="middle" fill="#1a1a1a">11</text>
+  <rect x="740" y="660" width="90" height="90" fill="#ffffff" stroke="#1a1a1a" stroke-width="2"/><text x="785" y="718" font-size="32" text-anchor="middle" fill="#1a1a1a">12</text>
+  <!-- notes -->
+  <text x="880" y="300" font-size="30" fill="#1a1a1a">全部結果：</text>
+  <text x="880" y="350" font-size="36" font-weight="bold" fill="#1a1a1a">6×6＝36 個</text>
+  <text x="880" y="430" font-size="30" fill="#1a1a1a">圈起來的格子</text>
+  <text x="880" y="478" font-size="30" fill="#1a1a1a">＝「和為 7」，</text>
+  <text x="880" y="526" font-size="30" fill="#1a1a1a">共 6 個，所以</text>
+  <text x="880" y="590" font-size="34" font-weight="bold" fill="#1a1a1a">P ＝ 6/36 ＝ 1/6</text>
+</svg>

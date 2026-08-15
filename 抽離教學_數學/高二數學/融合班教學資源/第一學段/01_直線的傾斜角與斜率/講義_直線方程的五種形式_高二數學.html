@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>直線方程的五種形式．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：直線方程的五種形式</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、五種直線方程式</div>
+  <div>一條直線可以用五種不同的方式寫出方程式，用哪一種要看題目給了哪些條件：</div>
+
+  <div class="hint-card">1．點斜式：\[ y-y_0 = k(x-x_0) \] 已知：一點 \((x_0, y_0)\) 和斜率 k</div>
+  <div class="hint-card">2．斜截式：\[ y = kx+b \] 已知：斜率 k 和 y 軸截距 b</div>
+  <div class="hint-card">3．兩點式：\[ \dfrac{y-y_1}{y_2-y_1} = \dfrac{x-x_1}{x_2-x_1} \] 已知：兩點 \((x_1,y_1)\)、\((x_2,y_2)\)</div>
+  <div class="hint-card">4．截距式：\[ \dfrac{x}{a} + \dfrac{y}{b} = 1 \] 已知：x 軸截距 a、y 軸截距 b</div>
+  <div class="hint-card">5．一般式：\[ Ax+By+C=0 \] 可換算斜率 \(k=-\dfrac{A}{B}\)（當 B≠0 時）</div>
+
+  <div class="section-h">範例</div>
+  <div class="worked-example">
+    <div>已知直線過點 (2, 3)，斜率為 4，求這條直線的點斜式方程，並化為一般式。</div>
+    <ol class="steps">
+      <li data-n="①">代入點斜式：\(y-3=4(x-2)\)</li>
+      <li data-n="②">展開：\(y-3=4x-8\)</li>
+      <li data-n="③">整理：\(y=4x-5\)</li>
+      <li data-n="④">化為一般式：\(4x-y-5=0\)</li>
+    </ol>
+  </div>
+
+  <div>接下來請拿《直線方程的五種形式．課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高二數學．直線方程的五種形式　第 1 頁</div>
+
+</div>
+</body>
+</html>

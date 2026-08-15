@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>牛頓定理與多項式基本定理 講義</title>
+<script>
+  MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' }, options: { enableMenu: false } };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script'); s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高一數學</span><span>單元：牛頓定理與多項式基本定理</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、整係數一次因式檢驗法（牛頓定理）</div>
+  <div>想因式分解一個高次多項式時，第一步是要先找到「一個」一次因式。牛頓定理告訴我們去哪裡找候選人，不用整條數線亂猜。</div>
+  <div class="hint-card">設 f(x) 為整係數 n 次多項式，若 (ax−b) 為 f(x) 的一次因式（a, b 互質），則：a 整除「最高次項係數」，b 整除「常數項」。做法：列出最高次項係數與常數項的所有因數，組合成 (ax−b)，再用因式定理逐一檢查 f(b/a) 是否為 0。</div>
+
+  <div class="section-h">二、範例 —— 找出所有整係數一次因式</div>
+  <div>例：求 \(f(x)=x^3-2x^2-5x+6\) 的所有整係數一次因式。</div>
+  <div class="hint-card">最高次項係數 1 的因數：±1；常數項 6 的因數：±1, ±2, ±3, ±6　→　候選人共 8 個：(x−1),(x+1),(x−2),(x+2),(x−3),(x+3),(x−6),(x+6)</div>
+  <div class="hint-card">逐一代入檢查：f(1)=1−2−5+6=0 ✓　f(−1)=−1−2+5+6=8 ✗　f(2)=8−8−10+6=−4 ✗　f(−2)=−8−8+10+6=0 ✓　f(3)=27−18−15+6=0 ✓　（找到 3 個就可以停了，因為三次多項式最多 3 個一次因式）</div>
+  <div>答：f(x) 的整係數一次因式為 (x−1)、(x+2)、(x−3)。</div>
+
+  <div class="section-h">三、多項式基本定理</div>
+  <div class="hint-card">定理一：n 次多項式 f(x)（最高次項係數不為 0），若有 n 個不同的數值 b₁,…,bₙ 使得 f(x)=0，則 f(x)=a₀(x−b₁)(x−b₂)⋯(x−bₙ)。</div>
+  <div class="hint-card">定理二：如果 n 次多項式 f(x) 對於 n+1 個不同的數值都等於 0，那麼 f(x) 其實是「0 這個多項式」（每一項係數都是 0）。</div>
+  <div>白話：定理一是「知道所有根，就能寫出多項式的樣子（差一個倍數）」；定理二是「根的數目比次數還多一個，代表這個多項式根本就是 0」。</div>
+
+  <div class="section-h">四、範例 —— 已知零點求多項式</div>
+  <div>例：已知二次多項式 f(x)，f(1)=f(4)=0，且 f(2)=−6，求 f(x)？</div>
+  <div class="hint-card">解：由定理一，f(x)=a(x−1)(x−4)，其中 a≠0。</div>
+  <div class="hint-card">代入 f(2)=−6：a(2−1)(2−4)=−2a=−6　→　a=3</div>
+  <div class="hint-card">∴ f(x)=3(x−1)(x−4)=3x²−15x+12</div>
+
+  <div class="section-h">五、接下來</div>
+  <div>請拿出《牛頓定理與多項式基本定理 —— 課堂練習》，依照這兩個範例的框架完成練習 A、B、C。</div>
+
+  <div class="footer">高一數學．牛頓定理與多項式基本定理單元　第 1 頁</div>
+</div>
+</body>
+</html>

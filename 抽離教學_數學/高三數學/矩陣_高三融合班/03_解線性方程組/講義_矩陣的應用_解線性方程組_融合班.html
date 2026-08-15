@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_矩陣的應用_解線性方程組_融合班</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls){ if(!urls.length) return; var s=document.createElement('script'); s.src=urls[0];
+  s.onerror=function(){loadMathJax(urls.slice(1));}; document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+   'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+   'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm 0.5cm 1.3cm 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC","Microsoft JhengHei","PingFang TC",Arial,Verdana,sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .worked-example, .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .eq { margin: 6px 0; }
+  .footer { position: fixed; bottom: 0.3cm; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff;
+    font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高三數學</span><span>單元：矩陣的應用：解線性方程組</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、把方程組寫成矩陣</div>
+  <div>一個方程組，例如 \(x+2y=5\) 和 \(3x-y=1\)，可以把「係數」和「常數」排成一個矩陣：</div>
+  <div class="eq">增廣矩陣 \(\left[\begin{array}{cc|c}1&2&5\\3&-1&1\end{array}\right]\)（豎線左邊是係數，右邊是等號後的常數）。</div>
+  <div class="hint-card">目標：對「橫行」做加減，把左半變成 \(\begin{bmatrix}1&0\\0&1\end{bmatrix}\)，右半那一列就是答案 \(x\)、\(y\)。</div>
+
+  <div class="section-h">二、範例1：二元一次方程組（高斯消元）</div>
+  <div>解 \(x+2y=5\)、\(3x-y=1\)。增廣矩陣 \(\left[\begin{array}{cc|c}1&2&5\\3&-1&1\end{array}\right]\)。</div>
+  <div class="eq">R2−3·R1：\(\left[\begin{array}{cc|c}1&2&5\\0&-7&-14\end{array}\right]\)；R2÷(−7)：\(\left[\begin{array}{cc|c}1&2&5\\0&1&2\end{array}\right]\)。</div>
+  <div class="eq">R1−2·R2：\(\left[\begin{array}{cc|c}1&0&1\\0&1&2\end{array}\right]\)。所以 \(x=1\)、\(y=2\)。</div>
+  <div class="worked-example">檢驗：\(1+2\times2=5\) ✓；\(3\times1-2=1\) ✓。</div>
+
+  <div class="section-h">三、範例2：三元一次方程組</div>
+  <div>解 \(x+y+z=6\)、\(2x-y+z=3\)、\(x+2y-z=2\)。增廣矩陣 \(\left[\begin{array}{ccc|c}1&1&1&6\\2&-1&1&3\\1&2&-1&2\end{array}\right]\)。</div>
+  <div class="eq">用第 1 橫行消去第 2、3 行的 \(x\)，再一步步把左半化成單位矩陣，最後得到：\(x=1\)、\(y=2\)、\(z=3\)。</div>
+  <div class="worked-example">檢驗：\(1+2+3=6\) ✓；\(2-2+3=3\) ✓；\(1+4-3=2\) ✓。</div>
+
+  <div class="section-h">四、範例3：克拉瑪法則（用行列式，適合二元）</div>
+  <div>解 \(2x+y=5\)、\(x-y=1\)。</div>
+  <div class="eq">主行列式 \(\Delta=\begin{vmatrix}2&1\\1&-1\end{vmatrix}=2\times(-1)-1\times1=-3\)。</div>
+  <div class="eq">把 \(x\) 那一列換成常數：\(\Delta_x=\begin{vmatrix}5&1\\1&-1\end{vmatrix}=-6\)；把 \(y\) 那一列換成常數：\(\Delta_y=\begin{vmatrix}2&5\\1&1\end{vmatrix}=-3\)。</div>
+  <div class="eq">\(x=\dfrac{\Delta_x}{\Delta}=\dfrac{-6}{-3}=2\)，\(y=\dfrac{\Delta_y}{\Delta}=\dfrac{-3}{-3}=1\)。</div>
+
+  <div style="margin-top:14px;">接下來請拿《解線性方程組課堂練習》，依這套框架完成練習 A、B、C。</div>
+  <div class="footer">高三數學．矩陣：解線性方程組</div>
+</div>
+</body>
+</html>

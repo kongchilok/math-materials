@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>充分條件與必要條件．課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "\3000"; font-weight: 700; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .diagram { text-align: center; margin: 10px 0; }
+  .diagram svg { max-width: 320px; height: auto; }
+  .indent { margin-left: 1.4em; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：充分條件與必要條件</span><span>類型：課堂練習</span></div><div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div><p>提示：忘記怎麼做可以先回頭看《充分條件與必要條件課堂講義》的範例四步驟。</p><div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div><div class="problem"><p>1．已知 p：「四邊形是正方形」，q：「四邊形是矩形」。判斷 p⇒q 是否成立？</p><p class="indent">成立（　）　不成立（　）</p><p>若成立，p是q的什麼條件？<span class="ans-box"></span>條件</p><div class="write-lines"><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>2．已知 p：「a = 3」，q：「\(a^2 = 9\)」。請完成下列判斷：</p><p class="indent">p⇒q？　成立（　）　不成立（　）</p><p class="indent">q⇒p？　成立（　）　不成立（　）（提示：a = −3 時 a²=9 但 a ≠ 3）</p><p>所以p是q的<span class="ans-box"></span>條件。</p><div class="write-lines"><div class="line"></div></div></div><div class="problem"><p>3．判斷下列說法是否正確，正確打✓，錯誤打✗。</p><p class="indent">(1) 若p是q的充分條件，則q一定是p的必要條件。　（　）</p><p class="indent">(2) 若p⇒q為假，則p一定不是q的充分條件。　（　）</p><div class="write-lines"><div class="line"></div></div></div><div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div><div class="problem"><p>4．判斷下列命題中，p是否為q的充分條件：</p><p class="indent">(1) 若兩個三角形的三邊成比例，則這兩個三角形相似；</p><p class="indent">(2) 若 a = b，則 \(a^2 = b^2\)；</p><p class="indent">(3) 若 x、y 為無理數，則 x + y 為無理數。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>5．判斷「a&gt;0 且 b&gt;0」是「a+b&gt;0」的什麼條件？請說明理由。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>6．判斷「四邊形的對角線互相垂直」是「四邊形是菱形」的什麼條件？請說明理由。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="section-h">三、練習C（<span class="stars">★★★</span>）</div><div class="problem"><p>7．已知 p：「x∈A」，q：「x∈B」，其中 A⊆B。請用集合包含關係說明為什麼 p 是 q 的充分條件。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>8．請你自己寫出一個「若p，則q」形式的真命題，並判斷 p 是 q 的充分、必要或充要條件，說明理由。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="problem"><p>9．已知 p 是 q 的必要不充分條件，且 q 是 r 的充要條件。請問 p 與 r 之間有什麼關係？請舉一個具體例子說明。</p><div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div></div><div class="footer">高一數學．充分條件與必要條件　第 1 頁</div><div class="page-break"><div class="section-h">教師用參考答案</div><p>1．成立。p是q的充分條件（正方形一定是矩形）。</p><p>2．p⇒q成立；q⇒p不成立（a=−3時a²=9但a≠3）。所以p是q的充分不必要條件。</p><p>3．(1) ✓　(2) ✓</p><p>4．(1) 是（三邊成比例是三角形相似的判定定理，p⇒q為真）(2) 是（等式性質，a=b可推出a²=b²）(3) 不是（舉反例：x=√2，y=−√2，x+y=0為有理數，p⇏q）</p><p>5．充分不必要條件。a&gt;0且b&gt;0時a+b&gt;0成立(充分)；但a+b&gt;0不代表a、b都&gt;0，例如a=3,b=−1時a+b=2&gt;0但b&lt;0(不必要)。</p><p>6．必要不充分條件。菱形的對角線一定互相垂直(必要)；但對角線互相垂直的四邊形不一定是菱形，例如某些風箏形(不充分)。</p><p>7．因為A⊆B，A中每個元素都在B中，所以只要x∈A，就一定有x∈B，即p成立能推出q成立，p⇒q為真，故p是q的充分條件。</p><p>8．答案不唯一，例如「若x&gt;2，則x&gt;1」，p⇒q為真(x&gt;2一定x&gt;1)，但q⇒p不成立(x=1.5&gt;1但不&gt;2)，所以p是q的充分不必要條件。</p><p>9．p是q的必要不充分條件，即q⇒p（但p⇏q）；q是r的充要條件，即q⇔r。合併可得 r⇒q⇒p，所以 r⇒p，即p是r的必要條件。例如：設q「x是4的倍數」，r「x=4k，k為整數」（與q等價），p「x是偶數」。則q⇒p成立但p⇏q（如x=2是偶數但不是4的倍數），且q⇔r。驗證：r成立時x是4的倍數，一定是偶數，即r⇒p成立，與推論相符。</p><div class="footer">高一數學．充分條件與必要條件　第 2 頁</div></div></div>
+</body>
+</html>

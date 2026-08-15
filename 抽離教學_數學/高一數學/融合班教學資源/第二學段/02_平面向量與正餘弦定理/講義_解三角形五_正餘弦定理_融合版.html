@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>解三角形（五）正弦定理與餘弦定理｜課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }  /* house style：標題統一 14pt */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* footer：固定頁尾品牌列，含頁碼；HTML/PDF 走 CSS running footer 用 @page 較受限，
+     這裡用簡單頁尾段落置於每個 .page 區塊最後代替（若一頁一份可行；多頁文件請在各頁分段各自加一份） */
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：解三角形（五）正弦定理與餘弦定理</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、三角形的記號：大寫是角、小寫是對邊</div>
+<p>△ABC 中，角 A、B、C 的「對邊」分別是 a、b、c——角 A 對面那條邊就是 a。看題先把已知標到圖上。</p><div style="text-align:center;margin:8px 0;"><img src="fig/triangle_abc.png" style="max-width:440px;width:100%;"><div style="font-size:10pt;color:#555;">圖1　a 對 A、b 對 B、c 對 C（對面關係）</div></div>
+<div class="section-h">二、餘弦定理：兩邊夾一角，或三邊求角</div>
+<p>求邊（兩邊及夾角）：\(c^2=a^2+b^2-2ab\cos C\)　（輪換：\(a^2=b^2+c^2-2bc\cos A\)、\(b^2=a^2+c^2-2ac\cos B\)）</p><p>求角（三邊）——推論：\(\cos A=\dfrac{b^2+c^2-a^2}{2bc}\)</p><div class="hint-card">記憶提示：分子＝「夾這個角的兩邊平方相加，減對邊平方」；分母＝「夾這個角的兩邊相乘×2」。要找哪個角，它的對邊就放「被減」位置。</div><div class="section-h">三、正弦定理：邊與對角的正弦成比例</div>
+<p>\(\dfrac{a}{\sin A}=\dfrac{b}{\sin B}=\dfrac{c}{\sin C}=2R\)（R 為外接圓半徑）。用途：已知「兩角一邊」或「兩邊及其中一邊的對角」。</p><div class="section-h">四、選定理決策卡＋面積公式</div>
+<div class="hint-card">決策卡：「兩邊＋夾角」或「三邊」→ 餘弦定理；「兩角＋一邊」或「兩邊＋對角」→ 正弦定理。面積：\(S=\tfrac12 ab\sin C\)。</div><div class="section-h">五、範例（四步驟框架）</div>
+<div class="worked-example">範例：a＝7、b＝8、c＝5。求 (1) 角 A　(2) sin B。<ul class="steps"><li data-n="步驟1">選定理：三邊求角 → 餘弦定理推論。</li><li data-n="步驟2">代入：\(\cos A=\dfrac{8^2+5^2-7^2}{2\times8\times5}=\dfrac{40}{80}=\dfrac12\)，A＝60°。</li><li data-n="步驟3">換定理：\(\sin B=\dfrac{b\sin A}{a}=\dfrac{8\times\frac{\sqrt3}{2}}{7}=\dfrac{4\sqrt3}{7}\)。</li><li data-n="步驟4">檢查：cos A＝1/2 是特殊角 ✓　sin B＜1 ✓</li></ul></div>
+<p>接下來請拿《解三角形（五）課堂練習》，依這套框架完成練習 A、B、C。</p><div class="footer">高一數學．平面向量單元（五）</div>
+
+</div>
+</body>
+</html>

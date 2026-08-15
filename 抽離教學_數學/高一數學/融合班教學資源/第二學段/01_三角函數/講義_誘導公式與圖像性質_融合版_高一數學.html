@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>三角函數（二）誘導公式與圖像性質．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .figure { text-align: center; margin: 8px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure img { max-width: 100%; }
+  .figcap { font-size: 10pt; color: #444; margin-top: 2px; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：三角函數（二）誘導公式與圖像性質</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、誘導公式在做什麼？</div>
+<p>我們只背熟了 30°、45°、60° 這些銳角的三角函數值。誘導公式的工作，就是把「任意角」一步步變回「銳角」——靠的是單位圓上的對稱。</p><div class="figure"><img src="figs/fig3_誘導公式對稱.png" style="max-width:430px; width:100%;"><div class="figcap">圖1：π−α、π+α、−α 的終邊，都是 α 終邊的對稱翻版</div></div>
+<div class="section-h">二、誘導公式（分組記）</div>
+<p>第1組（轉整圈，值不變）：\(\sin(2k\pi+\alpha)=\sin\alpha\)、\(\cos(2k\pi+\alpha)=\cos\alpha\)、\(\tan(2k\pi+\alpha)=\tan\alpha\)</p><p>第2組（π + α，關於原點對稱）：\(\sin(\pi+\alpha)=-\sin\alpha\)、\(\cos(\pi+\alpha)=-\cos\alpha\)、\(\tan(\pi+\alpha)=\tan\alpha\)</p><p>第3組（−α，關於 x 軸對稱）：\(\sin(-\alpha)=-\sin\alpha\)、\(\cos(-\alpha)=\cos\alpha\)、\(\tan(-\alpha)=-\tan\alpha\)</p><p>第4組（π − α，關於 y 軸對稱）：\(\sin(\pi-\alpha)=\sin\alpha\)、\(\cos(\pi-\alpha)=-\cos\alpha\)、\(\tan(\pi-\alpha)=-\tan\alpha\)</p><p>第5組：\(\sin\!\left(\dfrac{\pi}{2}-\alpha\right)=\cos\alpha\)、\(\cos\!\left(\dfrac{\pi}{2}-\alpha\right)=\sin\alpha\)</p><p>第6組：\(\sin\!\left(\dfrac{\pi}{2}+\alpha\right)=\cos\alpha\)、\(\cos\!\left(\dfrac{\pi}{2}+\alpha\right)=-\sin\alpha\)</p><div class="hint-card">提示：口訣「奇變偶不變，符號看象限」：看角前面是 π/2 的幾倍——奇數倍就 sin、cos 互換（變），偶數倍不換（不變）；正負號則把 α 當成銳角，看整個角落在哪個象限、原函數在那裡是正是負。</div><div class="section-h">三、特殊角的值（必背）</div>
+<div class="problem"><p>角度：　0°　30°　45°　60°　90°</p><p>sin：　\(0\)　\(\dfrac{1}{2}\)　\(\dfrac{\sqrt{2}}{2}\)　\(\dfrac{\sqrt{3}}{2}\)　\(1\)</p><p>cos：　\(1\)　\(\dfrac{\sqrt{3}}{2}\)　\(\dfrac{\sqrt{2}}{2}\)　\(\dfrac{1}{2}\)　\(0\)</p><p>tan：　\(0\)　\(\dfrac{\sqrt{3}}{3}\)　\(1\)　\(\sqrt{3}\)　不存在</p><p>記法：sin 由左到右遞增、cos 由左到右遞減；分母都是 2，分子依次是 √0、√1、√2、√3、√4。</p></div>
+<div class="section-h">四、任意角求值三步流程</div>
+<p>第1步　負角 → 正角：用第3組公式去掉負號。</p><p>第2步　大角 → 一圈以內：減 360°（或 2π）直到落在 0° ~ 360°。</p><p>第3步　鈍角 → 銳角：寫成 180° ± α 或 360° − α，用第2、4組公式。</p><div class="section-h">五、y = sin x 與 y = cos x 的圖像與性質</div>
+<div class="figure"><img src="figs/fig4_sin_cos曲線.png" style="max-width:640px; width:100%;"><div class="figcap">圖2：正弦曲線與餘弦曲線（cos 曲線就是 sin 曲線左移 π/2）</div></div>
+<div class="problem"><p>共同點：定義域都是 R；值域都是 [−1, 1]；最小正週期都是 2π。</p><p>y = sin x 是奇函數（圖像關於原點對稱）；y = cos x 是偶函數（圖像關於 y 軸對稱）。</p><p>y = sin x 在 \(\left[-\dfrac{\pi}{2}+2k\pi,\ \dfrac{\pi}{2}+2k\pi\right]\) 遞增，在 \(\left[\dfrac{\pi}{2}+2k\pi,\ \dfrac{3\pi}{2}+2k\pi\right]\) 遞減。</p><p>y = cos x 在 \([-\pi+2k\pi,\ 2k\pi]\) 遞增，在 \([2k\pi,\ \pi+2k\pi]\) 遞減。（k 為整數）</p></div>
+<p>週期公式：\(y = A\sin(\omega x+\varphi)+b\) 的最小正週期 \(T = \dfrac{2\pi}{\omega}\)。</p><div class="section-h">六、五點法畫圖</div>
+<p>畫一個週期的正弦型圖像，只需描五個關鍵點——x 依次取 \(0\)、\(\dfrac{\pi}{2}\)、\(\pi\)、\(\dfrac{3\pi}{2}\)、\(2\pi\)（最高點、最低點和三個與中線的交點），再用平滑曲線連起來。</p><div class="section-h">七、範例（跟著四個步驟做）</div>
+<div class="problem"><p><b>求 cos(−120°) 的值。</b></p><ul class="steps"><li>步驟1　負角 → 正角：cos 是偶函數（第3組），cos(−120°) = cos 120°。</li><li>步驟2　鈍角 → 銳角：120° = 180° − 60°，用第4組，cos 120° = −cos 60°。</li><li>步驟3　代特殊角值：\(-\cos 60^\circ = -\dfrac{1}{2}\)。</li><li>步驟4　檢查：120° 的終邊在第二象限，第二象限 cos 應為負——答案是負的，合理。</li></ul></div>
+<p><b>接下來請拿《練習_誘導公式與圖像性質_融合版》，依照上面範例的四個步驟完成練習A、B、C。</b></p><div class="footer">高一數學．三角函數（二）誘導公式與圖像性質</div>
+
+</div>
+</body>
+</html>

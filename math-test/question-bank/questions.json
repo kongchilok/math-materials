@@ -1,0 +1,1662 @@
+[
+  {
+    "id": "MATH-001",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "以下那一個是 $2x^4-7x^2-x-3x^3$ 除以 $3x-1+x^2$ 所得的商數？",
+    "options": [
+      "A. 2x^2+9x+22",
+      "B. 2x^2-9x+22",
+      "C. -75x+21",
+      "D. 75x-21"
+    ],
+    "answer": "B",
+    "solution": "長除法:商=2x^2-9x+22,餘式=-76x+22。",
+    "answer_status": "有答案待校對(原稿手寫圈選,已重算驗證正確)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-002",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "投擲一顆六面的骰子10次，擲得三次四點的概率是多少？",
+    "options": [
+      "A. 0.6",
+      "B. 0.3",
+      "C. 0.155",
+      "D. 0.93"
+    ],
+    "answer": "C",
+    "solution": "二項分布 C(10,3)(1/6)^3(5/6)^7≈0.1550。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-003",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "若 $\\log(x-3)+\\log x=1$ 則 $x=?$",
+    "options": [
+      "A. -2",
+      "B. 5",
+      "C. -2或5",
+      "D. 2或-5"
+    ],
+    "answer": "B",
+    "solution": "解方程得x=5或x=-2,但定義域要求x>3,故排除x=-2,僅x=5成立。教學重點:對數方程要驗定義域。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-004",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "化簡 $1+\\dfrac{x}{1-x}-\\dfrac{2x}{x^2-1}$",
+    "options": [
+      "A. 1/(1-x)",
+      "B. 1/(x-1)",
+      "C. 1/(x+1)",
+      "D. 以上皆不對"
+    ],
+    "answer": "D",
+    "solution": "化簡得(1+3x)/(1-x^2),代x=2檢驗=-7/3,與A、B、C選項數值皆不符,故選D。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-005",
+    "domain": "數學應用",
+    "subtype": "A3",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "有四個數，是等差數列，它們的和為82，而第四項比第二項大14，求首項是？",
+    "options": [
+      "A. 10",
+      "B. 7",
+      "C. 6",
+      "D. 4"
+    ],
+    "answer": "A",
+    "solution": "2d=14→d=7;4a1+6d=82→a1=10。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A3"
+    ],
+    "subtype_name": "數列級數"
+  },
+  {
+    "id": "MATH-006",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "若 $\\sin\\alpha+\\cos\\alpha=\\dfrac{1}{3}$，那麼 $\\sin2\\alpha$ 的值為？",
+    "options": [
+      "A. 1/9",
+      "B. 8/9",
+      "C. -1/9",
+      "D. -8/9"
+    ],
+    "answer": "D",
+    "solution": "平方兩邊:1+sin2α=1/9→sin2α=-8/9。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-007",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "三角形的三邊長分別為 $\\sqrt{20}, \\sqrt{40}, \\sqrt{45}$ (cm)，它的周長是多少？",
+    "options": [
+      "A. 5√5+2√10",
+      "B. √5+√10",
+      "C. √5+2√10",
+      "D. 5√5+√10"
+    ],
+    "answer": "A",
+    "solution": "化簡2√5+2√10+3√5=5√5+2√10。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p00",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-008",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "拋物線方程 $y=x^2-1$ 的圖形是？(選項為坐標圖示)",
+    "options": [
+      "A. 開口向上,頂點在O下方,標-1",
+      "B. 開口向下,頂點在O下方,標-1",
+      "C. 開口向上,頂點在O上方,標1",
+      "D. 開口向下,頂點在O上方,標1"
+    ],
+    "answer": "A",
+    "solution": "開口向上(x^2係數為正),頂點(0,-1)。",
+    "answer_status": "有答案待校對(原稿手寫,已重算驗證正確)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p01",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-009",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "拋物線 $x^2+8y=0$ 的圖形是？(選項為坐標圖示)",
+    "options": [
+      "A. 開口向下,頂點在O",
+      "B. 開口向上,頂點在O",
+      "C. 開口向左,頂點在O",
+      "D. 開口向右,頂點在O"
+    ],
+    "answer": "A",
+    "solution": "y=-x^2/8,開口向下。",
+    "answer_status": "有答案待校對(原稿手寫,已重算驗證正確)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p01",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-010",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "某曲線的離心率符合 $0<e<1$，這曲線是？",
+    "options": [
+      "A. 橢圓",
+      "B. 雙曲線",
+      "C. 拋物線",
+      "D. 以上都不是"
+    ],
+    "answer": "A",
+    "solution": "橢圓定義0<e<1。",
+    "answer_status": "有答案待校對(原稿手寫圈選,已驗證正確)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p01",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-011",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "已知雙曲線 $\\dfrac{x^2}{144}-\\dfrac{y^2}{16}=1$，點P到一焦點距離8，則到另一焦點距離是？",
+    "options": [
+      "A. 32",
+      "B. 16",
+      "C. 8",
+      "D. 4"
+    ],
+    "answer": "A",
+    "solution": "a=12,|差|=2a=24,另一焦點距離=8+24=32。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p02",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-012",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "不等式 $x^2-6x+5\\le0$ 的解集為？",
+    "options": [
+      "A. {x|1≤x≤5}",
+      "B. {x|x≤1或x≥5}",
+      "C. {x|2≤x≤3}",
+      "D. {x|x≤2或x≥3}"
+    ],
+    "answer": "A",
+    "solution": "(x-1)(x-5)≤0→1≤x≤5。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p02",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-013",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "不等式 $x^2+x-12\\le0$ 的解集為？",
+    "options": [
+      "A. {x|-4≤x≤3}",
+      "B. {x|x≤-4或x≥3}",
+      "C. {x|-3≤x≤4}",
+      "D. {x|x≤-3或x≥4}"
+    ],
+    "answer": "A",
+    "solution": "(x+4)(x-3)≤0→-4≤x≤3。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p02",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-014",
+    "domain": "數學應用",
+    "subtype": "A3",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "數列 $\\dfrac{1}{2},\\dfrac{1}{4},\\dfrac{1}{6},\\dfrac{1}{8},\\ldots$ 的通項公式是？",
+    "options": [
+      "A. 1/(2n-1)",
+      "B. 1/(2n+1)",
+      "C. 1/(2n)",
+      "D. 1/n"
+    ],
+    "answer": "C",
+    "solution": "第n項=1/(2n)。",
+    "answer_status": "有答案待校對(原稿手寫圈選,已驗證正確)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p02",
+    "review_status": "待校對",
+    "tags": [
+      "A3"
+    ],
+    "subtype_name": "數列級數"
+  },
+  {
+    "id": "MATH-015",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "直線 $x-y+2=0$ 與圓 $(x-1)^2+y^2=4$ 的交點個數是？",
+    "options": [
+      "A. 0",
+      "B. 1",
+      "C. 2",
+      "D. 3"
+    ],
+    "answer": "A",
+    "solution": "代入得2x^2+2x+1=0,判別式=-4<0,無實根,0個交點。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p03",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-016",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "直線 $x-y+4=0$ 與圓 $x^2+y^2+2x-8y-8=0$ 的交點個數是？",
+    "options": [
+      "A. 0",
+      "B. 1",
+      "C. 2",
+      "D. 3"
+    ],
+    "answer": "C",
+    "solution": "代入得x^2+x-12=0,判別式>0,兩相異實根,2個交點。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p03",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-017",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "$(1+x)^6$ 展開式的第三項是？",
+    "options": [
+      "A. 20x^3",
+      "B. 20x^4",
+      "C. 15x^2",
+      "D. 15x^3"
+    ],
+    "answer": "C",
+    "solution": "第三項=C(6,2)x^2=15x^2。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p03",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-018",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "$(3-2x)^5$ 展開式，$x^3$ 的系數是？",
+    "options": [
+      "A. -540",
+      "B. -160",
+      "C. -720",
+      "D. 720"
+    ],
+    "answer": "C",
+    "solution": "C(5,3)*3^2*(-2)^3=10*9*(-8)=-720。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p03",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-019",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "5 本不同的書，全部分給四個學生，每個學生至少 1 本，不同分法有？",
+    "options": [
+      "A. 480種",
+      "B. 240種",
+      "C. 120種",
+      "D. 96種"
+    ],
+    "answer": "B",
+    "solution": "S(5,4)*4!=10*24=240(五本分成一組2本三組各1本再排給四人)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p03",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-020",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "一圓錐曲線的離心率為 0.7，則此圓錐曲線是？",
+    "options": [
+      "A. 橢圓",
+      "B. 雙曲線",
+      "C. 拋物線",
+      "D. 以上都不是"
+    ],
+    "answer": "A",
+    "solution": "0<0.7<1為橢圓。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-021",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "$(7x+3y)^{20}$ 展開式有多少項？",
+    "options": [
+      "A. 20項",
+      "B. 21項",
+      "C. 22項",
+      "D. 23項"
+    ],
+    "answer": "B",
+    "solution": "二項展開n次方有n+1項=21項。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-022",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "三科測驗合格概率分別90%、80%、70%,求最少一科合格的概率？",
+    "options": [
+      "A. 0.278",
+      "B. 0.389",
+      "C. 0.759",
+      "D. 0.994"
+    ],
+    "answer": "D",
+    "solution": "1-全部不合格=1-0.1*0.2*0.3=1-0.006=0.994。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-023",
+    "domain": "數學應用",
+    "subtype": "A3",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "等比數列中，第三項和第八項分別是 $1$ 和 $-\\dfrac{1}{32}$，首項是？",
+    "options": [
+      "A. -8",
+      "B. 8",
+      "C. -4",
+      "D. 4"
+    ],
+    "answer": "D",
+    "solution": "r^5=-1/32→r=-1/2;a1=a3/r^2=1/(1/4)=4。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A3"
+    ],
+    "subtype_name": "數列級數"
+  },
+  {
+    "id": "MATH-024",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "設 $\\log 2 = a$ 及 $\\log 3 = b$，那麼 $\\log 15 = ?$",
+    "options": [
+      "A. -a+b+1",
+      "B. -a+1",
+      "C. a+2b",
+      "D. b(a+b)"
+    ],
+    "answer": "A",
+    "solution": "log15=log3+log(10/2)=b+1-a。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-025",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "多項式 $ax^2+bx+3$ 可被 $x+1$ 整除，除以 $x-1$ 時餘數為 10，求 a 和 b 的值？",
+    "options": [
+      "A. a=1,b=3",
+      "B. a=1,b=5",
+      "C. a=2,b=5",
+      "D. a=2,b=9"
+    ],
+    "answer": "C",
+    "solution": "x=-1:a-b+3=0;x=1:a+b+3=10→a=2,b=5。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-026",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "5 人排成一排照相，甲不站在排頭(左)的排法有？",
+    "options": [
+      "A. 24種",
+      "B. 72種",
+      "C. 96種",
+      "D. 120種"
+    ],
+    "answer": "C",
+    "solution": "總5!-甲在排頭4!=120-24=96。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p04",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-027",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "橢圓 $4x^2+3y^2=12$ 的兩條準線間的距離是？",
+    "options": [
+      "A. 9",
+      "B. 8",
+      "C. 7",
+      "D. 6"
+    ],
+    "answer": "B",
+    "solution": "化為x^2/3+y^2/4=1,a=2,c=1,準線距離=2a^2/c=8。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-028",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "方程 $\\dfrac{x^2}{64}+\\dfrac{y^2}{36}=1$ 的半長軸a 是？",
+    "options": [
+      "A. 6",
+      "B. 8",
+      "C. 36",
+      "D. 64"
+    ],
+    "answer": "B",
+    "solution": "64>36,a=√64=8。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-029",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "方程 $\\dfrac{x^2}{64}+\\dfrac{y^2}{144}=1$ 的半長軸a 是？",
+    "options": [
+      "A. 8",
+      "B. 12",
+      "C. 14",
+      "D. 16"
+    ],
+    "answer": "B",
+    "solution": "144>64,長軸沿y,a=√144=12(注意要判斷哪個分母較大)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-030",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "方程 $4x^2-4x+1=0$ 的根的情況是？",
+    "options": [
+      "A. 兩個不相等實根",
+      "B. 兩個相等實根",
+      "C. 沒有實數根",
+      "D. 以上都不對"
+    ],
+    "answer": "B",
+    "solution": "判別式=16-16=0,兩相等實根。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-031",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "$Rt\\triangle ABC$ 中，$\\angle C=90°$，$BC=3$，$AC=4$，則 $\\sin B$ 和 $\\tan A$ 的值是？",
+    "options": [
+      "A. 4/5,3/4",
+      "B. 3/5,3/4",
+      "C. 3/5,4/3",
+      "D. 3/4,3/5"
+    ],
+    "answer": "A",
+    "solution": "AB=5(3-4-5直角三角形);sinB=AC/AB=4/5;tanA=BC/AC=3/4。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-032",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "已知 $\\cos\\alpha = -\\dfrac{3}{5}$，則 $\\sin 2\\alpha = ?$",
+    "options": [
+      "A. 24/25",
+      "B. -24/25",
+      "C. 12/25",
+      "D. -12/25"
+    ],
+    "answer": "B",
+    "solution": "原題未指定α所在象限,cosα<0本身只確定α在二或三象限,兩種情況會得出不同符號(B或A)。已按此類題常見慣例補充條件「α∈(0,π)」(如三角形內角),故sinα>0=4/5,sin2α=2×4/5×(-3/5)=-24/25,對應選項B。教學時應提醒學生:若原題冇講明角度範圍,呢類題其實有兩解，呢個係補充假設後嘅結果。",
+    "answer_status": "無答案待生成(原缺角度範圍,已補充假設並驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-033",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "$(10+\\sqrt{5})$ 的有理化因式是？",
+    "options": [
+      "A. 10-√5",
+      "B. 10+√5",
+      "C. 5+√5",
+      "D. 5-√5"
+    ],
+    "answer": "A",
+    "solution": "(10+√5)(10-√5)=95為有理數。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-034",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "$(\\sqrt{15}-14)$ 的有理化因式是？",
+    "options": [
+      "A. √15-14",
+      "B. √15+14",
+      "C. 15+√15",
+      "D. √14+15"
+    ],
+    "answer": "B",
+    "solution": "(√15-14)(√15+14)=15-196=-181為有理數。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-035",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "對數 $\\log_{25}1$ 的值是？",
+    "options": [
+      "A. -1",
+      "B. -20",
+      "C. 0",
+      "D. 1"
+    ],
+    "answer": "C",
+    "solution": "任意底log(1)=0。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p05",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-036",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "一次拋擲 4 枚硬幣，問出現 4 面都是正面的概率是多少？",
+    "options": [
+      "A. 1/2",
+      "B. 1/4",
+      "C. 1/8",
+      "D. 1/16"
+    ],
+    "answer": "D",
+    "solution": "(1/2)^4=1/16。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-037",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "同時投擲一枚伍元硬幣和一枚拾元硬幣，出現伍元正面和拾元反面的概率是多少？",
+    "options": [
+      "A. 1/2",
+      "B. 1/4",
+      "C. 1/3",
+      "D. 2/3"
+    ],
+    "answer": "B",
+    "solution": "1/2*1/2=1/4。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-038",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "16 位學警和一位教官站成一排合照，教官必須站在尾位的排法有多少種",
+    "options": [
+      "A. A(16,1)",
+      "B. A(16,16)",
+      "C. C(16,1)",
+      "D. C(16,16)"
+    ],
+    "answer": "B",
+    "solution": "教官位置固定,其餘16人全排列=16!=A(16,16)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-039",
+    "domain": "數學應用",
+    "subtype": "A2",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "16 位學警和一位教官站成一排合照，教官必須站在中間的排法有多少種？",
+    "options": [
+      "A. A(16,1)",
+      "B. A(16,16)",
+      "C. C(16,1)",
+      "D. C(16,16)"
+    ],
+    "answer": "B",
+    "solution": "同上,教官固定於中間位置,其餘16人全排列=A(16,16)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A2"
+    ],
+    "subtype_name": "排列組合機率"
+  },
+  {
+    "id": "MATH-040",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "函數 $y=\\sin x$ 的值域是？",
+    "options": [
+      "A. y<∞",
+      "B. y≥1",
+      "C. -1≤y≤1",
+      "D. -∞<y<∞"
+    ],
+    "answer": "C",
+    "solution": "正弦函數值域[-1,1]。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-041",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "函數 $y=x^2-1$ 的值域是？(原稿選項標示已重建,見備註)",
+    "options": [
+      "A. y<∞",
+      "B. y≥1",
+      "C. -1≤y",
+      "D. -∞<y<∞"
+    ],
+    "answer": "C",
+    "solution": "正確值域為y≥-1。原稿4個選項字母錯亂(A、C、C、D,缺B且C重複用兩次)、變量誤植x應為y,已重建為正常ABCD四項(B=原第2個C, C=原第3個C並將x改正為y),對應答案為C(-1≤y)。",
+    "answer_status": "無答案待生成(原稿選項標示錯亂,已重建並驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-042",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "已知方程 $\\dfrac{x^2}{1+a}-\\dfrac{y^2}{1-a}=1$ 表示雙曲線，則 a 的取值範圍是",
+    "options": [
+      "A. -1<a<1",
+      "B. a>0",
+      "C. a≥0",
+      "D. a>1或a<-1"
+    ],
+    "answer": "A",
+    "solution": "需(1+a)、(1-a)同為正,即-1<a<1;其餘情況化簡後為橢圓或無解。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-043",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "若 $\\cos\\alpha \\div \\tan\\alpha<0$，那麼 $\\alpha$ 所在的象限是？",
+    "options": [
+      "A. 一或三",
+      "B. 二或三",
+      "C. 一或四",
+      "D. 三或四"
+    ],
+    "answer": "D",
+    "solution": "cosα/tanα=cos^2α/sinα,cos^2α>0恒成立,故符號取決於sinα<0→三或四象限。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p06",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-044",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "若 $\\sin\\alpha \\div \\tan\\alpha>0$，那麼 $\\alpha$ 所在的象限是？",
+    "options": [
+      "A. 一或三",
+      "B. 二或三",
+      "C. 一或四",
+      "D. 三或四"
+    ],
+    "answer": "C",
+    "solution": "sinα/tanα=cosα(sinα≠0時),cosα>0→一或四象限。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p07",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-045",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "已知直線 $2x+6y+5=0$，直線的斜率是？",
+    "options": [
+      "A. -3",
+      "B. 2",
+      "C. -1/3",
+      "D. 1/2"
+    ],
+    "answer": "C",
+    "solution": "斜率=-2/6=-1/3。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p07",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-046",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "點 $A(-3,5)$ 到 X 軸、Y 軸的距離分別是？",
+    "options": [
+      "A. -3,5",
+      "B. 3,5",
+      "C. 5,3",
+      "D. 5,-3"
+    ],
+    "answer": "C",
+    "solution": "到X軸距離=|y|=5,到Y軸距離=|x|=3。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p07",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-047",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "已知直線 $3x+5y-15=0$，那麼 y 的截距是？",
+    "options": [
+      "A. 2",
+      "B. 3",
+      "C. 1",
+      "D. -4"
+    ],
+    "answer": "B",
+    "solution": "x=0時y=3。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p07",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-048",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "點 $A(3,2)$ 和 $B(0,-2)$ 兩點之間的距離是？",
+    "options": [
+      "A. 10",
+      "B. 7",
+      "C. 5",
+      "D. 3"
+    ],
+    "answer": "C",
+    "solution": "√(9+16)=5。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p07",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-049",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "方程 $y=-x^2+3x-5$ 是？",
+    "options": [
+      "A. 圓",
+      "B. 雙曲線",
+      "C. 橢圓",
+      "D. 拋物線"
+    ],
+    "answer": "D",
+    "solution": "x的二次函數為拋物線。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p07",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-050",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "$Rt\\triangle ABC$，$\\angle C=90°$，$\\cos A=\\dfrac{\\sqrt{3}}{2}$，$b=\\sqrt{3}$，那麼 a 的值是？",
+    "options": [
+      "A. √3",
+      "B. √5",
+      "C. 1",
+      "D. 2"
+    ],
+    "answer": "C",
+    "solution": "A=30°,cosA=b/c=√3/c=√3/2→c=2;a=√(c^2-b^2)=√(4-3)=1。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p08",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-051",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "計算 $\\sqrt{9x}+6\\sqrt{\\dfrac{x}{4}}-2x\\sqrt{\\dfrac{1}{x}}$",
+    "options": [
+      "A. 2√x",
+      "B. 5/2√x",
+      "C. 4√x",
+      "D. 6√x-2"
+    ],
+    "answer": "C",
+    "solution": "=3√x+3√x-2√x=4√x(設x>0)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p08",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-052",
+    "domain": "數學應用",
+    "subtype": "A3",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "等比數列 6561、4374、2916、……、256 共有多少項？",
+    "options": [
+      "A. 5",
+      "B. 9",
+      "C. 25",
+      "D. 27"
+    ],
+    "answer": "B",
+    "solution": "6561=3^8,r=2/3,256=2^8;(2/3)^(n-1)=(2/3)^8→n=9。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p08",
+    "review_status": "待校對",
+    "tags": [
+      "A3"
+    ],
+    "subtype_name": "數列級數"
+  },
+  {
+    "id": "MATH-055",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "選擇題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "若 $a+b=12$ 及 $ab=22$，則 $\\log\\sqrt[3]{a^2+b^2}=?$",
+    "options": [
+      "A. 1/2",
+      "B. 1/3",
+      "C. 2/3",
+      "D. 以上皆非"
+    ],
+    "answer": "C",
+    "solution": "a^2+b^2=144-44=100;log(100^(1/3))=(2/3)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p08",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-056",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "求經過點$(-1,1)$且垂直於直線 $3x-2y=0$ 的直線方程是？(選項B常數項已訂正,見備註)",
+    "options": [
+      "A. 3x-2y+5=0",
+      "B. 2x+3y-1=0",
+      "C. 2x-3y-1=0",
+      "D. 2x-3y+1=0"
+    ],
+    "answer": "B",
+    "solution": "垂直斜率=-2/3,代入點(-1,1)得正確方程2x+3y-1=0。原稿印刷嘅選項B為「2x+3y+1=0」(常數項符號有誤,四個選項原本皆不吻合)，已將B訂正為「2x+3y-1=0」並定為答案;其餘A(過該點但斜率3/2為平行非垂直)、C、D皆不成立。",
+    "answer_status": "無答案待生成(原稿選項疑有印刷誤差,已訂正並驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p08",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-057",
+    "domain": "數學應用",
+    "subtype": "A7",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "已知集合 $R=\\{a,b,c,d,e,f\\}$，$M=\\{b,e,f\\}$，$N=\\{c,f,g\\}$，則集合 $(R\\cup M)\\cap N=?$",
+    "options": [
+      "A. {b,e,f}",
+      "B. {b,e}",
+      "C. {c,f}",
+      "D. {c,f,g}"
+    ],
+    "answer": "C",
+    "solution": "M⊆R故R∪M=R;R∩N={c,f}。新題型:建議taxonomy增設A7集合運算。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p08",
+    "review_status": "待校對",
+    "tags": [
+      "A7"
+    ],
+    "subtype_name": "集合運算"
+  },
+  {
+    "id": "MATH-058",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "選擇題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "已知點 $A(3,4)$ 和 $B(5,2)$，則 AB 之中點坐標是",
+    "options": [
+      "A. (-1,-1)",
+      "B. (2,3)",
+      "C. (4,3)",
+      "D. (2,1)"
+    ],
+    "answer": "C",
+    "solution": "中點=((3+5)/2,(4+2)/2)=(4,3)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p09",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-059",
+    "domain": "數學應用",
+    "subtype": "A8",
+    "question_type": "解答題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "求 4x4行列式 |4,2,1,5;-1,-3,4,0;1,5,-2,-1;5,1,-2,2| 的值",
+    "options": [],
+    "answer": "270",
+    "solution": "按第4列展開:5*64+(-1)*(-58)+2*(-54)=320+58-108=270。新題型:建議taxonomy增設A8行列式/矩陣。",
+    "answer_status": "無答案待生成(已驗算,見驗算檔詳細餘因子展開)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p09",
+    "review_status": "待校對",
+    "tags": [
+      "A8"
+    ],
+    "subtype_name": "行列式矩陣"
+  },
+  {
+    "id": "MATH-060",
+    "domain": "數學應用",
+    "subtype": "A8",
+    "question_type": "解答題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "求 4x4行列式 |2,-3,2,5;3,4,-1,4;5,2,1,-2;7,-1,3,1| 的值",
+    "options": [],
+    "answer": "-16",
+    "solution": "以第1列消去後化簡3x3子行列式,結果-16。",
+    "answer_status": "無答案待生成(已驗算,見驗算檔)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p09",
+    "review_status": "待校對",
+    "tags": [
+      "A8"
+    ],
+    "subtype_name": "行列式矩陣"
+  },
+  {
+    "id": "MATH-061",
+    "domain": "數學應用",
+    "subtype": "A8",
+    "question_type": "解答題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "若 3x3行列式 |3,2,4;2x-1,2-x,3x+7;14,-10,4| = 610，求 x 的值",
+    "options": [],
+    "answer": "x=2",
+    "solution": "展開得122x+366=610→x=2。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p09",
+    "review_status": "待校對",
+    "tags": [
+      "A8"
+    ],
+    "subtype_name": "行列式矩陣"
+  },
+  {
+    "id": "MATH-062",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "解答題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "求經過 $P(8\\sqrt{2},10)$，且與 $\\dfrac{x^2}{16}-\\dfrac{y^2}{25}=1$ 有共同漸近線的雙曲線方程。",
+    "options": [],
+    "answer": "x^2/64 - y^2/100 = 1",
+    "solution": "同漸近線族x^2/16-y^2/25=k,代入點得k=4,化簡得x^2/64-y^2/100=1。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p10",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-063",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "解答題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "求經過點 $P(2,-2)$，且與 $\\dfrac{x^2}{2}-y^2=1$ 有共同漸近線的雙曲線方程。",
+    "options": [],
+    "answer": "y^2/2 - x^2/4 = 1",
+    "solution": "x^2/2-y^2=k,代入點得k=-2,化簡得y^2/2-x^2/4=1(縱向雙曲線)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p10",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-064",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "解答題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "求過點 $B(-2,3)$ 且斜率為 3 的直線方程。",
+    "options": [],
+    "answer": "y = 3x + 9",
+    "solution": "點斜式y-3=3(x+2)。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p10",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-065",
+    "domain": "數學應用",
+    "subtype": "A6",
+    "question_type": "解答題",
+    "difficulty": "基礎(待校對)",
+    "question_stem": "求過點 $A(2,1)$ 與點 $B(3,4)$ 的直線方程。",
+    "options": [],
+    "answer": "y = 3x - 5",
+    "solution": "斜率=(4-1)/(3-2)=3,點斜式化簡。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p10",
+    "review_status": "待校對",
+    "tags": [
+      "A6"
+    ],
+    "subtype_name": "解析幾何"
+  },
+  {
+    "id": "MATH-066",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "解答題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "解方程：$4^{x+4}-2\\times2^{x+4}=-1$",
+    "options": [],
+    "answer": "x = -4",
+    "solution": "令u=2^(x+4),u^2-2u+1=0→u=1→x=-4。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p11",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-067",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "解答題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "解方程：$x-7-\\sqrt{x-5}=0$",
+    "options": [],
+    "answer": "x = 9",
+    "solution": "平方後得x=9或x=6,需驗x-7≥0排除增根x=6,僅x=9成立。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p11",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-068",
+    "domain": "數學應用",
+    "subtype": "A4",
+    "question_type": "解答題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "解方程：$\\log\\sqrt{x+1}+\\log\\sqrt{8x-3}=\\dfrac{1}{2}$",
+    "options": [],
+    "answer": "x = 1",
+    "solution": "化簡得8x^2+5x-13=0→x=1或x=-13/8,定義域x>3/8排除負根。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p11",
+    "review_status": "待校對",
+    "tags": [
+      "A4"
+    ],
+    "subtype_name": "代數運算"
+  },
+  {
+    "id": "MATH-069",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "解答題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "已知 $\\sin\\alpha=\\dfrac{5}{13}$，$\\alpha\\in\\left(\\dfrac{\\pi}{2},\\pi\\right)$，求 $\\sin 2\\alpha$，$\\cos 2\\alpha$ 的值",
+    "options": [],
+    "answer": "sin2α = -120/169, cos2α = 119/169",
+    "solution": "α在第二象限cosα=-12/13,代入二倍角公式。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p11",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-070",
+    "domain": "數學應用",
+    "subtype": "A5",
+    "question_type": "解答題",
+    "difficulty": "挑戰(待校對)",
+    "question_stem": "已知 $\\sin\\alpha+\\sin\\beta=1$，$\\cos\\alpha+\\cos\\beta=0$，求 $\\cos(\\alpha+\\beta)$ 的值",
+    "options": [],
+    "answer": "cos(α+β) = -1",
+    "solution": "由兩式平方相加、逐步消去可解得sinβ=1/2,sinα=1/2,cosα=-cosβ,代入和角公式得-1。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p12",
+    "review_status": "待校對",
+    "tags": [
+      "A5"
+    ],
+    "subtype_name": "三角函數"
+  },
+  {
+    "id": "MATH-071",
+    "domain": "數學應用",
+    "subtype": "A3",
+    "question_type": "解答題",
+    "difficulty": "進階(待校對)",
+    "question_stem": "試用數學歸納法證明：對所有自然數 n，$1\\times3+2\\times4+3\\times5+\\cdots+n(n+2)=\\dfrac{1}{6}n(n+1)(2n+7)$ 成立。",
+    "options": [],
+    "answer": "恒等式成立(已驗證n=1,2,3及歸納步驟k→k+1)",
+    "solution": "基礎n=1:3=3成立;歸納步驟:設k成立,加上(k+1)(k+3)並因式分解2k^2+13k+18=(k+2)(2k+9),恰得k+1情形之公式,故對所有自然數n成立。",
+    "answer_status": "無答案待生成(已驗算)",
+    "images": [],
+    "source_file": "公職統考-基礎數學.md",
+    "source_page": "p12",
+    "review_status": "待校對",
+    "tags": [
+      "A3"
+    ],
+    "subtype_name": "數列級數"
+  }
+]

@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_函數的表示方法與分段函數_高一數學</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .def-box { margin: 10px 0; padding: 6px 12px; border: 0.75pt solid #000; break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .datatable { width: 100%; border-collapse: collapse; margin: 8px 0; break-inside: avoid; }
+  .datatable th, .datatable td { border: 0.75pt solid #000; padding: 4px 8px; text-align: center; font-size: 11pt; }
+  .datatable th { background: #f0f0f0; font-weight: 700; }
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side img { max-width: 100%; height: auto; margin-bottom: 6px; }
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; }
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+  .page-break { break-before: page; page-break-before: always; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．函數的表示方法與分段函數</div></td></tr></tfoot>
+  <tbody><tr><td>
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：函數的表示方法與分段函數</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>請先複習《函數的表示方法與分段函數課堂講義》的手順卡，再用同一套「①判斷落在哪一段→②抄下那一行→③代入計算→④檢查」四步驟完成以下練習。凡是要你寫分段函數，一律用大括號寫成一條式。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+  <div class="def-box">
+    <div>第 1～4 題共用下面這個分段函數：</div>
+    \[f(x)=\begin{cases} x+3, & x \lt 0 \\ x^{2}-1, & x \ge 0 \end{cases}\]
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>1．求 \(f(-2)\)：</div>
+      <div>(1) x=−2 是 \(x \lt 0\) 還是 \(x \ge 0\)？屬於第＿段：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) 代入對應的公式，f(−2)=＿＿＿：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <img src="svgs_expr_piecewise/seg_zero.png" width="300" height="94" alt="以 0 為分界的分段數線">
+      <div class="hintcard">對應手順卡第①步：先比較 x 和 0 的大小，決定用哪一行的公式，才可以代入計算。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>2．求 \(f(0)\)：</div>
+      <div>(1) x=0 是 \(x \lt 0\) 還是 \(x \ge 0\)？屬於第＿段：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) 代入對應的公式，f(0)=＿＿＿：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">對應手順卡第①步：x=0 符合「\(x \ge 0\)」這個條件（0 本身也算在內），所以用第二行的公式。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>3．求 \(f(4)\)：</div>
+      <div>(1) x=4 是 \(x \lt 0\) 還是 \(x \ge 0\)？屬於第＿段：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) 代入對應的公式，f(4)=＿＿＿：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">對應手順卡第③步：判斷完屬於哪一段之後，記得把整條式子的 x 都換成同一個數值。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>4．求 \(f(-6)\)：</div>
+      <div>(1) x=−6 是 \(x \lt 0\) 還是 \(x \ge 0\)？屬於第＿段：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+      <div>(2) 代入對應的公式，f(−6)=＿＿＿：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">對應手順卡第①步：負數一定符合「\(x \lt 0\)」，用第一行的公式。</div>
+    </div>
+  </div>
+
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 每一題都先寫出「屬於第幾段」，才代入計算</div>
+    <div>☐ 邊界值 x=0 有按條件「≥0」歸到第二段，沒有兩行都試</div>
+    <div>☐ 代入時整條式子的 x 都換成同一個數值，沒有漏掉</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">分段函數　手順卡（精簡版）</th></tr>
+    <tr><td colspan="2">① 判斷 x 落在哪一段</td></tr>
+    <tr><td colspan="2">② 抄下那一行的算式</td></tr>
+    <tr><td colspan="2">③ 代入計算</td></tr>
+    <tr><td colspan="2">④ 檢查是否合理</td></tr>
+  </table>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>5．某的士（計程車）車資按行駛距離 x（公里）分段計算：首 2 公里（含）收 24 元；超過 2 公里至 10 公里（含）的部分，每公里加收 6 元；超過 10 公里的部分，每公里加收 9 元。</div>
+      <div>(1) 用大括號寫出車資 y（元）關於 x 的分段函數解析式（分三段）：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      <div>(2) 求行駛 6 公里的車資：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      <div>(3) 求行駛 15 公里的車資：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <img src="svgs_expr_piecewise/seg_taxi.png" width="300" height="94" alt="以 2 和 10 為界線的分段數線">
+      <div class="hintcard">提示：先確定每一段的 x 範圍界線（2 公里、10 公里），再分別寫出「起步價＋超出部分×單價」的算式，後面幾段要在前一段的基礎上累加。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>6．已知 \(f(x)=2x-1\)。這一題的「x」不是一個數字，而是一段算式——把它當成一個整體代入就可以了：</div>
+      <div>(1) 求 f(a+1)（用 a 表示，結果化簡）：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+      <div>(2) 求 f(3b)（用 b 表示，結果化簡）：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">提示：把 \(f(x)=2x-1\) 裡面每一個 x，都換成題目給的那段算式（a+1 或 3b），再展開化簡。</div>
+    </div>
+  </div>
+
+  <div class="aside-wrap boxed">
+    <div class="aside-main">
+      <div>7．某快遞公司按包裹重量 x（公斤）分段收費，收費表（列表法）如下：</div>
+      <table class="datatable">
+        <tr><th>包裹重量 x（公斤）</th><th>收費 y（元）</th></tr>
+        <tr><td>\(0 \lt x \le 1\)</td><td>20</td></tr>
+        <tr><td>\(1 \lt x \le 3\)</td><td>35</td></tr>
+        <tr><td>\(3 \lt x \le 5\)</td><td>50</td></tr>
+      </table>
+      <div>請把「列表法」改寫成「解析法」——用大括號寫出 y 關於 x 的分段函數：</div>
+      <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    </div>
+    <div class="aside-side">
+      <div class="hintcard">提示：表格裡每一行就是分段函數的「一段」，把每一段的 x 範圍和對應的 y 值直接抄成大括號裡的一行。</div>
+    </div>
+  </div>
+
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 分段函數有用大括號寫成一條式，不是寫成幾句文字</div>
+    <div>☐ 每一段都寫清楚 x 的範圍，範圍之間沒有重疊也沒有漏掉</div>
+    <div>☐ 第 5 題的第二、三段有在前一段的基礎上累加，不是重新由 0 起計</div>
+  </div>
+  <div class="checkpoint">【核對點】做到這裡先停，對照上面的清單檢查一次再往下</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+
+  <div class="problem">
+    <div>8．已知分段函數：</div>
+    \[f(x)=\begin{cases} 3x-1, & x \ge 0 \\ x^{2}+2, & x \lt 0 \end{cases}\]
+    <div>求 \(f[f(-1)]\)：</div>
+    <div>(1) 先算內層 f(−1)：判斷 x=−1 屬於哪一段，代入對應公式，得 f(−1)=＿＿＿：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div>(2) 把 (1) 的結果當作新的 x，判斷這個值屬於哪一段，代入對應公式，得最終答案：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="problem">
+    <div>9．某住宅每月用電量 x（度）電費 y（元）分段收費：首 100 度（含）每度 1 元；超過 100 度至 300 度（含）的部分每度 1.5 元；超過 300 度至 600 度（含）的部分每度 2 元；超過 600 度的部分每度 2.5 元。</div>
+    <div>(1) 用大括號寫出電費 y（元）關於用電量 x（度）的分段函數解析式（分四段）：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div>(2) 求用電量 450 度的電費：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div>(3) 求用電量 700 度的電費：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="problem">
+    <div>10．請你自己設計一個「三段式」收費方案（例如：停車場、的士、快遞、電話費……任何情境皆可），並用大括號寫出完整的分段函數解析式：</div>
+    <div>你的情境與收費規則說明：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div>你的解析式（大括號，分三段）：</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="selfcheck">
+    <div style="font-weight:700">做完先自己核對一次</div>
+    <div>☐ 第 8 題有「由內到外」算兩次，第二次有重新判斷落在哪一段</div>
+    <div>☐ 第 9、10 題的解析式有用大括號寫成一條式，每段的 x 範圍清楚不重疊</div>
+    <div>☐ 相鄰兩段在交界處銜接一致，沒有出現忽然變便宜或跳號的情況</div>
+  </div>
+
+  <div class="page-break"></div>
+  <div class="section-h">參考答案與解析</div>
+
+  <div class="section-h" style="font-size:12pt">練習A</div>
+  <div>1．(1) x=−2＜0，屬於第一段。(2) \(f(-2)=-2+3=1\)。</div>
+  <div>2．(1) x=0≥0，屬於第二段（等於 0 也符合「≥0」）。(2) \(f(0)=0^{2}-1=-1\)。</div>
+  <div>3．(1) x=4≥0，屬於第二段。(2) \(f(4)=4^{2}-1=16-1=15\)。</div>
+  <div>4．(1) x=−6＜0，屬於第一段。(2) \(f(-6)=-6+3=-3\)。</div>
+
+  <div class="section-h" style="font-size:12pt">練習B</div>
+  <div>5．(1) 解析式：</div>
+  \[y=\begin{cases} 24, & 0 \lt x \le 2 \\ 24+6(x-2), & 2 \lt x \le 10 \\ 72+9(x-10), & x \gt 10 \end{cases}\]
+  <div>（第三段的 72 來自 24＋6×8＝72，即行駛滿 10 公里時的車資。）</div>
+  <div>(2) x=6 屬於第二段：\(y=24+6(6-2)=24+24=48\)，車資 48 元。</div>
+  <div>(3) x=15 屬於第三段：\(y=72+9(15-10)=72+45=117\)，車資 117 元。</div>
+  <div>6．(1) \(f(a+1)=2(a+1)-1=2a+2-1=2a+1\)。(2) \(f(3b)=2(3b)-1=6b-1\)。</div>
+  <div>7．解析式：</div>
+  \[y=\begin{cases} 20, & 0 \lt x \le 1 \\ 35, & 1 \lt x \le 3 \\ 50, & 3 \lt x \le 5 \end{cases}\]
+
+  <div class="section-h" style="font-size:12pt">練習C</div>
+  <div>8．(1) x=−1＜0，屬於第一段：\(f(-1)=(-1)^{2}+2=1+2=3\)。(2) 把 3 當作新的 x：3≥0，屬於第二段：\(f(3)=3 \times 3-1=9-1=8\)。所以 \(f[f(-1)]=8\)。</div>
+  <div>9．(1) 解析式：</div>
+  \[y=\begin{cases} x, & 0 \lt x \le 100 \\ 100+1.5(x-100), & 100 \lt x \le 300 \\ 400+2(x-300), & 300 \lt x \le 600 \\ 1000+2.5(x-600), & x \gt 600 \end{cases}\]
+  <div>（第三段的 400 來自 100＋1.5×200；第四段的 1000 來自 400＋2×300。）</div>
+  <div>(2) x=450 屬於第三段：\(y=400+2(450-300)=400+300=700\)，電費 700 元。</div>
+  <div>(3) x=700 屬於第四段：\(y=1000+2.5(700-600)=1000+250=1250\)，電費 1250 元。</div>
+  <div>10．本題無固定答案。教師驗收標準：情境合理、有用大括號寫成一條分段函數、三段的 x 範圍清楚不重疊、相鄰兩段在交界處銜接一致（不會出現交界處收費忽然變便宜的不合理情況）、每一段的解析式都完整寫出。</div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>

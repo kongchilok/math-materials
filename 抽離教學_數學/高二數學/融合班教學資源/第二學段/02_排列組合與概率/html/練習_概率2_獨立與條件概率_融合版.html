@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_概率2_獨立與條件概率_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .fill { display: inline-block; min-width: 70px; border-bottom: 1px solid #1a1a1a; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .anskey div { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：概率(二) 相互獨立事件與條件概率</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div>請先回看《講義》的範例。先分辨：「同時發生」→ 獨立相乘；「已知…發生」→ 縮小樣本空間（條件概率）。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>A-1．甲射擊命中率 0.8，乙命中率 0.9，兩人各射一次、互不影響。</div>
+    <div>(1) 兩人都命中的概率＝<span class="fill">&nbsp;</span>×<span class="fill">&nbsp;</span>＝<span class="fill">&nbsp;</span>；</div>
+    <div>(2) 甲命中、乙沒命中的概率＝<span class="fill">&nbsp;</span>×<span class="fill">&nbsp;</span>＝<span class="fill">&nbsp;</span>。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：乙「沒」命中的概率＝1－0.9。</div>
+
+  <div class="problem">
+    <div>A-2．某班 45 人，資料如下：團員 30 人（男 16、女 14），非團員 15 人（男 9、女 6）。隨機選 1 人：</div>
+    <div>(1) 選到團員的概率；</div>
+    <div>(2) 已知選到的是團員，這人是男生的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(2) 樣本空間縮小到 30 名團員裡面，男生佔 16 個。</div>
+
+  <div class="problem">
+    <div>A-3．一個家庭有兩個小孩。已知「大的是男孩」，求兩個都是男孩的概率。</div>
+    <div>（先把縮小後的樣本空間寫出來：｛男男、<span class="fill">&nbsp;</span>｝）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：跟講義範例不同——這次條件只留下「大的是男孩」的 2 格，所以答案不是 1/3。</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>B-1．學生甲解出某數學題的概率為 0.6，學生乙解出的概率為 0.7，兩人獨立解題。求：</div>
+    <div>(1) 兩人都解出的概率；</div>
+    <div>(2) 恰好一人解出的概率；</div>
+    <div>(3) 至少一人解出的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(2) 分兩類：甲出乙不出＋甲不出乙出；(3) 用對立：1－兩人都不出。</div>
+
+  <div class="problem">
+    <div>B-2．袋中有 3 個紅球、7 個白球，不放回地取兩個球。已知第一次取到紅球，求第二次也取到紅球的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：第一個紅球已拿走 → 剩 9 個球、紅球剩 2 個。</div>
+
+  <div class="problem">
+    <div>B-3．5 張獎券中有 2 張有獎。甲先抽、乙後抽（不放回），求：</div>
+    <div>(1) 甲、乙都中獎的概率；</div>
+    <div>(2) 已知甲中獎，乙中獎的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：(1) 用乘法公式 P(甲中)×P(乙中|甲中)；(2) 就是其中的第二個因子。</div>
+
+  <div class="problem">
+    <div>B-4．甲、乙二人同時向同一目標射擊，甲命中率 0.3，乙命中率 0.6，互不影響。目標被命中（至少一人中）的概率是（　　）</div>
+    <div class="choices"><span>A．0.72</span><span>B．0.18</span><span>C．0.9</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：1－兩人都不中＝1－0.7×0.4。</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>C-1．王同學第 1 天午餐隨機選 A 或 B 餐廳（各 1/2）。如果第 1 天去 A，第 2 天去 A 的概率為 0.6；如果第 1 天去 B，第 2 天去 A 的概率為 0.8。求王同學第 2 天去 A 餐廳的概率。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：分兩類（第 1 天去 A／去 B），每類「先發生的×後發生的」，最後相加——這就是全概率的想法。</div>
+
+  <div class="problem">
+    <div>C-2．某疾病影響 1% 的人。患病者檢測呈陽性的概率為 90%；健康者誤判呈陽性的概率為 10%。</div>
+    <div>(1) 隨機一人檢測呈陽性的概率；</div>
+    <div>(2) 已知檢測呈陽性，這人真正患病的概率。（想像 1000 人：患病 10 人、健康 990 人，分別有多少人呈陽性？）</div>
+    <div class="figure" style="text-align:center; margin:8px 0;"><img src="images/test1000_65.png" width="520" alt="1000人檢測示意"></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：陽性人數＝患病陽性＋健康誤判陽性；(2)＝患病陽性 ÷ 陽性總數。答案會比你直覺的小很多！</div>
+
+  <div class="problem">
+    <div>C-3．擲兩枚骰子。事件 A＝「點數和為 7」，事件 B＝「第一枚骰子是 4 點」。判斷 A 與 B 是否相互獨立（要用定義 \(P(AB)=P(A)P(B)\) 驗證）。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：\(P(A)=\dfrac{6}{36}\)，\(P(B)=\dfrac{6}{36}\)，AB＝｛(4,3)｝只有一格；再比較 \(P(AB)\) 與 \(P(A)\times P(B)\)。</div>
+
+
+  <div class="page-break"></div>
+
+  <div class="section-h">教師用參考答案</div>
+  <div class="anskey">
+    <div>A-1．(1) 0.8×0.9＝0.72。(2) 0.8×0.1＝0.08。</div>
+    <div>A-2．(1) \(\dfrac{30}{45}=\dfrac{2}{3}\)。(2) \(\dfrac{16}{30}=\dfrac{8}{15}\)。</div>
+    <div>A-3．縮小後樣本空間＝｛男男、男女｝，P＝1/2。</div>
+    <div>B-1．(1) 0.6×0.7＝0.42。(2) 0.6×0.3＋0.4×0.7＝0.46。(3) 1－0.4×0.3＝0.88。</div>
+    <div>B-2．\(\dfrac{2}{9}\)。</div>
+    <div>B-3．(1) \(\dfrac{2}{5}\times\dfrac{1}{4}=\dfrac{1}{10}\)。(2) \(\dfrac{1}{4}\)。</div>
+    <div>B-4．A。1－0.7×0.4＝0.72。</div>
+    <div>C-1．0.5×0.6＋0.5×0.8＝0.7。</div>
+    <div>C-2．(1) 0.01×0.9＋0.99×0.1＝0.108。(2) \(\dfrac{0.009}{0.108}=\dfrac{1}{12}\approx 0.083\)。用 1000 人想：患病 10 人中 9 人陽性；健康 990 人中 99 人誤判陽性；陽性共 108 人，其中真患病 9 人 → \(\dfrac{9}{108}=\dfrac{1}{12}\)。</div>
+    <div>C-3．\(P(A)=\dfrac{1}{6}\)；\(P(B)=\dfrac{1}{6}\)；\(P(AB)=\dfrac{1}{36}\)。因為 \(P(A)\times P(B)=\dfrac{1}{36}=P(AB)\)，所以 A 與 B 相互獨立（雖然直覺上不明顯）。</div>
+  </div>
+
+  <div class="footer">高二數學．概率(二) 獨立與條件概率．課堂練習　答案頁</div>
+</div>
+</body>
+</html>

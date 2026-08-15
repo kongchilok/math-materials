@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>牛頓定理與多項式基本定理 練習</title>
+<script>
+  MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' }, options: { enableMenu: false } };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script'); s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .page-break { break-before: page; }
+  .ans { margin: 6px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高一數學</span><span>單元：牛頓定理與多項式基本定理</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div>提示：忘記做法的話，先回頭看《牛頓定理與多項式基本定理 —— 課堂講義》的兩個範例。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>1．求 \(f(x)=x^3-4x^2+x+6\) 的所有整係數一次因式。（提示：最高次項係數 1，只需要試常數項 6 的因數：±1,±2,±3,±6）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知二次多項式 f(x)，f(0)=f(−5)=0，且 f(1)=9，求 f(x)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>1．求 \(f(x)=2x^4+x^3-x^2+8x-4\) 的所有整係數一次因式。（提示：最高次項係數 2 → a 可能是 ±1,±2；常數項 −4 → b 可能是 ±1,±2,±4）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．已知三次多項式 f(x)，f(1)=f(−2)=f(3)=0，且 f(0)=12，求 f(x)。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+
+  <div class="footer">牛頓定理與多項式基本定理單元　第 1 頁</div>
+</div>
+
+<div class="page page-break">
+  <div class="masthead"><span>科目：高一數學</span><span>單元：牛頓定理與多項式基本定理</span><span>類型：課堂練習</span></div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）—— 挑戰題</div>
+  <div class="problem">
+    <div>1．求 \(f(x)=x^4-x^3-7x^2+x+6\) 的所有整係數一次因式，並求 f(x)=0 的所有根。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="problem">
+    <div>2．設三次多項式 g(x)，若 g(1)=g(2)=g(3)=5，且 g(4)=11，求 g(x)。（提示：先設 h(x)=g(x)−5，想想 h(x) 有哪些零點）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div>接下來請拿出《牛頓定理與多項式基本定理 —— 課堂講義》對照範例，檢查自己的做法。</div>
+
+  <div class="footer">牛頓定理與多項式基本定理單元　第 2 頁</div>
+</div>
+
+<div class="page page-break">
+  <div class="section-h">教師用參考答案</div>
+  <div class="ans">A1　f(−1)=0, f(2)=0, f(3)=0　→　整係數一次因式為 (x+1), (x−2), (x−3)</div>
+  <div class="ans">A2　f(x)=a·x(x+5)，代入 f(1)=9：6a=9 → a=3/2　→　f(x) = (3/2)x²+(15/2)x</div>
+  <div class="ans">B1　f(−2)=0, f(1/2)=0　→　整係數一次因式為 (x+2), (2x−1)　（剩下的二次因式 x²−x+2 沒有實數根）</div>
+  <div class="ans">B2　f(x)=a(x−1)(x+2)(x−3)，代入 f(0)=12：a×(−1)(2)(−3)=6a=12 → a=2　→　f(x)=2x³−4x²−10x+12</div>
+  <div class="ans">C1　f(1)=f(−1)=f(−2)=f(3)=0，四次多項式恰有 4 個根　→　整係數一次因式為 (x−1),(x+1),(x+2),(x−3)；f(x)=0 的根為 x=1,−1,−2,3</div>
+  <div class="ans">C2　h(x)=g(x)−5 為三次多項式，h(1)=h(2)=h(3)=0　→　h(x)=a(x−1)(x−2)(x−3)；h(4)=g(4)−5=6=a(3)(2)(1)=6a → a=1　→　g(x)=(x−1)(x−2)(x−3)+5=x³−6x²+11x−1</div>
+  <div class="footer">牛頓定理與多項式基本定理單元　第 3 頁</div>
+</div>
+</body>
+</html>

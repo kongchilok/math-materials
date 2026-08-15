@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>單調性與奇偶性 課堂練習</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.8em; text-indent: -1.8em; }
+  .sub { margin: 4px 0 4px 0.4em; }
+
+  .fig { text-align: center; margin: 10px 0; }
+  .fig svg { max-width: 100%; height: auto; }
+
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .page-break { break-before: page; }
+
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：單調性與奇偶性</span><span>類型：課堂練習</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div>先回頭看《單調性與奇偶性 課堂講義》的兩個範例，再嘗試以下練習。</div>
+
+  <!-- ==================== 練習A ==================== -->
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+
+  <div class="problem">
+    <div>1．右圖是函數 y=f(x) 的圖象，觀察圖象後完成下列填空：</div>
+    <div class="fig">
+      <svg viewBox="0 0 380 320" width="380" height="320" xmlns="http://www.w3.org/2000/svg">
+        <line x1="30" y1="10" x2="30" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="55" y1="10" x2="55" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="80" y1="10" x2="80" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="105" y1="10" x2="105" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="130" y1="10" x2="130" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="155" y1="10" x2="155" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="180" y1="10" x2="180" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="205" y1="10" x2="205" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="230" y1="10" x2="230" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="255" y1="10" x2="255" y2="300" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="310" x2="255" y2="310" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="285" x2="255" y2="285" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="260" x2="255" y2="260" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="235" x2="255" y2="235" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="210" x2="255" y2="210" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="185" x2="255" y2="185" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="160" x2="255" y2="160" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="135" x2="255" y2="135" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="30" y1="110" x2="255" y2="110" stroke="#e0e0e0" stroke-width="1"/>
+        <line x1="25" y1="210" x2="260" y2="210" stroke="#333" stroke-width="1.5"/>
+        <polygon points="260,210 252,206 252,214" fill="#333"/>
+        <line x1="130" y1="15" x2="130" y2="305" stroke="#333" stroke-width="1.5"/>
+        <polygon points="130,15 126,23 134,23" fill="#333"/>
+        <text x="262" y="224" font-size="12" fill="#333">x</text>
+        <text x="138" y="22" font-size="12" fill="#333">y</text>
+        <text x="26" y="226" font-size="10" fill="#666">-4</text>
+        <text x="51" y="226" font-size="10" fill="#666">-3</text>
+        <text x="76" y="226" font-size="10" fill="#666">-2</text>
+        <text x="101" y="226" font-size="10" fill="#666">-1</text>
+        <text x="151" y="226" font-size="10" fill="#666">1</text>
+        <text x="176" y="226" font-size="10" fill="#666">2</text>
+        <text x="201" y="226" font-size="10" fill="#666">3</text>
+        <text x="226" y="226" font-size="10" fill="#666">4</text>
+        <text x="251" y="226" font-size="10" fill="#666">5</text>
+        <text x="136" y="313" font-size="10" fill="#666">-4</text>
+        <text x="136" y="288" font-size="10" fill="#666">-3</text>
+        <text x="136" y="263" font-size="10" fill="#666">-2</text>
+        <text x="136" y="238" font-size="10" fill="#666">-1</text>
+        <text x="136" y="188" font-size="10" fill="#666">1</text>
+        <text x="136" y="163" font-size="10" fill="#666">2</text>
+        <text x="136" y="138" font-size="10" fill="#666">3</text>
+        <text x="136" y="113" font-size="10" fill="#666">4</text>
+        <text x="116" y="224" font-size="10" fill="#666">O</text>
+        <polyline points="55,135 130,285 230,185" fill="none" stroke="#1a1a1a" stroke-width="2.5"/>
+        <circle cx="55" cy="135" r="3.2" fill="#1a1a1a"/>
+        <text x="21" y="129" font-size="11" fill="#1a1a1a">(-3,3)</text>
+        <circle cx="130" cy="285" r="3.2" fill="#1a1a1a"/>
+        <text x="136" y="301" font-size="11" fill="#1a1a1a">(0,-3)</text>
+        <circle cx="230" cy="185" r="3.2" fill="#1a1a1a"/>
+        <text x="236" y="177" font-size="11" fill="#1a1a1a">(4,1)</text>
+      </svg>
+    </div>
+    <div class="sub">(a) 函數在區間 ___________ 上單調遞減；</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="sub">(b) 函數在區間 ___________ 上單調遞增；</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="sub">(c) 函數的最小值是 _______，在 x = _______ 時取得。（單選：A. −3　B. 0　C. 3）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：y隨x增大而變小 → 遞減；y隨x增大而變大 → 遞增；圖象最低點的y坐標就是最小值。</div>
+
+  <div class="problem">
+    <div>2．根據奇偶函數的定義，完成下列填空：</div>
+    <div class="sub">(a) 已知函數f(x)為奇函數，且f(2025)=6，則f(−2025) = ___________。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="sub">(b) 已知函數g(x)為偶函數，且g(−8)=11，則g(8) = ___________。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：奇函數 \(f(-x)=-f(x)\)（圖象繞原點轉180°會重合）；偶函數 \(g(-x)=g(x)\)（圖象以y軸為對稱軸）。</div>
+
+  <div class="problem">
+    <div>3．如果函數y=f(x)的圖象關於y軸對稱，這個函數是：（單選）</div>
+    <div class="sub">（A）奇函數　　（B）偶函數　　（C）非奇非偶函數</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：偶函數的圖象特徵就是「以y軸為對稱軸」——把圖象向左右對摺會完全重合。</div>
+
+  <!-- ==================== 練習B ==================== -->
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+
+  <div class="problem">
+    <div>1．已知一次函數 \(y=(k-1)x+b\) 在R上是增函數，求k的取值範圍。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：一次函數y=mx+c，係數m&gt;0時遞增、m&lt;0時遞減（見講義範例的結論）。</div>
+
+  <div class="problem">
+    <div>2．依「取值-作差-變形-定號-結論」的格式，證明函數 \(f(x)=-2x+5\) 在R上為減函數。請把下面的證明補寫完整：</div>
+    <div class="steps">
+      <li>①取值：設 \(x_1,x_2\in R\)，且 \(x_1&lt;x_2\)。</li>
+      <li>②作差：\(f(x_1)-f(x_2)\) = ___________________________</li>
+    </div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="steps"><li>③變形：= ___________________________</li></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="steps"><li>④定號：因為 \(x_1&lt;x_2\)，所以 \(x_1-x_2\) ___ 0（填 > 或 &lt;），於是 \(f(x_1)-f(x_2)\) ___ 0（填 > 或 &lt;）。</li></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="steps"><li>⑤結論：所以 f(x₁) ___ f(x₂)（填 > 或 &lt;），即 f(x) 在R上為 ___________函數。</li></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示卡（五步驟）：①取值 ②作差 ③變形（提出公因數）④定號（判斷正負）⑤結論（對照定義寫出遞增或遞減）。</div>
+
+  <div class="problem">
+    <div>3．判斷下列函數的奇偶性，每小題都要先求定義域，再代入f(−x)比較：</div>
+    <div class="sub">(a) \(f(x)=x^6-2x^2+1\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div class="sub">(b) \(f(x)=x^3-x\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+    <div class="sub">(c) \(f(x)=x^2+x\)</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：定義域 → 代入f(−x) → 比較：等於f(x)是偶函數；等於−f(x)是奇函數；兩者都不等於就是非奇非偶函數。</div>
+
+  <!-- ==================== 練習C ==================== -->
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+
+  <div class="problem">
+    <div>1．證明函數 \(y=x+\dfrac{4}{x}\) 在 \((2,+\infty)\) 上單調遞增。（仿講義範例的五步驟格式作答，注意分式要通分）</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示卡（五步驟）：①取值 ②作差 ③變形（通分、提公因式）④定號（留意 x₁x₂&gt;4）⑤結論。</div>
+
+  <div class="problem">
+    <div>2．已知二次函數 \(f(x)=x^2-mx+m-1\)，且 \(f(0)=f(2)\)。</div>
+    <div class="sub">(a) 求m的值。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+    <div class="sub">(b) 求f(x)在區間 [−2,2] 上的最小值。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：\(f(0)=f(2)\) 代表拋物線的對稱軸在x=1；配方後找出頂點，再判斷頂點是否落在[−2,2]這個區間內。</div>
+
+  <div class="problem">
+    <div>3．已知函數f(x)是偶函數，且在 \([0,+\infty)\) 上單調遞增。比較 f(−3) 與 f(2) 的大小，並說明理由。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先用偶函數的性質把f(−3)換成f(3)，再比較3和2誰更靠右——在[0,+∞)遞增時，自變量越大函數值越大。</div>
+
+  <!-- ==================== 參考答案 ==================== -->
+  <div class="section-h page-break">參考答案與解析</div>
+
+  <div class="subhead" style="font-weight:700;">練習A</div>
+  <div class="problem">
+    <div>1．(a) 遞減區間為 [−3,0]；(b) 遞增區間為 [0,4]；(c) 最小值為 −3（選A），在x=0時取得（圖象上的點(0,−3)為最低點）。</div>
+    <div>2．(a) f(−2025) = −f(2025) = −6。(b) g(8) = g(−8) = 11。</div>
+    <div>3．（B）偶函數——圖象以y軸為對稱軸正是偶函數的定義特徵。</div>
+  </div>
+
+  <div class="subhead" style="font-weight:700;">練習B</div>
+  <div class="problem">
+    <div>1．一次函數遞增 ⟺ 一次項係數 &gt; 0，所以 \(k-1>0\)，即 \(k>1\)。</div>
+  </div>
+  <div class="problem">
+    <div class="steps">
+      <li>2．①取值：設 \(x_1,x_2\in R\)，且 \(x_1&lt;x_2\)。</li>
+      <li>②作差：\(f(x_1)-f(x_2)=(-2x_1+5)-(-2x_2+5)=-2x_1+2x_2\)</li>
+      <li>③變形：\(f(x_1)-f(x_2)=-2(x_1-x_2)\)</li>
+      <li>④定號：因為 \(x_1&lt;x_2\)，所以 \(x_1-x_2&lt;0\)，於是 \(-2(x_1-x_2)&gt;0\)，即 \(f(x_1)-f(x_2)&gt;0\)。</li>
+      <li>⑤結論：所以 \(f(x_1)&gt;f(x_2)\)，即 f(x) 在R上為減函數。</li>
+    </div>
+  </div>
+  <div class="problem">
+    <div>3．(a) 定義域為R。\(f(-x)=x^6-2x^2+1=f(x)\)，是偶函數。</div>
+    <div>(b) 定義域為R。\(f(-x)=-x^3+x=-f(x)\)，是奇函數。</div>
+    <div>(c) 定義域為R。\(f(-x)=x^2-x\)，既不等於 \(f(x)=x^2+x\)，也不等於 \(-f(x)=-x^2-x\)，是非奇非偶函數。</div>
+  </div>
+
+  <div class="subhead" style="font-weight:700;">練習C</div>
+  <div class="problem">
+    <div class="steps">
+      <li>1．①取值：設 \(x_1,x_2\in(2,+\infty)\)，且 \(x_1&lt;x_2\)。</li>
+      <li>②作差：\(y_1-y_2=(x_1-x_2)+\left(\dfrac{4}{x_1}-\dfrac{4}{x_2}\right)\)</li>
+      <li>③變形：\(y_1-y_2=(x_1-x_2)+\dfrac{4(x_2-x_1)}{x_1x_2}\)<br>
+          &emsp;&emsp;&emsp;\(=(x_1-x_2)\left(1-\dfrac{4}{x_1x_2}\right)=\dfrac{(x_1-x_2)(x_1x_2-4)}{x_1x_2}\)</li>
+      <li>④定號：\(x_1,x_2&gt;2\) 所以 \(x_1x_2&gt;4\)，即 \(x_1x_2-4&gt;0\)；又 \(x_1x_2&gt;0\)，\(x_1-x_2&lt;0\)，三者相乘（負×正÷正）得 \(y_1-y_2&lt;0\)。</li>
+      <li>⑤結論：所以 \(y_1&lt;y_2\)，即函數在(2,+∞)上單調遞增。</li>
+    </div>
+  </div>
+  <div class="problem">
+    <div>2．(a) \(f(0)=m-1\)，\(f(2)=4-2m+m-1=3-m\)。由 \(f(0)=f(2)\)：\(m-1=3-m\)，解得 \(m=2\)。</div>
+    <div>(b) 代入m=2：\(f(x)=x^2-2x+1=(x-1)^2\)，對稱軸x=1，且1∈[−2,2]，開口向上，所以最小值在x=1處取得：\(f(1)=0\)，最小值為0。</div>
+  </div>
+  <div class="problem">
+    <div>3．f是偶函數，所以 \(f(-3)=f(3)\)。又f在[0,+∞)上遞增，且 \(3&gt;2\)，所以 \(f(3)&gt;f(2)\)。因此 \(f(-3)&gt;f(2)\)。</div>
+  </div>
+
+  <div class="footer">高一數學．單調性與奇偶性</div>
+
+</div>
+</body>
+</html>

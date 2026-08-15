@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>集合的基本運算．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "\3000"; font-weight: 700; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .diagram { text-align: center; margin: 10px 0; }
+  .diagram svg { max-width: 320px; height: auto; }
+  .indent { margin-left: 1.4em; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：集合的基本運算</span><span>類型：課堂講義</span></div><div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div><div class="section-h">一、核心概念</div><p>1．並集：由所有屬於A或屬於B的元素組成，記作 \(A \cup B\)，即 \(A \cup B = \{x \mid x \in A \text{ 或 } x \in B\}\)。</p><div class="diagram"><svg viewBox="0 0 320 230" width="320" height="230" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif"><rect x="10" y="10" width="300" height="180" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="20" y="28" font-size="14" fill="#1a1a1a">U</text><defs><clipPath id="circA_clipA926"><circle cx="128.0" cy="100.0" r="62"/></clipPath><clipPath id="circB_clipA926"><circle cx="192.0" cy="100.0" r="62"/></clipPath></defs><circle cx="128.0" cy="100.0" r="62" fill="#e3e3e3"/><circle cx="192.0" cy="100.0" r="62" fill="#e3e3e3"/><circle cx="128.0" cy="100.0" r="62" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><circle cx="192.0" cy="100.0" r="62" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><text x="90.0" y="60.0" font-size="16" fill="#1a1a1a">A</text><text x="222.0" y="60.0" font-size="16" fill="#1a1a1a">B</text><text x="160.0" y="210" font-size="13" fill="#555" text-anchor="middle">A∪B（灰色部分）</text></svg></div><p>2．交集：由所有既屬於A又屬於B的元素組成，記作 \(A \cap B\)，即 \(A \cap B = \{x \mid x \in A \text{ 且 } x \in B\}\)。</p><div class="diagram"><svg viewBox="0 0 320 230" width="320" height="230" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif"><rect x="10" y="10" width="300" height="180" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><text x="20" y="28" font-size="14" fill="#1a1a1a">U</text><defs><clipPath id="circA_clipA3759"><circle cx="128.0" cy="100.0" r="62"/></clipPath><clipPath id="circB_clipA3759"><circle cx="192.0" cy="100.0" r="62"/></clipPath></defs><circle cx="192.0" cy="100.0" r="62" fill="#e3e3e3" clip-path="url(#circA_clipA3759)"/><circle cx="128.0" cy="100.0" r="62" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><circle cx="192.0" cy="100.0" r="62" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><text x="90.0" y="60.0" font-size="16" fill="#1a1a1a">A</text><text x="222.0" y="60.0" font-size="16" fill="#1a1a1a">B</text><text x="160.0" y="210" font-size="13" fill="#555" text-anchor="middle">A∩B（灰色部分）</text></svg></div><p>3．全集與補集：若全集為U，A的補集 \(\complement_U A\) 是U中所有不屬於A的元素組成的集合。</p><div class="diagram"><svg viewBox="0 0 320 230" width="320" height="230" xmlns="http://www.w3.org/2000/svg" font-family="Noto Sans TC, Microsoft JhengHei, Arial, sans-serif"><defs><mask id="holeA4946"><rect x="0" y="0" width="320" height="230" fill="#fff"/><circle cx="160.0" cy="100.0" r="60" fill="#000"/></mask></defs><rect x="10" y="10" width="300" height="180" fill="#fff" stroke="#1a1a1a" stroke-width="1.5"/><rect x="10" y="10" width="300" height="180" fill="#e3e3e3" mask="url(#holeA4946)"/><rect x="10" y="10" width="300" height="180" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><text x="20" y="28" font-size="14" fill="#1a1a1a">U</text><circle cx="160.0" cy="100.0" r="60" fill="none" stroke="#1a1a1a" stroke-width="1.5"/><text x="155.0" y="105.0" font-size="16" fill="#1a1a1a" text-anchor="middle">A</text><text x="160.0" y="210" font-size="13" fill="#555" text-anchor="middle">∁ᵤA（灰色部分）</text></svg></div><p>4．常用運算性質：\(A \cup A = A\)，\(A \cup \varnothing = A\)，\(A \cap A = A\)，\(A \cap \varnothing = \varnothing\)；\(A \cup (\complement_U A) = U\)，\(A \cap (\complement_U A) = \varnothing\)。</p><div class="section-h">二、範例</div><p>題目：已知全集 U = {1,2,3,4,5,6}，A = {1,2,3}，B = {2,3,4}，求 A∪B、A∩B、\(\complement_U(A \cup B)\)。</p><div class="worked-example"><p>① 理解題意：先寫出U、A、B的元素，方便逐一核對。</p><p>② 求A∪B：把A、B的元素合併，重複只算一次 → A∪B = {1, 2, 3, 4}。</p><p>③ 求A∩B：找出A、B共同的元素 → A∩B = {2, 3}。</p><p>④ 求\(\complement_U(A \cup B)\)：從U中去掉A∪B的元素 → U − {1,2,3,4} = {5, 6}。</p></div><p>接下來請拿《集合的基本運算課堂練習》，依這套框架完成練習A、B、C。</p><div class="footer">高一數學．集合的基本運算　第 1 頁</div></div>
+</body>
+</html>

@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<title>澳門四校聯考 2025 數學正卷 教師版</title>
+<script>
+MathJax = { tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}, svg:{fontCache:'global',displayAlign:'left',displayIndent:'0'} };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+  @page { size:A4; margin:0.5cm 1cm 1cm 1cm; }
+  * { box-sizing:border-box; }
+  html { font-size:12pt; }
+  body { font-family:"Noto Serif TC","Times New Roman","Songti TC",serif; color:#111; line-height:1.5; margin:0; padding:0; background:#f3f3f3; }
+  .sheet { max-width:820px; margin:0 auto; background:#fff; padding:0.5cm 1cm 1cm; }
+  .ws-header { border-bottom:2px solid #111; padding-bottom:5px; margin-bottom:8px; }
+  .ws-title { font-size:14pt; font-weight:700; letter-spacing:0.04em; }
+  .ws-tag { display:inline-block; font-size:10pt; background:#b6532c; color:#fff; padding:1px 10px; border-radius:99px; margin-left:8px; vertical-align:middle; }
+  .ws-meta { display:flex; gap:26px; margin-top:5px; font-size:11pt; }
+  .ws-meta .u { display:inline-block; min-width:110px; border-bottom:1px solid #111; }
+  .ws-note { font-size:9.5pt; color:#555; margin-top:4px; }
+
+  .sec-head { font-size:12pt; font-weight:700; margin:10px 0 8px; padding:3px 10px; background:#1d1c1a; color:#fff; border-radius:3px; break-after:avoid; }
+  .sec-head .sec-sub { font-size:9pt; font-weight:400; color:#d8d2c4; margin-left:8px; }
+  .sec-break { page-break-before:always; }
+
+  .q-head { display:flex; align-items:baseline; gap:9px; margin-bottom:3px; }
+  .q-no { font-weight:700; font-size:12pt; color:#b6532c; }
+  .q-tag,.q-type { font-size:8.5pt; color:#888; border:1px solid #ddd; border-radius:99px; padding:0 8px; }
+  .q-body { font-size:12pt; }
+
+  .img-float { float:right; margin:0 0 6px 14px; text-align:center; }
+  .img-float img { max-width:240px; max-height:180px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .img-big { clear:both; text-align:center; margin:8px 0; }
+  .img-big img { max-width:96%; max-height:320px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .clear { clear:both; }
+
+  .box { border-radius:4px; padding:5px 11px; margin:6px 0; font-size:10.5pt; }
+  .box ul { margin:2px 0 0; padding-left:20px; } .box li { margin:1px 0; }
+  .formula { background:#eef3f5; border:1px solid #a9c4cc; } .formula .lbl { font-weight:700; color:#2a5560; margin-right:6px; }
+  .hint { background:#f5f0e3; border:1px solid #d6bf86; color:#6a5212; } .hint .lbl { font-weight:700; color:#8a6a1e; margin-right:6px; }
+  .ans { background:#e3f0e8; border:1px solid #7fb89a; } .ans .lbl { font-weight:700; color:#2f6b4f; margin-right:6px; }
+
+  .opts { margin:6px 0 2px; display:flex; flex-wrap:wrap; gap:6px 22px; }
+  .opt { display:inline-flex; align-items:baseline; gap:5px; font-size:11.5pt; white-space:nowrap; }
+  .opt-key { font-weight:700; color:#2a5560; }
+
+  .q { border:1px solid #d8d6cd; border-radius:4px; padding:8px 12px 10px; margin-bottom:9px; page-break-inside:avoid; overflow:hidden; }
+  .work { margin-top:10px; border:1px solid #c9c7bd; border-radius:3px; overflow:hidden; display:flex; flex-direction:column; background:#fff; }
+  .work-lbl { flex:0 0 auto; font-size:8.5pt; color:#aaa; padding:2px 0 0 8px; }
+  .rules { flex:1 1 auto; overflow:hidden; }
+  .rule { height:0.82cm; border-bottom:1px solid #d4dadd; } .rule:last-child { border-bottom:none; }
+  .work-mc { min-height:2.46cm; }
+  .ans-line { margin-top:7px; font-size:11pt; font-weight:600; }
+  .ans-box { display:inline-block; min-width:130px; border-bottom:1.5px solid #111; height:1.1em; vertical-align:bottom; }
+  .sol-fullpage { height:27.4cm; display:flex; flex-direction:column; page-break-before:always; overflow:hidden; }
+  .sol-fullpage .sec-head { flex:0 0 auto; }
+  .sol-fullpage .q-long { flex:1 1 auto; }
+  .q-long { display:flex; flex-direction:column; page-break-inside:avoid; }
+  .q-long .work-sol { flex:1 1 auto; margin-top:8px; }
+
+  .tq { border:1px solid #d8d6cd; border-radius:4px; padding:8px 13px 10px; margin-bottom:10px; }
+  .tq-break { page-break-inside:avoid; }
+  .sol-title { font-weight:700; font-size:11pt; margin:9px 0 4px; padding-bottom:2px; border-bottom:1.5px solid #1d1c1a; }
+  .part { font-weight:700; color:#b6532c; margin:7px 0 4px; font-size:11pt; }
+  .row { display:flex; gap:9px; align-items:stretch; flex-wrap:wrap; margin-bottom:3px; }
+  .region { flex:1 1 auto; border:1px solid #d8d6cd; border-radius:5px; padding:4px 10px 6px; break-inside:avoid; }
+  .region-h { font-size:9.5pt; font-weight:700; color:#fff; background:#2a5560; border-radius:3px; padding:1px 8px; display:inline-block; margin-bottom:3px; }
+  .region .math { font-size:10.5pt; }
+  .region .math mjx-container { margin:0 !important; }
+  .fill { margin-top:3px; border-top:1px dashed #e0ddd2; background:#fcfcfa; }
+</style></head><body>
+<div class="sheet">
+  <div class="ws-header">
+    <div class="ws-title">澳門四校聯考　2025 年試題　數學正卷<span class="ws-tag">教師版</span></div>
+  </div>
+  
+  <div class="sec-head">第一部分　選擇題<span class="sec-sub">共 15 題 · 含正確答案與詳解</span></div>
+  <div class="tq">
+  <div class="q-head"><span class="q-no">1.</span><span class="q-type">第一類型：基本概念</span></div>
+  
+  <div class="q-body">設集合 \(A=\{x:x^2+3x-4\ge 0\}\)，\(B=\{-4,-2,0,3\}\)，則 \(A\cap B=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>二次不等式 \(ax^2+bx+c\ge 0\)</li><li>代入測試法：把 \(B\) 各數代入檢驗</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(\{-4,3\}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 代入測試 \(B\) 各數</span><div class="math">\[\begin{aligned}
+x=-4 &amp;:\ 16-12-4=0\ \text{（合）} \\
+x=-2 &amp;:\ -6&lt;0\ \text{（不合）} \\
+x=0 &amp;:\ -4&lt;0\ \text{（不合）} \\
+x=3 &amp;:\ 14\ge0\ \text{（合）}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 交集</span><div class="math">\[\begin{aligned}
+A\cap B &amp;= \{-4,3\}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">2.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">若 \(\dfrac{1}{\alpha}\) 和 \(\dfrac{1}{\beta}\) 是方程 \(2x^2+2x-1=0\) 的根，則 \(2^{\alpha+1}\times 2^{\beta+1}=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>指數相乘 \(2^a\cdot2^b=2^{a+b}\)</li><li>兩根之和 \(=-\tfrac{b}{a}\)、兩根之積 \(=\tfrac{c}{a}\)</li><li>\(\alpha+\beta=\dfrac{\tfrac1\alpha+\tfrac1\beta}{\tfrac1\alpha\cdot\tfrac1\beta}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(16\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 倒數根的和與積</span><div class="math">\[\begin{aligned}
+\tfrac1\alpha+\tfrac1\beta &amp;= -1 \\
+\tfrac1\alpha\cdot\tfrac1\beta &amp;= -\tfrac12
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 反推 \(\alpha+\beta\)</span><div class="math">\[\begin{aligned}
+\alpha+\beta &amp;= \frac{-1}{-1/2}=2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 合併指數</span><div class="math">\[\begin{aligned}
+2^{\alpha+1}\cdot2^{\beta+1} &amp;= 2^{\alpha+\beta+2} \\
+&amp;= 2^4=16
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">3.</span><span class="q-type">第二類型：百分數</span></div>
+  
+  <div class="q-body">一個正圓柱體底半徑增加 \(30\%\)、高度同時減少 \(30\%\)，其體積將</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(V=\pi r^2 h\)</li><li>具體化數字代入法</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　增加 \(18.3\%\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 具體化代入</span><div class="math">\[\begin{aligned}
+V_0 &amp;= \pi(10)^2(10)=1000\pi
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 新值</span><div class="math">\[\begin{aligned}
+V_1 &amp;= \pi(13)^2(7)=1183\pi
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 變化率</span><div class="math">\[\begin{aligned}
+\frac{1183-1000}{1000} &amp;= 18.3\%
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">4.</span><span class="q-type">第六類型：指數及根式</span></div>
+  
+  <div class="q-body">\(\dfrac{m^{3/2}-m^{-1/2}}{m^{1/2}+m^{-1/2}}=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>上下同乘 \(m^{1/2}\)</li><li>平方差 \(m^2-1=(m-1)(m+1)\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(m-1\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 上下同乘 \(m^{1/2}\)</span><div class="math">\[\begin{aligned}
+\text{分子} &amp;= m^2-1 \\
+\text{分母} &amp;= m+1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 平方差約分</span><div class="math">\[\begin{aligned}
+\frac{m^2-1}{m+1} &amp;= m-1
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">5.</span><span class="q-type">第八類型：對數與指數函數</span></div>
+  
+  <div class="q-body">若 \(2^p=5\) 及 \(2^q=7\)，則 \(\log_2 0.7=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\log_2\tfrac{A}{B}=\log_2A-\log_2B\)</li><li>\(\log_2 10=1+\log_2 5\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(q-p-1\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 除變減</span><div class="math">\[\begin{aligned}
+\log_2 0.7 &amp;= \log_2 7-\log_2 10
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 展開（\(10=2\times5\)）</span><div class="math">\[\begin{aligned}
+&amp;= q-(1+p) \\
+&amp;= q-p-1
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">6.</span><span class="q-type">第七類型：代數不等式</span></div>
+  
+  <div class="q-body">不等式 \(|x(x-5)|&lt;6\) 的解集為</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(|A|&lt;k\Leftrightarrow -k&lt;A&lt;k\)</li><li>因式分解取交集</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(\{-1&lt;x&lt;2\}\cup\{3&lt;x&lt;6\}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 左不等式</span><div class="math">\[\begin{aligned}
+x^2-5x+6 &amp;&gt; 0 \\
+x&lt;2 &amp;\ \text{或}\ x&gt;3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 右不等式</span><div class="math">\[\begin{aligned}
+x^2-5x-6 &amp;&lt; 0 \\
+-1 &amp;&lt; x &lt; 6
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 取交集</span><div class="math">\[\begin{aligned}
+&amp;-1&lt;x&lt;2\ \text{或}\ 3&lt;x&lt;6
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">7.</span><span class="q-type">第十類型：排列與組合</span></div>
+  
+  <div class="q-body">四個女孩和三個男孩排成一行，若不允許男孩連排，則排列有（ ）種。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>插空法</li><li>\(4!\)、\(P^5_3\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(1440\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 女孩全排</span><div class="math">\[\begin{aligned}
+4! &amp;= 24
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 插空放男（5 隙取 3）</span><div class="math">\[\begin{aligned}
+P^5_3 &amp;= 60
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 相乘</span><div class="math">\[\begin{aligned}
+24\times60 &amp;= 1440
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">8.</span><span class="q-type">第十六類型：概率和統計</span></div>
+  
+  <div class="q-body">若六個數 \(x+2,x+3,x+4,x-4,x-5,x-6\) 的中位數是 8，則這六個數的平均值是（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>中位數 = 中間兩數平均</li><li>平均 = 總和 ÷ 6</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(8\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 中位數求 \(x\)</span><div class="math">\[\begin{aligned}
+\frac{(x-4)+(x+2)}{2} &amp;= 8 \\
+x &amp;= 9
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 平均</span><div class="math">\[\begin{aligned}
+\bar{x} &amp;= \frac{6x-6}{6}=x-1 \\
+&amp;= 8
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">9.</span><span class="q-type">第十類型：排列與組合</span></div>
+  
+  <div class="q-body">\(\left(x+\dfrac{y^3}{x^2}\right)(x+y)^8\) 的展開式中 \(x^4y^5\) 的係數為（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>二項通項 \(\binom{8}{k}x^{8-k}y^k\)</li><li>兩路徑相加</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(84\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 第一路徑</span><div class="math">\[\begin{aligned}
+x\cdot x^3y^5 &amp;\Rightarrow \binom{8}{5}=56
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 第二路徑</span><div class="math">\[\begin{aligned}
+\tfrac{y^3}{x^2}\cdot x^6y^2 &amp;\Rightarrow \binom{8}{2}=28
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 相加</span><div class="math">\[\begin{aligned}
+56+28 &amp;= 84
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">10.</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMDAiIGhlaWdodD0iMjYwIiB2aWV3Qm94PSIwIDAgMzAwIDI2MCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMzAwIiBoZWlnaHQ9IjI2MCIgZmlsbD0id2hpdGUiLz4KICA8Y2lyY2xlIGN4PSIxNTAiIGN5PSIxMzAiIHI9Ijk4IiBmaWxsPSJub25lIiBzdHJva2U9IiMyMjIiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgPCEtLSBjaG9yZCBBQiAoc2hvcnRlc3QgY2hvcmQgdGhyb3VnaCBQKSAtLT4KICA8bGluZSB4MT0iMTA0IiB5MT0iNDMiIHgyPSIxMDQiIHkyPSIyMTciIHN0cm9rZT0iI2I2NTMyYyIgc3Ryb2tlLXdpZHRoPSIyIi8+CiAgPCEtLSByYWRpdXMgT0EgPSByIC0tPgogIDxsaW5lIHgxPSIxNTAiIHkxPSIxMzAiIHgyPSIxMDQiIHkyPSI0MyIgc3Ryb2tlPSIjMmY2YjRmIiBzdHJva2Utd2lkdGg9IjEuOCIvPgogIDwhLS0gZGlzdGFuY2UgT1AgPSBkIChwZXJwZW5kaWN1bGFyIGZyb20gY2VudHJlIHRvIGNob3JkKSAtLT4KICA8bGluZSB4MT0iMTUwIiB5MT0iMTMwIiB4Mj0iMTA0IiB5Mj0iMTMwIiBzdHJva2U9IiMzMzY2Y2MiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtZGFzaGFycmF5PSI1IDMiLz4KICA8IS0tIHJpZ2h0LWFuZ2xlIG1hcmtlciBhdCBQIC0tPgogIDxwYXRoIGQ9Ik0xMDQsMTE4IEwxMTYsMTE4IEwxMTYsMTMwIiBmaWxsPSJub25lIiBzdHJva2U9IiM1NTUiIHN0cm9rZS13aWR0aD0iMS4zIi8+CiAgPCEtLSBjZW50cmUgTyAtLT4KICA8Y2lyY2xlIGN4PSIxNTAiIGN5PSIxMzAiIHI9IjMuMiIgZmlsbD0iIzIyMiIvPgogIDx0ZXh0IHg9IjE1OCIgeT0iMTM4IiBmb250LXNpemU9IjEzIiBmaWxsPSIjMjIyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPk88L3RleHQ+CiAgPCEtLSBwb2ludCBQICgxLDEpIC0tPgogIDxjaXJjbGUgY3g9IjEwNCIgY3k9IjEzMCIgcj0iMy42IiBmaWxsPSIjMzM2NmNjIi8+CiAgPHRleHQgeD0iOTIiIHk9IjE0NiIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzMzNjZjYyI+UDwvdGV4dD4KICA8IS0tIEEsIEIgLS0+CiAgPGNpcmNsZSBjeD0iMTA0IiBjeT0iNDMiIHI9IjMiIGZpbGw9IiNiNjUzMmMiLz48dGV4dCB4PSI5MiIgeT0iNDAiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiNiNjUzMmMiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+QTwvdGV4dD4KICA8Y2lyY2xlIGN4PSIxMDQiIGN5PSIyMTciIHI9IjMiIGZpbGw9IiNiNjUzMmMiLz48dGV4dCB4PSI5MiIgeT0iMjMwIiBmb250LXNpemU9IjEyIiBmaWxsPSIjYjY1MzJjIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPkI8L3RleHQ+CiAgPCEtLSBzaWRlIGxhYmVscyAtLT4KICA8dGV4dCB4PSIxMjAiIHk9IjgyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjMmY2YjRmIj5yPTI8L3RleHQ+CiAgPHRleHQgeD0iMTIwIiB5PSIxMjUiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMzMzY2Y2MiPmQ8L3RleHQ+CiAgPHRleHQgeD0iNTgiIHk9IjkyIiBmb250LXNpemU9IjExIiBmaWxsPSIjYjY1MzJjIj7CveW8pjwvdGV4dD4KPC9zdmc+Cg==" alt="第10題圖示"></div>
+  <div class="q-body">已知圓 \(x^2-4x+y^2=0\)，過點 \((1,1)\) 的直線被圓截得的弦長最小值是（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>配方求圓心半徑</li><li>最短弦 \(\perp\) 圓心與點連線</li><li>\((\text{半弦})^2+d^2=r^2\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(2\sqrt2\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 配方求圓</span><div class="math">\[\begin{aligned}
+(x-2)^2+y^2 &amp;= 4 \\
+\text{圓心}(2,0),\ r &amp;= 2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 求 \(d\) 與半弦</span><div class="math">\[\begin{aligned}
+d &amp;= \sqrt{1+1}=\sqrt2 \\
+\text{半弦} &amp;= \sqrt{4-2}=\sqrt2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 最短弦長</span><div class="math">\[\begin{aligned}
+\text{弦長} &amp;= 2\sqrt2
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">11.</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iMjgwIiB2aWV3Qm94PSIwIDAgMzIwIDI4MCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjI4MCIgZmlsbD0id2hpdGUiLz4KICA8bGluZSB4MT0iMzgiIHkxPSI3Ni41IiB4Mj0iMzA4IiB5Mj0iNzYuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBvbHlnb24gcG9pbnRzPSIzMDgsNzYuNSAzMDAuNzkyLDc5Ljk3MSAzMDAuNzkyLDczLjAyOSIgZmlsbD0iIzMzMyIvPgogIDxsaW5lIHgxPSIxNzAiIHkxPSIyNTIiIHgyPSIxNzAiIHkyPSIxMiIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuNSIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHBvbHlnb24gcG9pbnRzPSIxNzAsMTIgMTczLjQ3MSwxOS4yMDggMTY2LjUyOSwxOS4yMDgiIGZpbGw9IiMzMzMiLz4KICA8dGV4dCB4PSIzMTYiIHk9Ijc2LjUiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+eDwvdGV4dD4KICA8dGV4dCB4PSIxNzAiIHk9IjIiIGZvbnQtc2l6ZT0iMTIiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiMyMjIiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+eTwvdGV4dD4KICA8bGluZSB4MT0iMzgiIHkxPSI3Mi41IiB4Mj0iMzgiIHkyPSI4MC41IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIzOCIgeT0iODkuNSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij4tMTA8L3RleHQ+CiAgPGxpbmUgeDE9IjY0LjQiIHkxPSI3Mi41IiB4Mj0iNjQuNCIgeTI9IjgwLjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjY0LjQiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTg8L3RleHQ+CiAgPGxpbmUgeDE9IjkwLjgiIHkxPSI3Mi41IiB4Mj0iOTAuOCIgeTI9IjgwLjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjkwLjgiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTY8L3RleHQ+CiAgPGxpbmUgeDE9IjExNy4yIiB5MT0iNzIuNSIgeDI9IjExNy4yIiB5Mj0iODAuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTE3LjIiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTQ8L3RleHQ+CiAgPGxpbmUgeDE9IjE0My42IiB5MT0iNzIuNSIgeDI9IjE0My42IiB5Mj0iODAuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTQzLjYiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTI8L3RleHQ+CiAgPGxpbmUgeDE9IjE5Ni40IiB5MT0iNzIuNSIgeDI9IjE5Ni40IiB5Mj0iODAuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTk2LjQiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+MjwvdGV4dD4KICA8bGluZSB4MT0iMjIyLjgiIHkxPSI3Mi41IiB4Mj0iMjIyLjgiIHkyPSI4MC41IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIyMjIuOCIgeT0iODkuNSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij40PC90ZXh0PgogIDxsaW5lIHgxPSIyNDkuMiIgeTE9IjcyLjUiIHgyPSIyNDkuMiIgeTI9IjgwLjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjI0OS4yIiB5PSI4OS41IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjY8L3RleHQ+CiAgPGxpbmUgeDE9IjI3NS42IiB5MT0iNzIuNSIgeDI9IjI3NS42IiB5Mj0iODAuNSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMjc1LjYiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+ODwvdGV4dD4KICA8bGluZSB4MT0iMzAyIiB5MT0iNzIuNSIgeDI9IjMwMiIgeTI9IjgwLjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjMwMiIgeT0iODkuNSIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij4xMDwvdGV4dD4KICA8bGluZSB4MT0iMTY2IiB5MT0iMjUyIiB4Mj0iMTc0IiB5Mj0iMjUyIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjI1MiIgZm9udC1zaXplPSI5IiB0ZXh0LWFuY2hvcj0iZW5kIiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjNTU1Ij4tMTI8L3RleHQ+CiAgPGxpbmUgeDE9IjE2NiIgeTE9IjIyMi43NSIgeDI9IjE3NCIgeTI9IjIyMi43NSIgc3Ryb2tlPSIjMzMzIiBzdHJva2Utd2lkdGg9IjEuMiIgc3Ryb2tlLWxpbmVjYXA9InJvdW5kIi8+CiAgPHRleHQgeD0iMTYwIiB5PSIyMjIuNzUiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+LTEwPC90ZXh0PgogIDxsaW5lIHgxPSIxNjYiIHkxPSIxOTMuNSIgeDI9IjE3NCIgeTI9IjE5My41IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjE5My41IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi04PC90ZXh0PgogIDxsaW5lIHgxPSIxNjYiIHkxPSIxNjQuMjUiIHgyPSIxNzQiIHkyPSIxNjQuMjUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTY0LjI1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi02PC90ZXh0PgogIDxsaW5lIHgxPSIxNjYiIHkxPSIxMzUiIHgyPSIxNzQiIHkyPSIxMzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTM1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi00PC90ZXh0PgogIDxsaW5lIHgxPSIxNjYiIHkxPSIxMDUuNzUiIHgyPSIxNzQiIHkyPSIxMDUuNzUiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTA1Ljc1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPi0yPC90ZXh0PgogIDxsaW5lIHgxPSIxNjYiIHkxPSI0Ny4yNSIgeDI9IjE3NCIgeTI9IjQ3LjI1IiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiLz4KICA8dGV4dCB4PSIxNjAiIHk9IjQ3LjI1IiBmb250LXNpemU9IjkiIHRleHQtYW5jaG9yPSJlbmQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPjI8L3RleHQ+CiAgPGxpbmUgeDE9IjE2NiIgeTE9IjE4IiB4Mj0iMTc0IiB5Mj0iMTgiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIvPgogIDx0ZXh0IHg9IjE2MCIgeT0iMTgiIGZvbnQtc2l6ZT0iOSIgdGV4dC1hbmNob3I9ImVuZCIgZG9taW5hbnQtYmFzZWxpbmU9Im1pZGRsZSIgZmlsbD0iIzU1NSI+NDwvdGV4dD4KICA8dGV4dCB4PSIxNjEiIHk9Ijg5LjUiIGZvbnQtc2l6ZT0iMTAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiM1NTUiPk88L3RleHQ+CiAgPHBvbHlsaW5lIHBvaW50cz0iMzgsMTY3LjkwNiA0MS4zLDE2My4zOTMgNDQuNiwxNTguOTk0IDQ3LjksMTU0LjcwOSA1MS4yLDE1MC41MzkgNTQuNSwxNDYuNDgzIDU3LjgsMTQyLjU0MSA2MS4xLDEzOC43MTMgNjQuNCwxMzUgNjcuNywxMzEuNDAxIDcxLDEyNy45MTYgNzQuMywxMjQuNTQ1IDc3LjYsMTIxLjI4OSA4MC45LDExOC4xNDcgODQuMiwxMTUuMTE5IDg3LjUsMTEyLjIwNiA5MC44LDEwOS40MDYgOTQuMSwxMDYuNzIxIDk3LjQsMTA0LjE1IDEwMC43LDEwMS42OTQgMTA0LDk5LjM1MiAxMDcuMyw5Ny4xMjQgMTEwLjYsOTUuMDEgMTEzLjksOTMuMDEgMTE3LjIsOTEuMTI1IDEyMC41LDg5LjM1NCAxMjMuOCw4Ny42OTcgMTI3LjEsODYuMTU1IDEzMC40LDg0LjcyNyAxMzMuNyw4My40MTMgMTM3LDgyLjIxMyAxNDAuMyw4MS4xMjcgMTQzLjYsODAuMTU2IDE0Ni45LDc5LjI5OSAxNTAuMiw3OC41NTcgMTUzLjUsNzcuOTI4IDE1Ni44LDc3LjQxNCAxNjAuMSw3Ny4wMTQgMTYzLjQsNzYuNzI5IDE2Ni43LDc2LjU1NyAxNzAsNzYuNSAxNzMuMyw3Ni41NTcgMTc2LjYsNzYuNzI5IDE3OS45LDc3LjAxNCAxODMuMiw3Ny40MTQgMTg2LjUsNzcuOTI4IDE4OS44LDc4LjU1NyAxOTMuMSw3OS4yOTkgMTk2LjQsODAuMTU2IDE5OS43LDgxLjEyNyAyMDMsODIuMjEzIDIwNi4zLDgzLjQxMyAyMDkuNiw4NC43MjcgMjEyLjksODYuMTU1IDIxNi4yLDg3LjY5NyAyMTkuNSw4OS4zNTQgMjIyLjgsOTEuMTI1IDIyNi4xLDkzLjAxIDIyOS40LDk1LjAxIDIzMi43LDk3LjEyNCAyMzYsOTkuMzUyIDIzOS4zLDEwMS42OTQgMjQyLjYsMTA0LjE1IDI0NS45LDEwNi43MjEgMjQ5LjIsMTA5LjQwNiAyNTIuNSwxMTIuMjA2IDI1NS44LDExNS4xMTkgMjU5LjEsMTE4LjE0NyAyNjIuNCwxMjEuMjg5IDI2NS43LDEyNC41NDUgMjY5LDEyNy45MTYgMjcyLjMsMTMxLjQwMSAyNzUuNiwxMzUgMjc4LjksMTM4LjcxMyAyODIuMiwxNDIuNTQxIDI4NS41LDE0Ni40ODMgMjg4LjgsMTUwLjUzOSAyOTIuMSwxNTQuNzA5IDI5NS40LDE1OC45OTQgMjk4LjcsMTYzLjM5MyAzMDIsMTY3LjkwNiIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjYjY1MzJjIiBzdHJva2Utd2lkdGg9IjEuOCIvPgogIDx0ZXh0IHg9IjE4OCIgeT0iNzYuNSIgZm9udC1zaXplPSIxMCIgdGV4dC1hbmNob3I9InN0YXJ0IiBkb21pbmFudC1iYXNlbGluZT0ibWlkZGxlIiBmaWxsPSIjYjY1MzJjIj54wrI9LXB5PC90ZXh0PgogIDxjaXJjbGUgY3g9IjI2Mi40IiBjeT0iMTIxLjI1MyIgcj0iNCIgZmlsbD0iIzJmNmI0ZiIvPgogIDx0ZXh0IHg9IjI3My40IiB5PSIxMTIuMjUzIiBmb250LXNpemU9IjExIiB0ZXh0LWFuY2hvcj0ic3RhcnQiIGRvbWluYW50LWJhc2VsaW5lPSJtaWRkbGUiIGZpbGw9IiMyZjZiNGYiPkE8L3RleHQ+CgogIDxsaW5lIHgxPSI2MCIgeTE9IjQ3LjI1IiB4Mj0iMzAwIiB5Mj0iNDcuMjUiIHN0cm9rZT0iIzMzNjZjYyIgc3Ryb2tlLXdpZHRoPSIxLjYiIHN0cm9rZS1kYXNoYXJyYXk9IjYgNCIvPgogIDx0ZXh0IHg9IjY0IiB5PSI0MCIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzMzNjZjYyI+5rqW57eaIHk9cC80PC90ZXh0PgogIDxjaXJjbGUgY3g9IjE3MCIgY3k9IjEwNS43NSIgcj0iNCIgZmlsbD0iI2IyM2EzYSIvPgogIDx0ZXh0IHg9IjE3NiIgeT0iMTAzIiBmb250LXNpemU9IjExIiBmaWxsPSIjYjIzYTNhIj7nhKbpu54gRjwvdGV4dD4KICA8bGluZSB4MT0iMjYyLjQiIHkxPSIxMjEuMjUzIiB4Mj0iMjYyLjQiIHkyPSI0Ny4yNSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPGxpbmUgeDE9IjI2Mi40IiB5MT0iMTIxLjI1MyIgeDI9IjE3MCIgeTI9IjEwNS43NSIgc3Ryb2tlPSIjODg4IiBzdHJva2Utd2lkdGg9IjEuNCIgc3Ryb2tlLWRhc2hhcnJheT0iNCAzIi8+CiAgPHRleHQgeD0iMjY2IiB5PSI4NiIgZm9udC1zaXplPSIxMSIgZmlsbD0iIzU1NSI+5Yiw5rqW57eaPC90ZXh0PgogIDx0ZXh0IHg9IjIwNiIgeT0iMTIzIiBmb250LXNpemU9IjExIiBmaWxsPSIjNTU1Ij7liLDnhKbpu54o55u4562JKTwvdGV4dD4KPC9zdmc+" alt="第11題圖示"></div>
+  <div class="q-body">已知 \(A\) 為拋物線 \(C:x^2=-py\,(p&gt;0)\) 上一點，\(A\) 到焦點距離 15、到 \(x\) 軸距離 7，則 \(p=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>焦點 \((0,-\tfrac{p}{4})\)、準線 \(y=\tfrac{p}{4}\)</li><li>到焦點 = 到準線</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(p=32\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 用定義（到準線）</span><div class="math">\[\begin{aligned}
+\tfrac{p}{4}+7 &amp;= 15 \\
+\tfrac{p}{4} &amp;= 8
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 求 \(p\)</span><div class="math">\[\begin{aligned}
+p &amp;= 32
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">12.</span><span class="q-type">第十六類型：概率和統計</span></div>
+  
+  <div class="q-body">約翰、安娜每次獨立命中概率分別為 \(\tfrac13,\tfrac23\)，各射 3 次，兩人命中次數總和為 4 的概率為（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>二項分布 \(\binom{n}{k}p^k(1-p)^{n-k}\)</li><li>列舉 J+A=4</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(\tfrac{58}{243}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 列舉 \(J+A=4\)</span><div class="math">\[\begin{aligned}
+J3A1 &amp;= \tfrac{6}{729} \\
+J2A2 &amp;= \tfrac{72}{729} \\
+J1A3 &amp;= \tfrac{96}{729}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 相加</span><div class="math">\[\begin{aligned}
+\frac{174}{729} &amp;= \tfrac{58}{243}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">13.</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">等差數列 \(\{a_n\}\) 前 \(n\) 項和為 \(S_n\)，\(2S_3^2=3S_2S_4\)，\(a_1=4\)，則 \(a_7=\)</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>以 \(a_1,d\) 表示 \(S_2,S_3,S_4\)</li><li>\(a_7=a_1+6d\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(a_7=-8\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 用 \(a_1=4,d\) 表示</span><div class="math">\[\begin{aligned}
+S_2=8+d,\ S_3 &amp;= 12+3d \\
+S_4 &amp;= 16+6d
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代入解 \(d\)</span><div class="math">\[\begin{aligned}
+2S_3^2 &amp;= 3S_2S_4 \\
+d &amp;= -2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求 \(a_7\)</span><div class="math">\[\begin{aligned}
+a_7 &amp;= 4+6(-2)=-8
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">14.</span><span class="q-type">第七類型：代數不等式</span></div>
+  
+  <div class="q-body">若 \(x,y\) 滿足 \(3x+4y\le7,\ x-2y\ge-1,\ y\ge-1\)，則 \(z=3x+y\) 的最大值是（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>線性規劃：最佳值在頂點</li><li>逐一代入比大小</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　最大值 \(=10\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 求頂點</span><div class="math">\[\begin{aligned}
+&amp;\left(\tfrac{11}{3},-1\right),(-3,-1),(1,1)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代入 \(z=3x+y\)</span><div class="math">\[\begin{aligned}
+z &amp;= 10,\ -10,\ 4
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 取最大</span><div class="math">\[\begin{aligned}
+z_{\max} &amp;= 10
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">15.</span><span class="q-type">第十五類型：函數圖形</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzNDAiIGhlaWdodD0iMjAwIiB2aWV3Qm94PSIwIDAgMzQwIDIwMCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMzQwIiBoZWlnaHQ9IjIwMCIgZmlsbD0id2hpdGUiLz4KICA8bGluZSB4MT0iMjAiIHkxPSIxNjAiIHgyPSIzMjAiIHkyPSIxNjAiIHN0cm9rZT0iIzMzMyIgc3Ryb2tlLXdpZHRoPSIxLjQiLz4KICA8cG9seWdvbiBwb2ludHM9IjMyMCwxNjAgMzEzLDE2MyAzMTMsMTU3IiBmaWxsPSIjMzMzIi8+CiAgPHRleHQgeD0iMzI2IiB5PSIxNjQiIGZvbnQtc2l6ZT0iMTIiIGZpbGw9IiMyMjIiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+eDwvdGV4dD4KICA8IS0tIHRyaWFuZ2xlIHdhdmU6IG1pbmltYSBhdCB4PTMsNSw3ICh5PTE1MCkgOyBtYXhpbWEgYXQgeD00LDYsOCAoeT00NSkgLS0+CiAgPHBvbHlsaW5lIHBvaW50cz0iNDAsMTUwIDkyLDQ1IDE0NCwxNTAgMTk2LDQ1IDI0OCwxNTAgMzAwLDQ1IiBmaWxsPSJub25lIiBzdHJva2U9IiNiNjUzMmMiIHN0cm9rZS13aWR0aD0iMi4yIi8+CiAgPCEtLSB2YWxsZXkgbWFya2VyIGF0IHg9NSAtLT4KICA8bGluZSB4MT0iMTQ0IiB5MT0iMTUwIiB4Mj0iMTQ0IiB5Mj0iNDAiIHN0cm9rZT0iIzMzNjZjYyIgc3Ryb2tlLXdpZHRoPSIxLjMiIHN0cm9rZS1kYXNoYXJyYXk9IjUgMyIvPgogIDxjaXJjbGUgY3g9IjE0NCIgY3k9IjE1MCIgcj0iNCIgZmlsbD0iIzMzNjZjYyIvPgogIDx0ZXh0IHg9IjE1MCIgeT0iMTc0IiBmb250LXNpemU9IjExIiBmaWxsPSIjMzM2NmNjIj7osLflupUgeD0177yI5Ye95pW45pyA5bCP77yJPC90ZXh0PgogIDwhLS0geCB0aWNrcyAtLT4KICA8dGV4dCB4PSI0MCIgeT0iMTc0IiBmb250LXNpemU9IjEwIiBmaWxsPSIjNTU1Ij4zPC90ZXh0PgogIDx0ZXh0IHg9IjkyIiB5PSIxNzQiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM1NTUiPjQ8L3RleHQ+CiAgPHRleHQgeD0iMTk2IiB5PSIxNzQiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM1NTUiPjY8L3RleHQ+CiAgPHRleHQgeD0iMjQ4IiB5PSIxNzQiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM1NTUiPjc8L3RleHQ+CiAgPHRleHQgeD0iMzAwIiB5PSIxNzQiIGZvbnQtc2l6ZT0iMTAiIGZpbGw9IiM1NTUiPjg8L3RleHQ+CiAgPHRleHQgeD0iMzAiIHk9IjUwIiBmb250LXNpemU9IjExIiBmaWxsPSIjNTU1Ij7otorpnaDov5EgNe+8jOWHveaVuOWAvOi2iuWwj+OAgO+8iOmAseacnyA9IDLvvIk8L3RleHQ+Cjwvc3ZnPgo=" alt="第15題圖示"></div>
+  <div class="q-body">定義在 \(\mathbb{R}\) 上的 \(f(x)\) 滿足 \(f(x)=f(x+2)\)。當 \(x\in[4,6]\) 時 \(f(x)=1+|x-5|\)，則下列不等式「不正確」的是（ ）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>週期 2：自變數加 4 平移到 \([4,6]\)</li><li>距 5 越近 → 函數值越小</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　（B 不正確）</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 平移到 \([4,6]\)</span><div class="math">\[\begin{aligned}
+&amp;\text{加 4；距 5 越近，值越小}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 檢項 B</span><div class="math">\[\begin{aligned}
+\sin\tfrac{\pi}{3},\cos\tfrac{\pi}{3} &amp;\to 4.866,\ 4.5 \\
+4.866\ \text{近 5} &amp;\Rightarrow f(4.866)&lt;f(4.5)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 結論</span><div class="math">\[\begin{aligned}
+&amp;\text{B 寫成 }&gt;\text{，故不正確}
+\end{aligned}\]</div></div></div>
+</div>
+  <div class="sec-head sec-break">第二部分　解答題<span class="sec-sub">共 5 題 · 含參考答案與詳解</span></div>
+  <div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 1 題</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">已知 \(S_n=n^2+2n\)；等比數列 \(\{b_n\}\) 公比為正，\(b_1=2\) 且 \(b_3=2a_4\)，設 \(c_n=a_nb_n\)。<br>(a) 求 \(a_n,b_n\)。<br>(b) 求 \(\{c_n\}\) 前 \(n\) 項和 \(T_n\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(a_n=S_n-S_{n-1}\)</li><li>\(b_n=b_1q^{n-1}\)</li><li>錯位相減法</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(a_n=2n+1,\ b_n=2\cdot3^{n-1}\)　(b) \(T_n=2n\cdot3^n\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(a_n,b_n\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 由和求 \(a_n\)</span><div class="math">\[\begin{aligned}
+a_1 &amp;= 3 \\
+a_n &amp;= S_n-S_{n-1}=2n+1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 由 \(b_3=2a_4\) 求 \(b_n\)</span><div class="math">\[\begin{aligned}
+b_3=2a_4 &amp;= 18 \\
+q &amp;= 3 \\
+b_n &amp;= 2\cdot3^{n-1}
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(T_n\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · 錯位相減</span><div class="math">\[\begin{aligned}
+c_n &amp;= (2n+1)\cdot2\cdot3^{n-1} \\
+2T_n &amp;= 4n\cdot3^n
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 結果</span><div class="math">\[\begin{aligned}
+T_n &amp;= 2n\cdot3^n
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 2 題</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">設 \(f(x)=(px^2-3x+r)(2x^2+qx+3)\)，最高次為 \(8x^4\)、常數項為 9，且除以 \(x+1\) 餘 \(-10\)。<br>(a) 求 \(p,q,r\)。<br>(b) 求 \(f(x)=0\) 的實根。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>比較頭尾係數</li><li>餘式定理 \(f(-1)=-10\)</li><li>判別式、二次公式</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(p=4,q=6,r=3\)　(b) \(x=\dfrac{-3\pm\sqrt3}{2}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(p,q,r\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 比較頭尾係數</span><div class="math">\[\begin{aligned}
+2p=8 &amp;\Rightarrow p=4 \\
+3r=9 &amp;\Rightarrow r=3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 餘式定理求 \(q\)</span><div class="math">\[\begin{aligned}
+f(-1)=10(5-q) &amp;= -10 \\
+q &amp;= 6
+\end{aligned}\]</div></div></div><div class="part">（b）求實根</div><div class="row"><div class="region"><span class="region-h">工序 3 · 第一括號（無實根）</span><div class="math">\[\begin{aligned}
+4x^2-3x+3 &amp;:\ \Delta=-39&lt;0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 第二括號</span><div class="math">\[\begin{aligned}
+2x^2+6x+3 &amp;= 0 \\
+x &amp;= \frac{-3\pm\sqrt3}{2}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 3 題</span><span class="q-type">第十三類型：三角</span></div>
+  
+  <div class="q-body">\(\triangle ABC\) 中 \(\sin(A+B)=6\sin^2\tfrac{C}{2}\)。<br>(a) 求 \(\cos C\)。<br>(b) 若 \(A=45^\circ\)，求 \(\sin2B\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\sin(A+B)=\sin C\)</li><li>\(\sin^2\tfrac{C}{2}=\tfrac{1-\cos C}{2}\)</li><li>\(\cos2C=2\cos^2C-1\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\cos C=\tfrac45\)　(b) \(\sin2B=-\tfrac{7}{25}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(\cos C\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 化為 \(\cos C\) 二次</span><div class="math">\[\begin{aligned}
+\sin C &amp;= 3(1-\cos C) \\
+5\cos^2C-9\cos C+4 &amp;= 0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 解</span><div class="math">\[\begin{aligned}
+(5\cos C-4)(\cos C-1) &amp;= 0 \\
+\cos C &amp;= \tfrac45
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(\sin2B\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · 角度關係</span><div class="math">\[\begin{aligned}
+2B &amp;= 270^\circ-2C \\
+\sin2B &amp;= -\cos2C
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 求值</span><div class="math">\[\begin{aligned}
+\cos2C &amp;= 2\cos^2C-1=\tfrac{7}{25} \\
+\sin2B &amp;= -\tfrac{7}{25}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 4 題</span><span class="q-type">第十二類型：直線圖形及圓</span></div>
+  <div class="q-img img-float"><img src="data:image/png;base64,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" alt="第4題圖示"></div>
+  <div class="q-body">如圖，已知 \(\angle DEB=\angle AFD\) 且 \(AD=AE\)。<br>(a) 證 \(\triangle DEG\sim\triangle DFE\)。<br>(b) 證 \(\triangle DEF\sim\triangle BDE\)。<br>(c) 證 \(DG\cdot DF=DB\cdot EF\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>AA 相似</li><li>相似 \(\Rightarrow\) 對應邊成比例</li><li>等腰三角形底角相等</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a)(b)(c) 見證明</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）\(\triangle DEG\sim\triangle DFE\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · AA 相似</span><div class="math">\[\begin{aligned}
+\angle DEG=\angle DFE,\ \angle D &amp;\ \text{共用} \\
+\triangle DEG &amp;\sim\triangle DFE
+\end{aligned}\]</div></div></div><div class="part">（b）\(\triangle DEF\sim\triangle BDE\)</div><div class="row"><div class="region"><span class="region-h">工序 2 · 由等腰推等角</span><div class="math">\[\begin{aligned}
+AD=AE &amp;\Rightarrow \angle ADE=\angle AED \\
+\angle EFD &amp;= \angle DEB \\
+\triangle DEF &amp;\sim\triangle BDE
+\end{aligned}\]</div></div></div><div class="part">（c）\(DG\cdot DF=DB\cdot EF\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · 連立兩比例</span><div class="math">\[\begin{aligned}
+DE^2 &amp;= DG\cdot DF \\
+DE^2 &amp;= DB\cdot EF \\
+DG\cdot DF &amp;= DB\cdot EF\ \square
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 5 題</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIzMjAiIGhlaWdodD0iMjQwIiB2aWV3Qm94PSIwIDAgMzIwIDI0MCIgZm9udC1mYW1pbHk9InNlcmlmIj4KICA8cmVjdCB3aWR0aD0iMzIwIiBoZWlnaHQ9IjI0MCIgZmlsbD0id2hpdGUiLz4KICA8IS0tIGF4ZXMgLS0+CiAgPGxpbmUgeDE9IjMwIiB5MT0iMTIwIiB4Mj0iMzAwIiB5Mj0iMTIwIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4zIi8+CiAgPHBvbHlnb24gcG9pbnRzPSIzMDAsMTIwIDI5MywxMjMgMjkzLDExNyIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjMwNSIgeT0iMTI0IiBmb250LXNpemU9IjEyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPng8L3RleHQ+CiAgPGxpbmUgeDE9IjE2MCIgeTE9IjIyMCIgeDI9IjE2MCIgeTI9IjIwIiBzdHJva2U9IiMzMzMiIHN0cm9rZS13aWR0aD0iMS4zIi8+CiAgPHBvbHlnb24gcG9pbnRzPSIxNjAsMjAgMTYzLDI3IDE1NywyNyIgZmlsbD0iIzMzMyIvPjx0ZXh0IHg9IjE2NiIgeT0iMjIiIGZvbnQtc2l6ZT0iMTIiIHN0eWxlPSJmb250LXN0eWxlOml0YWxpYyI+eTwvdGV4dD4KICA8IS0tIGVsbGlwc2UgYT0y4oiaMiAocng9MTEzKSwgYj0yIChyeT04MCkgLS0+CiAgPGVsbGlwc2UgY3g9IjE2MCIgY3k9IjEyMCIgcng9IjExMyIgcnk9IjgwIiBmaWxsPSJub25lIiBzdHJva2U9IiMyZjZiNGYiIHN0cm9rZS13aWR0aD0iMiIvPgogIDx0ZXh0IHg9IjIzMiIgeT0iNTYiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiMyZjZiNGYiPnjCsi84ICsgecKyLzQgPSAxPC90ZXh0PgogIDwhLS0gdmVydGljZXMgQSxCIC0tPgogIDxjaXJjbGUgY3g9IjQ3IiBjeT0iMTIwIiByPSIzIiBmaWxsPSIjMjIyIi8+PHRleHQgeD0iMzQiIHk9IjEzNiIgZm9udC1zaXplPSIxMSIgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljIj5BPC90ZXh0PgogIDxjaXJjbGUgY3g9IjI3MyIgY3k9IjEyMCIgcj0iMyIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjI3NiIgeT0iMTM2IiBmb250LXNpemU9IjExIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPkI8L3RleHQ+CiAgPCEtLSBzZWNhbnQgbGluZSBQUSAoZXh0ZW5kZWQpIC0tPgogIDxsaW5lIHgxPSI4MCIgeTE9IjM1IiB4Mj0iMzAwIiB5Mj0iMTExIiBzdHJva2U9IiNiNjUzMmMiIHN0cm9rZS13aWR0aD0iMS44Ii8+CiAgPHRleHQgeD0iODYiIHk9IjMyIiBmb250LXNpemU9IjExIiBmaWxsPSIjYjY1MzJjIj55ID0ga3ggKyBiPC90ZXh0PgogIDwhLS0gUCwgUSBvbiBlbGxpcHNlIC0tPgogIDxjaXJjbGUgY3g9IjEwMy41IiBjeT0iNTAuNyIgcj0iMy42IiBmaWxsPSIjYjY1MzJjIi8+PHRleHQgeD0iOTIiIHk9IjQ4IiBmb250LXNpemU9IjEyIiBmaWxsPSIjYjY1MzJjIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPlA8L3RleHQ+CiAgPGNpcmNsZSBjeD0iMjY2LjIiIGN5PSI5Mi42IiByPSIzLjYiIGZpbGw9IiNiNjUzMmMiLz48dGV4dCB4PSIyNzAiIHk9IjkyIiBmb250LXNpemU9IjEyIiBmaWxsPSIjYjY1MzJjIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPlE8L3RleHQ+CiAgPCEtLSBtaWRwb2ludCBEIGFuZCBsaW5lIE9EIC0tPgogIDxjaXJjbGUgY3g9IjE4NC45IiBjeT0iNzEuNiIgcj0iMy44IiBmaWxsPSIjMzM2NmNjIi8+PHRleHQgeD0iMTkwIiB5PSI2OCIgZm9udC1zaXplPSIxMiIgZmlsbD0iIzMzNjZjYyIgc3R5bGU9ImZvbnQtc3R5bGU6aXRhbGljIj5EPC90ZXh0PgogIDxsaW5lIHgxPSIxNjAiIHkxPSIxMjAiIHgyPSIyMDAiIHkyPSI1MS41IiBzdHJva2U9IiMzMzY2Y2MiIHN0cm9rZS13aWR0aD0iMS42IiBzdHJva2UtZGFzaGFycmF5PSI1IDMiLz4KICA8Y2lyY2xlIGN4PSIxNjAiIGN5PSIxMjAiIHI9IjMuMiIgZmlsbD0iIzIyMiIvPjx0ZXh0IHg9IjE0NiIgeT0iMTM1IiBmb250LXNpemU9IjEyIiBzdHlsZT0iZm9udC1zdHlsZTppdGFsaWMiPk88L3RleHQ+CiAgPHRleHQgeD0iMTcyIiB5PSIxMDAiIGZvbnQtc2l6ZT0iMTEiIGZpbGw9IiMzMzY2Y2MiPk9EIOaWnOeOhyA9ID88L3RleHQ+Cjwvc3ZnPgo=" alt="第5題圖示"></div>
+  <div class="q-body">\(A(-2\sqrt2,0),B(2\sqrt2,0)\)，動點 \(M\) 使 \(k_{AM}\cdot k_{BM}=-\tfrac12\)，軌跡為 \(C\)。直線 \(y=kx+b\) 交 \(C\) 於 \(P,Q\)，\(D\) 為中點。<br>(a) 求 \(C\) 的方程。<br>(b) 求直線 \(OD\) 斜率。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>斜率公式</li><li>平方差化軌跡</li><li>韋達定理求中點</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\dfrac{x^2}{8}+\dfrac{y^2}{4}=1\)　(b) \(k_{OD}=-\dfrac{1}{2k}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求軌跡 \(C\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 斜率積化軌跡</span><div class="math">\[\begin{aligned}
+\frac{y^2}{x^2-8} &amp;= -\tfrac12 \\
+\frac{x^2}{8}+\frac{y^2}{4} &amp;= 1
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(OD\) 斜率</div><div class="row"><div class="region"><span class="region-h">工序 2 · 聯立得二次</span><div class="math">\[\begin{aligned}
+(2k^2+1)x^2+4kbx+2b^2-8 &amp;= 0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 韋達求中點</span><div class="math">\[\begin{aligned}
+x_D &amp;= -\frac{2kb}{2k^2+1} \\
+y_D &amp;= \frac{b}{2k^2+1}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · \(OD\) 斜率</span><div class="math">\[\begin{aligned}
+\frac{y_D}{x_D} &amp;= -\frac{1}{2k}
+\end{aligned}\]</div></div></div>
+</div>
+</div></body></html>

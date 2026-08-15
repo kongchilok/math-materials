@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>直線的傾斜角與斜率．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：直線的傾斜角與斜率</span><span>類型：課堂講義</span></div>
+
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、傾斜角與斜率</div>
+  <div>想像你正在爬一個斜坡：坡度越大，代表越陡。直線的「傾斜角」就是用來描述一條直線相對於水平方向傾斜程度的角度。</div>
+  <div>規定：直線向上傾斜的角度 \(\alpha\) 的範圍是 \(0°\le \alpha < 180°\)（水平線的傾斜角為 0°）。</div>
+  <div>把傾斜角的正切值叫做這條直線的「斜率」，用 \(k\) 表示：</div>
+  <div class="hint-card">\[ k = \tan\alpha \]</div>
+  <div>傾斜角為 90° 時（垂直於 x 軸），沒有斜率。</div>
+
+  <div class="section-h">二、斜率公式（用兩點求斜率）</div>
+  <div>已知直線經過兩點 \((x_1, y_1)\)、\((x_2, y_2)\)（其中 \(x_1\ne x_2\)），斜率公式為：</div>
+  <div class="hint-card">\[ k = \dfrac{y_2 - y_1}{x_2 - x_1} \]</div>
+  <div class="hint-card">提示：特殊角正切值 \(\tan30°=\dfrac{\sqrt3}{3}\)，\(\tan45°=1\)，\(\tan60°=\sqrt3\)</div>
+
+  <div class="section-h">三、平行與垂直的判定</div>
+  <div>● 平行：若 \(l_1 /\!/ l_2\)（不重合），則 \(k_1 = k_2\)</div>
+  <div>● 垂直：若 \(l_1 \perp l_2\)，則 \(k_1 \times k_2 = -1\)</div>
+
+  <div class="section-h">範例</div>
+  <div class="worked-example">
+    <div>已知直線經過 A(1, 2)、B(4, 8)，求直線 AB 的斜率，並判斷傾斜角是銳角還是鈍角。</div>
+    <ol class="steps">
+      <li data-n="①">列式：\(k = \dfrac{y_2-y_1}{x_2-x_1}\)</li>
+      <li data-n="②">代入：\(k = \dfrac{8-2}{4-1}\)</li>
+      <li data-n="③">化簡：\(k = \dfrac{6}{3} = 2\)</li>
+      <li data-n="④">結論：k = 2 > 0，\(\tan\alpha>0\)，所以傾斜角 α 為銳角。</li>
+    </ol>
+  </div>
+
+  <div>接下來請拿《直線的傾斜角與斜率．課堂練習》，依這套框架完成練習A、B、C。</div>
+
+  <div class="footer">高二數學．直線的傾斜角與斜率　第 1 頁</div>
+
+</div>
+</body>
+</html>

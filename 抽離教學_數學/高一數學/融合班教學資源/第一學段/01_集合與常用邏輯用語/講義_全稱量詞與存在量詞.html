@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>全稱量詞與存在量詞．課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "\3000"; font-weight: 700; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .diagram { text-align: center; margin: 10px 0; }
+  .diagram svg { max-width: 320px; height: auto; }
+  .indent { margin-left: 1.4em; }
+</style>
+</head>
+<body>
+<div class="page">
+<div class="masthead"><span>科目：高一數學</span><span>單元：全稱量詞與存在量詞</span><span>類型：課堂講義</span></div><div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div><div class="section-h">一、核心概念</div><p>1．全稱量詞：「所有的」「任意一個」「每一個」等詞，符號記作 ∀。含有全稱量詞的命題叫全稱量詞命題，一般形式為：\(\forall x \in M, p(x)\)。</p><p>2．存在量詞：「存在一個」「至少有一個」「有些」「有一個」等詞，符號記作 ∃。含有存在量詞的命題叫存在量詞命題，一般形式為：\(\exists x \in M, p(x)\)。</p><p>3．判斷全稱量詞命題真假：M中每一個x都要驗證p(x)成立，才是真命題；只要找到一個反例（某個x₀使p(x₀)不成立），就是假命題（舉反例法）。</p><p>4．判斷存在量詞命題真假：只要在M中找到一個x使p(x)成立，就是真命題；M中每一個元素都使p(x)不成立，才是假命題。</p><p>5．命題的否定：全稱量詞命題 \(\forall x \in M, p(x)\) 的否定是存在量詞命題 \(\exists x \in M, \lnot p(x)\)；存在量詞命題 \(\exists x \in M, p(x)\) 的否定是全稱量詞命題 \(\forall x \in M, \lnot p(x)\)（換量詞、否定結論）。</p><div class="section-h">二、範例</div><p>題目：判斷全稱量詞命題「所有的素數都是奇數」的真假，並寫出它的否定。</p><div class="worked-example"><p>① 理解題意：M是「所有素數」，p(x)是「x是奇數」，要判斷 ∀x∈M, p(x) 的真假。</p><p>② 舉反例檢驗：2是素數，但2不是奇數，找到反例。</p><p>③ 下結論：原命題為假命題（因為找到了反例2）。</p><p>④ 寫出否定：原命題的否定是存在量詞命題「存在一個素數不是奇數」，且此否定命題為真命題（2就是這樣的例子）。</p></div><p>接下來請拿《全稱量詞與存在量詞課堂練習》，依這套框架完成練習A、B、C。</p><div class="footer">高一數學．全稱量詞與存在量詞　第 1 頁</div></div>
+</body>
+</html>

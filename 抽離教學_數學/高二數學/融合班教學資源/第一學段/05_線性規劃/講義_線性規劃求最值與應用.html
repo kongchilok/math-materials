@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義：線性規劃求最值與應用</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px 40px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .lead { margin: 6px 0 10px; }
+  .steps-list { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps-list li { margin: 6px 0; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .problem .q { font-weight: 600; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 6px 12px; margin: 8px 0; break-inside: avoid; }
+  .worked-example .st { margin: 5px 0; }
+  .fig { text-align: center; margin: 10px 0 4px; break-inside: avoid; }
+  .fig svg { width: auto; max-width: 340px; height: auto; }
+  .cap { font-size: 10.5pt; color: #555; text-align: center; margin-bottom: 6px; }
+  .write-lines { margin-top: 6px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .ans .problem { border-color: #333; }
+  .page-break { break-before: page; page-break-before: always; }
+  .footer { position: fixed; bottom: 0; left: 0; right: 0; max-width: 720px; margin: 0 auto; background: #fff; font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高二數學</span><span>單元：線性規劃求最值與應用</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+  <div class="section-h">一、什麼是線性規劃</div>
+  <p class="lead">在幾個「二元一次不等式」（限制條件）之下，求一個式子 \(z=ax+by\)（目標函數）的最大值或最小值，這類問題叫「線性規劃」。</p>
+  <p class="lead">把所有限制條件的公共區域畫出來，就是「可行域」——通常是一個凸多邊形。我們的任務，是在可行域裡找出讓 \(z\) 最大（或最小）的那一點。</p>
+  <div class="section-h">二、關鍵事實與頂點法</div>
+  <div class="hint-card"><b>關鍵事實：</b>目標函數 \(z=ax+by\) 在凸多邊形可行域上的最大值與最小值，一定在可行域的「頂點」上取得。</div>
+  <ol class="steps-list">
+    <li><b>步驟①　畫可行域：</b>把每個限制不等式的區域畫出來，取公共部分。</li>
+    <li><b>步驟②　找頂點：</b>求出可行域每個頂點的坐標（相鄰兩界線的交點）。</li>
+    <li><b>步驟③　代入比較：</b>把每個頂點代入 \(z=ax+by\)，算出各自的 \(z\) 值。</li>
+    <li><b>步驟④　下結論：</b>最大的是最大值，最小的是最小值，記下在哪一點取得。</li>
+  </ol>
+  <div class="section-h">三、範例</div>
+  <div class="worked-example">
+    <div class="st"><b>範例：</b>設 \(x\)、\(y\) 滿足 \(x \ge 0\)、\(y \ge 0\)、\(x+y \le 4\)、\(x+3y \le 6\)，求 \(z=2x+3y\) 的最大值。</div>
+    <div class="st"><b>步驟①（畫可行域）：</b>\(x \ge 0\)、\(y \ge 0\) 限第一象限；\(x+y \le 4\) 取 \(x+y=4\) 下方；\(x+3y \le 6\) 取 \(x+3y=6\) 下方。公共區域如下圖。</div>
+  </div>
+  <div class="fig"><svg viewBox="0 0 226 200" data-w="226" data-h="200" xmlns="http://www.w3.org/2000/svg" font-family="Microsoft JhengHei, Noto Sans TC, Arial, sans-serif"><line x1="22" y1="22" x2="22" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="48" y1="22" x2="48" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="74" y1="22" x2="74" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="100" y1="22" x2="100" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="126" y1="22" x2="126" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="152" y1="22" x2="152" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="178" y1="22" x2="178" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="204" y1="22" x2="204" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="178" x2="204" y2="178" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="152" x2="204" y2="152" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="126" x2="204" y2="126" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="100" x2="204" y2="100" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="74" x2="204" y2="74" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="48" x2="204" y2="48" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="22" x2="204" y2="22" stroke="#e4e4e4" stroke-width="1"/><line x1="22" y1="152" x2="204" y2="152" stroke="#333" stroke-width="1.5"/><polygon points="204,152 197,148 197,156" fill="#333"/><line x1="48" y1="178" x2="48" y2="22" stroke="#333" stroke-width="1.5"/><polygon points="48,22 44,29 52,29" fill="#333"/><text x="207" y="157" font-size="12" fill="#333">x</text><text x="55" y="26" font-size="12" fill="#333">y</text><text x="35" y="166" font-size="11" fill="#666">O</text><text x="19" y="166" font-size="10" fill="#777">-1</text><text x="71" y="166" font-size="10" fill="#777">1</text><text x="97" y="166" font-size="10" fill="#777">2</text><text x="123" y="166" font-size="10" fill="#777">3</text><text x="149" y="166" font-size="10" fill="#777">4</text><text x="175" y="166" font-size="10" fill="#777">5</text><text x="42" y="181" font-size="10" fill="#777" text-anchor="end">-1</text><text x="42" y="129" font-size="10" fill="#777" text-anchor="end">1</text><text x="42" y="103" font-size="10" fill="#777" text-anchor="end">2</text><text x="42" y="77" font-size="10" fill="#777" text-anchor="end">3</text><text x="42" y="51" font-size="10" fill="#777" text-anchor="end">4</text><polygon points="48,152 152,152 126,126 48,100" fill="#8a8f96" fill-opacity="0.3" stroke="#111" stroke-width="1.8"/><line x1="22" y1="22.0" x2="178.0" y2="178" stroke="#111" stroke-width="2.2"/><line x1="22" y1="91.33333333333333" x2="204" y2="152.0" stroke="#111" stroke-width="2.2"/><line x1="22" y1="56.66666666666667" x2="204" y2="178.0" stroke="#111" stroke-width="2.2" stroke-dasharray="6,4"/><circle cx="48" cy="152" r="2.6" fill="#111"/><text x="35" y="166" font-size="11" fill="#111">O</text><circle cx="152" cy="152" r="3.2" fill="#111"/><text x="154" y="144" font-size="11" fill="#111">(4,0)</text><circle cx="126" cy="126" r="3.2" fill="#111"/><text x="132" y="120" font-size="11" fill="#111">(3,1)</text><circle cx="48" cy="100" r="3.2" fill="#111"/><text x="56" y="98" font-size="11" fill="#111">(0,2)</text></svg></div><div class="cap">可行域（陰影）與四個頂點；虛線為目標線 2x+3y=z</div>
+  <div class="worked-example">
+    <div class="st"><b>步驟②（找頂點）：</b>四個頂點為 \((0,0)\)、\((4,0)\)、\((0,2)\)，以及 \(x+y=4\) 與 \(x+3y=6\) 的交點 \((3,1)\)。</div>
+    <div class="st"><b>步驟③（代入比較）：</b>\((0,0)\to z=0\)；\((4,0)\to z=8\)；\((3,1)\to z=2\times3+3\times1=9\)；\((0,2)\to z=6\)。</div>
+    <div class="st"><b>步驟④（下結論）：</b>最大值 \(z=9\)，在頂點 \((3,1)\) 取得。</div>
+  </div>
+  <div class="hint-card"><b>平行線法：</b>把 \(2x+3y=z\) 看成一族平行線，\(z\) 越大線越往右上移；平移到「快要離開可行域」時，最後碰到的頂點 \((3,1)\) 就是最大值的位置。</div>
+  <div class="section-h">四、換你試</div>
+  <p class="lead">接下來請取出《線性規劃求最值與應用　課堂練習》，依「畫可行域 → 找頂點 → 代入比較 → 下結論」完成練習A、B、C。</p>
+  <div class="footer">高二數學．線性規劃求最值與應用</div>
+</div>
+</body>
+</html>

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1300" height="700" viewBox="0 0 1300 700" font-family="Microsoft JhengHei, sans-serif">
+  <rect x="0" y="0" width="1300" height="700" fill="#ffffff"/>
+  <text x="60" y="56" font-size="34" font-weight="bold" fill="#1a1a1a">用「想像 1000 人」把全概率變簡單（患病率 1%，檢測準確率 90%）</text>
+  <!-- root -->
+  <rect x="60" y="290" width="190" height="80" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="155" y="330" font-size="32" text-anchor="middle" font-weight="bold" fill="#1a1a1a">1000 人</text>
+  <text x="155" y="362" font-size="24" text-anchor="middle" fill="#555555">接受檢測</text>
+  <!-- level 1 -->
+  <line x1="250" y1="310" x2="400" y2="185" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="290" y="222" font-size="26" fill="#555555">1%</text>
+  <rect x="400" y="140" width="180" height="80" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="490" y="175" font-size="30" text-anchor="middle" font-weight="bold" fill="#1a1a1a">患病 10 人</text>
+  <text x="490" y="207" font-size="24" text-anchor="middle" fill="#555555">1000×1%</text>
+  <line x1="250" y1="350" x2="400" y2="475" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="285" y="452" font-size="26" fill="#555555">99%</text>
+  <rect x="400" y="430" width="180" height="80" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="490" y="465" font-size="30" text-anchor="middle" font-weight="bold" fill="#1a1a1a">健康 990 人</text>
+  <text x="490" y="497" font-size="24" text-anchor="middle" fill="#555555">1000×99%</text>
+  <!-- level 2 sick -->
+  <line x1="580" y1="165" x2="720" y2="115" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="615" y="118" font-size="26" fill="#555555">90% 陽性</text>
+  <rect x="720" y="75" width="200" height="70" fill="#f0f0f0" stroke="#555555" stroke-width="3"/>
+  <text x="820" y="120" font-size="30" text-anchor="middle" font-weight="bold" fill="#1a1a1a">陽性 9 人 ✓</text>
+  <line x1="580" y1="195" x2="720" y2="245" stroke="#1a1a1a" stroke-width="2.5"/>
+  <rect x="720" y="210" width="200" height="70" fill="#ffffff" stroke="#555555" stroke-width="2.5"/>
+  <text x="820" y="255" font-size="30" text-anchor="middle" fill="#1a1a1a">陰性 1 人</text>
+  <!-- level 2 healthy -->
+  <line x1="580" y1="455" x2="720" y2="405" stroke="#1a1a1a" stroke-width="2.5"/>
+  <text x="600" y="408" font-size="26" fill="#555555">10% 誤判陽性</text>
+  <rect x="720" y="365" width="200" height="70" fill="#f0f0f0" stroke="#555555" stroke-width="3"/>
+  <text x="820" y="410" font-size="30" text-anchor="middle" font-weight="bold" fill="#1a1a1a">陽性 99 人</text>
+  <line x1="580" y1="485" x2="720" y2="535" stroke="#1a1a1a" stroke-width="2.5"/>
+  <rect x="720" y="500" width="200" height="70" fill="#ffffff" stroke="#555555" stroke-width="2.5"/>
+  <text x="820" y="545" font-size="30" text-anchor="middle" fill="#1a1a1a">陰性 891 人</text>
+  <!-- summary -->
+  <rect x="960" y="200" width="300" height="230" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+  <text x="980" y="248" font-size="28" fill="#1a1a1a">陽性總人數：</text>
+  <text x="980" y="296" font-size="30" font-weight="bold" fill="#1a1a1a">9＋99＝108 人</text>
+  <text x="980" y="352" font-size="28" fill="#1a1a1a">其中真正患病：9 人</text>
+  <text x="980" y="408" font-size="30" font-weight="bold" fill="#1a1a1a">P＝9/108＝1/12</text>
+  <text x="60" y="650" font-size="30" fill="#1a1a1a">先分兩類（患病／健康），各類再乘檢測結果的比例，最後把「陽性」加起來——這就是全概率公式的意思。</text>
+</svg>

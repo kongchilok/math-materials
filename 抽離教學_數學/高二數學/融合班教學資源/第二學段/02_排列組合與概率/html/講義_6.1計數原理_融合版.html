@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_6.1計數原理_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure { text-align: center; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .figure .cap { font-size: 10pt; color: #555; margin-top: 2px; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：6.1 計數原理</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、兩個計數原理</div>
+  <div>生活中常常要數「一共有多少種方法」。數學有兩條捷徑，用哪一條，看題目說的是「或」還是「和」。</div>
+  <div class="hint-card">判別口訣：聽到「或」（選其中一樣就完成）→ 分類 → 相加；聽到「和」（每樣都要做）→ 分步 → 相乘。</div>
+
+  <div class="section-h">（1）分類加法計數原理</div>
+  <div>完成一件事有兩類不同方案：第 1 類有 \(m\) 種方法，第 2 類有 \(n\) 種方法，那麼完成這件事共有 \(N=m+n\) 種方法。<br>特徵：任何一類裡的任何一種方法，都可以「一步到位」完成整件事。</div>
+
+  <div class="section-h">（2）分步乘法計數原理</div>
+  <div>完成一件事需要兩個步驟：第 1 步有 \(m\) 種方法，第 2 步有 \(n\) 種方法，那麼完成這件事共有 \(N=m\times n\) 種方法。<br>特徵：每一步只是「完成一半」，所有步驟都做完，事情才算完成。</div>
+
+  <div class="figure">
+    <svg xmlns="http://www.w3.org/2000/svg" width="480" height="279" viewBox="0 0 1240 720" font-family="Microsoft JhengHei, sans-serif">
+      <rect x="0" y="0" width="1240" height="720" fill="#ffffff"/>
+      <text x="240" y="60" font-size="34" font-weight="bold" fill="#1a1a1a">第1步：選字母（2種）</text>
+      <text x="720" y="60" font-size="34" font-weight="bold" fill="#1a1a1a">第2步：選數字（3種）</text>
+      <rect x="60" y="330" width="150" height="70" fill="#f0f0f0" stroke="#1a1a1a" stroke-width="3"/>
+      <text x="135" y="377" font-size="34" text-anchor="middle" fill="#1a1a1a">座位號</text>
+      <rect x="330" y="170" width="90" height="70" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+      <text x="375" y="217" font-size="36" text-anchor="middle" font-weight="bold" fill="#1a1a1a">A</text>
+      <rect x="330" y="480" width="90" height="70" fill="#ffffff" stroke="#1a1a1a" stroke-width="3"/>
+      <text x="375" y="527" font-size="36" text-anchor="middle" font-weight="bold" fill="#1a1a1a">B</text>
+      <line x1="210" y1="355" x2="330" y2="205" stroke="#1a1a1a" stroke-width="2.5"/>
+      <line x1="210" y1="375" x2="330" y2="515" stroke="#1a1a1a" stroke-width="2.5"/>
+      <line x1="420" y1="195" x2="560" y2="115" stroke="#1a1a1a" stroke-width="2.5"/>
+      <line x1="420" y1="205" x2="560" y2="205" stroke="#1a1a1a" stroke-width="2.5"/>
+      <line x1="420" y1="225" x2="560" y2="295" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="560" y="80" width="110" height="64" fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+      <text x="615" y="124" font-size="34" text-anchor="middle" fill="#1a1a1a">A1</text>
+      <rect x="560" y="173" width="110" height="64" fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+      <text x="615" y="217" font-size="34" text-anchor="middle" fill="#1a1a1a">A2</text>
+      <rect x="560" y="266" width="110" height="64" fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+      <text x="615" y="310" font-size="34" text-anchor="middle" fill="#1a1a1a">A3</text>
+      <line x1="420" y1="505" x2="560" y2="425" stroke="#1a1a1a" stroke-width="2.5"/>
+      <line x1="420" y1="515" x2="560" y2="515" stroke="#1a1a1a" stroke-width="2.5"/>
+      <line x1="420" y1="535" x2="560" y2="605" stroke="#1a1a1a" stroke-width="2.5"/>
+      <rect x="560" y="390" width="110" height="64" fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+      <text x="615" y="434" font-size="34" text-anchor="middle" fill="#1a1a1a">B1</text>
+      <rect x="560" y="483" width="110" height="64" fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+      <text x="615" y="527" font-size="34" text-anchor="middle" fill="#1a1a1a">B2</text>
+      <rect x="560" y="576" width="110" height="64" fill="#f0f0f0" stroke="#555555" stroke-width="2.5"/>
+      <text x="615" y="620" font-size="34" text-anchor="middle" fill="#1a1a1a">B3</text>
+      <text x="760" y="330" font-size="34" fill="#1a1a1a">一共</text>
+      <text x="760" y="395" font-size="40" font-weight="bold" fill="#1a1a1a">2 × 3 = 6 個號碼</text>
+      <text x="760" y="455" font-size="30" fill="#555555">（每個字母都配到 3 個數字）</text>
+    </svg>
+    <div class="cap">圖：座位編號＝先選字母，再選數字（分步 → 相乘）</div>
+  </div>
+
+  <div class="section-h">二、範例</div>
+  <div class="problem">
+    <div>書架上層放有 4 本不同的數學書，下層放有 3 本不同的語文書。</div>
+    <div>(1) 從書架上任取 1 本書，有多少種取法？</div>
+    <div>(2) 從書架上取數學書和語文書各 1 本，有多少種取法？</div>
+    <div style="margin-top:6px;">步驟①　要完成的事情：「取書」。</div>
+    <div>步驟②　判斷「或」還是「和」：(1) 取數學書「或」語文書，取一本就完成 → 分類；(2) 數學書「和」語文書都要 → 分步。</div>
+    <div>步驟③　寫出每類／每步的方法數：數學書 4 種、語文書 3 種。</div>
+    <div>步驟④　分類 → 相加：\(N=4+3=7\) 種；分步 → 相乘：\(N=4\times 3=12\) 種。</div>
+  </div>
+  <div class="hint-card">檢查：分步的答案（12）一定比分類（7）大嗎？——不一定，但這裡每本數學書都能配 3 本語文書，所以相乘。</div>
+
+  <div>接下來請拿《練習_6.1計數原理_融合版》，依同樣的四步驟完成練習A、B、C。</div>
+
+  <div class="footer">高二數學．計數原理（6.1）．課堂講義</div>
+</div>
+</body>
+</html>

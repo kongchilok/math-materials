@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>兩點距離、點到直線距離與兩平行線距離 課堂講義</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：＿＿＿＿＿＿</span><span>單元：兩點距離、點到直線距離與兩平行線距離</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、觀念說明</div>
+  <p>1．兩點間的距離公式：已知 \(A(x_1,y_1)\)、\(B(x_2,y_2)\)</p>
+  <p>\[ |AB| = \sqrt{(x_2-x_1)^2+(y_2-y_1)^2} \]</p>
+
+  <p>2．點到直線的距離公式：點 \(P(x_0,y_0)\) 到直線 \(l: Ax+By+C=0\)</p>
+  <p>\[ d = \frac{|Ax_0+By_0+C|}{\sqrt{A^2+B^2}} \]</p>
+
+  <p>3．兩條平行直線間的距離：\(l_1: Ax+By+C_1=0\)，\(l_2: Ax+By+C_2=0\)（注意：兩式的 A、B 要先化成相同）</p>
+  <p>\[ d = \frac{|C_1-C_2|}{\sqrt{A^2+B^2}} \]</p>
+  <div class="hint-card">提示卡：套用平行線距離公式前，一定要先檢查兩條直線的 x、y 係數是否相同；不同的話要先乘一個數字把係數化成一樣。</div>
+
+  <div class="section-h">二、範例</div>
+  <div class="worked-example">
+    <p>例：已知兩條平行直線 \(l_1: x+2y-3=0\) 與 \(l_2: 2x+4y+6=0\)，求 \(l_1\) 與 \(l_2\) 間的距離。</p>
+    <p>步驟1．統一係數：\(l_2\) 除以 2 → \(x+2y+3=0\)（現在 \(l_1、l_2\) 的 A=1, B=2 相同，\(C_1=-3, C_2=3\)）</p>
+    <p>步驟2．方法一（公式法）：</p>
+    <p>\[ d = \frac{|-3-3|}{\sqrt{1^2+2^2}} = \frac{6}{\sqrt5} = \frac{6\sqrt5}{5} \]</p>
+    <p>步驟3．方法二（代點法）：在 \(l_1\) 上任取一點，例如 \(x=3, y=0\)（代入 \(l_1\)：\(3+2(0)-3=0\) 成立），代入原本 \(l_2: 2x+4y+6=0\) 的點到直線距離公式：</p>
+    <p>\[ d = \frac{|2(3)+4(0)+6|}{\sqrt{2^2+4^2}} = \frac{12}{\sqrt{20}} = \frac{6\sqrt5}{5} \]</p>
+    <p>步驟4．兩種方法答案一致，驗算成功：\(d=\dfrac{6\sqrt5}{5}\)</p>
+  </div>
+  <p>接下來請拿《…課堂練習》，依這套框架完成練習A、練習B、練習C。</p>
+
+  <div class="footer">高中數學．距離公式（兩點／點到直線／平行線）　第 1 頁</div>
+
+</div>
+</body>
+</html>

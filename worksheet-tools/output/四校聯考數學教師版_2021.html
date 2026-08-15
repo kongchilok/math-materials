@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="zh-Hant"><head><meta charset="UTF-8">
+<title>澳門四校聯考 2021 數學正卷 教師版</title>
+<script>
+MathJax = { tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}, svg:{fontCache:'global',displayAlign:'left',displayIndent:'0'} };
+</script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-svg.min.js"></script>
+<style>
+  @page { size:A4; margin:0.5cm 1cm 1cm 1cm; }
+  * { box-sizing:border-box; }
+  html { font-size:12pt; }
+  body { font-family:"Noto Serif TC","Times New Roman","Songti TC",serif; color:#111; line-height:1.5; margin:0; padding:0; background:#f3f3f3; }
+  .sheet { max-width:820px; margin:0 auto; background:#fff; padding:0.5cm 1cm 1cm; }
+  .ws-header { border-bottom:2px solid #111; padding-bottom:5px; margin-bottom:8px; }
+  .ws-title { font-size:14pt; font-weight:700; letter-spacing:0.04em; }
+  .ws-tag { display:inline-block; font-size:10pt; background:#b6532c; color:#fff; padding:1px 10px; border-radius:99px; margin-left:8px; vertical-align:middle; }
+  .ws-meta { display:flex; gap:26px; margin-top:5px; font-size:11pt; }
+  .ws-meta .u { display:inline-block; min-width:110px; border-bottom:1px solid #111; }
+  .ws-note { font-size:9.5pt; color:#555; margin-top:4px; }
+
+  .sec-head { font-size:12pt; font-weight:700; margin:10px 0 8px; padding:3px 10px; background:#1d1c1a; color:#fff; border-radius:3px; break-after:avoid; }
+  .sec-head .sec-sub { font-size:9pt; font-weight:400; color:#d8d2c4; margin-left:8px; }
+  .sec-break { page-break-before:always; }
+
+  .q-head { display:flex; align-items:baseline; gap:9px; margin-bottom:3px; }
+  .q-no { font-weight:700; font-size:12pt; color:#b6532c; }
+  .q-tag,.q-type { font-size:8.5pt; color:#888; border:1px solid #ddd; border-radius:99px; padding:0 8px; }
+  .q-body { font-size:12pt; }
+
+  .img-float { float:right; margin:0 0 6px 14px; text-align:center; }
+  .img-float img { max-width:240px; max-height:180px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .img-big { clear:both; text-align:center; margin:8px 0; }
+  .img-big img { max-width:96%; max-height:320px; height:auto; border:1px solid #e3e1d8; background:#fff; }
+  .clear { clear:both; }
+
+  .box { border-radius:4px; padding:5px 11px; margin:6px 0; font-size:10.5pt; }
+  .box ul { margin:2px 0 0; padding-left:20px; } .box li { margin:1px 0; }
+  .formula { background:#eef3f5; border:1px solid #a9c4cc; } .formula .lbl { font-weight:700; color:#2a5560; margin-right:6px; }
+  .hint { background:#f5f0e3; border:1px solid #d6bf86; color:#6a5212; } .hint .lbl { font-weight:700; color:#8a6a1e; margin-right:6px; }
+  .ans { background:#e3f0e8; border:1px solid #7fb89a; } .ans .lbl { font-weight:700; color:#2f6b4f; margin-right:6px; }
+
+  .opts { margin:6px 0 2px; display:flex; flex-wrap:wrap; gap:6px 22px; }
+  .opt { display:inline-flex; align-items:baseline; gap:5px; font-size:11.5pt; white-space:nowrap; }
+  .opt-key { font-weight:700; color:#2a5560; }
+
+  .q { border:1px solid #d8d6cd; border-radius:4px; padding:8px 12px 10px; margin-bottom:9px; page-break-inside:avoid; overflow:hidden; }
+  .work { margin-top:10px; border:1px solid #c9c7bd; border-radius:3px; overflow:hidden; display:flex; flex-direction:column; background:#fff; }
+  .work-lbl { flex:0 0 auto; font-size:8.5pt; color:#aaa; padding:2px 0 0 8px; }
+  .rules { flex:1 1 auto; overflow:hidden; }
+  .rule { height:0.82cm; border-bottom:1px solid #d4dadd; } .rule:last-child { border-bottom:none; }
+  .work-mc { min-height:2.46cm; }
+  .ans-line { margin-top:7px; font-size:11pt; font-weight:600; }
+  .ans-box { display:inline-block; min-width:130px; border-bottom:1.5px solid #111; height:1.1em; vertical-align:bottom; }
+  .sol-fullpage { height:27.4cm; display:flex; flex-direction:column; page-break-before:always; overflow:hidden; }
+  .sol-fullpage .sec-head { flex:0 0 auto; }
+  .sol-fullpage .q-long { flex:1 1 auto; }
+  .q-long { display:flex; flex-direction:column; page-break-inside:avoid; }
+  .q-long .work-sol { flex:1 1 auto; margin-top:8px; }
+
+  .tq { border:1px solid #d8d6cd; border-radius:4px; padding:8px 13px 10px; margin-bottom:10px; }
+  .tq-break { page-break-inside:avoid; }
+  .sol-title { font-weight:700; font-size:11pt; margin:9px 0 4px; padding-bottom:2px; border-bottom:1.5px solid #1d1c1a; }
+  .part { font-weight:700; color:#b6532c; margin:7px 0 4px; font-size:11pt; }
+  .row { display:flex; gap:9px; align-items:stretch; flex-wrap:wrap; margin-bottom:3px; }
+  .region { flex:1 1 auto; border:1px solid #d8d6cd; border-radius:5px; padding:4px 10px 6px; break-inside:avoid; }
+  .region-h { font-size:9.5pt; font-weight:700; color:#fff; background:#2a5560; border-radius:3px; padding:1px 8px; display:inline-block; margin-bottom:3px; }
+  .region .math { font-size:10.5pt; }
+  .region .math mjx-container { margin:0 !important; }
+  .fill { margin-top:3px; border-top:1px dashed #e0ddd2; background:#fcfcfa; }
+</style></head><body>
+<div class="sheet">
+  <div class="ws-header">
+    <div class="ws-title">澳門四校聯考　2021 年試題　數學正卷<span class="ws-tag">教師版</span></div>
+  </div>
+  
+  <div class="sec-head">第一部分　選擇題<span class="sec-sub">共 15 題 · 含正確答案與詳解</span></div>
+  <div class="tq">
+  <div class="q-head"><span class="q-no">1.</span><span class="q-type">第一類型：基本概念</span></div>
+  
+  <div class="q-body">若集合 \(P=\{1, 2, 3, 5, 7, 11\}\)，\(Q=\{x: x^2-15x+36&lt;0\}\)，求 \(P \cap Q\) 中元素的個數。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>二次不等式 \((x-p)(x-q)&lt;0\)（\(p&lt;q\)）的解為 \(p&lt;x&lt;q\)</li><li>交集：兩集合共同的元素</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(3\) 個</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 因式分解定 \(Q\)</span><div class="math">\[\begin{aligned}
+x^2-15x+36 &amp;= (x-3)(x-12) \\
+Q &amp;= \{x:3&lt;x&lt;12\}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 取 \(P\) 中落在區間</span><div class="math">\[\begin{aligned}
+P\cap Q &amp;= \{5,7,11\} \\
+&amp;= 3\ \text{個}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">2.</span><span class="q-type">第三類型：變分</span></div>
+  
+  <div class="q-body">瑪麗和約翰兩人分別要用 4 小時及 3 小時完成某件工作。若他們一起做，需要多少小時才能完成 5 件相同的工作？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>工作效率（每小時完成量）= \(\dfrac{1}{\text{單獨所需時間}}\)</li><li>合作效率 = 各人效率之和</li><li>時間 = \(\dfrac{\text{總工作量}}{\text{合作效率}}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(\tfrac{60}{7}\) 小時</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 各自效率</span><div class="math">\[\begin{aligned}
+\text{瑪麗}=\tfrac{1}{4},\ \text{約翰} &amp;= \tfrac{1}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 合作效率</span><div class="math">\[\begin{aligned}
+\tfrac{1}{4}+\tfrac{1}{3} &amp;= \tfrac{7}{12}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 完成 5 件</span><div class="math">\[\begin{aligned}
+T &amp;= \dfrac{5}{7/12} \\
+&amp;= \dfrac{60}{7}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">3.</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">有一等差數列前 \(n\) 項之總和為 \(n^2\)，求此數列的第 10 項。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>由和求項：\(a_n = S_n - S_{n-1}\)（\(n \geq 2\)）</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(a_{10}=19\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 由和求通項</span><div class="math">\[\begin{aligned}
+a_n &amp;= S_n-S_{n-1} \\
+&amp;= n^2-(n-1)^2 \\
+&amp;= 2n-1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 第 10 項</span><div class="math">\[\begin{aligned}
+a_{10} &amp;= 19
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">4.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">若對所有實數 \(x\)，\(y = mx^2 + 6x + 3m\) 都為正數，求 \(m\) 的取值範圍。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>二次函數恆正 \(\Leftrightarrow\) 開口向上（\(a&gt;0\)）且判別式 \(\Delta &lt; 0\)</li><li>\(\Delta = b^2 - 4ac\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(m&gt;\sqrt3\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 恆正兩條件</span><div class="math">\[\begin{aligned}
+m &amp;&gt; 0 \\
+\Delta=36-12m^2 &amp;&lt; 0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 解</span><div class="math">\[\begin{aligned}
+m^2 &amp;&gt; 3 \\
+m &amp;&gt; \sqrt3
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">5.</span><span class="q-type">第五類型：二次方程及二次函數</span></div>
+  
+  <div class="q-body">已知 \(-2x^2+3x-7=0\) 的根為 \(\alpha\) 和 \(\beta\)。下列哪一個方程的根為 \(\dfrac{1}{\alpha}\) 和 \(\dfrac{1}{\beta}\)？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>韋達定理：\(\alpha+\beta = -\dfrac{b}{a}\)，\(\alpha\beta = \dfrac{c}{a}\)</li><li>倒數和：\(\dfrac{1}{\alpha}+\dfrac{1}{\beta} = \dfrac{\alpha+\beta}{\alpha\beta}\)，倒數積：\(\dfrac{1}{\alpha\beta}\)</li><li>由根重建方程：\(x^2 - (\text{根和})x + (\text{根積}) = 0\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(7x^2-3x+2=0\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 韋達定理</span><div class="math">\[\begin{aligned}
+\alpha+\beta &amp;= \tfrac{3}{2} \\
+\alpha\beta &amp;= \tfrac{7}{2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 新根和與積</span><div class="math">\[\begin{aligned}
+\tfrac{1}{\alpha}+\tfrac{1}{\beta} &amp;= \tfrac{3/2}{7/2}=\tfrac{3}{7} \\
+\tfrac{1}{\alpha\beta} &amp;= \tfrac{2}{7}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 重建方程</span><div class="math">\[\begin{aligned}
+x^2-\tfrac{3}{7}x+\tfrac{2}{7} &amp;= 0 \\
+7x^2-3x+2 &amp;= 0
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">6.</span><span class="q-type">第十二類型：直線圖形及圓</span></div>
+  <div class="q-img img-float"><img src="data:image/png;base64,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" alt="第6題圖示"></div>
+  <div class="q-body">右圖中兩個半徑相等的圓與長方形的上、下邊相切。長方形的長和寬分別為 7 cm 及 4 cm，兩個圓的相交部份面積為 3 cm²，求陰影部份面積（cm²）。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>圓面積：\(\pi r^2\)</li><li>長方形面積：長 × 寬</li><li>容斥原理：兩圓覆蓋面積 = 兩圓面積和 − 重疊面積</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(31-8\pi\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 半徑</span><div class="math">\[\begin{aligned}
+2r &amp;= 4 \\
+r &amp;= 2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 兩圓覆蓋（容斥）</span><div class="math">\[\begin{aligned}
+4\pi+4\pi-3 &amp;= 8\pi-3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 陰影</span><div class="math">\[\begin{aligned}
+28-(8\pi-3) &amp;= 31-8\pi
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">7.</span><span class="q-type">第六類型：指數及根式</span></div>
+  
+  <div class="q-body">若方程式 \(9^{-x^2} - 4\cdot 3^{-x^2} = k\) 有實數解，下列哪個一定成立？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>換元：令 \(t = 3^{-x^2}\)，注意 \(-x^2 \leq 0\) 故 \(0 &lt; t \leq 1\)</li><li>在限定區間上求二次函數的值域</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(-3\le k&lt;0\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 換元</span><div class="math">\[\begin{aligned}
+t &amp;= 3^{-x^2}\in(0,1] \\
+9^{-x^2} &amp;= t^2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 配方</span><div class="math">\[\begin{aligned}
+k &amp;= t^2-4t \\
+&amp;= (t-2)^2-4
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求值域</span><div class="math">\[\begin{aligned}
+t\to0^+ &amp;\Rightarrow k\to0^- \\
+t=1 &amp;\Rightarrow k=-3 \\
+&amp;\Rightarrow -3\le k&lt;0
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">8.</span><span class="q-type">第四類型：多項式及有理分式</span></div>
+  
+  <div class="q-body">設 \(f(x) = -16x^3 - mx - m\)。若 \(f(x)\) 能被 \(2x+1\) 整除，求 \(m\) 之值。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>因式定理：\(f(x)\) 能被 \(2x+1\) 整除 \(\Leftrightarrow f\left(-\dfrac{1}{2}\right) = 0\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(m=4\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 因式定理</span><div class="math">\[\begin{aligned}
+f\!\left(-\tfrac{1}{2}\right) &amp;= 0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代入化簡</span><div class="math">\[\begin{aligned}
+2-\tfrac{m}{2} &amp;= 0 \\
+m &amp;= 4
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">9.</span><span class="q-type">第一類型：基本概念</span></div>
+  
+  <div class="q-body">\(103^{10}\) 的十位數字（右面起計第二個數字；例如 43128 的十位數字是 2）是多少？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>十位數字由「該數 \(\bmod 100\)」（末兩位）決定</li><li>二項展開：\((100+3)^{10}\) 中含 \(100\) 的項對末兩位無貢獻</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　十位數字 \(=4\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 只看末兩位</span><div class="math">\[\begin{aligned}
+103^{10} &amp;\equiv 3^{10} \pmod{100}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 計算</span><div class="math">\[\begin{aligned}
+3^{10} &amp;= 59049
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 十位數字</span><div class="math">\[\begin{aligned}
+&amp;= 4
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">10.</span><span class="q-type">第八類型：對數與指數函數</span></div>
+  
+  <div class="q-body">若 \(\log_4 x = y - 3\) 及 \(2(\log_4 x)^2 = 4 - y\)，求 \(x\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>換元：令 \(u = \log_4 x\)</li><li>\(\log_4 x = u \Leftrightarrow x = 4^u\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(x=\tfrac{1}{4}\) 或 \(2\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 換元</span><div class="math">\[\begin{aligned}
+u &amp;= \log_4 x \\
+y &amp;= u+3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代入第二式</span><div class="math">\[\begin{aligned}
+2u^2 &amp;= 1-u \\
+(2u-1)(u+1) &amp;= 0
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求 \(x\)</span><div class="math">\[\begin{aligned}
+u=\tfrac{1}{2} &amp;\Rightarrow x=2 \\
+u=-1 &amp;\Rightarrow x=\tfrac{1}{4}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">11.</span><span class="q-type">第十五類型：函數圖形</span></div>
+  <div class="q-img img-float"><img src="data:image/png;base64,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iYuLs1qtc+fO/fHHH++//37eBbpVeXn5wIEDo6KiMjMz161b19raarPZkpOTs7Oz/fz8eFfn0UJDQx1/GBISwqsS+cBVnjNeeumlL7/8Mj8/n+Yd9eSTT9bX13/88cccC+Piueeea2xsNBqNRqOxtra2sbFx8+bNBQUFmZmZvEsDaA+R12vFxcXvvvvutm3b2l3N0Ssaue2OPH369J07d8aOHVtdXb1jx44BAwb06dNny5YtY8eO/eqrr3hXB9Aebmx7be3atUOHDk1OTm73uslkIt54b9LU1JSdnV1TU+O4hDM0NHT58uWEkKKiojlz5hBC2q1ce+CBBwYMGODeSoVUW1ubm5t769YtxxcnTpzY2we44GkQeb1z4sSJ77//ftWqVT4+7S+Qi4uLiTeu21i2bFlNTU1lZWVcXFxLS0tpaemMGTOGDx9O/+++ffveeuute7/rhx9++PDDD91aqHBu3749d+7cvn37mkymmJiYuro6s9k8duzYsLAw3qWBqxB5vfPNN98QQqZMmdLu9ebm5o8//njMmDFe9ritpqbmD3/4w6xZs5KSkoqKis6fP//HP/5x37599P9eunTJZDLdm/KHDh2Ki4v77W9/6+5yBfLvf/87Pz+/sbExJyfn9ddf/+ijj3766aetW7fyrgsEgMjrnatXrxJChg4d2u71PXv2XL58+f333+dRlIjCwsLCwsJsNltrayshpKamZtiwYez/7tu3b/bs2e32Cdy6dWv79u3Z2dnurlU4jz/+OCGkpKSE3pu3+1mDpOHxRe889NBDhJDr1687vlhXV7du3bqFCxf2diemVJw7d27gwIGEEIvF4vjQpqioKCkpyfErW1paXn755czMzH79+rm7SqGdPXuWLiJp97MGSUPk9U5iYuKIESNyc3PZKzdv3kxKSnrsscf+9a9/cSxMVHq9nl7YWq1WOonZ1NTU0NBw/PjxmTNnsi+z2+3r1q1btWoV6wjS2NjIpWBBdPiz5l0UuAqR1zt9+vQ5cOBAZWXlkiVL9u7d+/bbbycnJy9evDg7O9txjZ43uXnz5uuvvz5q1ChCSGBgYHFx8ddff52RkfHpp58mJCQEBATQL2ttbV26dOmwYcMaGhoMBsOXX365evXqM2fOcK3ded98801hYSH7Wefn5xsMBknfrcPP+Lbrk64zZ86UlZWZTKbOvoD2E9XpdO6sSgy7du3q27dvXV2d3W6/du2aWq328fH55JNP5syZs2fPHvZlCxYsaPdH6+GHH+ZXtauee+65CRMm0HFpaamvr29QUNDFixf5VgWuQ788seTm5qampup0Ose7YClqamqqra1l96pXrly5fv16WFiYRqMxmUzeugHeYrH4+PiwVZY//fRT//79e755FjwWnthCNwICAhy79Q4cOHDgwIGNjY3FxcXemnekrd0hExUVxasSEBbm8sAZ/fr1mzhxIu8qAHoNkQcAMvL/4Wp9FbFC80QAAAAASUVORK5CYII=" alt="第11題圖示"></div>
+  <div class="q-body">右圖所示為下列哪一個函數的圖像？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(y = b + a\cos(\omega x)\)：最大 \(b+|a|\)、最小 \(b-|a|\)、週期 \(\dfrac{2\pi}{\omega}\)</li><li>\(\cos\) 在 \(x=0\) 取最大</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(B)　\(y=3+2\cos2x\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 中線與振幅</span><div class="math">\[\begin{aligned}
+b &amp;= \tfrac{5+1}{2}=3 \\
+a &amp;= \tfrac{5-1}{2}=2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 定週期</span><div class="math">\[\begin{aligned}
+\text{半週期} &amp;= \tfrac{\pi}{2} \\
+T=\pi &amp;\Rightarrow \omega=2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 結論</span><div class="math">\[\begin{aligned}
+y &amp;= 3+2\cos2x
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">12.</span><span class="q-type">第十四類型：解析幾何</span></div>
+  
+  <div class="q-body">已知點 \(P(-1, -3)\) 和 \(Q(5, -1)\)，求 \(PQ\) 的垂直平分線的方程。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>中點：\(\left(\dfrac{x_1+x_2}{2}, \dfrac{y_1+y_2}{2}\right)\)</li><li>垂直平分線過中點，斜率為 \(PQ\) 斜率的負倒數</li><li>點斜式：\(y - y_0 = m(x - x_0)\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(E)　\(3x+y-4=0\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 中點</span><div class="math">\[\begin{aligned}
+M &amp;= (2,-2)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 斜率與垂線</span><div class="math">\[\begin{aligned}
+k_{PQ} &amp;= \tfrac{1}{3} \\
+m &amp;= -3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 點斜式</span><div class="math">\[\begin{aligned}
+y+2 &amp;= -3(x-2) \\
+3x+y-4 &amp;= 0
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">13.</span><span class="q-type">第十六類型：概率和統計</span></div>
+  
+  <div class="q-body">若一組數據 \(x_1, x_2, \ldots, x_n\) 的平均數和方差分別為 1 和 0.01，則數據 \(10x_1, 10x_2, \ldots, 10x_n\) 的平均數和方差分別是多少？</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>數據乘 \(k\)：平均數變為 \(k\) 倍</li><li>數據乘 \(k\)：方差變為 \(k^2\) 倍</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(D)　\(10\) 和 \(1\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 平均乘 10</span><div class="math">\[\begin{aligned}
+\bar{x}' &amp;= 10\times1=10
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 方差乘 \(10^2\)</span><div class="math">\[\begin{aligned}
+s'^2 &amp;= 10^2\times0.01=1
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">14.</span><span class="q-type">第六類型：指數及根式</span></div>
+  
+  <div class="q-body">化簡 \(\dfrac{\sqrt{140} - \sqrt{132}}{\sqrt{35} + \sqrt{33}}\)。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\sqrt{4a} = 2\sqrt{a}\)</li><li>分母有理化：乘以共軛 \((\sqrt{p}-\sqrt{q})\)</li><li>\((\sqrt{p}-\sqrt{q})^2 = p + q - 2\sqrt{pq}\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(A)　\(68-2\sqrt{1155}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 分子提 2</span><div class="math">\[\begin{aligned}
+\sqrt{140}-\sqrt{132} &amp;= 2(\sqrt{35}-\sqrt{33})
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 有理化（乘共軛）</span><div class="math">\[\begin{aligned}
+\text{原式} &amp;= \frac{2(\sqrt{35}-\sqrt{33})^2}{35-33}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 展開</span><div class="math">\[\begin{aligned}
+&amp;= \frac{2(68-2\sqrt{1155})}{2} \\
+&amp;= 68-2\sqrt{1155}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq">
+  <div class="q-head"><span class="q-no">15.</span><span class="q-type">第七類型：代數不等式</span></div>
+  
+  <div class="q-body">若 \(\dfrac{5}{a} + \dfrac{4}{b} = 3\)（\(a, b &gt; 0\)），求 \(ab\) 的最小值。</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>算術-幾何平均不等式：\(p + q \geq 2\sqrt{pq}\)（\(p, q &gt; 0\)）</li><li>等號成立於 \(p = q\)</li></ul></div>
+  <div class="box ans"><span class="lbl">正確答案</span>(C)　\(ab_{\min}=\tfrac{80}{9}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 算幾不等式</span><div class="math">\[\begin{aligned}
+3 &amp;= \tfrac{5}{a}+\tfrac{4}{b} \\
+&amp;\ge 2\sqrt{\tfrac{20}{ab}}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 平方求下界</span><div class="math">\[\begin{aligned}
+9 &amp;\ge \tfrac{80}{ab} \\
+ab &amp;\ge \tfrac{80}{9}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 最小值</span><div class="math">\[\begin{aligned}
+ab_{\min} &amp;= \tfrac{80}{9}
+\end{aligned}\]</div></div></div>
+</div>
+  <div class="sec-head sec-break">第二部分　解答題<span class="sec-sub">共 5 題 · 含參考答案與詳解</span></div>
+  <div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 1 題</span><span class="q-type">第十六類型：概率和統計</span></div>
+  
+  <div class="q-body">書架上有中文書 4 本、英文書 2 本、數學書 3 本。<br>(a) 隨機選取 3 本書，求取得中、英、數各一本的概率。（3 分）<br>(b) 將這九本書隨機重新排列，求同類書籍排在一起的概率。（5 分）<br>[注：以最簡分數表示答案。]</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>組合數：\(\binom{n}{k} = \dfrac{n!}{k!(n-k)!}\)</li><li>古典概率 = \(\dfrac{\text{有利情形}}{\text{總情形}}\)</li><li>捆綁法：把同類視為一組先排組、組內再排</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\tfrac{2}{7}\)　(b) \(\tfrac{1}{210}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）中英數各一本</div><div class="row"><div class="region"><span class="region-h">工序 1 · 總取法與有利</span><div class="math">\[\begin{aligned}
+\binom{9}{3} &amp;= 84 \\
+4\times2\times3 &amp;= 24
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 概率</span><div class="math">\[\begin{aligned}
+P &amp;= \tfrac{24}{84}=\tfrac{2}{7}
+\end{aligned}\]</div></div></div><div class="part">（b）同類相鄰</div><div class="row"><div class="region"><span class="region-h">工序 3 · 捆綁法</span><div class="math">\[\begin{aligned}
+\text{有利} &amp;= 3!\cdot4!\cdot2!\cdot3!
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 概率</span><div class="math">\[\begin{aligned}
+P &amp;= \frac{3!\,4!\,2!\,3!}{9!} \\
+&amp;= \frac{1}{210}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 2 題</span><span class="q-type">第十四類型：解析幾何</span></div>
+  <div class="q-img img-float"><img src="data:image/png;base64,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" alt="第2題圖示"></div>
+  <div class="q-body">圖中一個以 \(M(4, 4)\) 為圓心的圓與 \(L_1: y = 2x\) 和 \(L_2: y = mx\) 兩直線相切，切點分別為 \(P\) 和 \(Q\)。<br>(a) 求圓的方程。（4 分）<br>(b) 求 \(m\) 的值。（4 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>點到直線距離：\(d = \dfrac{|ax_0 + by_0 + c|}{\sqrt{a^2+b^2}}\)</li><li>圓與直線相切：圓心到直線距離 = 半徑</li><li>圓方程：\((x-h)^2 + (y-k)^2 = r^2\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \((x-4)^2+(y-4)^2=\tfrac{16}{5}\)　(b) \(m=\tfrac{1}{2}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求圓的方程</div><div class="row"><div class="region"><span class="region-h">工序 1 · 半徑 = 圓心到 \(L_1\) 距</span><div class="math">\[\begin{aligned}
+r &amp;= \frac{|2(4)-4|}{\sqrt5} \\
+&amp;= \frac{4}{\sqrt5}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 圓方程</span><div class="math">\[\begin{aligned}
+(x-4)^2+(y-4)^2 &amp;= \tfrac{16}{5}
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(m\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · \(L_2\) 也相切</span><div class="math">\[\begin{aligned}
+\frac{|4m-4|}{\sqrt{m^2+1}} &amp;= \frac{4}{\sqrt5}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 解 \(m\)</span><div class="math">\[\begin{aligned}
+5(m-1)^2 &amp;= m^2+1 \\
+(m-2)(2m-1) &amp;= 0 \\
+m &amp;= \tfrac{1}{2}\ (\ne 2)
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 3 題</span><span class="q-type">第七類型：代數不等式</span></div>
+  
+  <div class="q-body">若 \(x, y &gt; 0\) 及 \(y^2 - 2myx + x^2 = a^2\)，其中 \(a, m\) 為常數且 \(0 &lt; m &lt; 1\)。<br>(a) 證明 \((1-m^2)y^2 = a^2 - (x - my)^2\)。（3 分）<br>(b) 證明當 \(y = \dfrac{x}{m}\) 時 \(y\) 值達至最大。（3 分）<br>(c) 由此決定使 \(y\) 最大的 \(x\) 值（以 \(a, m\) 表示）。（2 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>配方法：把含 \(x\) 的項湊成完全平方 \((x - my)^2\)</li><li>完全平方非負：\((x-my)^2 \geq 0\)，等號當 \(x = my\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a)(b) 見證明　(c) \(x=\dfrac{ma}{\sqrt{1-m^2}}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）證恆等式</div><div class="row"><div class="region"><span class="region-h">工序 1 · 展開右邊</span><div class="math">\[\begin{aligned}
+a^2-(x-my)^2 &amp;= a^2-x^2+2mxy-m^2y^2
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 代入已知 \(a^2\)</span><div class="math">\[\begin{aligned}
+&amp;= y^2-m^2y^2 \\
+&amp;= (1-m^2)y^2\ \square
+\end{aligned}\]</div></div></div><div class="part">（b）證 \(y\) 最大</div><div class="row"><div class="region"><span class="region-h">工序 3 · 解 \(y^2\)</span><div class="math">\[\begin{aligned}
+y^2 &amp;= \frac{a^2-(x-my)^2}{1-m^2}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 最大條件</span><div class="math">\[\begin{aligned}
+(x-my)^2\ge0 &amp;\Rightarrow x=my\ \text{時最大}
+\end{aligned}\]</div></div></div><div class="part">（c）求 \(x\)</div><div class="row"><div class="region"><span class="region-h">工序 5 · 代回求 \(x\)</span><div class="math">\[\begin{aligned}
+y_{\max} &amp;= \frac{a}{\sqrt{1-m^2}} \\
+x &amp;= my_{\max}=\frac{ma}{\sqrt{1-m^2}}
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 4 題</span><span class="q-type">第十一類型：數列</span></div>
+  
+  <div class="q-body">在等差數列 \(\{a_n\}_{n \geq 1}\) 中，已知 \(a_2 = 3\) 及 \(a_{20} = 39\)。<br>(a) 求 \(\{a_n\}\) 的通項。（3 分）<br>(b) 設數列 \(\left\{\dfrac{1}{a_n a_{n+1}}\right\}\) 的前 \(n\) 項和為 \(S_n\)。若 \(S_n = \dfrac{10}{21}\)，求 \(n\)。（5 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>等差通項：\(a_n = a_1 + (n-1)d\)</li><li>任兩項：\(a_n = a_m + (n-m)d\)</li><li>裂項相消：\(\dfrac{1}{a_k a_{k+1}} = \dfrac{1}{d}\left(\dfrac{1}{a_k} - \dfrac{1}{a_{k+1}}\right)\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(a_n=2n-1\)　(b) \(n=10\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求通項</div><div class="row"><div class="region"><span class="region-h">工序 1 · 公差與首項</span><div class="math">\[\begin{aligned}
+18d &amp;= 36 \\
+d &amp;= 2 \\
+a_1 &amp;= 1
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 通項</span><div class="math">\[\begin{aligned}
+a_n &amp;= 2n-1
+\end{aligned}\]</div></div></div><div class="part">（b）求 \(n\)</div><div class="row"><div class="region"><span class="region-h">工序 3 · 裂項</span><div class="math">\[\begin{aligned}
+\frac{1}{a_na_{n+1}} &amp;= \frac{1}{2}\left(\frac{1}{2n-1}-\frac{1}{2n+1}\right)
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 求和</span><div class="math">\[\begin{aligned}
+S_n &amp;= \frac{n}{2n+1}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 5 · 解 \(n\)</span><div class="math">\[\begin{aligned}
+\frac{n}{2n+1} &amp;= \frac{10}{21} \\
+21n &amp;= 20n+10 \\
+n &amp;= 10
+\end{aligned}\]</div></div></div>
+</div>
+<div class="tq tq-break">
+  <div class="q-head"><span class="q-no">解答第 5 題</span><span class="q-type">第十三類型：三角</span></div>
+  
+  <div class="q-body">在 \(\triangle ABC\) 中，\(\sin(C - A) = 1\) 及 \(\cos B = \dfrac{2\sqrt{2}}{3}\)。<br>(a) 求 \(\sin^2 C\)。（4 分）<br>(b) 若 \(|AC| = 5\)，求 \(\triangle ABC\) 的面積。（4 分）</div>
+  <div class="clear"></div>
+  <div class="box formula"><span class="lbl">相關公式</span><ul><li>\(\sin\theta = 1 \Rightarrow \theta = 90°\)</li><li>三角形內角和 \(A+B+C = 180°\)</li><li>平方關係 \(\sin^2 + \cos^2 = 1\)；二倍角 \(\cos 2C = 1 - 2\sin^2 C\)</li><li>正弦定理 \(\dfrac{a}{\sin A} = \dfrac{b}{\sin B} = \dfrac{c}{\sin C}\)；面積 \(\dfrac{1}{2}ab\sin C\)</li></ul></div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\sin^2C=\tfrac{2}{3}\)　(b) 面積 \(=\dfrac{25\sqrt2}{2}\)</div>
+  <div class="sol-title">詳細解題過程（工序分析法）</div>
+  <div class="part">（a）求 \(\sin^2 C\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 定角</span><div class="math">\[\begin{aligned}
+C-A &amp;= 90^\circ \\
+\sin B &amp;= \tfrac{1}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 求 \(\cos2C\)</span><div class="math">\[\begin{aligned}
+2C &amp;= 270^\circ-B \\
+\cos2C &amp;= -\sin B=-\tfrac{1}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 二倍角求 \(\sin^2C\)</span><div class="math">\[\begin{aligned}
+-\tfrac{1}{3} &amp;= 1-2\sin^2C \\
+\sin^2C &amp;= \tfrac{2}{3}
+\end{aligned}\]</div></div></div><div class="part">（b）求面積</div><div class="row"><div class="region"><span class="region-h">工序 4 · 求 \(\cos C,\sin A\)</span><div class="math">\[\begin{aligned}
+\cos C &amp;= -\tfrac{\sqrt3}{3} \\
+\sin A &amp;= -\cos C=\tfrac{\sqrt3}{3}
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 5 · 正弦定理求 \(BC\)</span><div class="math">\[\begin{aligned}
+BC &amp;= \frac{AC\sin A}{\sin B} \\
+&amp;= 5\sqrt3
+\end{aligned}\]</div></div><div class="region"><span class="region-h">工序 6 · 面積</span><div class="math">\[\begin{aligned}
+\text{面積} &amp;= \tfrac{1}{2}\cdot5\sqrt3\cdot5\cdot\sqrt{\tfrac{2}{3}} \\
+&amp;= \tfrac{25\sqrt2}{2}
+\end{aligned}\]</div></div></div>
+</div>
+</div></body></html>

@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_函數的表示方法與分段函數_高一數學</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }
+  .hint-card { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .fig { text-align: center; margin: 10px 0; break-inside: avoid; }
+  .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: middle; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl.long { break-inside: auto; }
+  .d-tbl.long tr { break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+  .dual td:first-child { width: 46%; text-align: center; }
+  .dual td img { max-width: 100%; height: auto; }
+  .datatable { width: 100%; border-collapse: collapse; margin: 8px 0; break-inside: avoid; }
+  .datatable th, .datatable td { border: 0.75pt solid #000; padding: 5px 8px; text-align: center; font-size: 11.5pt; }
+  .datatable th { background: #f0f0f0; font-weight: 700; }
+  .step-card td:first-child { width: 56%; font-weight: 700; vertical-align: top; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; vertical-align: top; }
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap; vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; white-space: normal; }
+  .worked td.ans { font-weight: 700; }
+  .worked td.why { width: 42%; vertical-align: middle; white-space: normal; }
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 26%; background: #f0f0f0; font-weight: 700; }
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．函數的表示方法與分段函數</div></td></tr></tfoot>
+  <tbody><tr><td>
+
+  <div class="masthead"><span>科目：高一數學</span><span>單元：函數的表示方法與分段函數</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">情境：文具店影印收費</div>
+  <div>文具店影印每張收 0.5 元，影印 x 張（x 為正整數）要付 y 元。同一件事，可以用三種方式表示：</div>
+
+  <div class="hint-card">① 解析法（用式子表示）：\(y=0.5x\)　（x 為正整數）</div>
+  <div style="margin-top:6px">② 列表法（用表格表示）：</div>
+  <table class="datatable">
+    <tr><th>x（張）</th><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+    <tr><th>y（元）</th><td>0.5</td><td>1</td><td>1.5</td><td>2</td><td>2.5</td></tr>
+  </table>
+
+  <div class="fig">
+    <img src="svgs_expr_piecewise/copy_scatter.png" width="460" height="290" alt="③ 圖象法：y=0.5x 的五個點">
+    <div class="cap">圖：x 只取正整數，所以圖象是一顆一顆分開的點，不連成直線——定義域會影響圖象的樣子</div>
+  </div>
+  <div>三種表示法是同一個函數的不同「面孔」，可以互相轉換；選哪一種，只看哪一種最方便。</div>
+
+  <div class="section-h">一、分段函數的概念</div>
+  <div>函數 \(y=|x|\)：正數的絕對值是它自己，負數的絕對值是它的相反數。同一個函數要分成兩段、用兩條不同的式子才寫得清楚——把定義域分成幾段、每一段各自用不同解析式表示的函數，就叫分段函數。</div>
+
+  <table class="d-tbl dual long">
+    <thead><tr><th>圖形上發生什麼</th><th>算式上寫什麼</th></tr></thead>
+    <tbody>
+    <tr>
+      <td><img src="svgs_expr_piecewise/abs_right.png" width="300" height="210" alt="x≥0 的射線"></td>
+      <td>當 \(x \ge 0\) 時，圖象是向右上的射線，<br>算式寫成 \(y = x\)</td>
+    </tr>
+    <tr>
+      <td><img src="svgs_expr_piecewise/abs_left.png" width="300" height="210" alt="x&lt;0 的射線"></td>
+      <td>當 \(x \lt 0\) 時，圖象是向左上的射線，<br>算式寫成 \(y = -x\)</td>
+    </tr>
+    <tr>
+      <td><img src="svgs_expr_piecewise/abs_full.png" width="300" height="210" alt="y=|x| 的 V 形圖"></td>
+      <td>兩段合起來是 V 字形，一條式子寫齊兩段：
+        \[y=\begin{cases} x, & x \ge 0 \\ -x, & x \lt 0 \end{cases}\]</td>
+    </tr>
+    </tbody>
+  </table>
+
+  <div class="hint-card">分段函數的標準寫法：函數名 ＝ 一個大括號，括號內逐行寫「算式，這一行管哪一段 x」——一行一段，不要寫成一句一句的文字。</div>
+  <div style="margin-top:6px">分段函數在生活中很常見：的士跳錶收費、個人所得稅、電費——「不同範圍用不同規則計算」，正是分段函數的應用。</div>
+
+  <div class="section-h">二、求分段函數的值　四步驟</div>
+  <table class="d-tbl step-card">
+    <tr><th colspan="2">分段函數求值　手順卡</th></tr>
+    <tr><td colspan="2" style="font-weight:400">什麼時候用：題目給了一個分段函數，並要你求某個 x 的函數值時</td></tr>
+    <tr><td>1. 看清楚題目給的 x 是多少，判斷它落在大括號的哪一行。</td>
+        <td class="pitfall">※ 邊界值（例如 x=0、t=3）要看清楚是「≥」還是「＞」，等號在哪一行就屬於哪一行。</td></tr>
+    <tr><td>2. 把那一行的算式整條抄下來。</td>
+        <td class="pitfall">※ 只抄一行；抄錯行的話後面全部白做。</td></tr>
+    <tr><td>3. 把算式裡的每一個 x（或 t）都換成題目的數值，再計算。</td>
+        <td class="pitfall">※ 同一條式子裡出現兩次 x，兩處都要換。</td></tr>
+    <tr><td>4. 回頭檢查：答案的大小、單位是否合理。</td>
+        <td class="pitfall">※ 收費、電費類的題目可以分段累加驗一次，兩種算法要一致。</td></tr>
+    <tr><td colspan="2" style="font-weight:400;background:#f0f0f0">（教師）褪除：本課手順卡完整呈現，每步都寫出動作與易錯點。練習B 起：只在區塊開頭重印一次精簡版（步驟數字＋關鍵詞）。練習C 起：不再重印卡片，改由學生口述四步驟。</td></tr>
+  </table>
+
+  <div class="section-h">三、範例：停車場收費</div>
+  <div class="lead">某停車場按泊車時間 t（小時）收費 y（元）：首 1 小時（含）免費；超過 1 小時至 3 小時（含）的部分每小時 10 元；超過 3 小時的部分每小時 15 元。寫成分段函數就是：</div>
+  \[y=\begin{cases} 0, & 0 \le t \le 1 \\ 10(t-1), & 1 \lt t \le 3 \\ 20+15(t-3), & t \gt 3 \end{cases}\]
+  <div>題目：小明泊車 5 小時，需要付停車費多少元？</div>
+
+  <table class="d-tbl worked long">
+    <thead><tr><th colspan="7">算式</th><th>這一步在做什麼</th></tr></thead>
+    <tbody>
+    <tr><td class="ecs" colspan="7">\(t = 5\)</td>
+      <td class="why">① 判斷：5 比 3 大，所以落在大括號最下面那一行（\(t \gt 3\)）。</td></tr>
+    <tr><td class="ec1">\(y\)</td><td class="ec2">\(=\)</td><td class="ec3">\(20+15(t-3)\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">② 抄下那一行的算式。</td></tr>
+    <tr><td class="ec1">\(y\)</td><td class="ec2">\(=\)</td><td class="ec3">\(20+15(5-3)\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">③ 代入：式子裡的 t 全部換成 5。</td></tr>
+    <tr><td class="ec1">\(y\)</td><td class="ec2">\(=\)</td><td class="ec3">\(20+15 \times 2\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">先算括號。</td></tr>
+    <tr><td class="ec1">\(y\)</td><td class="ec2">\(=\)</td><td class="ec3">\(20+30\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">再算乘法。</td></tr>
+    <tr><td class="ec1">\(y\)</td><td class="ec2">\(=\)</td><td class="ec3">\(50\)</td><td class="ec4"></td><td class="ec5"></td><td class="ec6"></td><td class="ec7"></td>
+      <td class="why">最後做加法。</td></tr>
+    <tr><td class="ecs" colspan="7">④ 檢查</td>
+      <td class="why">首 1 小時免費；1～3 小時共 2 小時，每小時 10 元＝20 元；3～5 小時共 2 小時，每小時 15 元＝30 元；20＋30＝50，與代入的結果一致。</td></tr>
+    <tr><td class="ecs ans" colspan="7">\(\therefore\) 小明需要付 50 元</td>
+      <td class="why">作答：最後一行用「∴」寫出結論</td></tr>
+    </tbody>
+  </table>
+
+  <div style="margin-top:8px">接下來請拿《函數的表示方法與分段函數課堂練習》，依同一套四步驟框架完成練習A、B、C。</div>
+
+  <div class="teacher-notes">
+    <div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div>
+    <table class="d-tbl">
+      <tr><td>本份採用的主設計</td><td>D5 圖文雙軌對照（圖象法直接出圖；y=|x| 逐段「圖上看到什麼→算式上寫成什麼」）</td></tr>
+      <tr><td>輔助設計</td><td>D2 手順卡（分段函數求值四步驟）、D12 自我核對清單（練習端）</td></tr>
+      <tr><td>選用理由</td><td>本課的核心瓶頸是「同一個函數的三種面孔（式／表／圖）互相對不上」，屬 S4 函數與圖像，建議主設計為 D5 圖文雙軌；分段函數的求值則是有固定程序的多步驟運算（S2），降為輔助設計 D2 手順卡。兩個瓶頸依序出現，主設計取較前端的 S4（先看得懂圖與式是同一件事，才談得上代入求值）。</td></tr>
+      <tr><td>鷹架密度</td><td>全班共用</td></tr>
+      <tr><td>褪除路徑</td><td>D5：本課圖與式逐段並排；練習A 側欄只留數線分段圖（式子照印）；練習B 側欄的分段圖只畫界線、每段用哪條式由學生自己寫；練習C 不再給圖。D2：本課手順卡完整呈現；練習B 起精簡成區塊開頭一次重印；練習C 起完全不重印，改由學生口述四步驟。</td></tr>
+      <tr><td>課堂實施流程</td><td>F5 課前流程預告、F3 褪除計劃</td></tr>
+      <tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距／放大作答欄</td></tr>
+    </table>
+  </div>
+
+  </td></tr></tbody>
+</table>
+</body>
+</html>

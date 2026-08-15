@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>練習_6.1計數原理_融合版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' },
+    options: { enableMenu: false }
+  };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .stars { font-size: 12pt; letter-spacing: 1px; }
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; break-inside: avoid; page-break-inside: avoid; }
+  .fill { display: inline-block; min-width: 70px; border-bottom: 1px solid #1a1a1a; }
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .anskey div { margin: 4px 0; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <div class="masthead"><span>科目：高二數學</span><span>單元：6.1 計數原理</span><span>類型：課堂練習</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div>請先回看《講義》的範例，每一題都照四步驟作答：①要完成什麼事　②「或」還是「和」　③各類／各步的方法數　④相加或相乘。</div>
+
+  <div class="section-h">一、練習A（<span class="stars">★☆☆</span>）</div>
+  <div class="problem">
+    <div>A-1．早餐店有 3 種飲品（奶茶、豆漿、果汁）和 2 種主食（三明治、飯糰）。</div>
+    <div>(1) 小樂只買一樣東西（一種飲品或一種主食），有多少種選法？</div>
+    <div>這件事是（分類／分步）：<span class="fill">&nbsp;</span>　算式：<span class="fill">&nbsp;</span>＋<span class="fill">&nbsp;</span>＝<span class="fill">&nbsp;</span> 種</div>
+    <div>(2) 小樂要買一種飲品和一種主食配成早餐套餐，有多少種配法？</div>
+    <div>這件事是（分類／分步）：<span class="fill">&nbsp;</span>　算式：<span class="fill">&nbsp;</span>×<span class="fill">&nbsp;</span>＝<span class="fill">&nbsp;</span> 種</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：只買一樣＝「或」；飲品和主食都要＝「和」。</div>
+
+  <div class="problem">
+    <div>A-2．從澳門去香港，一天中船有 3 班、直通巴士有 2 班。小恩任選一班船或一班巴士出發，共有多少種選法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：坐船「或」坐巴士，選一班就能出發 → 分類相加。</div>
+
+  <div class="problem">
+    <div>A-3．一個 2 位密碼，每一位都可以用 1、2、3 其中一個數字（數字可以重複）。</div>
+    <div>請畫樹狀圖：第一位選「1」時，第二位可以接 1、2、3；第一位選「2」、「3」時照樣畫，再數一數共有多少個不同的密碼。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：第一位有 3 種，「每一種」後面又接 3 種 → 分步相乘。</div>
+
+  <div class="section-h">二、練習B（<span class="stars">★★☆</span>）</div>
+  <div class="problem">
+    <div>B-1．某同學填大學志願：甲大學有 5 個心儀專業，乙大學有 4 個心儀專業，兩間大學沒有相同的專業，他只能選一個專業就讀。共有多少種選法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：選定一個專業，事情就完成了 → 這是分類還是分步？</div>
+
+  <div class="problem">
+    <div>B-2．書架上層放有 6 本不同的數學書，下層放有 5 本不同的語文書。</div>
+    <div>(1) 從書架上任取 1 本書，有多少種不同的取法？</div>
+    <div>(2) 從書架上取數學書和語文書各 1 本，有多少種不同的取法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：跟《講義》範例同一款，先判斷「或」還是「和」。</div>
+
+  <div class="problem">
+    <div>B-3．甲、乙、丙 3 人去看電影，每人各自從 4 部電影中任選一部觀看，不同的選法種數為（　　）</div>
+    <div class="choices"><span>A．12</span><span>B．\(4^{3}\)</span><span>C．\(3^{4}\)</span></div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：一人選完，下一人接著選 → 三個步驟相乘；底數是「每人可選的部數」。</div>
+
+  <div class="problem">
+    <div>B-4．給程式模組命名，名稱由 1 個字母加 2 個數字組成：字母從 A、B、C 中選，兩個數字都從 1～5 中選（可以重複）。最多可以給多少個模組命名？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：三個位置＝三個步驟：字母 3 種、數字 5 種、數字 5 種。</div>
+
+  <div class="section-h">三、練習C（<span class="stars">★★★</span>）</div>
+  <div class="problem">
+    <div>C-1．從 A 市到 B 市，可以坐直達巴士（2 條路線）；也可以先到 C 市再轉車：A 市到 C 市有 2 條路線，C 市到 B 市有 3 條路線。從 A 市到 B 市共有多少種走法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：先分兩類（直達／轉車）；「轉車」那一類裡面要再分兩步相乘，最後兩類相加。</div>
+
+  <div class="problem">
+    <div>C-2．7 名同學中，3 人只會下象棋，2 人只會下圍棋，2 人象棋圍棋都會。現要選出 2 人，1 人參加象棋比賽、另 1 人參加圍棋比賽，共有多少種選法？</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：會象棋的有 3＋2 人，會圍棋的有 2＋2 人；相乘後，要扣掉「同一位全能同學同時被派去兩邊」的 2 種不可能情況。</div>
+
+  <div class="problem">
+    <div>C-3．出題挑戰：自己設計一個同時用到「分類加法」和「分步乘法」的生活問題，寫出題目和完整解答。</div>
+    <div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div><div class="line"></div></div>
+  </div>
+  <div class="hint-card">提示：可以模仿 C-1 的「直達或轉車」結構：其中一類是一步完成，另一類要分兩步。</div>
+
+
+  <div class="page-break"></div>
+
+  <div class="section-h">教師用參考答案</div>
+  <div class="anskey">
+    <div>A-1．(1) 分類：3＋2＝5 種。(2) 分步：3×2＝6 種。</div>
+    <div>A-2．分類：3＋2＝5 種。</div>
+    <div>A-3．分步：3×3＝9 個（樹狀圖 3 條大枝、每枝再分 3 小枝）。</div>
+    <div>B-1．分類：5＋4＝9 種。</div>
+    <div>B-2．(1) 分類：6＋5＝11 種。(2) 分步：6×5＝30 種。</div>
+    <div>B-3．B。每人 4 種選法，甲、乙、丙依次選 → \(4\times4\times4=4^{3}=64\) 種。</div>
+    <div>B-4．3×5×5＝75 個。</div>
+    <div>C-1．直達 2 種；轉車 2×3＝6 種；合計 2＋6＝8 種。</div>
+    <div>C-2．會象棋（3＋2）人 × 會圍棋（2＋2）人＝5×4＝20，扣掉同一位全能同學被同時選去兩邊的 2 種，共 20－2＝18 種。</div>
+    <div>C-3．開放答案。批改要點：①是否同時含「分類」與「分步」結構；②方法數是否算對；③敘述是否講清楚「或」與「和」。</div>
+  </div>
+
+  <div class="footer">高二數學．計數原理（6.1）．課堂練習　答案頁</div>
+</div>
+</body>
+</html>

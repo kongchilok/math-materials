@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>餘式定理與因式定理 講義</title>
+<script>
+  MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' }, options: { enableMenu: false } };
+</script>
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script'); s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
+  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
+  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+</style>
+</head>
+<body>
+<div class="page">
+  <div class="masthead"><span>科目：高一數學</span><span>單元：餘式定理與因式定理</span><span>類型：課堂講義</span></div>
+  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+
+  <div class="section-h">一、餘式定理 —— 不用做除法，直接算餘數！</div>
+  <div>上一份講義我們學了綜合除法，但如果只想知道「餘數」，其實有更快的方法。</div>
+  <div>餘式定理：多項式 \(f(x)\) 除以 \(x-a\) 時，餘數等於 \(f(a)\)（把 a 代入 f(x) 求值就好）。</div>
+  <div class="hint-card">為什麼？由除法原理 f(x)=(x−a)q(x)+r，把 x=a 代入：f(a)=(a−a)q(a)+r=r，所以餘數 r 就是 f(a)。</div>
+
+  <div class="section-h">二、範例（一）—— 直接代入求餘式</div>
+  <div>例：\(f(x)=x^3-3x^2+2x-5\)，求 f(x) 除以 (x−2) 的餘式。</div>
+  <div class="hint-card">解：由餘式定理，餘數 = f(2) = 2³−3×2²+2×2−5 = 8−12+4−5 = −5</div>
+  <div>答：f(x) 除以 (x−2) 的餘式為 −5。（不用真的做除法！）</div>
+
+  <div class="section-h">三、推論 —— 除式是 (ax−b) 的情形</div>
+  <div>如果除式是 \(ax-b\)（x 的係數不是 1），要代入的數就是「讓 ax−b=0 的 x」，也就是 \(\frac{b}{a}\)。</div>
+  <div>例：\(g(x)=2x^3-x^2+3x-1\)，求 g(x) 除以 (2x−1) 的餘式。</div>
+  <div class="hint-card">解：2x−1=0 → x=1/2，代入：g(1/2) = 2×(1/2)³−(1/2)²+3×(1/2)−1 = 1/4−1/4+3/2−1 = 1/2</div>
+  <div>答：餘式為 1/2。</div>
+  <div class="hint-card">f(a) 的雙重意義：(1) 多項函數 f(x) 在 x=a 的函數值　(2) 多項式 f(x) 除以 (x−a) 的餘數</div>
+
+  <div class="section-h">四、因式定理 —— 餘式為 0 的特殊情形</div>
+  <div>因式定理：(x−c) 是 f(x) 的因式 ⟺ f(x) 被 (x−c) 整除 ⟺ f(c)=0。</div>
+  <div>換句話說：因式定理就是「餘式定理的餘式剛好是 0」的情形，可以用來反過來求多項式裡的未知係數。</div>
+
+  <div class="section-h">五、範例（二）—— 用因式定理求兩個未知係數</div>
+  <div>例：設 \(f(x)=x^3+px^2+qx-6\) 有因式 (x−1) 及 (x−2)，求 p, q 的值。</div>
+  <div class="hint-card">解：由因式定理，f(1)=0 且 f(2)=0：</div>
+  <div class="hint-card">f(1)=0：1+p+q−6=0　　即 p+q=5</div>
+  <div class="hint-card">f(2)=0：8+4p+2q−6=0　　即 4p+2q=−2，化簡得 2p+q=−1</div>
+  <div class="hint-card">兩式相減：(p+q)−(2p+q)=5−(−1) → −p=6 → p=−6，代回 p+q=5 得 q=11</div>
+  <div>答：p=−6，q=11。</div>
+
+  <div class="section-h">六、接下來</div>
+  <div>請拿出《餘式定理與因式定理 —— 課堂練習》，依照這兩個範例的框架完成練習 A、B、C。</div>
+
+  <div class="footer">高一數學．餘式定理與因式定理單元　第 1 頁</div>
+</div>
+</body>
+</html>
