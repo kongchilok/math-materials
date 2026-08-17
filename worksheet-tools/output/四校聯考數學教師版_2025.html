@@ -82,11 +82,11 @@ MathJax = { tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}, svg:{f
   <div class="box formula"><span class="lbl">相關公式</span><ul><li>二次不等式 \(ax^2+bx+c\ge 0\)</li><li>代入測試法：把 \(B\) 各數代入檢驗</li></ul></div>
   <div class="box ans"><span class="lbl">正確答案</span>(A)　\(\{-4,3\}\)</div>
   <div class="sol-title">詳細解題過程（工序分析法）</div>
-  <div class="row"><div class="region"><span class="region-h">工序 1 · 代入測試 \(B\) 各數</span><div class="math">\[\begin{aligned}
-x=-4 &amp;:\ 16-12-4=0\ \text{（合）} \\
-x=-2 &amp;:\ -6&lt;0\ \text{（不合）} \\
-x=0 &amp;:\ -4&lt;0\ \text{（不合）} \\
-x=3 &amp;:\ 14\ge0\ \text{（合）}
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 代入測試 \(B\) 各數（x=-4、3 合；x=-2、0 不合）</span><div class="math">\[\begin{aligned}
+x=-4 &amp;:\ 16-12-4=0 \\
+x=-2 &amp;:\ -6&lt;0 \\
+x=0 &amp;:\ -4&lt;0 \\
+x=3 &amp;:\ 14\ge0
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 交集</span><div class="math">\[\begin{aligned}
 A\cap B &amp;= \{-4,3\}
 \end{aligned}\]</div></div></div>
@@ -103,7 +103,7 @@ A\cap B &amp;= \{-4,3\}
 \tfrac1\alpha+\tfrac1\beta &amp;= -1 \\
 \tfrac1\alpha\cdot\tfrac1\beta &amp;= -\tfrac12
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 反推 \(\alpha+\beta\)</span><div class="math">\[\begin{aligned}
-\alpha+\beta &amp;= \frac{-1}{-1/2}=2
+\alpha+\beta &amp;= \frac{-1}{-\frac12}=2
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 合併指數</span><div class="math">\[\begin{aligned}
 2^{\alpha+1}\cdot2^{\beta+1} &amp;= 2^{\alpha+\beta+2} \\
 &amp;= 2^4=16
@@ -133,7 +133,7 @@ V_1 &amp;= \pi(13)^2(7)=1183\pi
   <div class="box formula"><span class="lbl">相關公式</span><ul><li>上下同乘 \(m^{1/2}\)</li><li>平方差 \(m^2-1=(m-1)(m+1)\)</li></ul></div>
   <div class="box ans"><span class="lbl">正確答案</span>(C)　\(m-1\)</div>
   <div class="sol-title">詳細解題過程（工序分析法）</div>
-  <div class="row"><div class="region"><span class="region-h">工序 1 · 上下同乘 \(m^{1/2}\)</span><div class="math">\[\begin{aligned}
+  <div class="row"><div class="region"><span class="region-h">工序 1 · 上下同乘 \(m^{\tfrac12}\)</span><div class="math">\[\begin{aligned}
 \text{分子} &amp;= m^2-1 \\
 \text{分母} &amp;= m+1
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 平方差約分</span><div class="math">\[\begin{aligned}
@@ -165,9 +165,13 @@ V_1 &amp;= \pi(13)^2(7)=1183\pi
   <div class="sol-title">詳細解題過程（工序分析法）</div>
   <div class="row"><div class="region"><span class="region-h">工序 1 · 左不等式</span><div class="math">\[\begin{aligned}
 x^2-5x+6 &amp;&gt; 0 \\
+(x-2)(x-3) &amp;= 0 \\
+x &amp;= 2\ \text{或}\ 3 \\
 x&lt;2 &amp;\ \text{或}\ x&gt;3
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 右不等式</span><div class="math">\[\begin{aligned}
 x^2-5x-6 &amp;&lt; 0 \\
+(x-6)(x+1) &amp;= 0 \\
+x &amp;= 6\ \text{或}\ -1 \\
 -1 &amp;&lt; x &lt; 6
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 取交集</span><div class="math">\[\begin{aligned}
 &amp;-1&lt;x&lt;2\ \text{或}\ 3&lt;x&lt;6
@@ -350,7 +354,7 @@ T_n &amp;= 2n\cdot3^n
   <div class="q-body">設 \(f(x)=(px^2-3x+r)(2x^2+qx+3)\)，最高次為 \(8x^4\)、常數項為 9，且除以 \(x+1\) 餘 \(-10\)。<br>(a) 求 \(p,q,r\)。<br>(b) 求 \(f(x)=0\) 的實根。</div>
   <div class="clear"></div>
   <div class="box formula"><span class="lbl">相關公式</span><ul><li>比較頭尾係數</li><li>餘式定理 \(f(-1)=-10\)</li><li>判別式、二次公式</li></ul></div>
-  <div class="box ans"><span class="lbl">參考答案</span>(a) \(p=4,q=6,r=3\)　(b) \(x=\dfrac{-3\pm\sqrt3}{2}\)</div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(p=4,q=6,r=3\)　(b) \(x=\dfrac{-3+\sqrt3}{2}\) 或 \(\dfrac{-3-\sqrt3}{2}\)</div>
   <div class="sol-title">詳細解題過程（工序分析法）</div>
   <div class="part">（a）求 \(p,q,r\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 比較頭尾係數</span><div class="math">\[\begin{aligned}
 2p=8 &amp;\Rightarrow p=4 \\
@@ -362,7 +366,7 @@ q &amp;= 6
 4x^2-3x+3 &amp;:\ \Delta=-39&lt;0
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 第二括號</span><div class="math">\[\begin{aligned}
 2x^2+6x+3 &amp;= 0 \\
-x &amp;= \frac{-3\pm\sqrt3}{2}
+x_1 &amp;= \frac{-3+\sqrt3}{2}\ \text{或}\ x_2 = \frac{-3-\sqrt3}{2}
 \end{aligned}\]</div></div></div>
 </div>
 <div class="tq tq-break">

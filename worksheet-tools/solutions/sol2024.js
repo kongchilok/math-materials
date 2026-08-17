@@ -10,6 +10,8 @@ const choice = {
     reg(r`工序 1 · 求集合 \(A\)`, r`
 x^2-3x-4 &\le 0
 (x-4)(x+1) &\le 0
+(x-4)(x+1) &= 0
+x &= 4\ \text{或}\ -1
 A=\{x: -1\le x &\le 4\}
 `),
     reg(r`工序 2 · 求集合 \(B\)`, r`
@@ -208,7 +210,7 @@ x &\in [\tfrac{2\pi}{3},\ \tfrac{5\pi}{3}]
 `),
     reg(r`工序 2 · 因式分解`, r`
 (2\sin\theta-1)(\sin\theta+1) &= 0
-\sin\theta &= \tfrac{1}{2}\ \text{或}\ -1
+\sin\theta &= \tfrac{1}{2}\ \text{或}\ \sin\theta = -1
 `),
     reg(r`工序 3 · 取 \([0,\pi)\) 內解`, r`
 \sin\theta=\tfrac{1}{2} &\Rightarrow \theta=\tfrac{\pi}{6},\ \tfrac{5\pi}{6}
@@ -236,15 +238,15 @@ x^4+\tfrac{1}{x^4} &= \left(x^2+\tfrac{1}{x^2}\right)^2-2
 f(x) &= f(|x|)\quad(\text{正向遞增})
 `),
     reg(r`工序 2 · 比較絕對值`, r`
-2^{-7/3} &\approx 0.198
-3^{-2/7} &\approx 0.732
+2^{-\tfrac73} &\approx 0.198
+3^{-\tfrac27} &\approx 0.732
 \left|\log_3\tfrac{2}{7}\right| &\approx 1.14
 `),
     reg(r`工序 3 · 排序`, r`
-\left|\log_3\tfrac{2}{7}\right| &> 3^{-2/7} > 2^{-7/3}
+\left|\log_3\tfrac{2}{7}\right| &> 3^{-\tfrac27} > 2^{-\tfrac73}
 `),
     reg(r`工序 4 · 結論`, r`
-f\!\left(\log_3\tfrac{2}{7}\right) &> f\!\left(3^{-2/7}\right) > f\!\left(2^{-7/3}\right)
+f\!\left(\log_3\tfrac{2}{7}\right) &> f\!\left(3^{-\tfrac27}\right) > f\!\left(2^{-\tfrac73}\right)
 `),
   ])]},
 };
@@ -297,7 +299,7 @@ E(X) &= 1\cdot\tfrac{1}{2}+2\cdot\tfrac{3}{10}+3\cdot\tfrac{1}{30}
       reg(r`工序 3 · 求 \(\tan(\alpha+\beta)\)`, r`
 \tan(\alpha+\beta) &= \frac{\tan\alpha+\tan\beta}{1-\tan\alpha\tan\beta}
 &= \frac{\frac{1}{5}+\frac{2}{3}}{1-\frac{1}{5}\cdot\frac{2}{3}}
-&= \frac{13/15}{13/15}
+&= \frac{\frac{13}{15}}{\frac{13}{15}}
 &= 1
 `),
     ]),
@@ -330,7 +332,7 @@ a_5 &= 3+4d
 (3+d)^2 &= 3(3+4d)
 9+6d+d^2 &= 9+12d
 d^2-6d &= 0
-d &= 0\ \text{或}\ 6
+d_1 &= 0\ \text{或}\ d_2 = 6
 `),
       reg(r`工序 3 · 通項`, r`
 d=0 &\Rightarrow a_n=3
@@ -346,6 +348,8 @@ d=6 &\Rightarrow S_n=3n^2
 3n^2 &\ge 12n+36
 n^2-4n-12 &\ge 0
 (n-6)(n+2) &\ge 0
+(n-6)(n+2) &= 0
+n &= 6\ \text{或}\ -2
 n &\ge 6
 `),
       reg(r`工序 6 · 結論`, r`
@@ -354,7 +358,7 @@ n_{\min} &= 6
     ]),
   ]},
 
-  4: { ans: r`(a) \(1\le x\le 9\)　(b) \(a=10\pm 2\sqrt{2}\)`, parts: [
+  4: { ans: r`(a) \(1\le x\le 9\)　(b) \(a=10+2\sqrt{2}\) 或 \(10-2\sqrt{2}\)`, parts: [
     P(r`（a）\(a=8\) 時解 \(f(x)\ge0\)`, [
       reg(r`工序 1 · 轉化`, r`
 f(x)\ge 0 &\Leftrightarrow |x-3|+|x-7|\le 8
@@ -385,12 +389,12 @@ x_0 &= -\frac{a-10}{4}
       reg(r`工序 7 · 由頂點最小值解 \(a\)`, r`
 -\frac{(a-10)^2}{8} &= -1
 (a-10)^2 &= 8
-a &= 10\pm 2\sqrt{2}
+a_1 &= 10+2\sqrt{2}\ \text{或}\ a_2 = 10-2\sqrt{2}
 `),
     ]),
   ]},
 
-  5: { ans: r`(a) \(\dfrac{x^2}{2}-\dfrac{y^2}{3}=1\)　(b) \(m=\pm 2\sqrt{3}\)`, parts: [
+  5: { ans: r`(a) \(\dfrac{x^2}{2}-\dfrac{y^2}{3}=1\)　(b) \(m=2\sqrt{3}\) 或 \(-2\sqrt{3}\)`, parts: [
     P(r`（a）求雙曲線方程`, [
       reg(r`工序 1 · \(A\) 在曲線上`, r`
 \frac{8}{a^2}-\frac{9}{b^2} &= 1
@@ -423,7 +427,7 @@ x_1x_2+y_1y_2 &= 0
       reg(r`工序 8 · 解 \(m\)`, r`
 2(-2m^2-6)+4m^2+m^2 &= 0
 m^2 &= 12
-m &= \pm 2\sqrt{3}
+m_1 &= 2\sqrt{3}\ \text{或}\ m_2 = -2\sqrt{3}
 `),
     ]),
   ]},

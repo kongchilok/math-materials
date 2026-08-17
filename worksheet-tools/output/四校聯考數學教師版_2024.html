@@ -85,6 +85,8 @@ MathJax = { tex:{inlineMath:[['\\(','\\)']],displayMath:[['\\[','\\]']]}, svg:{f
   <div class="row"><div class="region"><span class="region-h">工序 1 · 求集合 \(A\)</span><div class="math">\[\begin{aligned}
 x^2-3x-4 &amp;\le 0 \\
 (x-4)(x+1) &amp;\le 0 \\
+(x-4)(x+1) &amp;= 0 \\
+x &amp;= 4\ \text{或}\ -1 \\
 A=\{x: -1\le x &amp;\le 4\}
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 求集合 \(B\)</span><div class="math">\[\begin{aligned}
 3x+a &amp;\ge 0 \\
@@ -327,7 +329,7 @@ x &amp;\in [\tfrac{2\pi}{3},\ \tfrac{5\pi}{3}]
 2\sin^2\theta+\sin\theta-1 &amp;= 0
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 因式分解</span><div class="math">\[\begin{aligned}
 (2\sin\theta-1)(\sin\theta+1) &amp;= 0 \\
-\sin\theta &amp;= \tfrac{1}{2}\ \text{或}\ -1
+\sin\theta &amp;= \tfrac{1}{2}\ \text{或}\ \sin\theta = -1
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 取 \([0,\pi)\) 內解</span><div class="math">\[\begin{aligned}
 \sin\theta=\tfrac{1}{2} &amp;\Rightarrow \theta=\tfrac{\pi}{6},\ \tfrac{5\pi}{6} \\
 \sin\theta=-1 &amp;\Rightarrow \text{無解}
@@ -363,13 +365,13 @@ x^4+\tfrac{1}{x^4} &amp;= \left(x^2+\tfrac{1}{x^2}\right)^2-2 \\
   <div class="row"><div class="region"><span class="region-h">工序 1 · 偶函數性質</span><div class="math">\[\begin{aligned}
 f(x) &amp;= f(|x|)\quad(\text{正向遞增})
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 2 · 比較絕對值</span><div class="math">\[\begin{aligned}
-2^{-7/3} &amp;\approx 0.198 \\
-3^{-2/7} &amp;\approx 0.732 \\
+2^{-\tfrac73} &amp;\approx 0.198 \\
+3^{-\tfrac27} &amp;\approx 0.732 \\
 \left|\log_3\tfrac{2}{7}\right| &amp;\approx 1.14
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 排序</span><div class="math">\[\begin{aligned}
-\left|\log_3\tfrac{2}{7}\right| &amp;&gt; 3^{-2/7} &gt; 2^{-7/3}
+\left|\log_3\tfrac{2}{7}\right| &amp;&gt; 3^{-\tfrac27} &gt; 2^{-\tfrac73}
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 4 · 結論</span><div class="math">\[\begin{aligned}
-f\!\left(\log_3\tfrac{2}{7}\right) &amp;&gt; f\!\left(3^{-2/7}\right) &gt; f\!\left(2^{-7/3}\right)
+f\!\left(\log_3\tfrac{2}{7}\right) &amp;&gt; f\!\left(3^{-\tfrac27}\right) &gt; f\!\left(2^{-\tfrac73}\right)
 \end{aligned}\]</div></div></div>
 </div>
   <div class="sec-head sec-break">第二部分　解答題<span class="sec-sub">共 5 題 · 含參考答案與詳解</span></div>
@@ -421,7 +423,7 @@ E(X) &amp;= 1\cdot\tfrac{1}{2}+2\cdot\tfrac{3}{10}+3\cdot\tfrac{1}{30} \\
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 求 \(\tan(\alpha+\beta)\)</span><div class="math">\[\begin{aligned}
 \tan(\alpha+\beta) &amp;= \frac{\tan\alpha+\tan\beta}{1-\tan\alpha\tan\beta} \\
 &amp;= \frac{\frac{1}{5}+\frac{2}{3}}{1-\frac{1}{5}\cdot\frac{2}{3}} \\
-&amp;= \frac{13/15}{13/15} \\
+&amp;= \frac{\frac{13}{15}}{\frac{13}{15}} \\
 &amp;= 1
 \end{aligned}\]</div></div></div><div class="part">（b）求 \(\cos(\alpha+2\beta)\)</div><div class="row"><div class="region"><span class="region-h">工序 4 · 定 \(\alpha+\beta\)</span><div class="math">\[\begin{aligned}
 \alpha+\beta &amp;\in (0,\pi) \\
@@ -452,7 +454,7 @@ a_5 &amp;= 3+4d
 (3+d)^2 &amp;= 3(3+4d) \\
 9+6d+d^2 &amp;= 9+12d \\
 d^2-6d &amp;= 0 \\
-d &amp;= 0\ \text{或}\ 6
+d_1 &amp;= 0\ \text{或}\ d_2 = 6
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 3 · 通項</span><div class="math">\[\begin{aligned}
 d=0 &amp;\Rightarrow a_n=3 \\
 d=6 &amp;\Rightarrow a_n=6n-3
@@ -463,6 +465,8 @@ d=6 &amp;\Rightarrow S_n=3n^2
 3n^2 &amp;\ge 12n+36 \\
 n^2-4n-12 &amp;\ge 0 \\
 (n-6)(n+2) &amp;\ge 0 \\
+(n-6)(n+2) &amp;= 0 \\
+n &amp;= 6\ \text{或}\ -2 \\
 n &amp;\ge 6
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 6 · 結論</span><div class="math">\[\begin{aligned}
 n_{\min} &amp;= 6
@@ -474,7 +478,7 @@ n_{\min} &amp;= 6
   <div class="q-body">設函數 \(f(x) = a - |x - 3| - |x - 7|\)。<br>(a) 當 \(a = 8\) 時，求解不等式 \(f(x) \geq 0\)。（4 分）<br>(b) 如果 \(g(x) = x f(x)\) 在閉區間 \([-1, 1]\) 上有最小值 \(-1\)，求 \(a\) 的值。（4 分）</div>
   <div class="clear"></div>
   <div class="box formula"><span class="lbl">相關公式</span><ul><li>絕對值意義：\(|x - c|\) 表示 \(x\) 到 \(c\) 的距離</li><li>二次函數 \(y = ax^2 + bx + c\) 的對稱軸：\(x = -\dfrac{b}{2a}\)</li><li>頂點 \(y\) 值（\(a&gt;0\) 時為最小值）：\(y = c - \dfrac{b^2}{4a}\)</li></ul></div>
-  <div class="box ans"><span class="lbl">參考答案</span>(a) \(1\le x\le 9\)　(b) \(a=10\pm 2\sqrt{2}\)</div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(1\le x\le 9\)　(b) \(a=10+2\sqrt{2}\) 或 \(10-2\sqrt{2}\)</div>
   <div class="sol-title">詳細解題過程（工序分析法）</div>
   <div class="part">（a）\(a=8\) 時解 \(f(x)\ge0\)</div><div class="row"><div class="region"><span class="region-h">工序 1 · 轉化</span><div class="math">\[\begin{aligned}
 f(x)\ge 0 &amp;\Leftrightarrow |x-3|+|x-7|\le 8
@@ -497,7 +501,7 @@ x_0 &amp;= -\frac{a-10}{4} \\
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 7 · 由頂點最小值解 \(a\)</span><div class="math">\[\begin{aligned}
 -\frac{(a-10)^2}{8} &amp;= -1 \\
 (a-10)^2 &amp;= 8 \\
-a &amp;= 10\pm 2\sqrt{2}
+a_1 &amp;= 10+2\sqrt{2}\ \text{或}\ a_2 = 10-2\sqrt{2}
 \end{aligned}\]</div></div></div>
 </div>
 <div class="tq tq-break">
@@ -506,7 +510,7 @@ a &amp;= 10\pm 2\sqrt{2}
   <div class="q-body">已知雙曲線 \(C: \dfrac{x^2}{a^2} - \dfrac{y^2}{b^2} = 1\) 的離心率為 \(\dfrac{\sqrt{10}}{2}\)，點 \(A(2\sqrt{2}, 3)\) 在該雙曲線上。直線 \(\ell: y = x + m\) 與 \(C\) 相交於 \(P, Q\) 兩點，且 \(OP \perp OQ\)（\(O\) 為原點）。<br>(a) 求雙曲線 \(C\) 的方程。（3 分）<br>(b) 求 \(m\) 的值。（5 分）</div>
   <div class="clear"></div>
   <div class="box formula"><span class="lbl">相關公式</span><ul><li>雙曲線離心率：\(e = \dfrac{c}{a}\)，其中 \(c^2 = a^2 + b^2\)</li><li>韋達定理：方程 \(Ax^2 + Bx + C = 0\) 的兩根滿足 \(x_1 + x_2 = -\dfrac{B}{A}\)，\(x_1 x_2 = \dfrac{C}{A}\)</li><li>兩向量垂直：\(\vec{OP} \cdot \vec{OQ} = x_1 x_2 + y_1 y_2 = 0\)</li></ul></div>
-  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\dfrac{x^2}{2}-\dfrac{y^2}{3}=1\)　(b) \(m=\pm 2\sqrt{3}\)</div>
+  <div class="box ans"><span class="lbl">參考答案</span>(a) \(\dfrac{x^2}{2}-\dfrac{y^2}{3}=1\)　(b) \(m=2\sqrt{3}\) 或 \(-2\sqrt{3}\)</div>
   <div class="sol-title">詳細解題過程（工序分析法）</div>
   <div class="part">（a）求雙曲線方程</div><div class="row"><div class="region"><span class="region-h">工序 1 · \(A\) 在曲線上</span><div class="math">\[\begin{aligned}
 \frac{8}{a^2}-\frac{9}{b^2} &amp;= 1
@@ -530,7 +534,7 @@ x_1x_2+y_1y_2 &amp;= 0 \\
 \end{aligned}\]</div></div><div class="region"><span class="region-h">工序 8 · 解 \(m\)</span><div class="math">\[\begin{aligned}
 2(-2m^2-6)+4m^2+m^2 &amp;= 0 \\
 m^2 &amp;= 12 \\
-m &amp;= \pm 2\sqrt{3}
+m_1 &amp;= 2\sqrt{3}\ \text{或}\ m_2 = -2\sqrt{3}
 \end{aligned}\]</div></div></div>
 </div>
 </div></body></html>

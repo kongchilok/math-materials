@@ -182,7 +182,7 @@ n^2-3\sqrt3\,n+6 &= 0
 `),
     reg(r`工序 3 · 解`, r`
 n &= \frac{3\sqrt3\pm\sqrt3}{2}
-n &= 2\sqrt3\ \text{或}\ \sqrt3
+n_1 &= 2\sqrt3\ \text{或}\ n_2 = \sqrt3
 `),
   ])]},
 };
@@ -231,7 +231,7 @@ b_n &= \tfrac{n}{4^n}
     ]),
     P(r`（b）求 \(S_n,T_n\)`, [
       reg(r`工序 3 · \(S_n\)（等比和）`, r`
-S_n &= \frac{1-(1/4)^n}{1-1/4}
+S_n &= \frac{1-(\frac14)^n}{1-\frac14}
 &= \tfrac{4}{3}\!\left(1-\tfrac{1}{4^n}\right)
 `),
       reg(r`工序 4 · \(T_n\)（錯位相減）`, r`

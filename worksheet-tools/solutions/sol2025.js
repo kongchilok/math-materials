@@ -5,11 +5,11 @@ const P = (title, regions) => ({ title, regions });
 
 const choice = {
   1: { ans: r`(A)　\(\{-4,3\}\)`, parts: [ P("", [
-    reg(r`工序 1 · 代入測試 \(B\) 各數`, r`
-x=-4 &:\ 16-12-4=0\ \text{（合）}
-x=-2 &:\ -6<0\ \text{（不合）}
-x=0 &:\ -4<0\ \text{（不合）}
-x=3 &:\ 14\ge0\ \text{（合）}
+    reg(r`工序 1 · 代入測試 \(B\) 各數（x=-4、3 合；x=-2、0 不合）`, r`
+x=-4 &:\ 16-12-4=0
+x=-2 &:\ -6<0
+x=0 &:\ -4<0
+x=3 &:\ 14\ge0
 `),
     reg(r`工序 2 · 交集`, r`
 A\cap B &= \{-4,3\}
@@ -22,7 +22,7 @@ A\cap B &= \{-4,3\}
 \tfrac1\alpha\cdot\tfrac1\beta &= -\tfrac12
 `),
     reg(r`工序 2 · 反推 \(\alpha+\beta\)`, r`
-\alpha+\beta &= \frac{-1}{-1/2}=2
+\alpha+\beta &= \frac{-1}{-\frac12}=2
 `),
     reg(r`工序 3 · 合併指數`, r`
 2^{\alpha+1}\cdot2^{\beta+1} &= 2^{\alpha+\beta+2}
@@ -43,7 +43,7 @@ V_1 &= \pi(13)^2(7)=1183\pi
   ])]},
 
   4: { ans: r`(C)　\(m-1\)`, parts: [ P("", [
-    reg(r`工序 1 · 上下同乘 \(m^{1/2}\)`, r`
+    reg(r`工序 1 · 上下同乘 \(m^{\tfrac12}\)`, r`
 \text{分子} &= m^2-1
 \text{分母} &= m+1
 `),
@@ -65,10 +65,14 @@ V_1 &= \pi(13)^2(7)=1183\pi
   6: { ans: r`(E)　\(\{-1<x<2\}\cup\{3<x<6\}\)`, parts: [ P("", [
     reg(r`工序 1 · 左不等式`, r`
 x^2-5x+6 &> 0
+(x-2)(x-3) &= 0
+x &= 2\ \text{或}\ 3
 x<2 &\ \text{或}\ x>3
 `),
     reg(r`工序 2 · 右不等式`, r`
 x^2-5x-6 &< 0
+(x-6)(x+1) &= 0
+x &= 6\ \text{或}\ -1
 -1 &< x < 6
 `),
     reg(r`工序 3 · 取交集`, r`
@@ -210,7 +214,7 @@ T_n &= 2n\cdot3^n
     ]),
   ]},
 
-  2: { ans: r`(a) \(p=4,q=6,r=3\)　(b) \(x=\dfrac{-3\pm\sqrt3}{2}\)`, parts: [
+  2: { ans: r`(a) \(p=4,q=6,r=3\)　(b) \(x=\dfrac{-3+\sqrt3}{2}\) 或 \(\dfrac{-3-\sqrt3}{2}\)`, parts: [
     P(r`（a）求 \(p,q,r\)`, [
       reg(r`工序 1 · 比較頭尾係數`, r`
 2p=8 &\Rightarrow p=4
@@ -227,7 +231,7 @@ q &= 6
 `),
       reg(r`工序 4 · 第二括號`, r`
 2x^2+6x+3 &= 0
-x &= \frac{-3\pm\sqrt3}{2}
+x_1 &= \frac{-3+\sqrt3}{2}\ \text{或}\ x_2 = \frac{-3-\sqrt3}{2}
 `),
     ]),
   ]},

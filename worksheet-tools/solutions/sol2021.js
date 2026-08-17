@@ -23,7 +23,7 @@ P\cap Q &= \{5,7,11\}
 \tfrac{1}{4}+\tfrac{1}{3} &= \tfrac{7}{12}
 `),
     reg(r`工序 3 · 完成 5 件`, r`
-T &= \dfrac{5}{7/12}
+T &= \dfrac{5}{\frac{7}{12}}
 &= \dfrac{60}{7}
 `),
   ])]},
@@ -56,7 +56,7 @@ m &> \sqrt3
 \alpha\beta &= \tfrac{7}{2}
 `),
     reg(r`工序 2 · 新根和與積`, r`
-\tfrac{1}{\alpha}+\tfrac{1}{\beta} &= \tfrac{3/2}{7/2}=\tfrac{3}{7}
+\tfrac{1}{\alpha}+\tfrac{1}{\beta} &= \tfrac{\frac32}{\frac72}=\tfrac{3}{7}
 \tfrac{1}{\alpha\beta} &= \tfrac{2}{7}
 `),
     reg(r`工序 3 · 重建方程`, r`
