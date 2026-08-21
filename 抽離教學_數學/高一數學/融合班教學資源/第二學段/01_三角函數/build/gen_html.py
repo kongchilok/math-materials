@@ -2,7 +2,7 @@
 """六份融合版講義/練習的 HTML 列印版產生器（配合 worksheet-template.html 的 house style）"""
 import io, os
 
-BASE = r"C:\Users\KongChiLok\notebookLM\任務\融合版_三角函數"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 交付檔資料夾（build/ 的上一層）
 
 HEAD = """<!DOCTYPE html>
 <html lang="zh-Hant">
@@ -207,7 +207,7 @@ b += prob('<p>C-3．自己出一題：仿照練習B第3題，自選一個點 P(a
 b += footer(U1)
 b += '<div class="page-break"></div>'
 b += sec('教師用參考答案')
-b += ('<p>A-1：60° − 360° = −300°；與 60° 終邊相同的是 −300° 和 480°。（90° − 60° = 30° 不是 360° 的倍數）</p>'
+b += ('<p>A-1：60° − 360° = −300°；三個角之中，與 60° 終邊相同的只有 −300°。（90° − 60° = 30°、480° − 60° = 420°，都不是 360° 的整數倍；480° 減去 360° 得 120°，其實與 120° 終邊相同）</p>'
       r'<p>A-2：\(45^\circ=\dfrac{\pi}{4}\)、\(60^\circ=\dfrac{\pi}{3}\)、\(90^\circ=\dfrac{\pi}{2}\)；'
       r'\(\dfrac{\pi}{3}=60^\circ\)、\(\dfrac{\pi}{4}=45^\circ\)</p>'
       r'<p>A-3：\(\sin\alpha=\dfrac{4}{5}\)、\(\cos\alpha=\dfrac{3}{5}\)、\(\tan\alpha=\dfrac{4}{3}\)</p>'

@@ -4,7 +4,8 @@ import sys, os
 sys.path.insert(0, r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-generator\scripts")
 from omml_docx import *
 
-OUT = os.path.dirname(os.path.abspath(__file__))
+# 2026-08-21：腳本搬入 _scripts/ 後，OUT 仍指向腳本自己那層，會把交付檔寫錯位置。
+OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SUBJECT = '高一數學'
 UNIT = '指對數運算（轉換、化簡、定義域值域）'
 
@@ -31,13 +32,13 @@ P.append(problem_box([
 ]))
 
 P.append(heading('三、範例'))
-P.append(shaded_box([
+P.append(shaded_multi_box([
     para([('t', '例：求 '), eq(sub(mr('log'), mr('2')), sqrt(mr('2'))), ('t', ' 的值')]),
     para([('t', '步驟①　把根式寫成分數指數冪：'), eq(sqrt(mr('2')), mr('='), sup(mr('2'), frac(mr('1'), mr('2'))))]),
     para([('t', '步驟②　代入：'), eq(sub(mr('log'), mr('2')), sqrt(mr('2')), mr('='), sub(mr('log'), mr('2')), sup(mr('2'), frac(mr('1'), mr('2'))))]),
     para([('t', '步驟③　用 '), eq(sub(mr('log'), mr('a')), sup(mr('M'), mr('n')), mr('=n'), sub(mr('log'), mr('a')), mr('M')), ('t', '：'), eq(mr('='), frac(mr('1'), mr('2')), sub(mr('log'), mr('2')), mr('2'))]),
     para([('t', '步驟④　'), eq(sub(mr('log'), mr('2')), mr('2=1')), ('t', '，所以：'), eq(mr('='), frac(mr('1'), mr('2')))]),
-], kind='example'))
+]))
 
 P.append(blank())
 P.append(para([('t', '接下來請拿《練習_指對數運算》，依這套框架完成練習A、B、C。')]))

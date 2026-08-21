@@ -5,7 +5,7 @@ SKILL_SCRIPTS = r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-ge
 sys.path.insert(0, SKILL_SCRIPTS)
 from omml_docx import *  # noqa
 
-BASE = r"C:\Users\KongChiLok\notebookLM\任務\融合版_三角函數"
+BASE = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))  # 交付檔資料夾（build/ 的上一層）
 FIG = os.path.join(BASE, "figs")
 OUT = BASE
 

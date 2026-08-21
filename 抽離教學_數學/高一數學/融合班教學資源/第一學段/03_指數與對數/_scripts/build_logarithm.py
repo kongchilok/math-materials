@@ -4,6 +4,11 @@
 import sys
 sys.path.insert(0, r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-generator\scripts")
 from omml_docx import *
+import os
+
+# 2026-08-21：原本的輸出路徑寫死在舊機位置（已不存在，一跑就 FileNotFoundError）。
+# 改為由腳本位置推導：_scripts/ 的上一層就是交付檔資料夾。
+OUTDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ===== 講義 =====
 lecture_para = []
@@ -23,7 +28,7 @@ lecture_para.append(para('特別地，對數函數 {y = log_a x} 是指數函數
 
 lecture_para.append(heading('三、對數函數的性質'))
 lecture_para.append(para('1. 定義域：{(0, +∞)}（注意：{x} 必須大於0）'))
-lecture_para.append(para('2. 值域：所有實數 {mathbb(R)}'))
+lecture_para.append(para('2. 值域：所有實數 {R}'))
 lecture_para.append(para('3. 必過定點：所有對數函數圖像都過點 {(1, 0)}（因為 {log_a 1 = 0}）'))
 lecture_para.append(para('4. 單調性：'))
 lecture_para.append(para('   • 當 {a > 1} 時，{y = log_a x} 單調遞增'))
@@ -46,7 +51,7 @@ lecture_para.append(para('步驟4：答案：{log_2 8 = 3}'))
 lecture_para.append(para('接下來請拿《課堂練習——對數函數》，依照上面的運算法則和這個範例的步驟框架，完成練習A、B、C。'))
 
 # 儲存講義
-out_lecture = build_docx(lecture_para, r'C:\Users\KongChiLok\notebookLM\高一講義\4.1-4.4 指數與對數（含指數對數方程）融合班教學資源_高一數學_第一學段\融合班講義\講義_4.4對數函數_融合版.docx', footer_text='高一數學．對數函數')
+out_lecture = build_docx(lecture_para, os.path.join(OUTDIR, '講義_4.4對數函數_融合版.docx'), footer_text='高一數學．對數函數')
 print(f"講義已產出：{out_lecture}")
 
 # ===== 練習 =====
@@ -150,7 +155,7 @@ practice_para.append(para('6. {a = 2}（{2^2 = 4}）'))
 practice_para.append(para('7. {4 + 2 - 2 = 4}'))
 
 # 儲存練習
-out_practice = build_docx(practice_para, r'C:\Users\KongChiLok\notebookLM\高一講義\4.1-4.4 指數與對數（含指數對數方程）融合班教學資源_高一數學_第一學段\融合班講義\練習_4.4對數函數_融合版.docx', footer_text='高一數學．對數函數')
+out_practice = build_docx(practice_para, os.path.join(OUTDIR, '練習_4.4對數函數_融合版.docx'), footer_text='高一數學．對數函數')
 print(f"練習已產出：{out_practice}")
 
 print("✓ 對數函數講義和練習 docx 已產出")

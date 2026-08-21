@@ -4,6 +4,11 @@
 import sys
 sys.path.insert(0, r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-generator\scripts")
 from omml_docx import *
+import os
+
+# 2026-08-21：原本的輸出路徑寫死在舊機位置（已不存在，一跑就 FileNotFoundError）。
+# 改為由腳本位置推導：_scripts/ 的上一層就是交付檔資料夾。
+OUTDIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # ===== 講義 =====
 lecture_para = []
@@ -41,7 +46,7 @@ lecture_para.append(para('驗證：{f(f^{-1}(x)) = f(frac(x-1, 2)) = 2 · frac(x
 lecture_para.append(para('接下來請拿《課堂練習——反函數》，依照上面四個性質和這個範例的步驟框架，完成練習A、B、C。'))
 
 # 儲存講義
-out_lecture = build_docx(lecture_para, r'C:\Users\KongChiLok\notebookLM\高一講義\4.1-4.4 指數與對數（含指數對數方程）融合班教學資源_高一數學_第一學段\融合班講義\講義_4.3反函數_融合版.docx', footer_text='高一數學．反函數')
+out_lecture = build_docx(lecture_para, os.path.join(OUTDIR, '講義_4.3反函數_融合版.docx'), footer_text='高一數學．反函數')
 print(f"講義已產出：{out_lecture}")
 
 # ===== 練習 =====
@@ -109,7 +114,7 @@ practice_para.append(problem_box([
     para('6. 若函數 {y = 2^x} 與 {y = log_2 x} 互為反函數，且 {y = 2^x} 過點 {(1, 2)}'),
     para('   確認 {a} 的值：{a^1 = 2}，所以 {a = □}'),
     para('   寫出反函數：{y = □}'),
-    para('   對應關係：{y = 2^x} 的定義域 {mathbb(R)} = {y = log_2 x} 的值域'),
+    para('   對應關係：{y = 2^x} 的定義域 {R} = {y = log_2 x} 的值域'),
 ] + write_lines(2)))
 
 practice_para.append(shaded_box('提示：指數函數與對數函數互為反函數；定義域值域互換'))
@@ -127,11 +132,11 @@ practice_para.append(para('3. {f^{-1}(x) = frac(x+2, 3)}'))
 practice_para.append(para('4. {f^{-1}(x) = 2x}；{f^{-1}(4) = 8}'))
 
 practice_para.append(para('練習C'))
-practice_para.append(para('5. 定義域 {mathbb(R)}，值域 {mathbb(R)}；反函數值域 {mathbb(R)}'))
-practice_para.append(para('6. {a = 2}；反函數 {y = log_2 x}；{y = 2^x} 的定義域 {mathbb(R)} = {y = log_2 x} 的值域'))
+practice_para.append(para('5. 定義域 {R}，值域 {R}；反函數值域 {R}'))
+practice_para.append(para('6. {a = 2}；反函數 {y = log_2 x}；{y = 2^x} 的定義域 {R} = {y = log_2 x} 的值域'))
 
 # 儲存練習
-out_practice = build_docx(practice_para, r'C:\Users\KongChiLok\notebookLM\高一講義\4.1-4.4 指數與對數（含指數對數方程）融合班教學資源_高一數學_第一學段\融合班講義\練習_4.3反函數_融合版.docx', footer_text='高一數學．反函數')
+out_practice = build_docx(practice_para, os.path.join(OUTDIR, '練習_4.3反函數_融合版.docx'), footer_text='高一數學．反函數')
 print(f"練習已產出：{out_practice}")
 
 print("✓ 反函數講義和練習 docx 已產出")

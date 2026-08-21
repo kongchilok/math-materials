@@ -4,7 +4,8 @@ import sys, os
 sys.path.insert(0, r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-generator\scripts")
 from omml_docx import *
 
-OUT = os.path.dirname(os.path.abspath(__file__))
+# 2026-08-21：腳本搬入 _scripts/ 後，OUT 仍指向腳本自己那層，會把交付檔寫錯位置。
+OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SUBJECT = '高一數學'
 UNIT = '對數方程一題多練'
 
@@ -41,13 +42,13 @@ P.append(problem_box([
 ]))
 
 P.append(heading('五、範例'))
-P.append(shaded_box([
+P.append(shaded_multi_box([
     para([('t', '例：解方程 '), eq(sub(mr('log'), mr('2')), mr('(3x)-'), sub(mr('log'), mr('2')), mr('(x-1)=3'))]),
     para([('t', '步驟①　合併對數：'), eq(sub(mr('log'), mr('2')), mr('('), frac(mr('3x'), mr('x-1')), mr(')=3'))]),
     para([('t', '步驟②　轉換成指數式：'), eq(frac(mr('3x'), mr('x-1')), mr('='), sup(mr('2'), mr('3')), mr('=8'))]),
     para([('t', '步驟③　解方程：'), eq(mr('3x=8(x-1)')), ('t', ' ⟹ '), eq(mr('3x=8x-8')), ('t', ' ⟹ '), eq(mr('x='), frac(mr('8'), mr('5')))]),
     para([('t', '步驟④　檢驗：x=8/5 時，3x=24/5>0，x-1=3/5>0，都合法，所以 '), eq(mr('x='), frac(mr('8'), mr('5'))), ('t', ' 是方程的解。')]),
-], kind='example'))
+]))
 
 P.append(blank())
 P.append(para([('t', '接下來請拿《練習_對數方程一題多練》，依這套框架完成練習A、B、C。')]))

@@ -4,7 +4,8 @@ import sys, os
 sys.path.insert(0, r"C:\Users\KongChiLok\.claude\skills\inclusive-math-worksheet-generator\scripts")
 from omml_docx import *
 
-OUT = os.path.dirname(os.path.abspath(__file__))
+# 2026-08-21：腳本搬入 _scripts/ 後，OUT 仍指向腳本自己那層，會把交付檔寫錯位置。
+OUT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SUBJECT = '高一數學'
 UNIT = '指數方程一題多練'
 
@@ -36,13 +37,13 @@ P.append(problem_box([
 ]))
 
 P.append(heading('四、範例'))
-P.append(shaded_box([
+P.append(shaded_multi_box([
     para([('t', '例：解方程 '), eq(sup(mr('2'), mr('2x')), mr('-'), sup(mr('2'), mr('x')), mr('-6=0'))]),
     para([('t', '步驟①　設 '), eq(mr('t='), sup(mr('2'), mr('x')), mr(', t>0')), ('t', '，原方程變成：'), eq(sup(mr('t'), mr('2')), mr('-t-6=0'))]),
     para([('t', '步驟②　因式分解：'), eq(mr('(t-3)(t+2)=0')), ('t', ' ⟹ t=3 或 t=-2')]),
     para([('t', '步驟③　t=-2 不合（t 必須大於 0），只留 t=3，代回：'), eq(sup(mr('2'), mr('x')), mr('=3'))]),
     para([('t', '步驟④　'), eq(sup(mr('2'), mr('x')), mr('=3')), ('t', ' 不是整數次方，答案寫成：'), eq(mr('x='), sub(mr('log'), mr('2')), mr('3'))]),
-], kind='example'))
+]))
 
 P.append(blank())
 P.append(para([('t', '接下來請拿《練習_指數方程一題多練》，依這套框架完成練習A、B、C。')]))
