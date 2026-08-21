@@ -1,0 +1,86 @@
+{
+  "school": "○○高中",
+  "grade": "高一",
+  "subject": "數學科",
+  "exam_name": "",
+  "scope": "第一學段　單元三（下）　指對數運算與指數／對數方程",
+  "footer_text": "高一數學科　公式參考紙",
+  "sections": [
+    {
+      "title": "指對數運算",
+      "formulas": [
+        {
+          "name": "指數式與對數式互換",
+          "formula": "{a^b=N}　{⟺}　{fn(log)_a(N)=b}",
+          "note": "{a>0}、{a!=1}、{N>0}"
+        },
+        {
+          "name": "對數恆等式",
+          "formula": "{a^{fn(log)_a(N)}=N}",
+          "note": "{a>0}、{a!=1}、{N>0}"
+        },
+        {
+          "name": "底數自身的對數",
+          "formula": "{fn(log)_a(a)=1}",
+          "note": "{a>0}、{a!=1}"
+        },
+        {
+          "name": "換底公式",
+          "formula": "{fn(log)_a(N)=frac(fn(log)_b(N),fn(log)_b(a))}",
+          "note": "{a>0}、{a!=1}、{b>0}、{b!=1}、{N>0}"
+        }
+      ]
+    },
+    {
+      "title": "指數方程",
+      "formulas": [
+        {
+          "name": "同底則指數相等",
+          "formula": "{a^x=a^y}　{⇒}　{x=y}",
+          "note": "{a>0}、{a!=1}"
+        },
+        {
+          "name": "合併同類項原理",
+          "formula": "先把方程中同為 {a^x} 的項合併（提公因式），再化同底比指數",
+          "note": ""
+        },
+        {
+          "name": "換元法（指數方程）",
+          "formula": "方程出現 {a^{2x}} 與 {a^x} 且形如二次方程時，設 {t=a^x}（{t>0}），解出 t 後代回 {a^x=t}",
+          "note": "因 {a^x>0} 恆成立，解出的 t 若為負數或 0 必須捨去"
+        }
+      ]
+    },
+    {
+      "title": "對數方程",
+      "formulas": [
+        {
+          "name": "直接轉換原理",
+          "formula": "{fn(log)_a(f(x))=b}　{⇒}　{f(x)=a^b}",
+          "note": "{a>0}、{a!=1}"
+        },
+        {
+          "name": "真數檢驗",
+          "formula": "解出 x 後必須代回原方程，確認所有真數（log 括號內的式子）{>0}",
+          "note": "對數方程的必要檢驗步驟，不可略過"
+        },
+        {
+          "name": "合併對數後比較真數",
+          "formula": "{fn(log)_a(M)+fn(log)_a(N)=fn(log)_a(M*N)}；兩邊底數相同時真數相等",
+          "note": "{M>0}、{N>0}、{a>0}、{a!=1}"
+        },
+        {
+          "name": "換底比較",
+          "formula": "兩個對數底數不同時，用換底公式化成同底，再比較真數",
+          "note": ""
+        },
+        {
+          "name": "換元法（對數方程）",
+          "formula": "方程出現 {(fn(log)_a(x))^2} 與 {fn(log)_a(x)} 且形如二次方程時，設 {t=fn(log)_a(x)}，解出 t 後代回",
+          "note": "代回解出 x 後仍須檢驗真數大於 0"
+        }
+      ]
+    }
+  ],
+  "compact": true
+}

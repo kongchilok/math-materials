@@ -1,0 +1,206 @@
+{
+  "school": "○○高中",
+  "grade": "高一",
+  "subject": "數學科",
+  "exam_name": "",
+  "scope": "第一學段　單元三（上）　指數與對數函數（4.1～4.4）",
+  "footer_text": "高一數學科　公式參考紙",
+  "sections": [
+    {
+      "title": "4.1 指數運算",
+      "formulas": [
+        {
+          "name": "n 次方根的定義",
+          "formula": "若 {x^n=a}，則 x 叫做 a 的 n 次方根，記作 {sqrt[n](a)}",
+          "note": "{n>1}，n 為正整數"
+        },
+        {
+          "name": "奇數次方根",
+          "formula": "n 為奇數：{a>0} 時 {x>0}；{a<0} 時 {x<0}",
+          "note": "奇數次方根唯一存在"
+        },
+        {
+          "name": "偶數次方根",
+          "formula": "n 為偶數：{a>0} 時 {x=+-sqrt[n](a)}（兩個）；{a<0} 時不存在偶次方根",
+          "note": "負數沒有偶次方根"
+        },
+        {
+          "name": "零的 n 次方根",
+          "formula": "{sqrt[n](0)=0}",
+          "note": "0 的任何次方根都是 0"
+        },
+        {
+          "name": "根式性質①",
+          "formula": "{(sqrt[n](a))^n=a}",
+          "note": ""
+        },
+        {
+          "name": "根式性質②（n 為奇數）",
+          "formula": "{sqrt[n](a^n)=a}",
+          "note": "n 為奇數"
+        },
+        {
+          "name": "根式性質②（n 為偶數）",
+          "formula": "{sqrt[n](a^n)=|a|}",
+          "note": "n 為偶數，結果要取絕對值"
+        },
+        {
+          "name": "正分數指數冪",
+          "formula": "{a^{frac(m,n)}=sqrt[n](a^m)}",
+          "note": "{a>0}；m、n 為正整數；{n>1}"
+        },
+        {
+          "name": "負分數指數冪",
+          "formula": "{a^{-frac(m,n)}=frac(1,sqrt[n](a^m))}",
+          "note": "{a>0}；m、n 為正整數；{n>1}"
+        },
+        {
+          "name": "負整數指數冪",
+          "formula": "{a^{-1}=frac(1,a)}\n{a^{-n}=frac(1,a^n)}",
+          "note": "設 {a!=0}"
+        },
+        {
+          "name": "冪的乘方",
+          "formula": "{(a^m)^n=a^{m*n}}",
+          "note": "{a>0}"
+        }
+      ]
+    },
+    {
+      "title": "4.2 指數函數",
+      "formulas": [
+        {
+          "name": "指數函數的定義",
+          "formula": "{y=a^x}",
+          "note": "底數 {a>0} 且 {a!=1}"
+        },
+        {
+          "name": "定義域",
+          "formula": "定義域＝{R}",
+          "note": ""
+        },
+        {
+          "name": "值域",
+          "formula": "值域＝{(0,+∞)}",
+          "note": "{a^x>0} 對所有 x 恆成立"
+        },
+        {
+          "name": "必過定點",
+          "formula": "圖像必過 {(0,1)}",
+          "note": "因為 {a^0=1}"
+        },
+        {
+          "name": "單調性",
+          "formula": "{a>1} 時 {y=a^x} 單調遞增；{0<a<1} 時 {y=a^x} 單調遞減",
+          "note": ""
+        },
+        {
+          "name": "同底冪相乘",
+          "formula": "{a^m*a^n=a^{m+n}}",
+          "note": "同底相乘，指數相加"
+        },
+        {
+          "name": "同底冪相除",
+          "formula": "{frac(a^m,a^n)=a^{m-n}}",
+          "note": "同底相除，指數相減"
+        }
+      ]
+    },
+    {
+      "title": "4.3 反函數",
+      "formulas": [
+        {
+          "name": "互為反函數的定義",
+          "formula": "{f(g(x))=x} 且 {g(f(x))=x}",
+          "note": "f 與 g 互為反函數；反函數「撤銷」原函數的作用"
+        },
+        {
+          "name": "定義域與值域互換",
+          "formula": "反函數的定義域＝原函數的值域；反函數的值域＝原函數的定義域",
+          "note": ""
+        },
+        {
+          "name": "圖像對稱性",
+          "formula": "{y=f(x)} 與 {y=f^{-1}(x)} 的圖像關於直線 {y=x} 對稱",
+          "note": ""
+        },
+        {
+          "name": "坐標互換",
+          "formula": "若點 {(a,b)} 在原函數上，則點 {(b,a)} 在反函數上",
+          "note": ""
+        },
+        {
+          "name": "求反函數的方法",
+          "formula": "由 {y=f(x)} 對調 x 與 y 得 {x=f(y)}，解出 y，寫成 {y=f^{-1}(x)}",
+          "note": ""
+        }
+      ]
+    },
+    {
+      "title": "4.4 對數函數",
+      "formulas": [
+        {
+          "name": "對數的定義",
+          "formula": "若 {a^x=N}，則 {x=fn(log)_a(N)}",
+          "note": "{a>0}、{a!=1}、{N>0}；讀作「以 a 為底 N 的對數」"
+        },
+        {
+          "name": "對數函數的定義",
+          "formula": "{y=fn(log)_a(x)}",
+          "note": "{a>0} 且 {a!=1}"
+        },
+        {
+          "name": "與指數函數的關係",
+          "formula": "{y=fn(log)_a(x)} 是 {y=a^x} 的反函數",
+          "note": ""
+        },
+        {
+          "name": "定義域",
+          "formula": "定義域＝{(0,+∞)}",
+          "note": "真數 x 必須大於 0"
+        },
+        {
+          "name": "值域",
+          "formula": "值域＝{R}",
+          "note": ""
+        },
+        {
+          "name": "必過定點",
+          "formula": "圖像必過 {(1,0)}",
+          "note": "因為 {fn(log)_a(1)=0}"
+        },
+        {
+          "name": "單調性",
+          "formula": "{a>1} 時 {y=fn(log)_a(x)} 單調遞增；{0<a<1} 時 {y=fn(log)_a(x)} 單調遞減",
+          "note": ""
+        },
+        {
+          "name": "與指數函數的對稱性",
+          "formula": "{y=fn(log)_a(x)} 與 {y=a^x} 的圖像關於直線 {y=x} 對稱",
+          "note": ""
+        },
+        {
+          "name": "對數運算法則（積）",
+          "formula": "{fn(log)_a(M*N)=fn(log)_a(M)+fn(log)_a(N)}",
+          "note": "{M>0}、{N>0}、{a>0}、{a!=1}；乘積變和"
+        },
+        {
+          "name": "對數運算法則（商）",
+          "formula": "{fn(log)_a(frac(M,N))=fn(log)_a(M)-fn(log)_a(N)}",
+          "note": "{M>0}、{N>0}、{a>0}、{a!=1}；商變差"
+        },
+        {
+          "name": "對數運算法則（冪）",
+          "formula": "{fn(log)_a(M^n)=n*fn(log)_a(M)}",
+          "note": "{M>0}、{a>0}、{a!=1}；冪變係數"
+        },
+        {
+          "name": "對數的特殊值",
+          "formula": "{fn(log)_a(1)=0}",
+          "note": "{a>0}、{a!=1}"
+        }
+      ]
+    }
+  ],
+  "compact": true
+}
