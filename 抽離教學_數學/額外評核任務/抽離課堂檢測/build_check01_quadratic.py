@@ -14,7 +14,7 @@ build_check01_quadratic.py — 初三數學 單元小檢測 01（一元二次方
 
 house-style 偏離說明（測驗卷文類，刻意）：
 1. 不用 ★ 三層難度標籤——全班同卷、每題有分值，沒有分層概念。
-2. masthead 類型寫「單元小檢測」；兩版學生卷 masthead 相同，不在學生紙面印「輔助版」
+2. masthead 類型寫「抽離課堂檢測」；兩版學生卷 masthead 相同，不在學生紙面印「輔助版」
    字樣（避免標籤化），只在頁尾以「卷 S／卷 A」小字區分，方便教師分派與收卷。
 3. 卷 A 的步驟框架沿用講義範例表（左算式＋等號對齊／右步驟提示），右欄就是提示欄；
    表格型題目（第一、二大題）與提示卡才另開 aside 側欄，核對清單能放側欄就放側欄（省頁）。
@@ -29,7 +29,7 @@ from omml_docx import _run, _tbl, _PAGE_CONTENT_WIDTH  # star-import 跳過底�
 OUT = os.path.dirname(os.path.abspath(__file__))
 SUBJECT = '初三數學'
 UNIT = '一元二次方程・概念與三種解法'
-BASE = '小檢測_初三數學_01_一元二次方程概念與三種解法'
+BASE = '抽離課堂檢測_初三數學_01_一元二次方程概念與三種解法'
 W = _PAGE_CONTENT_WIDTH
 
 _PPR = re.compile(r'<w:pPr>((?:(?!</w:pPr>).)*?)</w:pPr>', re.S)
@@ -247,7 +247,7 @@ TIME_LINE = '限時 30 分鐘　　共五大題　　滿分 50 分　　　　�
 
 # ============================ 卷 S：標準版 ============================
 def build_standard():
-    P = [masthead(SUBJECT, UNIT, '單元小檢測'), student_info_row(),
+    P = [masthead(SUBJECT, UNIT, '抽離課堂檢測'), student_info_row(),
          para(TIME_LINE, bold=True, sz=22),
          para('第三至五大題須寫出計算過程。', sz=22)]
 
@@ -283,7 +283,7 @@ def build_standard():
     P.append(problem_box([para('(2) 用公式法解方程 {x^2=4x-1}　（5 分）')] + lines(7)))
     P.append(problem_box([para('(3) 不解方程，用判別式判斷方程 {x^2+2x+5=0} 根的情況。　（2 分）')]
                          + lines(3)))
-    save(P, f'{BASE}_標準版.docx', '初三數學．單元小檢測 01（卷 S）')
+    save(P, f'{BASE}_標準版.docx', '初三數學．抽離課堂檢測 01（卷 S）')
 
 
 # ============================ 卷 A：輔助版 ============================
@@ -293,7 +293,7 @@ ROOT_TICK = '※ 看右邊：☐ 正數　☐ 零　☐ 負數'
 
 
 def build_assist():
-    P = [masthead(SUBJECT, UNIT, '單元小檢測'), student_info_row(),
+    P = [masthead(SUBJECT, UNIT, '抽離課堂檢測'), student_info_row(),
          para(TIME_LINE, bold=True, sz=22),
          shaded_box('右邊灰色格是提示。解方程的題目已經畫好步驟格：等號已印好，'
                     '跟著右欄一步一步寫。', sz=22)]
@@ -419,7 +419,7 @@ def build_assist():
                  why('④ 看 Δ 的正負，剔一個')),
     ]))
     P.append(para('（全卷完）', jc='center', sz=22))
-    save(P, f'{BASE}_輔助版.docx', '初三數學．單元小檢測 01（卷 A）')
+    save(P, f'{BASE}_輔助版.docx', '初三數學．抽離課堂檢測 01（卷 A）')
 
 
 # ============================ 教師卷 ============================
@@ -432,7 +432,7 @@ def key_table(rows):
 
 
 def build_teacher():
-    P = [masthead(SUBJECT, UNIT, '單元小檢測・教師卷'),
+    P = [masthead(SUBJECT, UNIT, '抽離課堂檢測・教師卷'),
          para('本卷供教師批改使用，不發給學生。標準版（卷 S）與輔助版（卷 A）題目、數字、'
               '分值完全相同，共用本答案與評分。滿分 50 分。', sz=22)]
 
@@ -618,7 +618,7 @@ def build_teacher():
             ('批改提醒',
              '卷 A 學生在步驟格內寫的算式，按上面評分表同一標準給分；剔選格剔錯但算式對，照算式給分。'),
         ]))
-    save(P, f'{BASE}_教師卷.docx', '初三數學．單元小檢測 01（教師卷）')
+    save(P, f'{BASE}_教師卷.docx', '初三數學．抽離課堂檢測 01（教師卷）')
 
 
 if __name__ == '__main__':

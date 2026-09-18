@@ -9,7 +9,7 @@ build_quiz_w05.py — 初三抽離小班 課堂小測 W05（單元 01 一元二�
 - 產出：學生卷（含改正欄）＋ 教師答案卷，各 docx＋PDF
 
 house-style 偏離說明（本次刻意，已在規格卡授權範圍內）：
-1. masthead 類型寫「課堂小測」（不是 skill 預設的「課後練習」）——檔案室分類需要區分。
+1. masthead 類型寫「額外評核」（不是 skill 預設的「課後練習」）——檔案室分類需要區分。
 2. 不用 ★ 三層難度標籤。小測 5 題全班同卷、每題等分，沒有分層概念；
    星星是講義／練習的分層語彙，套在這裡會誤導學生以為某幾題可以不做。
 3. 每題框內多一條「改正：」欄——計分規則含「改正後」，訂正必須留在同一張紙上，
@@ -25,8 +25,8 @@ from omml_docx import _run  # star-import 跳過底線開頭的名稱
 OUT = os.path.dirname(os.path.abspath(__file__))
 SUBJECT = '初三數學'
 UNIT = 'W05・一元二次方程・概念與三種解法'
-FOOTER = '初三數學．課堂小測 W05'
-BASE = '小測_初三數學_W05_一元二次方程概念與三種解法'
+FOOTER = '初三數學．額外評核 W05'
+BASE = '額外評核_初三數學_W05_一元二次方程概念與三種解法'
 
 
 def ruled(label='', sz=22, row_sz=26):
@@ -78,7 +78,7 @@ def qbox(paragraphs, last=False):
 
 # ============================ 學生卷 ============================
 S = []
-S.append(masthead(SUBJECT, UNIT, '課堂小測'))
+S.append(masthead(SUBJECT, UNIT, '額外評核'))
 S.append(student_info_row())
 S.append(para([('t', '限時 5 分鐘　　共 5 題　　每題 1 分（20%）　　滿分 5 分'
                      '　　　　得分：＿＿＿ / 5')], bold=True, sz=22))
@@ -121,7 +121,7 @@ build_docx(S, os.path.join(OUT, f'{BASE}_學生卷.docx'), footer_text=FOOTER)
 
 # ============================ 教師卷 ============================
 T = []
-T.append(masthead(SUBJECT, UNIT, '課堂小測・教師卷'))
+T.append(masthead(SUBJECT, UNIT, '額外評核・教師卷'))
 T.append(para([('t', '本頁供教師批改與訂正指導使用，不發給學生。')], sz=22))
 T.append(para([('t', '實施提示：學生卷版面已滿，訂正規則請口頭交代——'
                      '答錯的題目在該題「改正：」一欄訂正，訂正正確計入累積正確率。')], sz=22))
