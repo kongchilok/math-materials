@@ -1,0 +1,146 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1260" width="800" height="1260">
+  <defs>
+    <style>
+      .ff { font-family: Calibri, "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", "PingFang TC", sans-serif; }
+      .title { font-weight: 800; font-size: 38px; fill: #111827; }
+      .trigger { font-size: 18px; fill: #374151; font-weight: 600; }
+      .pre { font-size: 20px; font-weight: 700; fill: #1E3A8A; }
+      .col-header { font-size: 20px; font-weight: 700; fill: #374151; }
+      .dchip { font-size: 18px; font-weight: 700; fill: #FFFFFF; }
+      .ddesc { font-size: 18px; font-weight: 700; fill: #374151; }
+      .ans { font-size: 21px; font-weight: 800; }
+      .fx { font-size: 18px; font-weight: 700; fill: #111827; }
+      .why { font-size: 16px; font-weight: 600; fill: #6B7280; }
+      .fn-h { font-size: 19px; font-weight: 800; fill: #92400E; }
+      .fn-b { font-size: 19px; font-weight: 600; fill: #78350F; }
+      .fn-s { font-size: 17px; font-weight: 700; fill: #92400E; }
+    </style>
+  </defs>
+
+  <rect width="800" height="1260" fill="#FFFFFF"/>
+  <rect x="25" y="25" width="750" height="1210" rx="16" fill="#FAFAFA" stroke="#111827" stroke-width="4"/>
+
+  <!-- 標題與觸發語 -->
+  <text x="400" y="86" text-anchor="middle" class="ff title">草圖的三種情況（判別式 Δ）</text>
+  <rect x="140" y="110" width="520" height="38" rx="6" fill="#E5E7EB"/>
+  <text x="400" y="136" text-anchor="middle" class="ff trigger">什麼時候看我：第 ③ 步求根，數不準有幾個根時。</text>
+
+  <!-- 前提 -->
+  <rect x="60" y="164" width="680" height="50" rx="10" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="400" y="196" text-anchor="middle" class="ff pre">前提：a &gt; 0（開口向上）　Δ = b² − 4ac</text>
+
+  <!-- 欄位標籤 -->
+  <rect x="60" y="230" width="290" height="42" rx="6" fill="#F3F4F6"/>
+  <text x="205" y="259" text-anchor="middle" class="ff col-header">【Δ 與草圖】</text>
+  <rect x="360" y="230" width="185" height="42" rx="6" fill="#DBEAFE"/>
+  <text x="452" y="259" text-anchor="middle" class="ff col-header" fill="#1D4ED8">【問 &gt; 0】</text>
+  <rect x="555" y="230" width="185" height="42" rx="6" fill="#FEE2E2"/>
+  <text x="647" y="259" text-anchor="middle" class="ff col-header" fill="#B91C1C">【問 &lt; 0】</text>
+
+  <!-- ===== Δ > 0：交 x 軸兩點 ===== -->
+  <g transform="translate(60, 288)">
+    <rect width="290" height="250" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
+    <rect x="16" y="14" width="110" height="36" rx="6" fill="#111827"/>
+    <text x="71" y="39" text-anchor="middle" class="ff dchip">Δ &gt; 0</text>
+    <text x="138" y="39" class="ff ddesc">交 x 軸兩點</text>
+    <g transform="translate(20, 62)">
+      <line x1="5" y1="120" x2="232" y2="120" stroke="#111827" stroke-width="2.5"/>
+      <text x="236" y="113" class="ff" font-size="15" font-weight="700" fill="#111827">x</text>
+      <path d="M 30 20 Q 59 89.1 88 120" fill="none" stroke="#1D4ED8" stroke-width="5" stroke-linecap="round"/>
+      <path d="M 182 120 Q 211 89.1 240 20" fill="none" stroke="#1D4ED8" stroke-width="5" stroke-linecap="round"/>
+      <path d="M 88 120 Q 135 170 182 120" fill="none" stroke="#B91C1C" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="88" cy="120" r="5.5" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+      <circle cx="182" cy="120" r="5.5" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+      <text x="88" y="146" text-anchor="middle" class="ff" font-size="17" font-weight="700" fill="#111827">x₁</text>
+      <text x="182" y="146" text-anchor="middle" class="ff" font-size="17" font-weight="700" fill="#111827">x₂</text>
+    </g>
+
+    <!-- 問 > 0 -->
+    <rect x="300" y="0" width="185" height="250" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="318" y="26" width="149" height="46" rx="6" fill="#DBEAFE"/>
+    <text x="392" y="58" text-anchor="middle" class="ff ans" fill="#1D4ED8">取兩邊</text>
+    <rect x="318" y="92" width="149" height="88" rx="8" fill="#F3F4F6"/>
+    <text x="392" y="126" text-anchor="middle" class="ff fx">｛x ｜ x &lt; x₁</text>
+    <text x="392" y="156" text-anchor="middle" class="ff fx">或 x &gt; x₂｝</text>
+    <text x="392" y="212" text-anchor="middle" class="ff why">兩段，要寫「或」</text>
+
+    <!-- 問 < 0 -->
+    <rect x="495" y="0" width="185" height="250" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="513" y="26" width="149" height="46" rx="6" fill="#FEE2E2"/>
+    <text x="587" y="58" text-anchor="middle" class="ff ans" fill="#B91C1C">取中間</text>
+    <rect x="513" y="92" width="149" height="88" rx="8" fill="#F3F4F6"/>
+    <text x="587" y="126" text-anchor="middle" class="ff fx">｛x ｜</text>
+    <text x="587" y="156" text-anchor="middle" class="ff fx">x₁ &lt; x &lt; x₂｝</text>
+    <text x="587" y="212" text-anchor="middle" class="ff why">一段，不用寫「或」</text>
+  </g>
+
+  <!-- ===== Δ = 0：碰 x 軸一點 ===== -->
+  <g transform="translate(60, 552)">
+    <rect width="290" height="250" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
+    <rect x="16" y="14" width="110" height="36" rx="6" fill="#111827"/>
+    <text x="71" y="39" text-anchor="middle" class="ff dchip">Δ = 0</text>
+    <text x="138" y="39" class="ff ddesc">碰 x 軸一點</text>
+    <g transform="translate(20, 62)">
+      <line x1="5" y1="120" x2="232" y2="120" stroke="#111827" stroke-width="2.5"/>
+      <text x="236" y="113" class="ff" font-size="15" font-weight="700" fill="#111827">x</text>
+      <path d="M 45 10 Q 135 230 225 10" fill="none" stroke="#1D4ED8" stroke-width="5" stroke-linecap="round"/>
+      <circle cx="135" cy="120" r="5.5" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+      <text x="135" y="146" text-anchor="middle" class="ff" font-size="17" font-weight="700" fill="#111827">x₀</text>
+    </g>
+
+    <!-- 問 > 0 -->
+    <rect x="300" y="0" width="185" height="250" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="318" y="26" width="149" height="46" rx="6" fill="#DBEAFE"/>
+    <text x="392" y="58" text-anchor="middle" class="ff ans" fill="#1D4ED8">除了 x₀</text>
+    <rect x="318" y="92" width="149" height="88" rx="8" fill="#F3F4F6"/>
+    <text x="392" y="144" text-anchor="middle" class="ff fx">｛x ｜ x ≠ x₀｝</text>
+    <text x="392" y="212" text-anchor="middle" class="ff why">只挖走那一點</text>
+
+    <!-- 問 < 0 -->
+    <rect x="495" y="0" width="185" height="250" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="513" y="26" width="149" height="46" rx="6" fill="#E5E7EB"/>
+    <text x="587" y="58" text-anchor="middle" class="ff ans" fill="#4B5563">無　解</text>
+    <rect x="513" y="92" width="149" height="88" rx="8" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="587" y="130" text-anchor="middle" class="ff why">圖象沒有一段</text>
+    <text x="587" y="156" text-anchor="middle" class="ff why">在 x 軸下方</text>
+    <text x="587" y="212" text-anchor="middle" class="ff why">「無解」就是答案</text>
+  </g>
+
+  <!-- ===== Δ < 0：不碰 x 軸 ===== -->
+  <g transform="translate(60, 816)">
+    <rect width="290" height="250" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
+    <rect x="16" y="14" width="110" height="36" rx="6" fill="#111827"/>
+    <text x="71" y="39" text-anchor="middle" class="ff dchip">Δ &lt; 0</text>
+    <text x="138" y="39" class="ff ddesc">不碰 x 軸</text>
+    <g transform="translate(20, 62)">
+      <line x1="5" y1="150" x2="232" y2="150" stroke="#111827" stroke-width="2.5"/>
+      <text x="236" y="143" class="ff" font-size="15" font-weight="700" fill="#111827">x</text>
+      <path d="M 45 30 Q 135 200 225 30" fill="none" stroke="#1D4ED8" stroke-width="5" stroke-linecap="round"/>
+      <text x="118" y="184" text-anchor="middle" class="ff" font-size="16" font-weight="700" fill="#9CA3AF">x 軸下方完全沒有圖象</text>
+    </g>
+
+    <!-- 問 > 0 -->
+    <rect x="300" y="0" width="185" height="250" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="318" y="26" width="149" height="46" rx="6" fill="#DBEAFE"/>
+    <text x="392" y="58" text-anchor="middle" class="ff ans" fill="#1D4ED8">全部實數</text>
+    <rect x="318" y="92" width="149" height="88" rx="8" fill="#F3F4F6"/>
+    <text x="392" y="130" text-anchor="middle" class="ff fx">｛x ｜ x 是</text>
+    <text x="392" y="158" text-anchor="middle" class="ff fx">任何實數｝</text>
+    <text x="392" y="212" text-anchor="middle" class="ff why">全部 x 都合格</text>
+
+    <!-- 問 < 0 -->
+    <rect x="495" y="0" width="185" height="250" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="513" y="26" width="149" height="46" rx="6" fill="#E5E7EB"/>
+    <text x="587" y="58" text-anchor="middle" class="ff ans" fill="#4B5563">無　解</text>
+    <rect x="513" y="92" width="149" height="88" rx="8" fill="#F9FAFB" stroke="#E5E7EB" stroke-width="1.5"/>
+    <text x="587" y="130" text-anchor="middle" class="ff why">整條都在</text>
+    <text x="587" y="156" text-anchor="middle" class="ff why">x 軸上方</text>
+    <text x="587" y="212" text-anchor="middle" class="ff why">「無解」就是答案</text>
+  </g>
+
+  <!-- 底部提醒 -->
+  <rect x="60" y="1082" width="680" height="120" rx="10" fill="#FEF3C7" stroke="#F59E0B" stroke-width="2"/>
+  <text x="82" y="1118" class="ff fn-h">※ Δ = 0 和 Δ &lt; 0 這兩行，答案常常是「全部實數」或「無解」。</text>
+  <text x="82" y="1150" class="ff fn-b">不要以為一定要寫出兩個數才叫答案。</text>
+  <text x="82" y="1182" class="ff fn-s">含等號（≥、≤）的寫法 → 看《草圖讀不等式解集》卡</text>
+</svg>
