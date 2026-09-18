@@ -1,83 +1,101 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1130" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1320" width="800" height="1320">
   <defs>
     <style>
-      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-weight: 800; font-size: 42px; fill: #111827; }
-      .trigger { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 20px; fill: #4B5563; font-weight: 500; }
-      .card-step { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 26px; font-weight: 700; fill: #111827; }
-      .card-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 22px; font-weight: 500; fill: #1F2937; }
-      .warn-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 19px; font-weight: 700; fill: #991B1B; }
-      .footer-text { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 22px; font-weight: 700; fill: #111827; }
+      .ff { font-family: Calibri, "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", "PingFang TC", sans-serif; }
+      .title { font-weight: 800; font-size: 40px; fill: #111827; }
+      .trigger { font-size: 18px; fill: #374151; font-weight: 600; }
+      .badge { font-size: 21px; font-weight: 700; fill: #FFFFFF; }
+      .step { font-size: 21px; font-weight: 600; fill: #1F2937; }
+      .note { font-size: 17.5px; font-weight: 600; fill: #374151; }
+      .note-warn { font-size: 17.5px; font-weight: 700; fill: #991B1B; }
+      .note-tip { font-size: 17.5px; font-weight: 700; fill: #92400E; }
+      .chk-h { font-size: 21px; font-weight: 800; fill: #111827; }
+      .chk { font-size: 19px; font-weight: 600; fill: #1F2937; }
     </style>
   </defs>
 
-  <!-- 背景板 -->
-  <rect width="800" height="1130" fill="#FFFFFF"/>
-  <rect x="25" y="25" width="750" height="1080" rx="16" fill="#FAFAFA" stroke="#111827" stroke-width="4"/>
+  <rect width="800" height="1320" fill="#FFFFFF"/>
+  <rect x="25" y="25" width="750" height="1270" rx="16" fill="#FAFAFA" stroke="#111827" stroke-width="4"/>
 
-  <!-- 頂部標題與觸發語 -->
-  <text x="400" y="90" text-anchor="middle" class="title">一元二次不等式五步</text>
-  <rect x="180" y="115" width="440" height="36" rx="6" fill="#E5E7EB"/>
-  <text x="400" y="140" text-anchor="middle" class="trigger">什麼時候看我：題目出現二次不等號時。</text>
+  <!-- 標題與觸發語 -->
+  <text x="400" y="88" text-anchor="middle" class="ff title">一元二次不等式　五步</text>
+  <rect x="120" y="112" width="560" height="38" rx="6" fill="#E5E7EB"/>
+  <text x="400" y="138" text-anchor="middle" class="ff trigger">什麼時候看我：題目出現 ax² + bx + c &gt; 0（或 &lt;、≥、≤）</text>
 
-  <!-- 步驟 1 -->
-  <g transform="translate(60, 180)">
-    <rect width="680" height="110" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="20" y="25" width="130" height="60" rx="8" fill="#111827"/>
-    <text x="85" y="63" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">① 移項</text>
-    <text x="180" y="62" class="card-desc">右邊化為 0</text>
-    <text x="500" y="62" font-size="20" font-weight="600" fill="#4B5563">ax² + bx + c &gt; 0</text>
+  <!-- ① 移項 -->
+  <g transform="translate(60, 178)">
+    <rect width="680" height="150" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="20" y="24" width="140" height="56" rx="8" fill="#111827"/>
+    <text x="90" y="60" text-anchor="middle" class="ff badge">① 移項</text>
+    <text x="176" y="60" class="ff step">所有項搬到一邊，右邊變成 0</text>
+    <rect x="176" y="84" width="492" height="46" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="192" y="114" class="ff note">※ 過等號要變號；右邊不是 0 就不能往下做</text>
   </g>
 
-  <!-- 步驟 2 (含警示框) -->
-  <g transform="translate(60, 310)">
-    <rect width="680" height="135" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="20" y="25" width="130" height="60" rx="8" fill="#111827"/>
-    <text x="85" y="63" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">② 轉正</text>
-    <text x="180" y="55" class="card-desc">a 為負整式乘負一</text>
-    <rect x="180" y="75" width="460" height="40" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.5"/>
-    <text x="200" y="101" class="warn-text">※ 乘負數不等號要反向（&gt; 變 &lt;）</text>
+  <!-- ② 轉正 -->
+  <g transform="translate(60, 342)">
+    <rect width="680" height="168" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="20" y="24" width="140" height="56" rx="8" fill="#111827"/>
+    <text x="90" y="60" text-anchor="middle" class="ff badge">② 轉正</text>
+    <text x="176" y="60" class="ff step">a 是負數，就整條式乘 −1</text>
+    <rect x="176" y="80" width="492" height="76" rx="6" fill="#FEE2E2" stroke="#EF4444" stroke-width="1.8"/>
+    <text x="192" y="108" class="ff note-warn">※ 乘負數，不等號一定要反向（&gt; 變 &lt;）</text>
+    <text x="192" y="136" class="ff note-warn">※ 這一步最易漏，做完即刻檢查一次</text>
   </g>
 
-  <!-- 步驟 3 -->
-  <g transform="translate(60, 465)">
-    <rect width="680" height="110" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="20" y="25" width="130" height="60" rx="8" fill="#111827"/>
-    <text x="85" y="63" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">③ 求根</text>
-    <text x="180" y="62" class="card-desc">令等於 0 算兩根</text>
-    <text x="460" y="62" font-size="20" font-weight="600" fill="#4B5563">解 ax² + bx + c = 0</text>
+  <!-- ③ 求根 -->
+  <g transform="translate(60, 524)">
+    <rect width="680" height="168" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="20" y="24" width="140" height="56" rx="8" fill="#111827"/>
+    <text x="90" y="60" text-anchor="middle" class="ff badge">③ 求根</text>
+    <text x="176" y="60" class="ff step">不等號換成等號，解方程求根</text>
+    <rect x="176" y="80" width="492" height="76" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="192" y="108" class="ff note">※ 數清楚有幾個根：Δ = b² − 4ac 決定</text>
+    <text x="192" y="136" class="ff note">※ 2 個／1 個／0 個 → 看《草圖的三種情況》卡</text>
   </g>
 
-  <!-- 步驟 4 (含草圖幾何元素) -->
-  <g transform="translate(60, 595)">
-    <rect width="680" height="145" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="20" y="42" width="130" height="60" rx="8" fill="#111827"/>
-    <text x="85" y="80" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">④ 草圖</text>
-    <text x="180" y="80" class="card-desc">開口向上標出兩根</text>
-    
-    <!-- 極簡草圖 -->
-    <g transform="translate(450, 20)">
-      <line x1="10" y1="70" x2="190" y2="70" stroke="#111827" stroke-width="2.5"/>
-      <path d="M 30 20 Q 100 120 170 20" fill="none" stroke="#2563EB" stroke-width="3.5"/>
-      <circle cx="58" cy="70" r="5" fill="#111827"/>
-      <circle cx="142" cy="70" r="5" fill="#111827"/>
-      <text x="58" y="95" text-anchor="middle" font-size="16" font-weight="700" fill="#111827">①</text>
-      <text x="142" y="95" text-anchor="middle" font-size="16" font-weight="700" fill="#111827">②</text>
+  <!-- ④ 草圖 -->
+  <g transform="translate(60, 706)">
+    <rect width="680" height="200" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="20" y="32" width="140" height="56" rx="8" fill="#111827"/>
+    <text x="90" y="68" text-anchor="middle" class="ff badge">④ 草圖</text>
+    <text x="176" y="68" class="ff step">開口向上，在 x 軸標出根</text>
+    <rect x="176" y="92" width="295" height="76" rx="6" fill="#F3F4F6" stroke="#D1D5DB" stroke-width="1.5"/>
+    <text x="192" y="120" class="ff note">※ 只畫 x 軸和拋物線</text>
+    <text x="192" y="148" class="ff note">※ 不用畫 y 軸、不用畫格線</text>
+
+    <!-- 極簡草圖：根用 x₁ x₂ 標，不再用 ①② 與步驟號撞碼 -->
+    <g transform="translate(486, 24)">
+      <line x1="8" y1="120" x2="172" y2="120" stroke="#111827" stroke-width="2.5"/>
+      <text x="176" y="113" class="ff" font-size="15" font-weight="700" fill="#111827">x</text>
+      <!-- 軸上兩翼＝粗實線藍（＞0）；軸下一段＝粗實線紅（＜0） -->
+      <path d="M 25 35 Q 43.3 94.2 61.6 120" fill="none" stroke="#1D4ED8" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M 118.4 120 Q 136.7 94.2 155 35" fill="none" stroke="#1D4ED8" stroke-width="4.5" stroke-linecap="round"/>
+      <path d="M 61.6 120 Q 90 160 118.4 120" fill="none" stroke="#B91C1C" stroke-width="4.5" stroke-linecap="round"/>
+      <circle cx="61.6" cy="120" r="5.5" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+      <circle cx="118.4" cy="120" r="5.5" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+      <text x="61.6" y="146" text-anchor="middle" class="ff" font-size="17" font-weight="700" fill="#111827">x₁</text>
+      <text x="118.4" y="146" text-anchor="middle" class="ff" font-size="17" font-weight="700" fill="#111827">x₂</text>
     </g>
   </g>
 
-  <!-- 步驟 5 (含警示框) -->
-  <g transform="translate(60, 760)">
-    <rect width="680" height="135" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="20" y="25" width="130" height="60" rx="8" fill="#111827"/>
-    <text x="85" y="63" text-anchor="middle" font-size="22" font-weight="700" fill="#FFFFFF">⑤ 讀解</text>
-    <text x="180" y="55" class="card-desc">看圖寫出解集</text>
-    <rect x="180" y="75" width="460" height="40" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.5"/>
-    <text x="200" y="101" font-size="19" font-weight="700" fill="#92400E">※ 大於取兩邊，小於取中間</text>
+  <!-- ⑤ 讀解 -->
+  <g transform="translate(60, 920)">
+    <rect width="680" height="168" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="20" y="24" width="140" height="56" rx="8" fill="#111827"/>
+    <text x="90" y="60" text-anchor="middle" class="ff badge">⑤ 讀解</text>
+    <text x="176" y="60" class="ff step">對照草圖挑範圍，寫成解集</text>
+    <rect x="176" y="80" width="492" height="76" rx="6" fill="#FEF3C7" stroke="#F59E0B" stroke-width="1.8"/>
+    <text x="192" y="108" class="ff note-tip">※ 大於 0 取兩邊，小於 0 取中間</text>
+    <text x="192" y="136" class="ff note-tip">※ 怎樣讀 → 看《草圖讀不等式解集》卡</text>
   </g>
 
-  <!-- 底部核對框 -->
-  <g transform="translate(60, 930)">
-    <rect width="680" height="90" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="6,4"/>
-    <text x="340" y="53" text-anchor="middle" class="footer-text">自我核對：a 化正且乘負反向了嗎？</text>
+  <!-- 自我核對清單 -->
+  <g transform="translate(60, 1104)">
+    <rect width="680" height="160" rx="10" fill="#F3F4F6" stroke="#9CA3AF" stroke-width="2" stroke-dasharray="6,4"/>
+    <text x="24" y="36" class="ff chk-h">自我核對：交卷前逐項打勾</text>
+    <text x="30" y="74" class="ff chk">☐　右邊已經是 0 了嗎？</text>
+    <text x="30" y="108" class="ff chk">☐　a 已經是正數了嗎？乘過 −1 就要反向。</text>
+    <text x="30" y="142" class="ff chk">☐　最後一行有用「∴」寫出解集嗎？</text>
   </g>
 </svg>

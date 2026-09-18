@@ -1,101 +1,107 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1130" width="100%" height="100%">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 1230" width="800" height="1230">
   <defs>
     <style>
-      .title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-weight: 800; font-size: 42px; fill: #111827; }
-      .trigger { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 20px; fill: #4B5563; font-weight: 500; }
-      .col-header { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 22px; font-weight: 700; fill: #374151; }
-      .row-title { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 26px; font-weight: 800; }
-      .row-desc { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 22px; font-weight: 600; fill: #1F2937; }
-      .formula-box { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 24px; font-weight: 700; fill: #111827; }
-      .footer-motto { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang TC", "Noto Sans TC", sans-serif; font-size: 24px; font-weight: 800; fill: #111827; }
+      .ff { font-family: Calibri, "Microsoft JhengHei", "微軟正黑體", "Noto Sans TC", "PingFang TC", sans-serif; }
+      .title { font-weight: 800; font-size: 40px; fill: #111827; }
+      .trigger { font-size: 18px; fill: #374151; font-weight: 600; }
+      .pre { font-size: 19px; font-weight: 700; fill: #1E3A8A; }
+      .col-header { font-size: 21px; font-weight: 700; fill: #374151; }
+      .cap { font-size: 19px; font-weight: 700; }
+      .rule { font-size: 24px; font-weight: 800; }
+      .lead { font-size: 18px; font-weight: 600; fill: #4B5563; }
+      .formula { font-size: 21px; font-weight: 700; fill: #111827; }
+      .aside { font-size: 17px; font-weight: 600; fill: #4B5563; }
+      .eqh { font-size: 20px; font-weight: 800; fill: #92400E; }
+      .eqb { font-size: 17.5px; font-weight: 600; fill: #78350F; }
+      .eqf { font-size: 17.5px; font-weight: 700; fill: #111827; }
+      .motto { font-size: 24px; font-weight: 800; fill: #111827; }
     </style>
   </defs>
 
-  <!-- 背景板 -->
-  <rect width="800" height="1130" fill="#FFFFFF"/>
-  <rect x="25" y="25" width="750" height="1080" rx="16" fill="#FFFFFF" stroke="#111827" stroke-width="4"/>
+  <rect width="800" height="1230" fill="#FFFFFF"/>
+  <rect x="25" y="25" width="750" height="1180" rx="16" fill="#FFFFFF" stroke="#111827" stroke-width="4"/>
 
-  <!-- 頂部標題與觸發語 -->
-  <text x="400" y="90" text-anchor="middle" class="title">草圖讀不等式解集</text>
-  <rect x="190" y="115" width="420" height="36" rx="6" fill="#E5E7EB"/>
-  <text x="400" y="140" text-anchor="middle" class="trigger">什麼時候看我：畫好草圖要寫解集時。</text>
+  <!-- 標題與觸發語 -->
+  <text x="400" y="88" text-anchor="middle" class="ff title">草圖讀不等式解集</text>
+  <rect x="150" y="112" width="500" height="38" rx="6" fill="#E5E7EB"/>
+  <text x="400" y="138" text-anchor="middle" class="ff trigger">什麼時候看我：第 ④ 步草圖畫好，而且有兩個根時。</text>
 
-  <!-- 欄位分界標籤 -->
-  <rect x="60" y="175" width="320" height="42" rx="6" fill="#F3F4F6"/>
-  <text x="220" y="203" text-anchor="middle" class="col-header">【草圖特徵】</text>
+  <!-- 前提（規則只在開口向上成立，必須先講） -->
+  <rect x="60" y="166" width="680" height="76" rx="10" fill="#EFF6FF" stroke="#1D4ED8" stroke-width="2"/>
+  <text x="82" y="197" class="ff pre">前提一：已做完第 ② 步，a &gt; 0，所以開口向上。</text>
+  <text x="82" y="227" class="ff pre">前提二：令 y = ax² + bx + c，草圖就是 y 的圖象。</text>
 
-  <rect x="420" y="175" width="320" height="42" rx="6" fill="#F3F4F6"/>
-  <text x="580" y="203" text-anchor="middle" class="col-header">【代數解集】</text>
+  <!-- 欄位標籤 -->
+  <rect x="60" y="258" width="330" height="40" rx="6" fill="#F3F4F6"/>
+  <text x="225" y="286" text-anchor="middle" class="ff col-header">【草圖看到什麼】</text>
+  <rect x="410" y="258" width="330" height="40" rx="6" fill="#F3F4F6"/>
+  <text x="575" y="286" text-anchor="middle" class="ff col-header">【解集怎麼寫】</text>
 
-  <!-- 第一排：軸上方 / 取兩邊 -->
-  <g transform="translate(60, 235)">
-    <!-- 左欄圖形卡 -->
-    <rect width="320" height="320" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
-    
-    <!-- 草圖 (凸顯軸上方兩翼) -->
-    <g transform="translate(20, 25)">
-      <line x1="10" y1="170" x2="270" y2="170" stroke="#111827" stroke-width="2.5"/>
-      <text x="260" y="160" font-size="16" font-weight="700" fill="#111827">x</text>
-      
-      <!-- 軸下弱化、軸上加粗高亮 -->
-      <path d="M 60 170 Q 140 270 220 170" fill="none" stroke="#D1D5DB" stroke-width="3" stroke-dasharray="4,4"/>
-      <path d="M 20 40 Q 45 120 60 170" fill="none" stroke="#2563EB" stroke-width="6"/>
-      <path d="M 220 170 Q 235 120 260 40" fill="none" stroke="#2563EB" stroke-width="6"/>
-      
-      <circle cx="60" cy="170" r="6" fill="#FFFFFF" stroke="#2563EB" stroke-width="3"/>
-      <circle cx="220" cy="170" r="6" fill="#FFFFFF" stroke="#2563EB" stroke-width="3"/>
-      <text x="60" y="200" text-anchor="middle" font-size="18" font-weight="800" fill="#111827">①</text>
-      <text x="220" y="200" text-anchor="middle" font-size="18" font-weight="800" fill="#111827">②</text>
+  <!-- 第一排：圖象在 x 軸上方 → 取兩邊 -->
+  <g transform="translate(60, 312)">
+    <rect width="330" height="300" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
+    <g transform="translate(25, 18)">
+      <line x1="5" y1="150" x2="268" y2="150" stroke="#111827" stroke-width="2.5"/>
+      <text x="272" y="143" class="ff" font-size="16" font-weight="700" fill="#111827">x</text>
+      <!-- 軸上兩翼：粗實線；軸下一段：細虛線（黑白影印仍分得出） -->
+      <path d="M 30 30 Q 60.4 112.9 90.8 150" fill="none" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+      <path d="M 189.2 150 Q 219.6 112.9 250 30" fill="none" stroke="#1D4ED8" stroke-width="6" stroke-linecap="round"/>
+      <path d="M 90.8 150 Q 140 210 189.2 150" fill="none" stroke="#9CA3AF" stroke-width="2.5" stroke-dasharray="5,5"/>
+      <circle cx="90.8" cy="150" r="6" fill="#FFFFFF" stroke="#111827" stroke-width="3"/>
+      <circle cx="189.2" cy="150" r="6" fill="#FFFFFF" stroke="#111827" stroke-width="3"/>
+      <text x="90.8" y="178" text-anchor="middle" class="ff" font-size="18" font-weight="700" fill="#111827">x₁</text>
+      <text x="189.2" y="178" text-anchor="middle" class="ff" font-size="18" font-weight="700" fill="#111827">x₂</text>
     </g>
-    <rect x="25" y="260" width="270" height="40" rx="6" fill="#EFF6FF"/>
-    <text x="160" y="287" text-anchor="middle" class="row-desc" fill="#1D4ED8">ⓐ 線在 x 軸上方</text>
+    <rect x="20" y="228" width="290" height="46" rx="6" fill="#DBEAFE"/>
+    <text x="165" y="258" text-anchor="middle" class="ff cap" fill="#1D4ED8">ⓐ 圖象在 x 軸上方（粗線兩段）</text>
 
-    <!-- 右欄規則卡 (水平精確對齊) -->
-    <rect x="360" y="0" width="320" height="320" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="385" y="30" width="270" height="50" rx="6" fill="#FEF08A"/>
-    <text x="520" y="64" text-anchor="middle" class="row-title" fill="#854D0E">★ y &gt; 0 取兩邊</text>
-    
-    <text x="390" y="140" font-size="20" font-weight="600" fill="#4B5563">對照讀出兩段解：</text>
-    <rect x="385" y="165" width="270" height="110" rx="8" fill="#F3F4F6"/>
-    <text x="520" y="230" text-anchor="middle" class="formula-box">x &lt; ① 或 x &gt; ②</text>
+    <rect x="350" y="0" width="330" height="300" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="375" y="28" width="280" height="52" rx="6" fill="#FEF08A"/>
+    <text x="515" y="63" text-anchor="middle" class="ff rule" fill="#854D0E">問 &gt; 0 → 取兩邊</text>
+    <text x="378" y="124" class="ff lead">解集這樣寫：</text>
+    <rect x="375" y="142" width="280" height="76" rx="8" fill="#F3F4F6"/>
+    <text x="515" y="188" text-anchor="middle" class="ff formula">｛x ｜ x &lt; x₁ 或 x &gt; x₂｝</text>
+    <text x="515" y="256" text-anchor="middle" class="ff aside">兩段，中間一定要寫「或」</text>
   </g>
 
-  <!-- 第二排：軸下方 / 取中間 -->
-  <g transform="translate(60, 580)">
-    <!-- 左欄圖形卡 -->
-    <rect width="320" height="320" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
-    
-    <!-- 草圖 (凸顯軸下方凹槽) -->
-    <g transform="translate(20, 25)">
-      <line x1="10" y1="110" x2="270" y2="110" stroke="#111827" stroke-width="2.5"/>
-      <text x="260" y="100" font-size="16" font-weight="700" fill="#111827">x</text>
-      
-      <!-- 軸上弱化、軸下加粗高亮 -->
-      <path d="M 20 20 Q 45 75 60 110" fill="none" stroke="#D1D5DB" stroke-width="3" stroke-dasharray="4,4"/>
-      <path d="M 220 110 Q 235 75 260 20" fill="none" stroke="#D1D5DB" stroke-width="3" stroke-dasharray="4,4"/>
-      <path d="M 60 110 Q 140 220 220 110" fill="none" stroke="#DC2626" stroke-width="6"/>
-      
-      <circle cx="60" cy="110" r="6" fill="#FFFFFF" stroke="#DC2626" stroke-width="3"/>
-      <circle cx="220" cy="110" r="6" fill="#FFFFFF" stroke="#DC2626" stroke-width="3"/>
-      <text x="60" y="140" text-anchor="middle" font-size="18" font-weight="800" fill="#111827">①</text>
-      <text x="220" y="140" text-anchor="middle" font-size="18" font-weight="800" fill="#111827">②</text>
+  <!-- 第二排：圖象在 x 軸下方 → 取中間 -->
+  <g transform="translate(60, 628)">
+    <rect width="330" height="300" rx="10" fill="#F9FAFB" stroke="#D1D5DB" stroke-width="2"/>
+    <g transform="translate(25, 30)">
+      <line x1="5" y1="110" x2="268" y2="110" stroke="#111827" stroke-width="2.5"/>
+      <text x="272" y="103" class="ff" font-size="16" font-weight="700" fill="#111827">x</text>
+      <!-- 軸下一段：粗實線；軸上兩翼：細虛線 -->
+      <path d="M 30 -10 Q 60.4 72.9 90.8 110" fill="none" stroke="#9CA3AF" stroke-width="2.5" stroke-dasharray="5,5"/>
+      <path d="M 189.2 110 Q 219.6 72.9 250 -10" fill="none" stroke="#9CA3AF" stroke-width="2.5" stroke-dasharray="5,5"/>
+      <path d="M 90.8 110 Q 140 170 189.2 110" fill="none" stroke="#B91C1C" stroke-width="6" stroke-linecap="round"/>
+      <circle cx="90.8" cy="110" r="6" fill="#FFFFFF" stroke="#111827" stroke-width="3"/>
+      <circle cx="189.2" cy="110" r="6" fill="#FFFFFF" stroke="#111827" stroke-width="3"/>
+      <text x="90.8" y="138" text-anchor="middle" class="ff" font-size="18" font-weight="700" fill="#111827">x₁</text>
+      <text x="189.2" y="138" text-anchor="middle" class="ff" font-size="18" font-weight="700" fill="#111827">x₂</text>
     </g>
-    <rect x="25" y="260" width="270" height="40" rx="6" fill="#FEF2F2"/>
-    <text x="160" y="287" text-anchor="middle" class="row-desc" fill="#B91C1C">ⓑ 線在 x 軸下方</text>
+    <rect x="20" y="228" width="290" height="46" rx="6" fill="#FEE2E2"/>
+    <text x="165" y="258" text-anchor="middle" class="ff cap" fill="#B91C1C">ⓑ 圖象在 x 軸下方（粗線一段）</text>
 
-    <!-- 右欄規則卡 (水平精確對齊) -->
-    <rect x="360" y="0" width="320" height="320" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
-    <rect x="385" y="30" width="270" height="50" rx="6" fill="#E0E7FF"/>
-    <text x="520" y="64" text-anchor="middle" class="row-title" fill="#3730A3">★ y &lt; 0 取中間</text>
-    
-    <text x="390" y="140" font-size="20" font-weight="600" fill="#4B5563">對照讀出中間段：</text>
-    <rect x="385" y="165" width="270" height="110" rx="8" fill="#F3F4F6"/>
-    <text x="520" y="230" text-anchor="middle" class="formula-box">① &lt; x &lt; ②</text>
+    <rect x="350" y="0" width="330" height="300" rx="10" fill="#FFFFFF" stroke="#111827" stroke-width="2.5"/>
+    <rect x="375" y="28" width="280" height="52" rx="6" fill="#FEF08A"/>
+    <text x="515" y="63" text-anchor="middle" class="ff rule" fill="#854D0E">問 &lt; 0 → 取中間</text>
+    <text x="378" y="124" class="ff lead">解集這樣寫：</text>
+    <rect x="375" y="142" width="280" height="76" rx="8" fill="#F3F4F6"/>
+    <text x="515" y="188" text-anchor="middle" class="ff formula">｛x ｜ x₁ &lt; x &lt; x₂｝</text>
+    <text x="515" y="256" text-anchor="middle" class="ff aside">只有一段，不用寫「或」</text>
   </g>
 
-  <!-- 底部口訣 -->
-  <g transform="translate(60, 930)">
-    <rect width="680" height="90" rx="10" fill="#F3F4F6" stroke="#111827" stroke-width="2.5"/>
-    <text x="340" y="53" text-anchor="middle" class="footer-motto">記憶口訣：大於零取兩邊，小於零取中間。</text>
-  </g>
+  <!-- 含等號（≥、≤）的寫法 -->
+  <rect x="60" y="944" width="680" height="140" rx="10" fill="#FFFBEB" stroke="#F59E0B" stroke-width="2"/>
+  <text x="82" y="978" class="ff eqh">若不等號含等號（≥、≤）：兩個根本身也算解</text>
+  <text x="82" y="1010" class="ff eqb">草圖上的端點改畫 ● 實心；不含等號才畫 ○ 空心。</text>
+  <rect x="82" y="1026" width="290" height="44" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="227" y="1055" text-anchor="middle" class="ff eqf">問 ≥ 0：｛x ｜ x ≤ x₁ 或 x ≥ x₂｝</text>
+  <rect x="428" y="1026" width="290" height="44" rx="6" fill="#FFFFFF" stroke="#D1D5DB" stroke-width="1.5"/>
+  <text x="573" y="1055" text-anchor="middle" class="ff eqf">問 ≤ 0：｛x ｜ x₁ ≤ x ≤ x₂｝</text>
+
+  <!-- 口訣 -->
+  <rect x="60" y="1100" width="680" height="80" rx="10" fill="#F3F4F6" stroke="#111827" stroke-width="2.5"/>
+  <text x="400" y="1140" text-anchor="middle" class="ff motto">口訣：大於 0 取兩邊，小於 0 取中間。</text>
+  <text x="400" y="1167" text-anchor="middle" class="ff" font-size="15" font-weight="700" fill="#4B5563">只有一個根、或沒有根 → 看《草圖的三種情況》卡</text>
 </svg>
