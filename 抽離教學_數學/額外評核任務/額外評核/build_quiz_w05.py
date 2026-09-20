@@ -37,8 +37,9 @@ def ruled(label='', sz=22, row_sz=26):
        `docx_spacing_false_is_not_zero`），框內累積起來把學生卷推到第 2 頁；
     ② write_lines() 的 before=120twips＋row_sz=32 對 5 分鐘小測太鬆。
     合併成一段後，學生卷由 2 頁收回 1 頁，書寫空間不變。"""
-    ppr = ('<w:pPr><w:spacing w:line="300" w:lineRule="auto" w:before="60" w:after="0"/>'
+    ppr = ('<w:pPr><w:spacing w:line="300" w:lineRule="auto" w:before="40" w:after="0"/>'
            f'<w:pBdr><w:bottom w:val="single" w:sz="5" w:space="4" w:color="{LINE_GREY}"/>'
+           f'<w:between w:val="single" w:sz="5" w:space="0" w:color="{LINE_GREY}"/>'
            '</w:pBdr></w:pPr>')
     run = _run(label + ' ', sz=sz) if label else ''
     pad = (f'<w:r><w:rPr><w:sz w:val="{row_sz}"/><w:szCs w:val="{row_sz}"/></w:rPr>'
@@ -64,15 +65,21 @@ def qbox(paragraphs, last=False):
     是一個 1.5 行距的完整空段（約 24pt），5 個框累積約 3.4cm，正正就是把
     學生卷推到第 2 頁那一截。字級與框線一律不動（跟記憶
     `table_doc_page_saving_order`：先收內邊距，不縮字）。"""
+    # 2026-09-20 同 quiz_common.qbox() 對齊：拿掉題目段落嘅段後 8pt。
+    # 行距 w:line="360"（1.5 倍，house-style 硬規定、讀寫障礙友善）唔郁。
+    paragraphs = [p if 'w:pBdr' in p else
+                  p.replace('<w:spacing w:line="360" w:lineRule="auto" w:after="80"/>',
+                            '<w:spacing w:line="360" w:lineRule="auto" w:after="0"/>')
+                  for p in paragraphs]
     tbl = problem_box(paragraphs, trailing_blank=False)
     tbl = tbl.replace('<w:top w:w="80" w:type="dxa"/>', '<w:top w:w="40" w:type="dxa"/>')
     tbl = tbl.replace('<w:bottom w:w="80" w:type="dxa"/>', '<w:bottom w:w="40" w:type="dxa"/>')
     if last:
         return tbl
     # Word 要求連續兩個表格之間有段落；用矮身段代替 blank()
-    return tbl + ('<w:p><w:pPr><w:spacing w:line="120" w:lineRule="auto" '
+    return tbl + ('<w:p><w:pPr><w:spacing w:line="100" w:lineRule="auto" '
                   'w:before="0" w:after="0"/></w:pPr>'
-                  '<w:r><w:rPr><w:sz w:val="8"/><w:szCs w:val="8"/></w:rPr>'
+                  '<w:r><w:rPr><w:sz w:val="4"/><w:szCs w:val="4"/></w:rPr>'
                   '<w:t xml:space="preserve"> </w:t></w:r></w:p>')
 
 

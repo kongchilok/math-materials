@@ -44,6 +44,7 @@ def ruled(label='', sz=22, row_sz=26, alt=False):
     ppr = ('<w:pPr><w:spacing w:line="300" w:lineRule="auto" w:before="20" w:after="0"/>'
            f'{ind}'
            f'<w:pBdr><w:bottom w:val="single" w:sz="5" w:space="{space}" w:color="{LINE_GREY}"/>'
+           f'<w:between w:val="single" w:sz="5" w:space="0" w:color="{LINE_GREY}"/>'
            '</w:pBdr></w:pPr>')
     run = _run(label + ' ', sz=sz) if label else ''
     pad = (f'<w:r><w:rPr><w:sz w:val="{row_sz}"/><w:szCs w:val="{row_sz}"/></w:rPr>'
@@ -60,6 +61,12 @@ def lines(*labels):
 def qbox(paragraphs, last=False):
     """小測專用題目框：收窄框內上下內邊距並改用矮身分隔段，令學生卷收在 1 頁。
     理由見 build_quiz_w05.py 同名函式（記憶 `table_doc_page_saving_order`）。"""
+    # 2026-09-20 同 quiz_common.qbox() 對齊：拿掉題目段落嘅段後 8pt。
+    # 行距 w:line="360"（1.5 倍，house-style 硬規定、讀寫障礙友善）唔郁。
+    paragraphs = [p if 'w:pBdr' in p else
+                  p.replace('<w:spacing w:line="360" w:lineRule="auto" w:after="80"/>',
+                            '<w:spacing w:line="360" w:lineRule="auto" w:after="0"/>')
+                  for p in paragraphs]
     tbl = problem_box(paragraphs, trailing_blank=False)
     tbl = tbl.replace('<w:top w:w="80" w:type="dxa"/>', '<w:top w:w="20" w:type="dxa"/>')
     tbl = tbl.replace('<w:bottom w:w="80" w:type="dxa"/>', '<w:bottom w:w="20" w:type="dxa"/>')
@@ -67,7 +74,7 @@ def qbox(paragraphs, last=False):
         return tbl
     return tbl + ('<w:p><w:pPr><w:spacing w:line="60" w:lineRule="auto" '
                   'w:before="0" w:after="0"/></w:pPr>'
-                  '<w:r><w:rPr><w:sz w:val="8"/><w:szCs w:val="8"/></w:rPr>'
+                  '<w:r><w:rPr><w:sz w:val="4"/><w:szCs w:val="4"/></w:rPr>'
                   '<w:t xml:space="preserve"> </w:t></w:r></w:p>')
 
 

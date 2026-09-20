@@ -28,6 +28,7 @@
 | 公式紙／考試附件 | skill `jh-math-formula-sheet` | 純公式無例題；≤2 頁；無學生資訊列 |
 | IEP 第 8／9 點 | skill `macau-iep-math-goals` | 先審藍圖再填範本；預設通用草稿；不上傳 |
 | 四校聯考工作紙／分類索引 | `worksheet-tools\build.ps1 <年>`（工具，非 skill） | 規格見該資料夾 README；題庫＝`data/ALL.json` |
+| 抽離教學的三類評核 | 無專屬 skill，用 `抽離教學_數學\額外評核任務\額外評核\quiz_common.py` 的版面層自寫 build 腳本 | 2026-09-18 使用者定的三分類，**檔名前綴就是分類**：`額外評核_`＝抽離課堂內每週 5 分鐘小測（學生卷／教師卷分兩檔）；`抽離課堂檢測_`＝抽離課堂內的額外練習；`課後補救教學_`＝課後輔導班練習（**題目由使用者自己搵**，我只重整＋套 house-style）。出卷前**必須逐週對乙、丙兩班教案取交集**，唔可以淨係跟丙班 |
 | 段考卷／審題／細目表 | plugin skill `jh-math-exam` | |
 | 幾何示意圖 | plugin skill `jh-math-geometry` | 解析幾何坐標圖它不會→自建 grid_svg 模式 |
 | 驗收／檢查產出 | skill `math-deliverable-qa` | 詳見 CLAUDE-DETAILED.md §5 |
