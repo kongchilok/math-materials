@@ -1,67 +1,250 @@
 <!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
 <html lang="zh-Hant">
 <head>
 <meta charset="UTF-8">
-<title>牛頓定理與多項式基本定理 講義</title>
+<title>講義_牛頓定理與多項式基本定理_融合版</title>
 <script>
-  MathJax = { tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
-    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0' }, options: { enableMenu: false } };
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
 </script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
 <script>
 (function loadMathJax(urls) {
   if (!urls.length) return;
-  var s = document.createElement('script'); s.src = urls[0];
+  var s = document.createElement('script');
+  s.src = urls[0];
   s.onerror = function () { loadMathJax(urls.slice(1)); };
   document.head.appendChild(s);
-})(['https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
   'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
-  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js']);
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
 </script>
 <style>
   @page { size: A4; margin: 0.5cm; }
   * { box-sizing: border-box; }
-  body { font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
-    font-size: 12pt; line-height: 1.5; color: #1a1a1a; background: #fff; margin: 0; padding: 0; }
-  .page { max-width: 720px; margin: 0 auto; padding: 6px 10px; }
-  .masthead { font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
-    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
   .ws-meta { font-size: 12pt; margin-bottom: 10px; }
   .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
-  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
   .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
-  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding-top: 3px; margin-top: 14px; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+
+  /* 長除法／綜合除法（poly_division.py）：一欄一個次數，同次項上下對齊 */
+  .ldiv, .syn { border-collapse: collapse; margin: 6px 0 6px 12px; break-inside: avoid; page-break-inside: avoid; }
+  .ldiv td { padding: 1px 7px; text-align: right; white-space: nowrap; border: none; vertical-align: middle; }
+  .ldiv td.ol { border-top: 1.3px solid #000; }
+  .ldiv td.ul { border-bottom: 1.3px solid #000; }
+  .ldiv td.dv { padding-right: 2px; }
+  .syn td { padding: 2px 10px; text-align: center; white-space: nowrap; border: none; min-width: 2.6em; }
+  .syn td.c { border-right: 1.3px solid #000; }
+  .syn td.res { border-top: 1.3px solid #000; }
+  .syn td.rem { border-left: 1.3px solid #000; }
+  .syn td.lab { font-size: 10pt; color: #333; padding-top: 1px; }
+  .bl { display: inline-block; min-width: 2.2em; border-bottom: 1px solid #000; height: 1.1em; vertical-align: bottom; }
+
+  .fml { text-align: center; margin: 4px 0; }
+  .ref-card .rt { font-size: 14pt; font-weight: 700; }
+  .ref-card .d-tbl { margin: 6px 0 2px; }
+  .ans-box2 { border: 0.75pt solid #000; padding: 6px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .work-space { border: none; }
+  .aside-wrap.fign .aside-main { flex: 1 1 55%; }
+  .aside-wrap.fign .aside-side { flex: 0 0 43%; }
 </style>
 </head>
 <body>
-<div class="page">
-  <div class="masthead"><span>科目：高一數學</span><span>單元：牛頓定理與多項式基本定理</span><span>類型：課堂講義</span></div>
-  <div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
-
-  <div class="section-h">一、整係數一次因式檢驗法（牛頓定理）</div>
-  <div>想因式分解一個高次多項式時，第一步是要先找到「一個」一次因式。牛頓定理告訴我們去哪裡找候選人，不用整條數線亂猜。</div>
-  <div class="hint-card">設 f(x) 為整係數 n 次多項式，若 (ax−b) 為 f(x) 的一次因式（a, b 互質），則：a 整除「最高次項係數」，b 整除「常數項」。做法：列出最高次項係數與常數項的所有因數，組合成 (ax−b)，再用因式定理逐一檢查 f(b/a) 是否為 0。</div>
-
-  <div class="section-h">二、範例 —— 找出所有整係數一次因式</div>
-  <div>例：求 \(f(x)=x^3-2x^2-5x+6\) 的所有整係數一次因式。</div>
-  <div class="hint-card">最高次項係數 1 的因數：±1；常數項 6 的因數：±1, ±2, ±3, ±6　→　候選人共 8 個：(x−1),(x+1),(x−2),(x+2),(x−3),(x+3),(x−6),(x+6)</div>
-  <div class="hint-card">逐一代入檢查：f(1)=1−2−5+6=0 ✓　f(−1)=−1−2+5+6=8 ✗　f(2)=8−8−10+6=−4 ✗　f(−2)=−8−8+10+6=0 ✓　f(3)=27−18−15+6=0 ✓　（找到 3 個就可以停了，因為三次多項式最多 3 個一次因式）</div>
-  <div>答：f(x) 的整係數一次因式為 (x−1)、(x+2)、(x−3)。</div>
-
-  <div class="section-h">三、多項式基本定理</div>
-  <div class="hint-card">定理一：n 次多項式 f(x)（最高次項係數不為 0），若有 n 個不同的數值 b₁,…,bₙ 使得 f(x)=0，則 f(x)=a₀(x−b₁)(x−b₂)⋯(x−bₙ)。</div>
-  <div class="hint-card">定理二：如果 n 次多項式 f(x) 對於 n+1 個不同的數值都等於 0，那麼 f(x) 其實是「0 這個多項式」（每一項係數都是 0）。</div>
-  <div>白話：定理一是「知道所有根，就能寫出多項式的樣子（差一個倍數）」；定理二是「根的數目比次數還多一個，代表這個多項式根本就是 0」。</div>
-
-  <div class="section-h">四、範例 —— 已知零點求多項式</div>
-  <div>例：已知二次多項式 f(x)，f(1)=f(4)=0，且 f(2)=−6，求 f(x)？</div>
-  <div class="hint-card">解：由定理一，f(x)=a(x−1)(x−4)，其中 a≠0。</div>
-  <div class="hint-card">代入 f(2)=−6：a(2−1)(2−4)=−2a=−6　→　a=3</div>
-  <div class="hint-card">∴ f(x)=3(x−1)(x−4)=3x²−15x+12</div>
-
-  <div class="section-h">五、接下來</div>
-  <div>請拿出《牛頓定理與多項式基本定理 —— 課堂練習》，依照這兩個範例的框架完成練習 A、B、C。</div>
-
-  <div class="footer">高一數學．牛頓定理與多項式基本定理單元　第 1 頁</div>
-</div>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．牛頓定理與多項式基本定理</div></td></tr></tfoot>
+  <tbody><tr><td>
+<div class="masthead"><span>科目：高一數學</span><span>單元：牛頓定理與多項式基本定理</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、牛頓定理：去哪裡找一次因式</div>
+<div class="">要因式分解一個三次或以上的多項式，第一步是先找到「一個」一次因式。牛頓定理告訴我們候選因式只有幾個，不用整條數線亂猜。</div>
+<div class="ref-card"><div class="rt">▍牛頓定理（整係數一次因式檢驗法）</div>
+<div class="trigger">什麼時候翻我：要因式分解三次或以上的多項式，又找不到公因式</div>
+<div class="">設 \(f(x)\) 是整係數多項式。若 \((ax-b)\) 是 \(f(x)\) 的一次因式（\(a\)、\(b\) 互質），則：</div>
+<div class="fml">\(a\) 整除 最高次項係數　　　\(b\) 整除 常數項</div>
+<div class="">口訣：a 除首項，b 除常數項。</div></div>
+<table class="d-tbl step-card"><tr><th colspan="2">找整係數一次因式　四步</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：要因式分解三次或以上的多項式，又找不到公因式</td></tr><tr><td>1. 看最高次項係數，列出它的因數 → \(a\)</td><td class="pitfall">※ 係數是 1 時，\(a\) 只有 1</td></tr><tr><td>2. 看常數項，列出它的因數 → \(b\)</td><td class="pitfall">※ 正負都要列：6 的因數是 \(\pm 1\)、\(\pm 2\)、\(\pm 3\)、\(\pm 6\)</td></tr><tr><td>3. 組合出所有候選因式 \((ax-b)\)</td><td class="pitfall">※ 首項係數不是 1 時，要試分數 \(\frac{b}{a}\)</td></tr><tr><td>4. 逐個代入：\(f(\frac{b}{a})\) 等於 0 就是因式</td><td class="pitfall">※ n 次式最多 n 個一次因式，找夠就停</td></tr><tr><td colspan="2" style="font-weight:400;font-size:9.5pt;background:#f0f0f0">（教師）褪除：完整四步卡 → 只留「a 除首項，b 除常數項」→ 只問「候選有幾個」→ 移除</td></tr></table>
+<div class="section-h page-break">二、範例一</div>
+<div class="lead"><b>★ 範例一：求 \(f(x)=x^{3}-2x^{2}-5x+6\) 的所有整係數一次因式。</b></div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ecs" colspan="7">最高次項係數 1 的因數：\(\pm 1\)</td><td class="why">第 1 步：\(a\) 只有 1</td></tr>
+<tr><td class="ecs" colspan="7">常數項 6 的因數：\(\pm 1\)，\(\pm 2\)，\(\pm 3\)，\(\pm 6\)</td><td class="why">第 2 步：正負都要列</td></tr>
+<tr><td class="ecs" colspan="7">候選：\((x-1)\)，\((x+1)\)，\((x-2)\)，\((x+2)\)，\((x-3)\)，\((x+3)\)，\((x-6)\)，\((x+6)\)</td><td class="why">第 3 步：共 8 個</td></tr></tbody></table>
+<div class="lead">第 4 步：逐個代入。</div>
+<table class="d-tbl"><thead><tr><th style="width:14%">代入 \(x=\)</th><th style="width:36%">逐項計算 \(f(x)\)</th><th style="width:12%">得</th><th style="width:38%">結論</th></tr></thead><tbody><tr><td style="vertical-align:middle">\(1\)</td><td style="vertical-align:middle">\(1-2-5+6\)</td><td style="vertical-align:middle">\(0\)</td><td style="vertical-align:middle">是因式：\((x-1)\)</td></tr><tr><td style="vertical-align:middle">\(-1\)</td><td style="vertical-align:middle">\(-1-2+5+6\)</td><td style="vertical-align:middle">\(8\)</td><td style="vertical-align:middle">不是</td></tr><tr><td style="vertical-align:middle">\(2\)</td><td style="vertical-align:middle">\(8-8-10+6\)</td><td style="vertical-align:middle">\(-4\)</td><td style="vertical-align:middle">不是</td></tr><tr><td style="vertical-align:middle">\(-2\)</td><td style="vertical-align:middle">\(-8-8+10+6\)</td><td style="vertical-align:middle">\(0\)</td><td style="vertical-align:middle">是因式：\((x+2)\)</td></tr><tr><td style="vertical-align:middle">\(3\)</td><td style="vertical-align:middle">\(27-18-15+6\)</td><td style="vertical-align:middle">\(0\)</td><td style="vertical-align:middle">是因式：\((x-3)\)</td></tr></tbody></table>
+<div class="hint-card">三次多項式最多只有 3 個一次因式，已經找到 3 個，後面的不用再試。</div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ecs ans" colspan="7">\(\therefore\) \(f(x)\) 的整係數一次因式為 \((x-1)\)，\((x+2)\)，\((x-3)\)</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr></tbody></table>
+<div class="lead"><b>★ 更快的做法：找到第一個因式後，用綜合除法降次。</b></div>
+<div class="aside-wrap boxed fign"><div class="aside-main"><table class="syn"><tr><td class="c">\(1\)</td><td>\(1\)</td><td>\(-2\)</td><td>\(-5\)</td><td>\(6\)</td></tr><tr><td class="c"></td><td></td><td>\(1\)</td><td>\(-1\)</td><td>\(-6\)</td></tr><tr><td></td><td class="res">\(1\)</td><td class="res">\(-1\)</td><td class="res">\(-6\)</td><td class="res rem">\(0\)</td></tr><tr><td></td><td class="lab" colspan="3">商式係數</td><td class="lab">餘式</td></tr></table></div><div class="aside-side"><div class="hintcard"><div class="ht">找到一個，就降一次</div><div>① \(f(1)=0\)，所以用 \(c=1\) 做綜合除法</div><div>② 餘式是 0，再次確認 \((x-1)\) 是因式</div><div>③ 商式 \(x^{2}-x-6\) 只剩二次，可以直接因式分解</div><div>④ \(x^{2}-x-6=(x+2)(x-3)\)</div></div></div></div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ecs ans" colspan="7">\(\therefore\) \(f(x)=(x-1)(x+2)(x-3)\)</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr></tbody></table>
+<div class="section-h page-break">三、多項式基本定理</div>
+<div class="ref-card"><div class="rt">▍多項式基本定理</div>
+<div class="trigger">什麼時候翻我：題目給出幾個令 \(f(x)=0\) 的 x（零點），要你寫出 \(f(x)\)</div>
+<div class="">定理一：若 n 次多項式 \(f(x)\) 有 n 個不同的數 \(b_{1}\)，\(b_{2}\)，…，\(b_{n}\) 使 \(f(x)=0\)，則</div>
+<div class="fml">\(f(x)=a_{0}(x-b_{1})(x-b_{2})\cdots (x-b_{n})\)</div>
+<div class="">定理二：若 n 次多項式對 n ＋ 1 個不同的數都等於 0，則 \(f(x)\) 每一項的係數都是 0。</div>
+<div class="">白話：知道所有零點，就寫得出多項式的樣子（只差前面一個倍數 \(a_{0}\)）。</div></div>
+<table class="d-tbl step-card"><tr><th colspan="2">已知零點寫出多項式　四步</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：題目給出幾個令 \(f(x)=0\) 的 x，再給多一個點</td></tr><tr><td>1. 寫出樣子：每個零點寫一個括號，前面乘 \(a\)</td><td class="pitfall">※ 零點是 1 → 寫 \((x-1)\)；零點是 \(-5\) → 寫 \((x+5)\)</td></tr><tr><td>2. 代入另外給的那一點</td><td class="pitfall">※ 那一點不是零點，算出來不是 0</td></tr><tr><td>3. 先算括號，再解出 \(a\)</td><td class="pitfall">※ \(a\) 不可以是 0</td></tr><tr><td>4. 把 \(a\) 代回，寫出完整答案</td><td class="pitfall">※ 題目要求時再展開</td></tr><tr><td colspan="2" style="font-weight:400;font-size:9.5pt;background:#f0f0f0">（教師）褪除：完整四步卡 → 只留「先寫樣子，再求 a」→ 只問「有幾個零點」→ 移除</td></tr></table>
+<div class="section-h">四、範例二</div>
+<div class="lead"><b>★ 範例二：二次多項式 \(f(x)\) 滿足 \(f(1)=0\)，\(f(4)=0\)，且 \(f(2)=-6\)。求 \(f(x)\)。</b></div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ec1">\(f(x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(a(x-1)(x-4)\)</td><td class="why">第 1 步：零點 1、4 各寫一個括號</td></tr>
+<tr><td class="ec1">\(f(2)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(a(2-1)(2-4)\)</td><td class="why">第 2 步：代入 \(x=2\)</td></tr>
+<tr><td class="ec1">\(-6\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(a(1)(-2)\)</td><td class="why">第 3 步：先算括號</td></tr>
+<tr><td class="ec1">\(-6\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(-2a\)</td><td class="why"></td></tr>
+<tr><td class="ec1">\(a\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3\)</td><td class="why">兩邊除以 \(-2\)</td></tr>
+<tr><td class="ec1">\(f(x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3(x-1)(x-4)\)</td><td class="why">第 4 步：把 \(a\) 代回</td></tr>
+<tr><td class="ec1">\(f(x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3x^{2}-15x+12\)</td><td class="why">展開</td></tr>
+<tr><td class="ecs ans" colspan="7">\(\therefore\) \(f(x)=3x^{2}-15x+12\)</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr></tbody></table>
+<div class="">接下來請拿《牛頓定理與多項式基本定理 —— 課堂練習》，依這兩張手順卡完成練習 A、B、C。</div>
+<div class="teacher-notes page-break"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl long"><tr><td>本份採用的主設計</td><td>D2 手順卡（找一次因式四步、已知零點寫多項式四步）</td></tr><tr><td>輔助設計</td><td>D7 提示卡（牛頓定理、多項式基本定理）</td></tr><tr><td>選用理由</td><td>本課屬 S2 多步驟程序運算：列因數 → 組合候選 → 逐個代入，候選一多就漏負數、漏分數。主設計取 D2，並把「逐個代入」改成決策表（每列一個候選、一條算式、一個結論），避免一段長句塞五條算式。兩條定理以 D7 提示卡框出；範例一後接上一份的綜合除法降次，讓三份講義的除法版面前後一致。</td></tr><tr><td>鷹架密度</td><td>全班共用</td></tr><tr><td>褪除路徑</td><td>本份練習紙面已做三級：練習A 每題重印四步 → 練習B 只在區塊開頭放一次提示 → 練習C 不放。之後只留口訣「a 除首項，b 除常數項」→ 移除。</td></tr><tr><td>課堂實施流程</td><td>F1 師徒制對話四步（老師做第一個範例、學生口述第二個範例的每一步）、F2 番茄鐘分段（練習 A／B／C 三段）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距、b5 提供步驟提示卡</td></tr><tr><td>正規教學目標（本單元對應）</td><td>A—2—3 瞭解多項式的基本定理（定理一、定理二）；A—2—6 體會多項式知識在求方程的根中的應用（練習 C5 求根）。牛頓定理（整係數一次因式檢驗法）本身屬基力以外：校本，服務 A—2—6。</td></tr><tr><td>與教學簡報的對應</td><td>簡報_L5_牛頓定理（例題＝本份範例一）、簡報_L6_多項式基本定理（例題＝本份範例二）。兩張手順卡的四步與簡報兩個「四步走」一致。</td></tr></table></div>
+  </td></tr></tbody>
+</table>
 </body>
 </html>
