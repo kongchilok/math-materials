@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_複數的概念_抽離小班共用版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+</style>
+
+<style>
+  /* 保險：MathJax 的公式本身也是 <svg>，任何後代選擇器都會誤中（house-style 2026-08-08） */
+  mjx-container > svg { width:auto; height:auto; max-width:none; display:inline; margin:0; }
+  .aside-side > svg { width:100%; height:auto; }
+  .dual-track td > svg { max-width:100%; height:auto; }
+  .frayer td { width:50%; }
+  .frayer .flab { background:#f0f0f0; margin:-6px -9px 6px; padding:3px 9px; font-weight:700; font-size:11pt; }
+  .frayer .term { text-align:center; font-size:14pt; font-weight:700; background:#f0f0f0; }
+  .def-line { margin:2px 0; }
+  .teacher-notes td:first-child { width:30%; white-space:nowrap; }
+</style>
+</head>
+<body>
+<table class="sheet">
+<tfoot><tr><td><div class="footer">高三數學．複數單元</div></td></tr></tfoot>
+<tbody><tr><td>
+<div class="masthead"><span>科目：高三數學</span><span>單元：複數的概念</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h" style="break-after:avoid;page-break-after:avoid">一、為什麼要有新的數</div>
+<div>任何實數平方之後都 ≥ 0，所以方程 \({x}^{2}=-1\) 在實數範圍內沒有解。</div>
+<div>數學家的做法：規定一個新的數 i，讓它的平方等於 −1。</div>
+<div class="problem"><div class="def-line">規定：\({\mathrm{i}}^{2}=-1\)</div><div class="def-line">i 叫做虛數單位（課本把 i 印成正體字）。</div></div>
+<div class="hint-card">以後不寫 \(\sqrt{-1}\) 這種寫法；根號裡面仍然只放 ≥ 0 的數。</div>
+<div class="section-h" style="break-after:avoid;page-break-after:avoid">二、複數長什麼樣子</div>
+<div class="problem"><div class="def-line">複數：\(z=a+b\mathrm{i}\)　（a、b 都是實數）</div><div class="def-line">實部：\(\mathrm{Re}(z)=a\)</div><div class="def-line">虛部：\(\mathrm{Im}(z)=b\)</div></div>
+<div class="hint-card">虛部是 b，不是 bi——虛部只抄 i 前面的那個實數。</div>
+<div>讀實部、虛部之前，先把數寫成「\(a+b\mathrm{i}\)」的樣子：</div>
+<table class="d-tbl"><thead><tr><th style="width:22%">複數</th><th style="width:30%">寫成 \(a+b\mathrm{i}\)</th><th style="width:24%">實部</th><th style="width:24%">虛部</th></tr></thead><tbody><tr><td style="vertical-align:middle"><div>\(3+4\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(3+4\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(3\)</div></td><td style="vertical-align:middle"><div>\(4\)</div></td></tr><tr><td style="vertical-align:middle"><div>\(2-5\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(2+(-5)\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(2\)</div></td><td style="vertical-align:middle"><div>\(-5\)</div></td></tr><tr><td style="vertical-align:middle"><div>\(-7\)</div></td><td style="vertical-align:middle"><div>\(-7+0\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(-7\)</div></td><td style="vertical-align:middle"><div>\(0\)</div></td></tr><tr><td style="vertical-align:middle"><div>\(6\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(0+6\mathrm{i}\)</div></td><td style="vertical-align:middle"><div>\(0\)</div></td><td style="vertical-align:middle"><div>\(6\)</div></td></tr></tbody></table>
+<div class="section-h" style="break-after:avoid;page-break-after:avoid">三、複數的分類</div>
+<div>先看虛部 b，再看實部 a：</div>
+<table class="d-tbl"><thead><tr><th style="width:20%">先看虛部 b</th><th style="width:20%">再看實部 a</th><th style="width:30%">這個數叫做</th><th style="width:30%">例</th></tr></thead><tbody><tr><td style="vertical-align:middle"><div>\(b=0\)</div></td><td style="vertical-align:middle"><div>（不用看）</div></td><td style="vertical-align:middle"><div>實數</div></td><td style="vertical-align:middle"><div>\(3\)，\(-7\)，\(0\)</div></td></tr><tr><td style="vertical-align:middle"><div>\(b\ne 0\)</div></td><td style="vertical-align:middle"><div>任何</div></td><td style="vertical-align:middle"><div>虛數</div></td><td style="vertical-align:middle"><div>\(1-\mathrm{i}\)，\(-2\mathrm{i}\)</div></td></tr><tr><td style="vertical-align:middle"><div>\(b\ne 0\)</div></td><td style="vertical-align:middle"><div>\(a=0\)</div></td><td style="vertical-align:middle"><div>純虛數（是虛數的一種）</div></td><td style="vertical-align:middle"><div>\(-2\mathrm{i}\)，\(5\mathrm{i}\)</div></td></tr></tbody></table>
+<div>最容易混淆的是「純虛數」。用下面的四格卡把它的邊界看清楚：</div>
+<table class="d-tbl frayer"><tr><td class="term" colspan="2">純虛數</td></tr><tr><td><div class="flab">① 定義（用自己的話）</div><div>實部是 0、只剩「幾倍的 i」的虛數。</div></td><td><div class="flab">② 特徵（必要條件）</div><div>① 虛部 \(b\ne 0\)</div><div>② 實部 \(a=0\)</div><div>兩個條件要同時成立</div></td></tr><tr><td><div class="flab">③ 例（是）</div><div>\(3\mathrm{i}\)（\(a=0\)，\(b=3\)）</div><div>\(-2\mathrm{i}\)（\(a=0\)，\(b=-2\)）</div><div>\(\sqrt{2}\mathrm{i}\)</div></td><td><div class="flab">④ 非例（不是——差在哪個特徵）</div><div>\(0\)：\(b=0\)，違反特徵①（0 是實數）</div><div>\(5+3\mathrm{i}\)：\(a=5\)，違反特徵②</div><div>\(4\)：\(b=0\)，違反特徵①</div></td></tr></table>
+<div class="hint-card">兩個虛數不能比較大小：不能說 \(2\mathrm{i}\) 比 \(\mathrm{i}\) 大，也不能說 \(\mathrm{i}\) 是正數。</div>
+<div class="section-h" style="break-after:avoid;page-break-after:avoid">四、複數相等</div>
+<div class="problem"><div class="def-line">\(a+b\mathrm{i}=c+d\mathrm{i}\)　⇔　\(a=c\) 且 \(b=d\)</div><div class="def-line">特別地：\(a+b\mathrm{i}=0\)　⇔　\(a=0\) 且 \(b=0\)</div></div>
+<div class="hint-card">一條複數等式＝兩條實數等式：實部對實部、虛部對虛部。</div>
+<div class="section-h page-break" style="break-after:avoid;page-break-after:avoid">五、範例</div>
+<div>我做——老師示範一次，右欄是老師心裡在想的話。</div>
+<div style="break-inside:avoid;page-break-inside:avoid"><div class="sub-h lead" style="margin-top:10px"><b>★ 範例一：設 \(z=(x-3)+(x+2)\mathrm{i}\)，x 是實數。x 取什麼值時，z 是 (1) 實數 (2) 虛數 (3) 純虛數？</b></div><table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why" style="width:42%">這一步在做什麼</th></tr></thead><tbody><tr><td class="ecs" colspan="7">實部 \(x-3\)，虛部 \(x+2\)</td><td class="why">「我先圈出實部和虛部——虛部是 \(x+2\)，不帶 i。」</td></tr><tr><td class="ecs" colspan="7">(1) 實數</td><td class="why">「實數只要求虛部是 0。」</td></tr><tr><td class="ec1">\(x+2\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">令虛部 ＝ 0</td></tr><tr><td class="ec1">\(x\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(-2\)</td><td class="why"></td></tr><tr><td class="ecs" colspan="7">(2) 虛數</td><td class="why">「虛數只要求虛部不是 0。」</td></tr><tr><td class="ec1">\(x+2\)</td><td class="ec2">\(\ne \)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">令虛部 ≠ 0</td></tr><tr><td class="ec1">\(x\)</td><td class="ec2">\(\ne \)</td><td class="ec3" colspan="5">\(-2\)</td><td class="why"></td></tr><tr><td class="ecs" colspan="7">(3) 純虛數</td><td class="why">「純虛數要兩個條件：實部 ＝ 0，而且虛部 ≠ 0。」</td></tr><tr><td class="ec1">\(x-3\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(0\)</td><td class="why">令實部 ＝ 0</td></tr><tr><td class="ec1">\(x\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3\)</td><td class="why"></td></tr><tr><td class="ecs" colspan="7">檢查：\(x=3\) 時虛部 \(3+2=5\)</td><td class="why">「5 ≠ 0，特徵①也成立，可以收貨。」</td></tr><tr><td class="ecs ans" colspan="7">∴ (1) \(x=-2\)；(2) \(x\ne -2\)；(3) \(x=3\)</td><td class="why">作答：三問分開寫清楚</td></tr></tbody></table></div>
+<div>我們做——同一套想法，空格跟老師一起填。</div>
+<div><b>★ 範例二：求實數 x、y，使 \((x+y)+(x-y)\mathrm{i}=5+\mathrm{i}\)。</b></div>
+<div>實部對實部：＿＿＿＿＿＿ ＝ ＿＿＿＿＿＿</div>
+<div>虛部對虛部：＿＿＿＿＿＿ ＝ ＿＿＿＿＿＿</div>
+<div>兩式相加、相減解聯立方程：</div>
+<div class="write-lines"><div class="line"></div><div class="line"></div><div class="line"></div></div>
+<div class="hint-card">接下來請拿《複數的概念——課堂練習》，照同一套想法完成練習A、B、C（你做）。</div>
+<div class="teacher-notes"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl long"><tr><td>本份採用的主設計</td><td>D6 明確教學三階段（我做－我們做－你做＋放聲思考）</td></tr><tr><td>輔助設計</td><td>D13 弗雷爾概念模型（純虛數四格卡）</td></tr><tr><td>選用理由</td><td>本課是複數單元第一課，屬 S10 全新概念導入：學生沒有「平方是負數」的先備心像，需要放聲思考把判斷順序（先看虛部、再看實部）說出來。課中出現「實數／虛數／純虛數」三個會背卻分不清邊界的名詞，觸發 D13：用非例格（0、5+3i、4）把邊界逼出來。沿用導數／積分單元的「固定流程」做法，照顧 ASD 學生對可預測結構的需要。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）：練習A／B／C 各 2 題</td></tr><tr><td>褪除路徑</td><td>D6：講義「我做」全寫出放聲思考 → 「我們做」只留關鍵空格 → 練習A 起「你做」。D13：講義四格全填 → 練習A 給定義與特徵、例／非例自己補 → 練習B 不給四格 → 練習C 只給句子，要學生用「違反第幾個特徵」說明理由 → 下一課起只口頭問「它違反哪個特徵？」。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天四件事：為什麼要 i → 複數長什麼樣 → 分類 → 相等）、F1 師徒制對話四步（用在「我們做」範例二）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點（分類表＋四格卡）、a6 增加行距（作答空間已加寬）</td></tr><tr><td>本單元對應的正規教學目標</td><td>〔基力以外：校本／理組加深〕高中《基本學力要求》143 條未含複數；本課依人教B版必修第四冊 10.1.1「複數的概念」：理解虛數單位 i、複數的代數形式、實部與虛部、複數的分類與複數相等。</td></tr><tr><td>本課對應課本</td><td>人教B版必修第四冊 10.1.1（書頁 25–28）；例1、例2 改數字重出</td></tr></table></div>
+</td></tr></tbody>
+</table>
+</body>
+</html>

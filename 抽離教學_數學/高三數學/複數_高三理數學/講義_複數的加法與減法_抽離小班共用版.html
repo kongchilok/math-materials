@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_複數的加法與減法_抽離小班共用版</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+</style>
+
+<style>
+  /* 保險：MathJax 的公式本身也是 <svg>，任何後代選擇器都會誤中（house-style 2026-08-08） */
+  mjx-container > svg { width:auto; height:auto; max-width:none; display:inline; margin:0; }
+  .aside-side > svg { width:100%; height:auto; }
+  .dual-track td > svg { max-width:100%; height:auto; }
+  .frayer td { width:50%; }
+  .frayer .flab { background:#f0f0f0; margin:-6px -9px 6px; padding:3px 9px; font-weight:700; font-size:11pt; }
+  .frayer .term { text-align:center; font-size:14pt; font-weight:700; background:#f0f0f0; }
+  .def-line { margin:2px 0; }
+  .teacher-notes td:first-child { width:30%; white-space:nowrap; }
+</style>
+</head>
+<body>
+<table class="sheet">
+<tfoot><tr><td><div class="footer">高三數學．複數單元</div></td></tr></tfoot>
+<tbody><tr><td>
+<div class="masthead"><span>科目：高三數學</span><span>單元：複數的加法與減法</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h" style="break-after:avoid;page-break-after:avoid">一、加法和減法的法則</div>
+<div class="problem"><div class="def-line">\((a+b\mathrm{i})+(c+d\mathrm{i})=(a+c)+(b+d)\mathrm{i}\)</div><div class="def-line">\((a+b\mathrm{i})-(c+d\mathrm{i})=(a-c)+(b-d)\mathrm{i}\)</div></div>
+<div class="hint-card">一句話：實部和實部合併，虛部和虛部合併——就像合併同類項，把 i 當成 x 一樣處理。</div>
+<div>複數加法同樣有交換律、結合律，所以幾個複數相加減，可以一次過分組計算。</div>
+<div class="section-h" style="break-after:avoid;page-break-after:avoid">二、手順卡：複數加減三步</div>
+<table class="d-tbl step-card"><tr><th colspan="2">複數加減　三步</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：題目是幾個 \(a+b\mathrm{i}\) 相加減的時候</td></tr><tr><td>1. 去括號：減號後面的括號，每一項都要變號</td><td class="pitfall">※ \(-(3+2\mathrm{i})=-3-2\mathrm{i}\)：虛部也要變號，最常漏</td></tr><tr><td>2. 分組：實部放一組，虛部放一組</td><td class="pitfall">※ 沒有 i 的數是實部；虛部只抄 i 前面的數</td></tr><tr><td>3. 合併，寫成 \(a+b\mathrm{i}\)，用「∴」寫答句</td><td class="pitfall">※ 虛部是 0 就寫成實數；虛部是 1 寫 i，不寫 1i</td></tr></table>
+<div style="break-inside:avoid;page-break-inside:avoid"><div class="sub-h lead" style="margin-top:10px"><b>★ 範例一：計算 \((4-3\mathrm{i})-(1-5\mathrm{i})+(-2+\mathrm{i})\)</b></div><table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why" style="width:38%">這一步在做什麼</th></tr></thead><tbody><tr><td class="ec1">原式</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(4-3\mathrm{i}-1+5\mathrm{i}-2+\mathrm{i}\)</td><td class="why">第 1 步：去括號；\(-(1-5\mathrm{i})\) 的兩項都變號</td></tr><tr><td class="ec1"></td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\((4-1-2)+(-3+5+1)\mathrm{i}\)</td><td class="why">第 2 步：實部一組，虛部一組</td></tr><tr><td class="ec1"></td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(1+3\mathrm{i}\)</td><td class="why">第 3 步：合併</td></tr><tr><td class="ecs ans" colspan="7">∴ 原式 \(=1+3\mathrm{i}\)</td><td class="why">作答：用「∴」寫出結果</td></tr></tbody></table></div>
+<div class="section-h page-break" style="break-after:avoid;page-break-after:avoid">三、加減法的幾何意義</div>
+<div>上一課學過：複數 ⟷ 向量。所以複數加減，就是向量加減。</div>
+<table class="d-tbl dual-track long"><thead><tr><th>圖上看到什麼</th><th>算式上寫什麼</th></tr></thead><tbody><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="250" height="216" viewBox="0 0 250 216"><defs><marker id="ah1" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="0" y="0" width="250" height="216" fill="#fff"/><line x1="24.0" y1="192.3" x2="24.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="57.7" y1="192.3" x2="57.7" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="91.3" y1="192.3" x2="91.3" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="125.0" y1="192.3" x2="125.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="158.7" y1="192.3" x2="158.7" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="192.3" y1="192.3" x2="192.3" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="226.0" y1="192.3" x2="226.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="192.3" x2="226.0" y2="192.3" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="158.7" x2="226.0" y2="158.7" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="125.0" x2="226.0" y2="125.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="91.3" x2="226.0" y2="91.3" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="57.7" x2="226.0" y2="57.7" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="24.0" x2="226.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="18.0" y1="158.7" x2="240.0" y2="158.7" stroke="#000" stroke-width="1.4" marker-end="url(#ah1)"/><line x1="57.7" y1="198.3" x2="57.7" y2="10.0" stroke="#000" stroke-width="1.4" marker-end="url(#ah1)"/><text x="239.0" y="147.7" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">實軸</text><text x="63.7" y="14.0" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">虛軸</text><text x="50.7" y="168.7" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">O</text><text x="24.0" y="169.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−1</text><text x="91.3" y="169.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">1</text><text x="125.0" y="169.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2</text><text x="158.7" y="169.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">3</text><text x="192.3" y="169.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">4</text><text x="226.0" y="169.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">5</text><text x="52.7" y="192.3" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−1</text><text x="52.7" y="125.0" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">1</text><text x="52.7" y="91.3" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2</text><text x="52.7" y="57.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">3</text><text x="52.7" y="24.0" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">4</text><line x1="158.7" y1="125.0" x2="192.3" y2="57.7" stroke="#000" stroke-width="1.2" stroke-dasharray="5 4"/><line x1="91.3" y1="91.3" x2="192.3" y2="57.7" stroke="#000" stroke-width="1.2" stroke-dasharray="5 4"/><line x1="57.7" y1="158.7" x2="158.7" y2="125.0" stroke="#000" stroke-width="2" marker-end="url(#ah1)"/><line x1="57.7" y1="158.7" x2="91.3" y2="91.3" stroke="#000" stroke-width="2" marker-end="url(#ah1)"/><line x1="57.7" y1="158.7" x2="192.3" y2="57.7" stroke="#000" stroke-width="2" marker-end="url(#ah1)"/><circle cx="158.7" cy="125.0" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="164.7" y="137.0" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z₁</text><circle cx="91.3" cy="91.3" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="85.3" y="80.3" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z₂</text><circle cx="192.3" cy="57.7" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="198.3" y="46.7" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z</text></svg></td><td><div>\({z}_{1}=3+\mathrm{i}\) ⟷ \(\overrightarrow{O{Z}_{1}}=(3,1)\)</div><div>\({z}_{2}=1+2\mathrm{i}\) ⟷ \(\overrightarrow{O{Z}_{2}}=(1,2)\)</div><div>以兩個向量為鄰邊作平行四邊形，對角線是 \(\overrightarrow{OZ}\)</div><div>\({z}_{1}+{z}_{2}=4+3\mathrm{i}\) ⟷ 點 \(Z(4,3)\)</div></td></tr><tr><td><svg xmlns="http://www.w3.org/2000/svg" width="250" height="250" viewBox="0 0 250 250"><defs><marker id="ah2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="0" y="0" width="250" height="250" fill="#fff"/><line x1="24.0" y1="226.0" x2="24.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="64.4" y1="226.0" x2="64.4" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="104.8" y1="226.0" x2="104.8" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="145.2" y1="226.0" x2="145.2" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="185.6" y1="226.0" x2="185.6" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="226.0" y1="226.0" x2="226.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="226.0" x2="226.0" y2="226.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="185.6" x2="226.0" y2="185.6" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="145.2" x2="226.0" y2="145.2" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="104.8" x2="226.0" y2="104.8" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="64.4" x2="226.0" y2="64.4" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="24.0" x2="226.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="18.0" y1="145.2" x2="240.0" y2="145.2" stroke="#000" stroke-width="1.4" marker-end="url(#ah2)"/><line x1="64.4" y1="232.0" x2="64.4" y2="10.0" stroke="#000" stroke-width="1.4" marker-end="url(#ah2)"/><text x="239.0" y="134.2" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">實軸</text><text x="70.4" y="14.0" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">虛軸</text><text x="57.4" y="155.2" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">O</text><text x="24.0" y="156.2" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−1</text><text x="104.8" y="156.2" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">1</text><text x="145.2" y="156.2" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2</text><text x="185.6" y="156.2" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">3</text><text x="226.0" y="156.2" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">4</text><text x="59.4" y="226.0" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−2</text><text x="59.4" y="185.6" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−1</text><text x="59.4" y="104.8" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">1</text><text x="59.4" y="64.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2</text><text x="59.4" y="24.0" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">3</text><line x1="104.8" y1="64.4" x2="185.6" y2="104.8" stroke="#000" stroke-width="2" marker-end="url(#ah2)"/><line x1="64.4" y1="145.2" x2="145.2" y2="185.6" stroke="#000" stroke-width="2" stroke-dasharray="6 4" marker-end="url(#ah2)"/><circle cx="185.6" cy="104.8" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="191.6" y="93.8" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z₁</text><circle cx="104.8" cy="64.4" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="98.8" y="53.4" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z₂</text><circle cx="145.2" cy="185.6" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="153.2" y="185.6" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2−i</text></svg></td><td><div>\({z}_{1}-{z}_{2}=(3-1)+(1-2)\mathrm{i}\)</div><div>\({z}_{1}-{z}_{2}=2-\mathrm{i}\)</div><div>對應向量 \(\overrightarrow{{Z}_{2}{Z}_{1}}\)：由 \({Z}_{2}\)（減數）指向 \({Z}_{1}\)（被減數）</div><div>把它平移到原點，終點就是 \(2-\mathrm{i}\)（虛線）</div></td></tr></tbody></table>
+<div class="hint-card">所以 \(\lvert {z}_{1}-{z}_{2}\rvert \) 就是兩點 \({Z}_{1}\)、\({Z}_{2}\) 之間的距離：先相減，再求模。</div>
+<div style="break-inside:avoid;page-break-inside:avoid"><div class="sub-h lead" style="margin-top:10px"><b>★ 範例二：已知 \({z}_{1}=5+2\mathrm{i}\)，\({z}_{2}=2-2\mathrm{i}\)，求 \({Z}_{1}\)、\({Z}_{2}\) 兩點的距離。</b></div><div class="fig"><svg xmlns="http://www.w3.org/2000/svg" width="280" height="247" viewBox="0 0 280 247"><defs><marker id="ah3" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="0" y="0" width="280" height="247" fill="#fff"/><line x1="24.0" y1="222.9" x2="24.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="57.1" y1="222.9" x2="57.1" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="90.3" y1="222.9" x2="90.3" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="123.4" y1="222.9" x2="123.4" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="156.6" y1="222.9" x2="156.6" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="189.7" y1="222.9" x2="189.7" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="222.9" y1="222.9" x2="222.9" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="256.0" y1="222.9" x2="256.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="222.9" x2="256.0" y2="222.9" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="189.7" x2="256.0" y2="189.7" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="156.6" x2="256.0" y2="156.6" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="123.4" x2="256.0" y2="123.4" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="90.3" x2="256.0" y2="90.3" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="57.1" x2="256.0" y2="57.1" stroke="#c8c8c8" stroke-width="0.8"/><line x1="24.0" y1="24.0" x2="256.0" y2="24.0" stroke="#c8c8c8" stroke-width="0.8"/><line x1="18.0" y1="123.4" x2="270.0" y2="123.4" stroke="#000" stroke-width="1.4" marker-end="url(#ah3)"/><line x1="57.1" y1="228.9" x2="57.1" y2="10.0" stroke="#000" stroke-width="1.4" marker-end="url(#ah3)"/><text x="269.0" y="112.4" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">實軸</text><text x="63.1" y="14.0" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">虛軸</text><text x="50.1" y="133.4" font-size="11" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">O</text><text x="24.0" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−1</text><text x="90.3" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">1</text><text x="123.4" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2</text><text x="156.6" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">3</text><text x="189.7" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">4</text><text x="222.9" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">5</text><text x="256.0" y="134.4" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="middle" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">6</text><text x="52.1" y="222.9" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−3</text><text x="52.1" y="189.7" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−2</text><text x="52.1" y="156.6" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">−1</text><text x="52.1" y="90.3" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">1</text><text x="52.1" y="57.1" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">2</text><text x="52.1" y="24.0" font-size="10" font-family="Microsoft JhengHei, Calibri, sans-serif" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">3</text><line x1="222.9" y1="57.1" x2="123.4" y2="189.7" stroke="#000" stroke-width="1.2" stroke-dasharray="5 4"/><circle cx="222.9" cy="57.1" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="216.9" y="46.1" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="end" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z₁(5,2)</text><circle cx="123.4" cy="189.7" r="3.6" fill="#000" stroke="#fff" stroke-width="1"/><text x="131.4" y="189.7" font-size="12" font-family="Microsoft JhengHei, Calibri, sans-serif" font-weight="700" text-anchor="start" dominant-baseline="middle" stroke="#fff" stroke-width="3.2" paint-order="stroke" fill="#000">Z₂(2,−2)</text></svg></div><table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why" style="width:40%">這一步在做什麼</th></tr></thead><tbody><tr><td class="ec1">\({z}_{1}-{z}_{2}\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\((5+2\mathrm{i})-(2-2\mathrm{i})\)</td><td class="why">距離 ＝ \(\lvert {z}_{1}-{z}_{2}\rvert \)，所以先相減</td></tr><tr><td class="ec1"></td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(5+2\mathrm{i}-2+2\mathrm{i}\)</td><td class="why">第 1 步：去括號，\(-(2-2\mathrm{i})\) 兩項都變號</td></tr><tr><td class="ec1"></td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\((5-2)+(2+2)\mathrm{i}\)</td><td class="why">第 2 步：分組</td></tr><tr><td class="ec1"></td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3+4\mathrm{i}\)</td><td class="why">第 3 步：合併</td></tr><tr><td class="ec1">\(\lvert {z}_{1}-{z}_{2}\rvert \)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(\sqrt{{3}^{2}+{4}^{2}}\)</td><td class="why">再求模</td></tr><tr><td class="ec1">\(\lvert {z}_{1}-{z}_{2}\rvert \)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(5\)</td><td class="why"></td></tr><tr><td class="ecs ans" colspan="7">∴ 兩點的距離是 5</td><td class="why">作答：用「∴」寫答句</td></tr></tbody></table></div>
+<div class="hint-card">接下來請拿《複數的加法與減法——課堂練習》，照手順卡三步完成練習A、B、C。</div>
+<div class="teacher-notes"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl long"><tr><td>本份採用的主設計</td><td>D2 手順卡（複數加減三步）</td></tr><tr><td>輔助設計</td><td>D5 圖文雙軌對照（平行四邊形法則、兩點距離）</td></tr><tr><td>選用理由</td><td>加減法本身是 S2 多步驟程序運算：最高頻錯誤是減號後的括號只變實部、不變虛部，以及實部虛部分組時把 i 抄進虛部。手順卡把「去括號 → 分組 → 合併」外顯成三個獨立動作，易錯點用 ※ 標在旁邊。課本同時要求加減的幾何意義（平行四邊形、\(\lvert {z}_{1}-{z}_{2}\rvert \) 是距離），沿用上一課的 D5 雙軌，讓 ASD 學生看見同一套「左圖右式」版面。</td></tr><tr><td>鷹架密度</td><td>抽離小班（Tier 2）：練習A／B／C 各 2 題</td></tr><tr><td>褪除路徑</td><td>D2：講義完整手順卡（含 ※ 易錯點）→ 練習A 第 1 題旁重印三步精簡版（第 2 題旁改給平行四邊形提示）→ 練習B 只在區塊開頭放一次 → 練習C 不放 → 下一課只口頭問「這題有三步，第一步是什麼？」→ 移除。D5：講義雙軌表全給 → 練習A 平行四邊形圖已畫好 → 練習B 給空白複平面自己描點 → 練習C 不給圖。</td></tr><tr><td>課堂實施流程</td><td>F5 課前流程預告（今天三件事：法則 → 三步 → 幾何意義）、F2 番茄鐘分段（A、B、C 三段，每段 10 分鐘）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點（手順卡）、a6 增加行距（作答空間已加寬）</td></tr><tr><td>本單元對應的正規教學目標</td><td>〔基力以外：校本／理組加深〕高中《基本學力要求》143 條未含複數；本課依人教B版必修第四冊 10.2.1「複數的加法與減法」：掌握複數加減的運算法則，理解加減法的幾何意義（平行四邊形法則、\(\lvert {z}_{1}-{z}_{2}\rvert \) 表示兩點距離）。</td></tr><tr><td>本課對應課本</td><td>人教B版必修第四冊 10.2.1（書頁 33–36）；例1、例2 改題重出，「兩點距離」取自減法幾何意義一段</td></tr><tr><td>課室資訊圖表</td><td>手順卡改由 NotebookLM 產生資訊圖表（提示詞見 提示詞_資訊圖表_複數單元.md），不另出紙本工具卡</td></tr></table></div>
+</td></tr></tbody>
+</table>
+</body>
+</html>
