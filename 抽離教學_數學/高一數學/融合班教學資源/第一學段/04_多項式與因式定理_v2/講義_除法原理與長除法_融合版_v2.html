@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<!--
+  課堂講義／練習 HTML 範本 —— 使用者的固定house style（見 ../references/house-style.md 完整設計依據）：
+  14pt標題／12pt本文、頁首頁尾左右邊界0.5cm、masthead+footer品牌列、
+  三個難度區塊（練習A=初階/B=中階/C=高階）用星星（★☆☆/★★☆/★★★）標在區塊標題，不用顏色或邊框粗細（預設黑白列印）。
+  用法：複製這個檔案，把 [方括號] 內容換成實際講義內容；CSS 與 MathJax 設定原封不動保留。
+  數學式一律寫在 \( ... \) 或 \[ ... \] 之間，讓 MathJax 轉成正確符號。
+  轉 PDF：用 scripts/html_to_pdf.ps1 <這份html的路徑> <輸出pdf路徑>
+-->
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<title>講義_除法原理與長除法_融合版_v2</title>
+<script>
+  MathJax = {
+    tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    /* mtextInheritFont:true 一定要有 —— 少了它，\text{} 裡的中文會變成豆腐方塊
+       （QB-15a 驗收此項）。中文一律包在 \text{...} 裡。 */
+    svg: { fontCache: 'local', displayAlign: 'left', displayIndent: '0', mtextInheritFont: true },
+    options: { enableMenu: false }
+  };
+</script>
+<!-- 多 CDN 後備載入：單一 CDN 被學校網路擋掉時，公式不會整份變成原始碼 -->
+<script>
+(function loadMathJax(urls) {
+  if (!urls.length) return;
+  var s = document.createElement('script');
+  s.src = urls[0];
+  s.onerror = function () { loadMathJax(urls.slice(1)); };
+  document.head.appendChild(s);
+})([
+  'https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-mml-svg.js',
+  'https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-svg.js',
+  'https://unpkg.com/mathjax@3/es5/tex-mml-svg.js'
+]);
+</script>
+<style>
+  @page { size: A4; margin: 0.5cm; }
+  * { box-sizing: border-box; }
+  body {
+    /* 無襯線字體（BDA 失讀症友善排版標準）；中文用思源黑體/微軟正黑體堆疊避免缺字 */
+    font-family: "Noto Sans TC", "Microsoft JhengHei", "PingFang TC", Arial, Verdana, sans-serif;
+    font-size: 12pt;       /* house style：題目/本文 12pt */
+    line-height: 1.5;
+    color: #1a1a1a;
+    background: #fff;      /* 黑白列印為主，維持純白底 */
+    margin: 0;
+    padding: 0;
+  }
+  /* 舊版的 .page 容器已由下面的 .sheet 表格取代（tfoot 頁尾需要）——不要再包一層 .page */
+
+  /* masthead：固定頁首列品牌識別，細線+雙線做裝飾角標，不是顏色 */
+  .masthead {
+    font-size: 10pt; color: #555; border-top: 1px solid #999; border-bottom: 3px double #999;
+    padding: 3px 0 4px; margin-bottom: 8px; display: flex; gap: 24px;
+  }
+  .ws-meta { font-size: 12pt; margin-bottom: 10px; }
+  .ws-meta .u { display: inline-block; min-width: 90px; border-bottom: 1px solid #1a1a1a; margin-right: 20px; }
+
+  .section-h { font-size: 14pt; font-weight: 700; margin: 16px 0 8px; break-after: avoid-page; page-break-after: avoid; }  /* house style：標題統一 14pt；break-after:avoid 防止標題被孤立在頁尾、內容被推到下一頁（實測踩過的坑，docx 版對應 heading() 的 keepNext） */
+  .stars { font-size: 12pt; letter-spacing: 1px; }  /* 難度用星星表示：練習A=★☆☆／B=★★☆／C=★★★，放在該區塊標題裡，不用邊框粗細或顏色 */
+
+  /* break-inside:avoid — without this Chrome's print-to-pdf can split a
+     bordered box across a page break, leaving a stray half-border line
+     at the top of the next page (seen and fixed during real testing). */
+  .problem { margin: 12px 0; padding: 8px 12px; background: #fff; border: 0.75pt solid #000; break-inside: avoid; page-break-inside: avoid; }
+
+  .hint-card, .worked-example { font-size: 11.5pt; background: #f0f0f0; border-left: 3px solid #555; padding: 5px 10px; margin: 6px 0; }
+  .steps { margin: 6px 0; padding-left: 0; list-style: none; }
+  .steps li { margin: 4px 0; padding-left: 1.6em; text-indent: -1.6em; }
+  .steps li::before { content: attr(data-n) "　"; font-weight: 700; }
+
+  /* 書寫格線：真實 div 邊框線堆疊，不用 repeating-linear-gradient */
+  .write-lines { margin-top: 4px; }
+  .write-lines .line { height: 0.9cm; border-bottom: 1px solid #aaa; }
+  .write-lines .line:last-child { border-bottom: none; }
+
+  .ans-box { display: inline-block; min-width: 110px; border-bottom: 1.5px solid #1a1a1a; height: 1.1em; vertical-align: bottom; }
+  .choices span { display: inline-block; margin-right: 22px; }
+  .page-break { break-before: page; }
+
+  /* ===== 教學設計元件（對應 ../references/teaching-designs.md 的 D 代號，
+     以及 ../scripts/omml_docx.py 的同名 docx 建構器——兩版外觀要一致）=====
+     所有框狀元件都要 break-inside:avoid，否則 Chrome 列印會從中間切開。 */
+  .d-tbl { width: 100%; border-collapse: collapse; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl td, .d-tbl th { border: 0.75pt solid #000; padding: 6px 9px; vertical-align: top; text-align: left; font-size: 11.5pt; }
+  .d-tbl th { background: #f0f0f0; font-weight: 700; }
+  .d-tbl .fill { height: 2.2cm; }          /* 留白讓學生填 */
+  /* 一頁放不下的長表加 .long：整表被推到下一頁會留一大截空白，不如讓它跨頁，
+     整列不切開＋<thead> 表頭次頁重印（見 house-style「表頭要能跨頁重印」） */
+  .d-tbl.long { break-inside: auto; page-break-inside: auto; }
+  .d-tbl tr { break-inside: avoid; page-break-inside: avoid; }
+  .d-tbl thead { display: table-header-group; }
+
+  /* ===== 範例段（每份講義必用；規範見 house-style.md「數學算式的書寫規範」）=====
+     算式欄切成 左式｜＝｜右式｜或｜左式｜＝｜右式 七小欄：等號各自站在固定欄上，
+     上下對齊成一條垂直線；小欄之間不畫直線，學生看到的仍然是「一欄算式」。
+     只靠段落左對齊做不到——左式一長，等號就跟著右移。 */
+  .worked td.ec1, .worked td.ec2, .worked td.ec3, .worked td.ec4,
+  .worked td.ec5, .worked td.ec6, .worked td.ec7 {
+    border-left: none; border-right: none; padding: 5px 2px; white-space: nowrap;
+    vertical-align: middle;
+  }
+  .worked td.ec1 { text-align: right; border-left: 0.75pt solid #000; }   /* 左式 */
+  .worked td.ec2, .worked td.ec6 { text-align: center; padding-left: 7px; padding-right: 7px; }
+  .worked td.ec3, .worked td.ec7 { text-align: left; }                    /* 右式 */
+  .worked td.ec4 { text-align: center; padding-left: 12px; padding-right: 12px; }  /* 「或」 */
+  .worked td.ec5 { text-align: right; }
+  .worked td.ec7 { border-right: 0.75pt solid #000; }
+  .worked td.ecs { text-align: left; }      /* 讀係數那種註記行，跨 7 欄、不參與對齊 */
+  .worked td.ans { font-weight: 700; }      /* ∴ 答句行 */
+  .worked td.why { width: 35%; vertical-align: middle; }
+  .worked .note { font-size: 10.5pt; color: #333; display: block; margin-top: 3px; }
+
+  /* D4 三欄式引導：語意擷取／關係式建構／運算與檢核，三欄固定不要改 */
+  .three-col td { width: 33.33%; }
+  /* D5 圖文雙軌：左圖右式必須「同列橫向對齊」，錯開就失去這個設計的意義（QB-V5） */
+  .dual-track td { width: 50%; vertical-align: middle; }
+  .dual-track img, .dual-track svg { max-width: 100%; height: auto; }
+  /* D9 草稿分區：格名與作答空間在同一格內，避免分頁把兩者拆開 */
+  .quadrant td { width: 50%; height: 3.4cm; }
+  .quadrant .qlabel { background: #f0f0f0; margin: -6px -9px 6px; padding: 3px 9px; font-size: 11pt; }
+  /* D8 關鍵字對譯：一般對譯與陷阱詞要分開，陷阱詞列用 .trap 起一個灰底分隔 */
+  .kw-table td:first-child { width: 38%; }
+  .kw-table .trap td { background: #f0f0f0; font-weight: 700; }
+
+  /* D2 手順卡：每列一個核心動作，右欄 ※ 易錯點 */
+  .step-card td:first-child { width: 56%; font-weight: 700; }
+  .step-card .pitfall { font-weight: 400; font-size: 11pt; }
+  /* D7 提示卡：文字敘述＋圖＋代數符號三件套，開頭寫「什麼時候翻我」 */
+  .ref-card { border: 0.75pt solid #000; padding: 8px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .ref-card .trigger { font-size: 11pt; color: #444; margin-bottom: 4px; }
+
+  /* D11 黑白等效標記。字元見 teaching-designs.md §5，實測選定，不要換成 ○□●■ 或任何 emoji */
+  .mk { font-weight: 700; }
+  .kw-key { text-decoration: underline; }                                  /* 一般關鍵字 */
+  .kw-trap { text-decoration: underline; text-decoration-style: double; }  /* 陷阱詞 */
+
+  /* D12 自我核對清單／分段核對點 */
+  .selfcheck { background: #f0f0f0; border-left: 3px solid #555; padding: 6px 10px; margin: 10px 0; font-size: 11.5pt; break-inside: avoid; }
+  .selfcheck div { margin: 3px 0; }
+  .checkpoint { border-top: 1px solid #999; border-bottom: 1px solid #999; padding: 4px 0; margin: 12px 0; font-size: 11pt; color: #555; }
+
+  /* 教師實施說明頁：整份文件最後一頁，列印給學生時可不印這一頁 */
+  .teacher-notes { break-before: page; page-break-before: always; }
+  .teacher-notes td:first-child { width: 28%; background: #f0f0f0; font-weight: 700; }
+
+  /* 內嵌 SVG（design_svg.py 產出）：務必保留 SVG 自帶的 width/height 屬性，
+     少了它 <img> 尺寸會變 0、圖整個不顯示（實測踩過） */
+  .fig { text-align: center; margin: 8px 0; break-inside: avoid; }
+  .fig svg, .fig img { max-width: 100%; height: auto; }
+  .fig .cap { font-size: 10.5pt; color: #555; margin-top: 3px; }
+
+  /* ===== 頁尾：整份內容包一張 .sheet 表，頁尾放 <tfoot> =====
+     Chrome 列印會逐頁重印 tfoot **而且替它預留空間**。舊做法 position:fixed 只是浮在
+     頁底、不佔位，內容照樣流過去被蓋住（實測：範例引言卡被壓到只剩半截）。
+     試過但行不通的：@page{margin-bottom}+負 bottom（頁尾被裁走整個消失）。
+     footer 文字不含頁碼。 */
+  .sheet { width: 100%; max-width: 720px; margin: 0 auto; border-collapse: collapse; }
+  .sheet > tfoot { display: table-footer-group; }
+  .sheet > tfoot td, .sheet > tbody > tr > td { border: none; padding: 0; }
+  .sheet > tbody > tr > td { padding: 6px 10px; vertical-align: top; }
+  .footer { font-size: 9pt; color: #666; text-align: center; border-top: 1px solid #999; padding: 3px 0 2px; background: #fff; }
+
+  /* ===== 題目在左、插圖與提示在右（house-style 定案版面）=====
+     一題要看起來同平時的原題一樣：題目顯眼、下面就是作答空間；鷹架退到右側欄。
+     不要把圖擺題目上面、再用跨頁寬的三欄空表當作答區——題目會被兩塊鷹架埋掉。 */
+  .aside-wrap { display: flex; gap: 12px; margin: 12px 0; break-inside: avoid; page-break-inside: avoid; }
+  .aside-wrap.boxed { border: 0.75pt solid #000; padding: 8px 12px; }
+  .aside-main { flex: 1 1 60%; min-width: 0; }
+  .aside-side { flex: 0 0 38%; min-width: 0; }
+  .aside-side svg { max-width: 100%; height: auto; }   /* 側欄的圖用 design_svg 的 width=300 原生尺寸畫，唔好拎 520px 舊圖硬縮 */
+  .hintcard { background: #f0f0f0; padding: 5px 8px; font-size: 10.5pt; margin-top: 8px; }
+  .hintcard .ht { font-weight: 700; margin-bottom: 3px; }
+  .hintcard div { margin: 2px 0; }
+  /* ★範例 的引言卡要黐住下面那張表，唔好一個人留喺頁尾 */
+  .lead { break-after: avoid-page; page-break-after: avoid; }
+
+  /* 長除法／綜合除法（poly_division.py）：一欄一個次數，同次項上下對齊 */
+  .ldiv, .syn { border-collapse: collapse; margin: 6px 0 6px 12px; break-inside: avoid; page-break-inside: avoid; }
+  .ldiv td { padding: 1px 7px; text-align: right; white-space: nowrap; border: none; vertical-align: middle; }
+  .ldiv td.ol { border-top: 1.3px solid #000; }
+  .ldiv td.ul { border-bottom: 1.3px solid #000; }
+  .ldiv td.dv { padding-right: 2px; }
+  .syn td { padding: 2px 10px; text-align: center; white-space: nowrap; border: none; min-width: 2.6em; }
+  .syn td.c { border-right: 1.3px solid #000; }
+  .syn td.res { border-top: 1.3px solid #000; }
+  .syn td.rem { border-left: 1.3px solid #000; }
+  .syn td.lab { font-size: 10pt; color: #333; padding-top: 1px; }
+  .bl { display: inline-block; min-width: 2.2em; border-bottom: 1px solid #000; height: 1.1em; vertical-align: bottom; }
+
+  .fml { text-align: center; margin: 4px 0; }
+  .ref-card .rt { font-size: 14pt; font-weight: 700; }
+  .ref-card .d-tbl { margin: 6px 0 2px; }
+  .ans-box2 { border: 0.75pt solid #000; padding: 6px 12px; margin: 10px 0; break-inside: avoid; page-break-inside: avoid; }
+  .work-space { border: none; }
+  .aside-wrap.fign .aside-main { flex: 1 1 55%; }
+  .aside-wrap.fign .aside-side { flex: 0 0 43%; }
+</style>
+</head>
+<body>
+<table class="sheet">
+  <tfoot><tr><td><div class="footer">高一數學．多項式 v2．L1 除法原理與長除法</div></td></tr></tfoot>
+  <tbody><tr><td>
+<div class="masthead"><span>科目：高一數學</span><span>單元：多項式 L1：除法原理與長除法</span><span>類型：課堂講義</span></div>
+<div class="ws-meta">姓名：<span class="u">&nbsp;</span>班別：<span class="u">&nbsp;</span>學號：<span class="u">&nbsp;</span>日期：<span class="u">&nbsp;</span></div>
+<div class="section-h">一、從「數的除法」談起</div>
+<div class="">小學學過 17 ÷ 5 ＝ 3 餘 2。把它寫成一條乘法，就是：</div>
+<div class="fml">\(17=5\times 3+2\)</div>
+<div class="">被除數 ＝ 除數 × 商 ＋ 餘數，而且餘數 2 比除數 5 小。多項式的除法是同一個道理，只是把「數」換成「x 的式子」。</div>
+<div class="section-h">二、除法原理</div>
+<div class="ref-card"><div class="rt">▍除法原理</div>
+<div class="trigger">什麼時候翻我：題目要求商式、餘式，或要把一個多項式寫成「除式 × 商式 ＋ 餘式」</div>
+<div class="fml">\(f(x)=g(x)\cdot q(x)+r(x)\)</div>
+<div class="">其中 \(g(x)\ne 0\)；餘式 \(r(x)=0\)，或 \(r(x)\) 的次數比除式 \(g(x)\) 的次數低。</div>
+<table class="d-tbl"><thead><tr><th style="width:30%">名稱</th><th style="width:30%">寫法</th><th style="width:40%">在 17 ÷ 5 裡</th></tr></thead><tbody><tr><td style="vertical-align:middle">被除式</td><td style="vertical-align:middle">\(f(x)\)</td><td style="vertical-align:middle">17</td></tr><tr><td style="vertical-align:middle">除式</td><td style="vertical-align:middle">\(g(x)\)</td><td style="vertical-align:middle">5</td></tr><tr><td style="vertical-align:middle">商式</td><td style="vertical-align:middle">\(q(x)\)</td><td style="vertical-align:middle">3</td></tr><tr><td style="vertical-align:middle">餘式</td><td style="vertical-align:middle">\(r(x)\)</td><td style="vertical-align:middle">2</td></tr></tbody></table></div>
+<table class="d-tbl step-card"><tr><th colspan="2">用除法原理求被除式　三步</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：題目給了除式、商式、餘式，要你找回被除式</td></tr><tr><td>1. 寫出關係：被除式 ＝ 除式 × 商式 ＋ 餘式</td><td class="pitfall">※ 先寫文字式，再把式子代進去</td></tr><tr><td>2. 把「除式 × 商式」乘開</td><td class="pitfall">※ 每一項都要乘到，用括號包住</td></tr><tr><td>3. 加上餘式，合併同類項</td><td class="pitfall">※ 次數由高到低排好</td></tr><tr><td colspan="2" style="font-weight:400;font-size:9.5pt;background:#f0f0f0">（教師）褪除：完整三步卡 → 只留「除 × 商 ＋ 餘」→ 移除</td></tr></table>
+<div class="lead"><b>★ 範例一：一個多項式除以 \((x+2)\)，商式為 \(3x^{2}+1\)，餘式為 \(4\)。求這個多項式。</b></div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ec1">被除式</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">除式 × 商式 ＋ 餘式</td><td class="why">第 1 步：寫出關係</td></tr>
+<tr><td class="ec1">\(f(x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\((x+2)(3x^{2}+1)+4\)</td><td class="why">把三條式代進去</td></tr>
+<tr><td class="ec1">\(f(x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3x^{3}+x+6x^{2}+2+4\)</td><td class="why">第 2 步：乘開</td></tr>
+<tr><td class="ec1">\(f(x)\)</td><td class="ec2">\(=\)</td><td class="ec3" colspan="5">\(3x^{3}+6x^{2}+x+6\)</td><td class="why">第 3 步：合併，由高次到低次排好</td></tr>
+<tr><td class="ecs ans" colspan="7">\(\therefore\) 這個多項式是 \(3x^{3}+6x^{2}+x+6\)</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr></tbody></table>
+<div class="section-h">三、長除法的手順卡</div>
+<div class="lead">如果反過來，知道被除式和除式，要找商式和餘式，就用長除法——做法跟「數」的長除法一樣。</div>
+<table class="d-tbl step-card"><tr><th colspan="2">長除法　四步</th></tr><tr><td colspan="2" style="font-weight:400">什麼時候用：除式是一次或以上的多項式，要求商式和餘式</td></tr><tr><td>1. 除：拿剩下那條式的最高次項，除以除式的最高次項</td><td class="pitfall">※ 商寫在「同次項」那一欄的正上方</td></tr><tr><td>2. 乘：把這一項商乘回整個除式，寫在下面</td><td class="pitfall">※ 每一項對齊同次的那一欄</td></tr><tr><td>3. 減：上下相減，再把下一項帶下來</td><td class="pitfall">※ 減的是整條式，每一項都要變號</td></tr><tr><td>4. 重複：直到剩下的次數比除式低，那就是餘式</td><td class="pitfall">※ 次數還沒比除式低，不可以停</td></tr><tr><td colspan="2" style="font-weight:400;font-size:9.5pt;background:#f0f0f0">（教師）褪除：完整四步卡 → 只留「除 → 乘 → 減 → 重複」四個字 → 只問「這題要做幾輪」→ 移除</td></tr></table>
+<div class="hint-card">動筆前先做一件事：被除式由高次到低次排好，缺的項補 0。例如 \(6x^{3}+x^{2}-4\) 沒有 x 項，要寫成 \(6x^{3}+x^{2}+0x-4\)。</div>
+<div class="section-h">四、範例二：長除法</div>
+<div class="lead"><b>★ 範例二：求 \((x^{3}+2x^{2}+3x+1)\div (x-1)\) 的商式及餘式，並用除法原理寫出它們的關係。</b></div>
+<div class="aside-wrap boxed fign"><div class="aside-main"><table class="ldiv">
+<tr><td></td><td></td><td>\(x^{2}\)</td><td>\({}+3x\)</td><td>\({}+6\)</td></tr>
+<tr><td class="dv">\(x{}-1\))</td><td class="ol">\(x^{3}\)</td><td class="ol">\({}+2x^{2}\)</td><td class="ol">\({}+3x\)</td><td class="ol">\({}+1\)</td></tr>
+<tr><td></td><td class="ul">\(x^{3}\)</td><td class="ul">\({}-x^{2}\)</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>\(3x^{2}\)</td><td>\({}+3x\)</td><td></td></tr>
+<tr><td></td><td></td><td class="ul">\(3x^{2}\)</td><td class="ul">\({}-3x\)</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>\(6x\)</td><td>\({}+1\)</td></tr>
+<tr><td></td><td></td><td></td><td class="ul">\(6x\)</td><td class="ul">\({}-6\)</td></tr>
+<tr><td></td><td></td><td></td><td></td><td>\(7\)</td></tr>
+</table></div><div class="aside-side"><div class="hintcard"><div class="ht">每一步在做什麼</div><div>① 除：\(x^{3}\div x=x^{2}\)，寫在 \(x^{2}\) 那一欄上面</div><div>② 乘：\(x^{2}(x-1)=x^{3}-x^{2}\)</div><div>③ 減：相減得 \(3x^{2}\)，帶下 \(+3x\)</div><div>④ 重複：\(3x^{2}\div x=3x\)，再乘、再減，帶下 \(+1\)</div><div>　 再重複：\(6x\div x=6\)，再乘、再減</div><div>剩下 7，次數比 \(x-1\) 低，停。</div></div></div></div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ecs" colspan="7">關係式：\(x^{3}+2x^{2}+3x+1=(x-1)(x^{2}+3x+6)+7\)</td><td class="why">除法原理：被除式 ＝ 除式 × 商式 ＋ 餘式</td></tr>
+<tr><td class="ecs ans" colspan="7">\(\therefore\) 商式為 \(x^{2}+3x+6\)，餘式為 \(7\)</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr></tbody></table>
+<div class="lead"><b>★ 範例三：求 \((6x^{3}+x^{2}-4)\div (2x-1)\) 的商式及餘式。</b></div>
+<div class="lead">兩個要留意的地方：被除式缺 x 項（補 \(0x\)）；除式的首項是 \(2x\)，每輪都要除以 \(2x\)。</div>
+<div class="aside-wrap boxed fign"><div class="aside-main"><table class="ldiv">
+<tr><td></td><td></td><td>\(3x^{2}\)</td><td>\({}+2x\)</td><td>\({}+1\)</td></tr>
+<tr><td class="dv">\(2x{}-1\))</td><td class="ol">\(6x^{3}\)</td><td class="ol">\({}+x^{2}\)</td><td class="ol">\({}+0x\)</td><td class="ol">\({}-4\)</td></tr>
+<tr><td></td><td class="ul">\(6x^{3}\)</td><td class="ul">\({}-3x^{2}\)</td><td></td><td></td></tr>
+<tr><td></td><td></td><td>\(4x^{2}\)</td><td>\({}+0x\)</td><td></td></tr>
+<tr><td></td><td></td><td class="ul">\(4x^{2}\)</td><td class="ul">\({}-2x\)</td><td></td></tr>
+<tr><td></td><td></td><td></td><td>\(2x\)</td><td>\({}-4\)</td></tr>
+<tr><td></td><td></td><td></td><td class="ul">\(2x\)</td><td class="ul">\({}-1\)</td></tr>
+<tr><td></td><td></td><td></td><td></td><td>\(-3\)</td></tr>
+</table></div><div class="aside-side"><div class="hintcard"><div class="ht">每一步在做什麼</div><div>① 補 0：\(+0x\) 佔住 x 那一欄</div><div>② 第一輪：\(6x^{3}\div 2x=3x^{2}\)；乘回得 \(6x^{3}-3x^{2}\)；相減得 \(4x^{2}\)，帶下 \(+0x\)</div><div>③ 第二輪：\(4x^{2}\div 2x=2x\)；乘回得 \(4x^{2}-2x\)；相減得 \(2x\)，帶下 \(-4\)</div><div>④ 第三輪：\(2x\div 2x=1\)；乘回得 \(2x-1\)；相減得 \(-3\)</div><div>\(-3\) 是常數，停。</div></div></div></div>
+<table class="d-tbl worked"><thead><tr><th colspan="7">算式</th><th class="why">這一步在做什麼</th></tr></thead><tbody><tr><td class="ecs" colspan="7">檢查：\((2x-1)(3x^{2}+2x+1)-3=6x^{3}+x^{2}-4\)</td><td class="why">除式 × 商式 ＋ 餘式，應該變回被除式</td></tr>
+<tr><td class="ecs ans" colspan="7">\(\therefore\) 商式為 \(3x^{2}+2x+1\)，餘式為 \(-3\)</td><td class="why">作答：最後一行用「∴」寫出答案</td></tr></tbody></table>
+<div class="">接下來請拿《除法原理與長除法 —— 課堂練習》，依這兩張手順卡完成練習 A、B、C。</div>
+<div class="teacher-notes page-break"><div class="section-h">教師實施說明（本頁供教師參考，列印給學生時可不印）</div><table class="d-tbl long"><tr><td>本份採用的主設計</td><td>D2 手順卡（除法原理三步、長除法四步）</td></tr><tr><td>輔助設計</td><td>D7 提示卡（除法原理）</td></tr><tr><td>選用理由</td><td>本課屬 S2 多步驟程序運算：長除法每一輪都是「除 → 乘 → 減 → 帶下一項」，學生最常在「減」漏變號、在缺項處錯欄，工作記憶一滿就整條崩。主設計取 D2，並用「一欄一個次數」的直式版面把同次項對齊外顯化；除法原理是之後綜合除法、餘式定理的根，故以 D7 提示卡框出，並配一張三步卡處理「反過來求被除式」（補充教材例 1）。</td></tr><tr><td>鷹架密度</td><td>全班共用</td></tr><tr><td>褪除路徑</td><td>本份練習紙面已做三級：練習A 半成品格子＋每題旁印步驟 → 練習B 只在區塊開頭放一次提示 → 練習C 不放任何提示。L2（綜合除法）起長除法只留「除乘減重複」四字 → 移除。</td></tr><tr><td>課堂實施流程</td><td>F1 師徒制對話四步（老師做第一個範例、學生口述第二個範例的每一步）、F2 番茄鐘分段（練習 A／B／C 三段）</td></tr><tr><td>對應官方輔助措施代碼</td><td>a3 提示題目重點、a6 增加行距、b5 提供步驟提示卡</td></tr><tr><td>正規教學目標（本單元對應）</td><td>A—2—1 理解多項式的概念（除法原理中被除式、除式、商式、餘式的關係）。長除法（多項式除以多項式）屬基力以外：校本，作為 A—2—2 綜合除法與餘式定理的先備。</td></tr><tr><td>與補充教材的對應</td><td>補充教材＝《多項式（補充）》高一應用數學補充教材（14 頁）第 1–2 頁。範例一＝例 1；範例二＝第 1 頁的例 2；範例三為自編（缺項＋首項係數 2）。練習 B4、B5＝習題 1A 第 1、2 題；C7＝習題 1B；C8＝習題 1A 第 6 題。練習 2.1（除以 2x ＋ 1，商式含分數係數）留到 L2 用綜合除法處理。原稿除法原理寫「deg f ＞ deg g」，本份改為只要求 g(x) ≠ 0 與 deg r ＜ deg g（標準敘述）。</td></tr><tr><td>與 v1 的分別</td><td>v1 把除法原理、長除法、綜合除法放在同一份；v2 依補充教材拆成 L1、L2 兩課，並加入「已知除式、商式、餘式求被除式」這一個反向題型。</td></tr></table></div>
+  </td></tr></tbody>
+</table>
+</body>
+</html>
