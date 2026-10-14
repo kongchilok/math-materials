@@ -416,14 +416,13 @@ def student():
 
     # ---------------- 三 ----------------
     P.append(heading('三、化為頂點式及求解析式（40 分）'))
-    P.append(info_box([
+    P.append(problem_box([
         para('▍完全平方公式', bold=True, keep_next=True),
         para(' {a^2+2a slot(∆,b)+slot(∎,b^2)=(a+slot(∆,b))^2}　　'
              '{a^2-2a slot(∆,b)+slot(∎,b^2)=(a-slot(∆,b))^2}', jc='center', keep_next=True),
         para('配方時：同一個 ∆ 填同一個數，∎ 是 ∆ 的平方。', ind=280),
     ]))
-    P.append(note('練 14、15、16 每題 6 分（∆、∎ 填格 2 分，頂點式、開口方向、對稱軸、頂點坐標'
-                  '各 1 分）；練 17、練 18 每題 7 分；練 19 為 8 分。'))
+    P.append(note('練 14、15、16 每題 6 分；練 17、練 18 每題 7 分；練 19 為 8 分。'))
     P.append(qhead('練 14–17．把下列函數化為頂點式 {y=a(x-h)^2+k}，並寫出開口方向、對稱軸及頂點坐標。'))
     P.append(pair_box(
         col_q(14, '2x^2+8x', ['{=2(x^2+4x)}', '{=2(x^2+2·x·slot(∆)+slot(∎)-slot(∎))}',
