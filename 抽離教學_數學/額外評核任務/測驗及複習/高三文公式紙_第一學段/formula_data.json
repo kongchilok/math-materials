@@ -1,0 +1,113 @@
+{
+  "school": "聖若瑟教區中學第五校",
+  "school_year": "中學中文部",
+  "semester": "",
+  "grade": "",
+  "subject": "",
+  "exam_name": "2026/27 學年第一學段考試　數學科　附件",
+  "scope": "",
+  "footer_text": "高三文數學科　2026/27 學年第一學段考試　公式參考紙",
+  "compact": true,
+  "sections": [
+    {
+      "title": "多項式與一元二次方程",
+      "formulas": [
+        { "name": "餘式定理",
+          "formula": "多項式 {f(x)} 除以 {x-a} 的餘式等於 {f(a)}",
+          "note": "{a} 為常數；餘式是一個常數" },
+        { "name": "因式定理",
+          "formula": "{f(a)=0} ⇔ {x-a} 是 {f(x)} 的因式",
+          "note": "「⇔」表示兩邊可以互相推出" },
+        { "name": "根與係數的關係\n（兩根之和、積）",
+          "formula": "{x_1+x_2=-frac(b,a)}\n{x_1 x_2=frac(c,a)}",
+          "note": "{x_1}、{x_2} 是方程 {ax^2+bx+c=0}\n的兩根，其中 {a!=0}" }
+      ]
+    },
+    {
+      "title": "對數的運算性質",
+      "formulas": [
+        { "name": "對數的定義",
+          "formula": "{a^x=N} ⇔ {x=fn(log)_a N}",
+          "note": "底數 {a>0} 且 {a!=1}；真數 {N>0}" },
+        { "name": "① 積的對數",
+          "formula": "{fn(log)_a (MN)=fn(log)_a M+fn(log)_a N}",
+          "note": "{a>0} 且 {a!=1}；{M>0}，{N>0}" },
+        { "name": "② 商的對數",
+          "formula": "{fn(log)_a frac(M,N)=fn(log)_a M-fn(log)_a N}",
+          "note": "條件同 ①" },
+        { "name": "③ 冪的對數",
+          "formula": "{fn(log)_a M^n=n fn(log)_a M}",
+          "note": "條件同 ①；{n} 為任意實數" },
+        { "name": "④ 對數恆等式",
+          "formula": "{a^{fn(log)_a N}=N}",
+          "note": "{a>0} 且 {a!=1}；{N>0}" },
+        { "name": "⑤ 換底公式",
+          "formula": "{fn(log)_a b=frac(fn(log)_c b,fn(log)_c a)}",
+          "note": "{a>0} 且 {a!=1}；{c>0} 且 {c!=1}；\n{b>0}" },
+        { "name": "⑥ 換底公式的推論",
+          "formula": "{fn(log)_a b=frac(1,fn(log)_b a)}\n{fn(log)_{a^m} b^n=frac(n,m) fn(log)_a b}",
+          "note": "{a>0} 且 {a!=1}；{b>0}；{m!=0}\n第一式另須 {b!=1}" }
+      ]
+    },
+    {
+      "title": "排列、組合與二項式定理",
+      "formulas": [
+        { "name": "排列數",
+          "formula": "{P_n^m=n(n-1)(n-2)⋯(n-m+1)}\n{P_n^m=frac(n!,(n-m)!)}",
+          "note": "{m}、{n} 為正整數，{m<=n}；\n亦記作 {A_n^m}；{0!} 規定為 1" },
+        { "name": "組合數",
+          "formula": "{C_n^m=frac(P_n^m,m!)}\n{C_n^m=frac(n!,m!(n-m)!)}",
+          "note": "{m}、{n} 為正整數，{m<=n}；\n另規定 {C_n^0=1}" },
+        { "name": "二項式定理",
+          "formula": "{(a+b)^n=C_n^0 a^n+C_n^1 a^{n-1}b+⋯+C_n^r a^{n-r}b^r+⋯+C_n^n b^n}",
+          "note": "{n} 為正整數；展開式共 {n+1} 項" },
+        { "name": "二項展開式的通項\n（第 {r+1} 項）",
+          "formula": "{T_{r+1}=C_n^r a^{n-r}b^r}",
+          "note": "{r} 取 0、1、2、…、{n}" }
+      ]
+    },
+    {
+      "title": "數列：等差數列與等比數列",
+      "formulas": [
+        { "name": "等差數列\n通項公式",
+          "formula": "{a_n=a_1+(n-1)d}",
+          "note": "{a_1} 為首項，{d} 為公差，{n} 為正整數" },
+        { "name": "等差數列\n前 {n} 項和",
+          "formula": "{S_n=frac(n(a_1+a_n),2)}\n{S_n=na_1+frac(n(n-1),2)d}",
+          "note": "{S_n=a_1+a_2+⋯+a_n}" },
+        { "name": "等比數列\n通項公式",
+          "formula": "{a_n=a_1 q^{n-1}}",
+          "note": "{a_1} 為首項，{q} 為公比；\n{a_1!=0}，{q!=0}" },
+        { "name": "等比數列\n前 {n} 項和",
+          "formula": "{S_n=cases(na_1, q=1; frac(a_1(1-q^n),1-q), q!=1)}",
+          "note": "{q!=1} 時亦可寫成\n{S_n=frac(a_1-a_n q,1-q)}" }
+      ]
+    },
+    {
+      "title": "解析幾何：兩點間距離與雙曲線",
+      "formulas": [
+        { "name": "兩點間距離公式",
+          "formula": "{|AB|=sqrt((x_2-x_1)^2+(y_2-y_1)^2)}",
+          "note": "兩點為 {A(x_1,y_1)}、{B(x_2,y_2)}" },
+        { "name": "雙曲線的定義",
+          "formula": "{|PF_1|-|PF_2|=+-2a}",
+          "note": "{P} 為雙曲線上任意一點，{F_1}、{F_2} 為\n兩焦點；{0<2a<|F_1F_2|}" },
+        { "name": "標準方程\n（焦點在 {x} 軸）",
+          "formula": "{frac(x^2,a^2)-frac(y^2,b^2)=1}",
+          "note": "{a>0}，{b>0}\n焦點 {F_1(-c,0)}、{F_2(c,0)}\n頂點 {(-a,0)}、{(a,0)}" },
+        { "name": "標準方程\n（焦點在 {y} 軸）",
+          "formula": "{frac(y^2,a^2)-frac(x^2,b^2)=1}",
+          "note": "{a>0}，{b>0}\n焦點 {F_1(0,-c)}、{F_2(0,c)}\n頂點 {(0,-a)}、{(0,a)}" },
+        { "name": "{a}、{b}、{c} 的關係",
+          "formula": "{c^2=a^2+b^2}",
+          "note": "實軸長＝{2a}，虛軸長＝{2b}，\n焦距 {|F_1F_2|=2c}；\n{c>a>0}，{c>b>0}" },
+        { "name": "離心率",
+          "formula": "{e=frac(c,a)}",
+          "note": "雙曲線的離心率 {e>1}" },
+        { "name": "漸近線",
+          "formula": "焦點在 {x} 軸：{y=+-frac(b,a)x}\n焦點在 {y} 軸：{y=+-frac(a,b)x}",
+          "note": "把標準方程右邊的 1 換成 0，\n即得兩條漸近線的方程" }
+      ]
+    }
+  ]
+}
