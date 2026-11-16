@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>同類項大挑戰｜投影版</title>
+<style>
+:root{
+  --bg:#f4f1ea; --card:#ffffff; --ink:#141a26; --muted:#4f5868; --line:#cfc8b8;
+  --brand:#2b59c3; --ok:#1b7d43; --ok-bg:#dff3e6; --bad:#b03225;
+  --t0:#c0392b; --t1:#2b59c3; --t2:#1b7d43; --t3:#b8860b;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);
+  font-family:Calibri,"Microsoft JhengHei","PingFang TC","Noto Sans TC",sans-serif;overflow:hidden}
+.m{font-family:"Times New Roman","Cambria Math",serif;white-space:nowrap}
+.m i{font-style:italic}
+.m sup{font-size:.62em;font-style:normal}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;padding:1.6vh 2.4vw}
+.hidden{display:none!important}
+button{font-family:inherit;cursor:pointer}
+
+/* ---------- 開始畫面 ---------- */
+#home{align-items:center;justify-content:center;text-align:center;gap:3vh}
+#home h1{font-size:9vh;margin:0;letter-spacing:.05em}
+#home .sub{font-size:3.6vh;color:var(--muted);margin:0}
+.setrow{display:flex;gap:1.2vw;align-items:center;justify-content:center;font-size:3.4vh}
+.setrow span{min-width:9em;text-align:right;color:var(--muted)}
+.seg{display:flex;border:3px solid var(--brand);border-radius:1.4vh;overflow:hidden}
+.seg button{border:0;background:#fff;color:var(--brand);font-size:3.2vh;padding:1.2vh 1.6vw;font-weight:700}
+.seg button.on{background:var(--brand);color:#fff}
+.big{font-size:4.4vh;font-weight:700;border:0;border-radius:1.8vh;background:var(--brand);color:#fff;padding:2vh 5vw}
+.ghost{background:#fff;color:var(--brand);border:3px solid var(--brand)}
+.keys{font-size:2.6vh;color:var(--muted)}
+kbd{border:2px solid var(--line);border-bottom-width:4px;border-radius:.8vh;padding:0 .5em;background:#fff;font-family:inherit}
+
+/* ---------- 遊戲畫面 ---------- */
+.top{display:flex;align-items:center;gap:1.4vw;height:10vh}
+.prog{font-size:3.4vh;font-weight:700;white-space:nowrap}
+.lvl{font-size:3vh;background:var(--ink);color:#fff;border-radius:1vh;padding:.6vh 1vw;white-space:nowrap}
+.clock{font-size:3.6vh;font-variant-numeric:tabular-nums;font-weight:700;margin-left:auto;white-space:nowrap}
+.clock.low{color:var(--bad)}
+.teams{display:flex;gap:.8vw}
+.team{border:0;border-radius:1.4vh;color:#fff;font-size:3vh;font-weight:700;padding:.6vh 1.2vw;min-width:9vw;
+  display:flex;flex-direction:column;align-items:center;line-height:1.15;position:relative}
+.team b{font-size:4.6vh;font-variant-numeric:tabular-nums}
+.team.pop::after{content:"+10";position:absolute;top:-1vh;right:-.6vw;background:#fff;color:var(--ink);
+  border-radius:1vh;font-size:2.4vh;padding:0 .4em;animation:up .7s forwards}
+@keyframes up{to{transform:translateY(-3vh);opacity:0}}
+.t0{background:var(--t0)}.t1{background:var(--t1)}.t2{background:var(--t2)}.t3{background:var(--t3)}
+
+.rule{font-size:3.4vh;background:#fff;border-left:1.2vh solid var(--brand);border-radius:1vh;padding:1.2vh 1.4vw;margin:.6vh 0 0;line-height:1.5}
+.qwrap{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.q{font-size:7.4vh;line-height:1.35;text-align:center;margin:0 0 3vh;font-weight:700}
+.q .m{font-size:1.12em;font-weight:400}
+.how{font-size:3.8vh;color:var(--muted);text-align:center;margin:-1.6vh 0 2.4vh}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:2vh 1.6vw}
+.opts.one{grid-template-columns:1fr 1fr}
+.opt{background:#fff;border:.6vh solid var(--line);border-radius:2vh;min-height:13vh;display:flex;align-items:center;
+  gap:1.6vw;padding:1vh 2vw;font-size:6vh;transition:opacity .2s}
+.opt .n{flex:none;width:8vh;height:8vh;border-radius:50%;background:var(--ink);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-size:5vh;font-weight:700;font-family:Calibri,sans-serif}
+.opt .v{flex:1;text-align:center}
+.opts.long .opt{font-size:5vh}
+.opt.yes .n{background:var(--ok)} .opt.no .n{background:var(--bad)}
+.revealed .opt{opacity:.28}
+.revealed .opt.ok{opacity:1;border-color:var(--ok);background:var(--ok-bg)}
+.revealed .opt.ok .n{background:var(--ok)}
+.why{font-size:4.2vh;line-height:1.5;background:#fff;border:.5vh solid var(--ok);border-radius:1.6vh;
+  padding:1.4vh 2vw;margin-top:2.4vh;text-align:center}
+.bottom{height:11vh;display:flex;align-items:center;gap:1.6vw}
+.cd{flex:1;height:3vh;background:#e2dccf;border-radius:1.5vh;overflow:hidden;position:relative}
+.cd>div{height:100%;background:var(--brand);width:100%}
+.cd.end>div{background:var(--bad)}
+.cdnum{font-size:5vh;font-weight:800;width:7vh;text-align:center;font-variant-numeric:tabular-nums}
+.act{font-size:3.6vh;padding:1.6vh 3vw;border-radius:1.6vh;border:0;background:var(--brand);color:#fff;font-weight:700;white-space:nowrap}
+.tip{font-size:3vh;color:var(--muted);white-space:nowrap}
+
+/* ---------- 結算 ---------- */
+#end{align-items:center;justify-content:center;text-align:center;gap:3vh}
+#end h1{font-size:8vh;margin:0}
+.podium{display:flex;gap:2vw;align-items:flex-end;justify-content:center}
+.pcol{display:flex;flex-direction:column;align-items:center;gap:1vh;font-size:3.6vh;font-weight:700}
+.pbar{width:14vw;border-radius:1.6vh 1.6vh 0 0;color:#fff;display:flex;align-items:flex-start;justify-content:center;
+  padding-top:1.4vh;font-size:6vh;font-weight:800}
+</style>
+</head>
+<body>
+
+<!-- 開始畫面 -->
+<section class="screen" id="home">
+  <h1>同類項大挑戰</h1>
+  <p class="sub">全班分隊・看大螢幕・舉手指作答</p>
+  <div class="setrow"><span>隊伍數目</span><div class="seg" id="setTeams"></div></div>
+  <div class="setrow"><span>題目</span><div class="seg" id="setLen"></div></div>
+  <div class="setrow"><span>每題思考時間</span><div class="seg" id="setSec"></div></div>
+  <div style="display:flex;gap:2vw">
+    <button class="big" id="go">開始（Space）</button>
+    <button class="big ghost" id="fs">全螢幕（F）</button>
+  </div>
+  <div class="keys"><kbd>Space</kbd> 揭曉／下一題　<kbd>1</kbd>–<kbd>4</kbd> 該隊 +10（或直接點隊伍分數）　<kbd>Shift</kbd>＋數字 扣 10　<kbd>←</kbd> 上一題</div>
+</section>
+
+<!-- 遊戲畫面 -->
+<section class="screen hidden" id="game">
+  <div class="top">
+    <div class="prog" id="prog"></div>
+    <div class="lvl" id="lvl"></div>
+    <div class="teams" id="teams"></div>
+    <div class="clock" id="clock"></div>
+  </div>
+  <div class="rule hidden" id="rule"></div>
+  <div class="qwrap" id="qwrap">
+    <p class="q" id="q"></p>
+    <p class="how" id="how"></p>
+    <div class="opts" id="opts"></div>
+    <div class="why hidden" id="why"></div>
+  </div>
+  <div class="bottom">
+    <div class="cdnum" id="cdnum"></div>
+    <div class="cd" id="cd"><div id="cdbar"></div></div>
+    <span class="tip" id="tip"></span>
+    <button class="act" id="act"></button>
+  </div>
+</section>
+
+<!-- 結算畫面 -->
+<section class="screen hidden" id="end">
+  <h1>🏆 最終成績</h1>
+  <div class="podium" id="podium"></div>
+  <div style="display:flex;gap:2vw">
+    <button class="big" id="again">再玩一次</button>
+    <button class="big ghost" id="back">回到設定</button>
+  </div>
+</section>
+
+<script>
+// ---------- 數學式排版：$...$ 內字母斜體、^n 上標、- 用真減號 ----------
+function fmt(s){
+  let out='',i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(c==='^'){let d='';i++;while(i<s.length&&/\d/.test(s[i])){d+=s[i];i++;}out+='<sup>'+d+'</sup>';continue;}
+    if(/[a-z]/.test(c)) out+='<i>'+c+'</i>';
+    else if(c==='-'){const p=out.replace(/<[^>]+>/g,'').trim();out+=(p===''||/[(（]$/.test(p))?'−':' − ';}
+    else if(c==='+') out+=' + ';
+    else out+=c;
+    i++;
+  }
+  return out;
+}
+function M(t){return String(t).replace(/\$(.+?)\$/g,(_,e)=>'<span class="m">'+fmt(e)+'</span>');}
+
+// ---------- 題庫（core:true 為 5 分鐘版 14 題；驗算見 驗算_第四章_整式的加減.md）----------
+const LEVELS=[
+ {name:'第 1 關　單項式', rule:'係數＝數字部分（連符號）；次數＝所有字母的指數加起來。',
+  qs:[
+   {core:1,q:'$-3x^2y$ 的<u>係數</u>是？',a:'$-3$',o:['$3$','$2$','$-3x$'],why:'係數連同前面的負號：$-3$。'},
+   {q:'$-3x^2y$ 的<u>次數</u>是？',a:'3',o:['2','1','$-3$'],why:'$x$ 的指數 2 ＋ $y$ 的指數 1 ＝ 3。'},
+   {core:1,q:'$a$ 的<u>係數</u>是？',a:'1',o:['0','$a$','沒有係數'],why:'$a$ 就是 $1a$，係數 1 省略不寫。'},
+   {core:1,q:'$4a^2b^3$ 的<u>次數</u>是？',a:'5',o:['6','3','4'],why:'指數要<b>相加</b>：2 ＋ 3 ＝ 5，不是相乘。'},
+   {q:'$-πr^2$ 的<u>係數</u>是？',a:'$-π$',o:['$-1$','$π$','$-πr$'],why:'π 是一個數，不是字母，所以係數是 $-π$。'}
+  ]},
+ {name:'第 2 關　多項式', rule:'項數＝有幾個單項式；次數＝次數最高那一項的次數。',
+  qs:[
+   {q:'$x^2y-3xy+2y-7$ 有幾<u>項</u>？',a:'4',o:['3','5','2'],why:'$x^2y$、$-3xy$、$2y$、$-7$，共 4 項。'},
+   {core:1,q:'$x^2y-3xy+2y-7$ 的<u>次數</u>是？',a:'3',o:['2','4','6'],why:'最高次的項 $x^2y$：2＋1＝3。不是把各項次數加起來。'},
+   {core:1,q:'$3a^2-2a-5$ 的<u>常數項</u>是？',a:'$-5$',o:['5','$-2$','3'],why:'常數項要連符號：$-5$。'},
+   {core:1,q:'$1-2ab+4a^3b$ 是……',a:'四次三項式',o:['三次三項式','三次四項式','五次三項式'],long:1,why:'共 3 項；最高次的項 $4a^3b$ 是 3＋1＝4 次。'}
+  ]},
+ {name:'第 3 關　是不是同類項？', rule:'同類項：① 字母相同；② 相同字母的指數也相同。幾個常數項也是同類項。', yn:true,
+  qs:[
+   {q:'$2x^2$　與　$-5x^2$',a:'是',why:'字母都是 $x$，指數都是 2。係數不同沒關係。'},
+   {core:1,q:'$2x^2y$　與　$2xy^2$',a:'不是',why:'$x$ 的指數一個是 2、一個是 1，指數不同。'},
+   {core:1,q:'$4m^2n$　與　$-nm^2$',a:'是',why:'字母次序不同沒關係：都是 $m^2n$。'},
+   {core:1,q:'$7a$　與　$7a^2$',a:'不是',why:'係數相同也沒用，$a$ 的指數不同。'},
+   {core:1,q:'$5$　與　$-2$',a:'是',why:'幾個常數項也是同類項。'},
+   {q:'$x^3$　與　$3^3$',a:'不是',why:'$3^3$ 是一個數（常數項），沒有字母 $x$。'}
+  ]},
+ {name:'第 4 關　合併同類項', rule:'係數相加，字母連同指數不變。不是同類項不能合併。',
+  qs:[
+   {q:'$3x+2x$ ＝ ？',a:'$5x$',o:['$5x^2$','$6x$','$5$'],why:'係數 3＋2＝5，$x$ 照抄。'},
+   {core:1,q:'$x^2+x^2$ ＝ ？',a:'$2x^2$',o:['$x^4$','$2x^4$','$x^2$'],why:'係數 1＋1＝2，指數不變：$2x^2$，不是 $x^4$。'},
+   {core:1,q:'$4y-7y$ ＝ ？',a:'$-3y$',o:['$3y$','$-3$','$-11y$'],why:'係數 4－7＝$-3$，$y$ 照抄。'},
+   {core:1,q:'$2a+3b$ ＝ ？',a:'不能合併',o:['$5ab$','$5a$','$6ab$'],why:'$2a$ 和 $3b$ 字母不同，不是同類項，不能合併。'},
+   {core:1,q:'$3x^2+5x-4-x^2+2x+9$ ＝ ？',a:'$2x^2+7x+5$',o:['$4x^2+7x+5$','$2x^2+7x-5$','$2x^2+3x+5$'],long:1,
+    why:'$x^2$ 項：3－1＝2；$x$ 項：5＋2＝7；常數：$-4$＋9＝5。'}
+  ]}
+];
+const TEAM_NAMES=['紅隊','藍隊','綠隊','黃隊'];
+const TOTAL_TIME=300;
+
+// ---------- 設定 ----------
+const CFG={teams:2,len:'core',sec:10};
+function seg(id,key,items){
+  const el=document.getElementById(id);
+  el.innerHTML=items.map(([v,t])=>`<button data-v="${v}">${t}</button>`).join('');
+  const sync=()=>el.querySelectorAll('button').forEach(b=>b.classList.toggle('on',String(CFG[key])===b.dataset.v));
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG[key]=isNaN(+b.dataset.v)?b.dataset.v:+b.dataset.v;sync();});
+  sync();
+}
+seg('setTeams','teams',[[2,'2 隊'],[3,'3 隊'],[4,'4 隊']]);
+seg('setLen','len',[['core','5 分鐘版（14 題）'],['all','完整版（20 題）']]);
+seg('setSec','sec',[[10,'10 秒'],[15,'15 秒'],[20,'20 秒']]);
+
+// ---------- 狀態 ----------
+let S=null;
+const $=id=>document.getElementById(id);
+function show(id){['home','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function start(){
+  const list=[];
+  LEVELS.forEach((L,li)=>{
+    const qs=L.qs.filter(q=>CFG.len==='all'||q.core);
+    qs.forEach((Q,qi)=>list.push({L,Q,first:qi===0,opts:L.yn?['是','不是']:shuffle([Q.a,...Q.o])}));
+  });
+  S={list,i:0,scores:Array(CFG.teams).fill(0),t:TOTAL_TIME,revealed:false,cd:0,cdTimer:null,
+     gained:list.map(()=>Array(CFG.teams).fill(0))};
+  clearInterval(window._clk);
+  window._clk=setInterval(()=>{if($('game').classList.contains('hidden'))return;S.t=Math.max(0,S.t-1);drawClock();},1000);
+  show('game'); drawTeams(); render();
+}
+
+function mmss(t){return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');}
+function drawClock(){const c=$('clock');c.textContent='⏱ '+mmss(S.t);c.classList.toggle('low',S.t<=30);}
+
+function drawTeams(){
+  $('teams').innerHTML=S.scores.map((s,k)=>`<button class="team t${k}" data-k="${k}" title="點一下 +10；Shift＋點 −10">${TEAM_NAMES[k]}<b>${s}</b></button>`).join('');
+  $('teams').querySelectorAll('.team').forEach(b=>b.onclick=e=>addScore(+b.dataset.k,e.shiftKey?-10:10));
+}
+function addScore(k,d){
+  if(!S||k>=S.scores.length)return;
+  S.scores[k]=Math.max(0,S.scores[k]+d); S.gained[S.i][k]+=d;
+  drawTeams();
+  if(d>0){const b=$('teams').children[k];b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');}
+}
+
+function render(){
+  const it=S.list[S.i], {L,Q}=it;
+  S.revealed=false;
+  $('prog').textContent=`第 ${S.i+1} / ${S.list.length} 題`;
+  $('lvl').textContent=L.name;
+  $('rule').classList.toggle('hidden',!it.first);
+  $('rule').innerHTML=it.first?M(L.rule):'';
+  $('q').innerHTML=(L.yn?'是不是同類項？<br>':'')+M(Q.q);
+  $('how').innerHTML=L.yn?'舉手作答：👍 是　　👎 不是':'舉手指作答：1、2、3 或 4 隻手指';
+  const o=$('opts');
+  o.className='opts'+(Q.long?' long':'');
+  o.innerHTML=it.opts.map((v,k)=>{
+    const cls=L.yn?(v==='是'?'yes':'no'):'';
+    const n=L.yn?(v==='是'?'👍':'👎'):(k+1);
+    return `<div class="opt ${cls} ${v===Q.a?'ok':''}"><span class="n">${n}</span><span class="v">${L.yn?v:M(v)}</span></div>`;
+  }).join('');
+  $('qwrap').classList.remove('revealed');
+  $('why').classList.add('hidden');
+  $('act').textContent='揭曉答案（Space）';
+  $('tip').textContent='';
+  drawClock();
+  startCountdown();
+}
+
+function startCountdown(){
+  clearInterval(S.cdTimer);
+  S.cd=CFG.sec; const total=CFG.sec;
+  const bar=$('cdbar'), cd=$('cd');
+  cd.classList.remove('end'); bar.style.transition='none'; bar.style.width='100%';
+  $('cdnum').textContent=S.cd;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition=`width ${total}s linear`;bar.style.width='0%';}));
+  S.cdTimer=setInterval(()=>{
+    S.cd--; $('cdnum').textContent=Math.max(0,S.cd);
+    if(S.cd<=0){clearInterval(S.cdTimer);cd.classList.add('end');beep();$('cdnum').textContent='⏰';}
+  },1000);
+}
+let actx=null;
+function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();
+  o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.25);}catch(e){}}
+
+function reveal(){
+  if(S.revealed)return;
+  S.revealed=true; clearInterval(S.cdTimer);
+  const bar=$('cdbar'); bar.style.transition='none'; bar.style.width=getComputedStyle(bar).width;
+  $('qwrap').classList.add('revealed');
+  $('why').innerHTML='✔ '+M(S.list[S.i].Q.why);
+  $('why').classList.remove('hidden');
+  $('act').textContent=S.i===S.list.length-1?'看最終成績（Space）':'下一題（Space）';
+  $('tip').textContent='答對的隊伍：點隊伍分數或按 1–'+S.scores.length+' 加 10 分';
+}
+
+function next(){
+  if(!S.revealed){reveal();return;}
+  if(S.i<S.list.length-1){S.i++;render();}else finish();
+}
+function prev(){if(S.i>0){S.i--;render();}}
+
+function finish(){
+  clearInterval(S.cdTimer);
+  const max=Math.max(10,...S.scores);
+  const order=S.scores.map((s,k)=>({s,k})).sort((a,b)=>b.s-a.s);
+  const medals=['🥇','🥈','🥉','　'];
+  let rank=0;
+  $('podium').innerHTML=order.map((x,idx)=>{
+    if(idx>0&&x.s<order[idx-1].s)rank=idx;
+    return `<div class="pcol"><span style="font-size:6vh">${medals[rank]}</span>
+      <div class="pbar t${x.k}" style="height:${12+40*x.s/max}vh">${x.s}</div><span>${TEAM_NAMES[x.k]}</span></div>`;
+  }).join('');
+  show('end');
+}
+
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();}
+
+$('go').onclick=start; $('fs').onclick=toggleFS;
+$('act').onclick=next; $('again').onclick=start; $('back').onclick=()=>show('home');
+
+document.addEventListener('keydown',e=>{
+  const onHome=!$('home').classList.contains('hidden'), onGame=!$('game').classList.contains('hidden');
+  if(e.key==='f'||e.key==='F'){toggleFS();return;}
+  if(e.code==='Space'||e.key==='Enter'||e.key==='ArrowRight'||e.key==='PageDown'){
+    e.preventDefault();
+    if(onHome)start(); else if(onGame)next();
+    return;
+  }
+  if(onGame&&(e.key==='ArrowLeft'||e.key==='PageUp')){e.preventDefault();prev();return;}
+  if(onGame){
+    const map={'1':0,'2':1,'3':2,'4':3,'!':0,'@':1,'#':2,'$':3};
+    const code=e.code&&e.code.startsWith('Digit')?+e.code.slice(5)-1:(e.code&&e.code.startsWith('Numpad')?+e.code.slice(6)-1:map[e.key]);
+    if(code>=0&&code<4){e.preventDefault();addScore(code,e.shiftKey?-10:10);}
+  }
+});
+</script>
+</body>
+</html>

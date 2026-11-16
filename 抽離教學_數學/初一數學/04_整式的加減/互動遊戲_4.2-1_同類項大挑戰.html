@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>同類項大挑戰</title>
+<style>
+:root{
+  --bg:#f4f1ea; --card:#ffffff; --ink:#1d2433; --muted:#5b6475;
+  --brand:#2b59c3; --brand-ink:#ffffff; --ok:#1f8a4c; --ok-bg:#e3f5ea;
+  --bad:#c0392b; --bad-bg:#fbe7e4; --gold:#e0a100; --line:#d9d4c7;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--ink);
+  font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC",Calibri,sans-serif;font-size:18px}
+.wrap{max-width:520px;margin:0 auto;padding:14px 16px 120px;min-height:100vh}
+.m{font-family:"Times New Roman","Cambria Math",serif;font-size:1.15em;white-space:nowrap}
+.m i{font-style:italic}
+.m sup{font-size:.7em;font-style:normal}
+h1{font-size:30px;margin:18px 0 6px;letter-spacing:1px}
+.sub{color:var(--muted);margin:0 0 18px;line-height:1.6}
+.btn{display:block;width:100%;min-height:56px;border:0;border-radius:14px;
+  background:var(--brand);color:var(--brand-ink);font-size:20px;font-weight:700;
+  cursor:pointer;font-family:inherit;margin-top:10px}
+.btn:active{transform:scale(.98)}
+.btn.ghost{background:transparent;color:var(--brand);border:2px solid var(--brand)}
+.levels{list-style:none;padding:0;margin:0 0 18px}
+.levels li{background:var(--card);border:1px solid var(--line);border-radius:12px;
+  padding:12px 14px;margin-bottom:8px;display:flex;gap:12px;align-items:center}
+.levels b{display:inline-flex;width:34px;height:34px;border-radius:50%;background:var(--brand);
+  color:#fff;align-items:center;justify-content:center;flex:none}
+.hud{position:sticky;top:0;background:var(--bg);padding:8px 0 10px;z-index:5}
+.hudrow{display:flex;justify-content:space-between;align-items:center;font-weight:700}
+.timer{font-variant-numeric:tabular-nums;font-size:22px}
+.timer.low{color:var(--bad)}
+.score{font-size:20px}
+.streak{color:var(--gold);font-size:16px;min-width:70px;text-align:center}
+.bar{height:8px;background:var(--line);border-radius:4px;margin-top:8px;overflow:hidden}
+.bar>div{height:100%;background:var(--brand);width:0;transition:width .3s}
+.tag{display:inline-block;background:var(--ink);color:#fff;border-radius:8px;
+  padding:4px 10px;font-size:15px;margin:10px 0 6px}
+.qcard{background:var(--card);border-radius:16px;padding:20px 16px;border:1px solid var(--line);
+  box-shadow:0 2px 0 var(--line)}
+.qtext{font-size:22px;line-height:1.7;margin:0 0 6px}
+.qnum{color:var(--muted);font-size:15px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.opts.one{grid-template-columns:1fr}
+.opt{min-height:64px;border-radius:14px;border:2px solid var(--line);background:#fff;
+  font-size:21px;font-family:inherit;color:var(--ink);cursor:pointer;padding:8px}
+.opt:active{transform:scale(.97)}
+.opt.ok{border-color:var(--ok);background:var(--ok-bg)}
+.opt.bad{border-color:var(--bad);background:var(--bad-bg)}
+.opt.yes{border-color:var(--ok);color:var(--ok);font-weight:700}
+.opt.no{border-color:var(--bad);color:var(--bad);font-weight:700}
+.opt.yes.ok,.opt.no.ok{background:var(--ok-bg);color:var(--ok);border-color:var(--ok)}
+.opt.yes.bad,.opt.no.bad{background:var(--bad-bg);color:var(--bad);border-color:var(--bad)}
+.opt[disabled]{cursor:default}
+.fb{position:fixed;left:0;right:0;bottom:0;padding:14px 16px 18px;z-index:10;
+  transform:translateY(110%);transition:transform .2s}
+.fb.show{transform:none}
+.fb .in{max-width:520px;margin:0 auto;border-radius:16px;padding:14px 16px;font-size:18px;line-height:1.6}
+.fb.ok .in{background:var(--ok);color:#fff}
+.fb.bad .in{background:#fff;border:3px solid var(--bad)}
+.fb .big{font-size:22px;font-weight:700}
+.fb.bad .big{color:var(--bad)}
+.fb .btn{margin-top:10px}
+.fb.bad .btn{background:var(--bad)}
+.hint{font-size:15px;color:var(--muted);margin-top:10px}
+.result{text-align:center}
+.medal{font-size:64px;margin:16px 0 0}
+.bigscore{font-size:54px;font-weight:800;margin:4px 0}
+.tbl{width:100%;border-collapse:collapse;margin:14px 0;background:#fff;border-radius:12px;overflow:hidden}
+.tbl td{padding:10px 12px;border-bottom:1px solid var(--line);text-align:left}
+.tbl td:last-child{text-align:right;font-weight:700}
+.review{text-align:left;background:#fff;border:1px solid var(--line);border-radius:12px;padding:10px 14px;margin-top:10px}
+.review p{margin:8px 0;line-height:1.6}
+.rule{background:#fff;border-left:6px solid var(--brand);border-radius:8px;padding:10px 14px;margin:0 0 12px;line-height:1.7}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="fb" id="fb"><div class="in" id="fbin"></div></div>
+
+<script>
+// ---------- 數學式排版：$...$ 內 字母斜體、^n 上標、- 用真減號 ----------
+function fmt(s){
+  let out='', i=0;
+  while(i<s.length){
+    const c=s[i];
+    if(c==='^'){ let d=''; i++; while(i<s.length && /\d/.test(s[i])){d+=s[i];i++;} out+='<sup>'+d+'</sup>'; continue; }
+    if(/[a-z]/.test(c)) out+='<i>'+c+'</i>';
+    else if(c==='-'){ const prev=out.replace(/<[^>]+>/g,'').trim(); out+=(prev===''||/[(（]$/.test(prev))?'−':' − '; }
+    else if(c==='+') out+=' + ';
+    else if(c==='=') out+=' = ';
+    else out+=c;
+    i++;
+  }
+  return out;
+}
+function M(t){ return String(t).replace(/\$(.+?)\$/g,(_,e)=>'<span class="m">'+fmt(e)+'</span>'); }
+
+// ---------- 題庫（命題與驗算見 驗算_第四章_整式的加減.md）----------
+const LEVELS=[
+ {name:'第 1 關　單項式', rule:'係數＝數字部分（連符號）；次數＝所有字母的指數加起來。',
+  qs:[
+   {q:'單項式 $-3x^2y$ 的<b>係數</b>是？', a:'$-3$', o:['$3$','$2$','$-3x$'], why:'係數連同前面的負號：$-3$。'},
+   {q:'單項式 $-3x^2y$ 的<b>次數</b>是？', a:'3', o:['2','1','$-3$'], why:'$x$ 的指數 2 ＋ $y$ 的指數 1 ＝ 3。'},
+   {q:'單項式 $a$ 的<b>係數</b>是？', a:'1', o:['0','$a$','沒有係數'], why:'$a$ 就是 $1a$，係數 1 省略不寫。'},
+   {q:'單項式 $4a^2b^3$ 的<b>次數</b>是？', a:'5', o:['6','3','4'], why:'指數要<b>相加</b>：2 ＋ 3 ＝ 5，不是相乘。'},
+   {q:'單項式 $-πr^2$ 的<b>係數</b>是？', a:'$-π$', o:['$-1$','$π$','$-πr$'], why:'π 是一個數，不是字母，所以係數是 $-π$。'}
+  ]},
+ {name:'第 2 關　多項式', rule:'項數＝有幾個單項式；次數＝次數最高那一項的次數。',
+  qs:[
+   {q:'多項式 $x^2y-3xy+2y-7$ 有幾<b>項</b>？', a:'4', o:['3','5','2'], why:'$x^2y$、$-3xy$、$2y$、$-7$，共 4 項。'},
+   {q:'多項式 $x^2y-3xy+2y-7$ 的<b>次數</b>是？', a:'3', o:['2','4','6'], why:'最高次的項是 $x^2y$（2＋1＝3），所以是 3 次。不是把各項次數加起來。'},
+   {q:'多項式 $3a^2-2a-5$ 的<b>常數項</b>是？', a:'$-5$', o:['5','$-2$','3'], why:'常數項要連符號：$-5$。'},
+   {q:'$1-2ab+4a^3b$ 是一個……', a:'四次三項式', o:['三次三項式','三次四項式','五次三項式'], why:'共 3 項；最高次的項 $4a^3b$ 是 3＋1＝4 次。'}
+  ]},
+ {name:'第 3 關　是不是同類項？', rule:'同類項：① 字母相同；② 相同字母的指數也相同。幾個常數項也是同類項。', yn:true,
+  qs:[
+   {q:'$2x^2$ 與 $-5x^2$', a:'是', why:'字母都是 $x$，指數都是 2。係數不同沒關係。'},
+   {q:'$2x^2y$ 與 $2xy^2$', a:'不是', why:'字母相同，但 $x$ 的指數一個是 2、一個是 1，指數不同。'},
+   {q:'$4m^2n$ 與 $-nm^2$', a:'是', why:'字母次序不同沒關係：都是 $m^2n$。'},
+   {q:'$7a$ 與 $7a^2$', a:'不是', why:'係數相同也沒用，$a$ 的指數不同。'},
+   {q:'$5$ 與 $-2$', a:'是', why:'幾個常數項也是同類項。'},
+   {q:'$x^3$ 與 $3^3$', a:'不是', why:'$3^3$ 是一個數（常數項），沒有字母 $x$。'}
+  ]},
+ {name:'第 4 關　合併同類項', rule:'係數相加，字母連同指數不變。不是同類項不能合併。',
+  qs:[
+   {q:'$3x+2x$ ＝ ？', a:'$5x$', o:['$5x^2$','$6x$','$5$'], why:'係數 3＋2＝5，$x$ 照抄。'},
+   {q:'$x^2+x^2$ ＝ ？', a:'$2x^2$', o:['$x^4$','$2x^4$','$x^2$'], why:'係數 1＋1＝2，指數不變：$2x^2$，不是 $x^4$。'},
+   {q:'$4y-7y$ ＝ ？', a:'$-3y$', o:['$3y$','$-3$','$-11y$'], why:'係數 4－7＝$-3$，$y$ 照抄。'},
+   {q:'$2a+3b$ ＝ ？', a:'不能合併', o:['$5ab$','$5a$','$6ab$'], why:'$2a$ 和 $3b$ 字母不同，不是同類項，不能合併。'},
+   {q:'$3x^2+5x-4-x^2+2x+9$ ＝ ？', a:'$2x^2+7x+5$', o:['$4x^2+7x+5$','$2x^2+7x-5$','$2x^2+3x+5$'], one:true,
+    why:'$x^2$ 項：3－1＝2；$x$ 項：5＋2＝7；常數：$-4$＋9＝5。'}
+  ]}
+];
+const TOTAL_TIME=300;
+const TOTAL_Q=LEVELS.reduce((s,l)=>s+l.qs.length,0);
+
+// ---------- 狀態 ----------
+let S;
+const app=document.getElementById('app'), fb=document.getElementById('fb'), fbin=document.getElementById('fbin');
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function home(){
+  hideFb();
+  app.innerHTML=`
+   <h1>同類項大挑戰</h1>
+   <p class="sub">5 分鐘內闖 4 關、共 ${TOTAL_Q} 題。答對得 10 分，連續答對 3 題起每題多加 5 分。</p>
+   <ul class="levels">${LEVELS.map((l,i)=>`<li><b>${i+1}</b><span>${l.name.replace(/^第 \d 關　/,'')}<br><small style="color:var(--muted)">${l.qs.length} 題</small></span></li>`).join('')}</ul>
+   <button class="btn" id="go">開始挑戰</button>`;
+  document.getElementById('go').onclick=start;
+}
+
+function start(){
+  S={lv:0,qi:0,score:0,streak:0,best:0,right:0,done:0,per:LEVELS.map(()=>0),wrong:[],t:TOTAL_TIME,over:false,
+     order:LEVELS.map(l=>shuffle(l.qs.map((_,i)=>i)))};
+  S.tick=setInterval(()=>{S.t--;drawTimer();if(S.t<=0){finish(true);}},1000);
+  render();
+}
+
+function mmss(t){t=Math.max(0,t);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');}
+function drawTimer(){const el=document.getElementById('tm'); if(el){el.textContent='⏱ '+mmss(S.t); el.classList.toggle('low',S.t<=30);}}
+
+function render(){
+  if(S.over) return;
+  const L=LEVELS[S.lv], Q=L.qs[S.order[S.lv][S.qi]];
+  const opts = L.yn ? ['是','不是'] : shuffle([Q.a,...Q.o]);
+  const one = L.yn || Q.one;
+  app.innerHTML=`
+   <div class="hud">
+     <div class="hudrow"><span class="timer" id="tm"></span><span class="streak">${S.streak>=2?'🔥 連對 '+S.streak:''}</span><span class="score">⭐ ${S.score}</span></div>
+     <div class="bar"><div style="width:${S.done/TOTAL_Q*100}%"></div></div>
+   </div>
+   <span class="tag">${L.name}</span>
+   ${S.qi===0?`<div class="rule">${M(L.rule)}</div>`:''}
+   <div class="qcard">
+     <div class="qnum">第 ${S.qi+1} / ${L.qs.length} 題</div>
+     <p class="qtext">${L.yn?'下面兩個項是不是同類項？<br>':''}${M(Q.q)}</p>
+     <div class="opts ${one?'one':''}" style="${L.yn?'grid-template-columns:1fr 1fr':''}">
+       ${opts.map(o=>`<button class="opt ${L.yn?(o==='是'?'yes':'no'):''}" data-v="${encodeURIComponent(o)}">${L.yn?(o==='是'?'✔ 是':'✘ 不是'):M(o)}</button>`).join('')}
+     </div>
+   </div>`;
+  drawTimer();
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(b,decodeURIComponent(b.dataset.v),Q));
+  window.scrollTo(0,0);
+}
+
+function answer(btn,v,Q){
+  if(S.over) return;
+  app.querySelectorAll('.opt').forEach(b=>{b.disabled=true; if(decodeURIComponent(b.dataset.v)===Q.a) b.classList.add('ok');});
+  S.done++;
+  if(v===Q.a){
+    S.streak++; S.best=Math.max(S.best,S.streak); S.right++; S.per[S.lv]++;
+    const gain=10+(S.streak>=3?5:0); S.score+=gain;
+    showFb(true,`<span class="big">✅ 答對！+${gain}</span>${S.streak>=3?'　🔥 連對 '+S.streak:''}`);
+    setTimeout(next,850);
+  }else{
+    btn.classList.add('bad'); S.streak=0;
+    S.wrong.push(Q);
+    showFb(false,`<div class="big">❌ 答案是 ${M(Q.a)}</div><div>${M(Q.why)}</div><button class="btn" id="nx">明白了，下一題</button>`);
+    document.getElementById('nx').onclick=next;
+  }
+}
+
+function showFb(ok,html){fb.className='fb show '+(ok?'ok':'bad'); fbin.innerHTML=html;}
+function hideFb(){fb.className='fb';}
+
+function next(){
+  if(S.over) return;
+  hideFb();
+  S.qi++;
+  if(S.qi>=LEVELS[S.lv].qs.length){S.lv++;S.qi=0;}
+  if(S.lv>=LEVELS.length){finish(false);return;}
+  render();
+}
+
+function finish(timeUp){
+  if(S.over) return;
+  S.over=true; clearInterval(S.tick); hideFb();
+  const used=TOTAL_TIME-Math.max(0,S.t);
+  const pct=S.right/TOTAL_Q;
+  const medal=pct>=0.9?'🏆':pct>=0.7?'🥇':pct>=0.5?'🥈':'💪';
+  const msg=pct>=0.9?'同類項高手！':pct>=0.7?'好厲害，差少少就滿分！':pct>=0.5?'不錯，再玩一次會更好！':'看看下面的錯題，再挑戰一次！';
+  app.innerHTML=`<div class="result">
+    <div class="medal">${medal}</div>
+    <div>${timeUp?'⏰ 時間到！':'🎉 全部完成！'}</div>
+    <div class="bigscore">${S.score} 分</div>
+    <div class="sub">${msg}</div>
+    <table class="tbl">
+      <tr><td>答對</td><td>${S.right} / ${TOTAL_Q}</td></tr>
+      ${LEVELS.map((l,i)=>`<tr><td>${l.name}</td><td>${S.per[i]} / ${l.qs.length}</td></tr>`).join('')}
+      <tr><td>最長連對</td><td>${S.best}</td></tr>
+      <tr><td>用時</td><td>${mmss(used)}</td></tr>
+    </table>
+    <p class="hint">舉起手機給老師看你的成績 📱</p>
+    ${S.wrong.length?`<div class="review"><b>錯題重溫</b>${S.wrong.map(q=>`<p>${M(q.q)}<br>→ <b>${M(q.a)}</b>：${M(q.why)}</p>`).join('')}</div>`:''}
+    <button class="btn" id="again">再玩一次</button>
+    <button class="btn ghost" id="home">回到首頁</button>
+  </div>`;
+  document.getElementById('again').onclick=start;
+  document.getElementById('home').onclick=home;
+  window.scrollTo(0,0);
+}
+
+home();
+</script>
+</body>
+</html>
