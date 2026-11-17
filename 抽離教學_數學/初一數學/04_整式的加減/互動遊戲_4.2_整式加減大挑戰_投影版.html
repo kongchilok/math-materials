@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>整式加減大挑戰｜投影版</title>
+<style>
+/* 視覺語言對齊 簡報_4.2-1_合併同類項：深色封面＋橘紅膠囊、天空像素雲底、淺藍路線列、
+   四色步驟箭頭（藍／青／綠／橙）、黃底黑框對話框。尺寸單位 --u＝min(1vh, .75vw)，16:9 與 4:3 都放得下。 */
+:root{
+  --u:min(1vh,.75vw);
+  --ink:#1c2a44; --muted:#4d5d78; --navy:#1f3c78;
+  --sky1:#8fcff3; --sky2:#e9f6fd;
+  --bar:#d6ecfb; --bar-edge:#5b9bd5;
+  --s0:#3b78d8; --s1:#1f9e9a; --s2:#43a047; --s3:#ef8a22;
+  --l0:#3b6fd4; --l1:#c2367f; --l2:#2f9e55;
+  --pill:#ee4a24; --pill-edge:#b8320f;
+  --ok:#2e9b45; --ok-bg:#e3f6e1; --ok-edge:#4cb860;
+  --bad:#c62828; --bad-edge:#e05656;
+  --callout:#ffe264; --cream:#fff6d8; --cream-edge:#f0a030;
+  --line:#a9c1da;
+  --t0:#e5483b; --t1:#3b78d8; --t2:#2f9e55; --t3:#e0a100;
+}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%;overflow:hidden;color:var(--ink);font-weight:700;
+  font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC","Heiti TC",sans-serif}
+body{background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='560' height='340' shape-rendering='crispEdges'%3E%3Cg fill='%23fff' fill-opacity='.7'%3E%3Crect x='64' y='48' width='72' height='12'/%3E%3Crect x='40' y='60' width='132' height='12'/%3E%3Crect x='20' y='72' width='180' height='24'/%3E%3Crect x='8' y='96' width='212' height='12'/%3E%3Crect x='352' y='200' width='56' height='12'/%3E%3Crect x='332' y='212' width='108' height='12'/%3E%3Crect x='316' y='224' width='160' height='24'/%3E%3C/g%3E%3C/svg%3E") 0 0/560px 340px repeat,
+    linear-gradient(180deg,var(--sky1) 0%,#c4e6f8 45%,var(--sky2) 100%)}
+.m{white-space:nowrap;font-weight:700}
+.m i{font-style:italic;padding-right:.04em}
+.m sup{font-size:.66em;line-height:0}
+.screen{position:fixed;inset:0;display:flex;flex-direction:column;padding:calc(1.8*var(--u)) calc(3*var(--u))}
+.hidden{display:none!important}
+button{font-family:inherit;cursor:pointer;font-weight:900}
+.title{color:var(--navy);font-weight:900;margin:0;
+  text-shadow:.25vh 0 #fff,-.25vh 0 #fff,0 .25vh #fff,0 -.25vh #fff,.25vh .25vh #fff,-.25vh -.25vh #fff,.25vh -.25vh #fff,-.25vh .25vh #fff,0 .6vh 0 rgba(31,60,120,.25)}
+
+/* ---------- 封面＋設定（簡報第 1 頁） ---------- */
+#home{align-items:center;justify-content:center;text-align:center;gap:calc(2.4*var(--u));color:#fff;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 6vh,transparent 6vh 12vh),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.2) 0 .4vh,transparent .4vh 6vh),
+    #25272b}
+#home .eyebrow{position:absolute;top:calc(2.4*var(--u));left:calc(3*var(--u));font-size:calc(2.6*var(--u));font-weight:400;margin:0}
+#home h1{font-size:calc(11*var(--u));margin:0;letter-spacing:.06em;font-weight:900;text-shadow:0 .6vh 0 #000;line-height:1.1}
+.pill{display:inline-block;background:linear-gradient(180deg,#ff6236,var(--pill));color:#fff;border-radius:999px;
+  padding:calc(1.2*var(--u)) calc(4*var(--u));font-size:calc(4*var(--u));font-weight:900;box-shadow:0 .7vh 0 var(--pill-edge)}
+.routes{display:flex;gap:calc(1.4*var(--u));margin-top:calc(.6*var(--u))}
+.routes div{background:rgba(255,255,255,.08);border:.3vh solid rgba(255,255,255,.25);border-radius:1.4vh;padding:calc(.8*var(--u)) calc(1.4*var(--u));
+  font-size:calc(2.6*var(--u))}
+.routes b{display:inline-flex;width:calc(4*var(--u));height:calc(4*var(--u));border-radius:50%;align-items:center;justify-content:center;margin-right:.5em}
+.lv0{background:var(--l0)}.lv1{background:var(--l1)}.lv2{background:var(--l2)}
+.setrow{display:flex;gap:calc(1.4*var(--u));align-items:center;justify-content:center;font-size:calc(3*var(--u))}
+.setrow span{min-width:8em;text-align:right;opacity:.85}
+.seg{display:flex;border:.4vh solid #fff;border-radius:1.4vh;overflow:hidden}
+.seg button{border:0;background:transparent;color:#fff;font-size:calc(2.8*var(--u));padding:calc(1*var(--u)) calc(2*var(--u))}
+.seg button.on{background:#fff;color:#25272b}
+.big{font-size:calc(4*var(--u));border:0;border-radius:999px;color:#fff;padding:calc(1.6*var(--u)) calc(6*var(--u));
+  background:linear-gradient(180deg,#ff6236,var(--pill));box-shadow:0 .7vh 0 var(--pill-edge)}
+.big:active{transform:translateY(.4vh);box-shadow:0 .3vh 0 var(--pill-edge)}
+.big.ghost{background:#fff;color:var(--navy);box-shadow:0 .7vh 0 var(--bar-edge)}
+.keys{font-size:calc(2.2*var(--u));opacity:.85;font-weight:400}
+kbd{border:.2vh solid rgba(255,255,255,.6);border-bottom-width:.5vh;border-radius:.8vh;padding:0 .45em;font-family:inherit;font-weight:700}
+
+/* ---------- 遊戲畫面 ---------- */
+.top{display:flex;align-items:center;gap:calc(1.4*var(--u));height:calc(9*var(--u));flex:none}
+.bar{background:linear-gradient(180deg,#e6f4fd,var(--bar));border:.4vh solid var(--bar-edge);border-radius:1.6vh;
+  padding:calc(.7*var(--u)) calc(1.2*var(--u));display:flex;align-items:center;gap:calc(.6*var(--u));font-size:calc(2.8*var(--u));white-space:nowrap}
+.bar .st{padding:.1em .45em;border-radius:1vh;border:.35vh solid transparent;color:var(--muted)}
+.bar .st.on{color:var(--ink);border-color:#f3c623;background:#fff8cf;box-shadow:0 0 0 .5vh rgba(243,198,35,.35)}
+.bar .ar{color:var(--muted)}
+.prog{font-size:calc(3*var(--u));white-space:nowrap;color:var(--navy)}
+.teams{display:flex;gap:calc(.8*var(--u));margin-left:auto}
+.team{border:0;border-radius:1.4vh;color:#fff;font-size:calc(2.4*var(--u));padding:calc(.4*var(--u)) calc(1.2*var(--u));min-width:calc(9.5*var(--u));
+  display:flex;flex-direction:column;align-items:center;line-height:1.1;position:relative;box-shadow:0 .6vh 0 rgba(0,0,0,.28)}
+.team b{font-size:calc(4.2*var(--u));font-variant-numeric:tabular-nums}
+.team.pop::after{content:"+10";position:absolute;top:-1vh;right:-.6vw;background:#fff;color:var(--ink);
+  border-radius:1vh;font-size:calc(2.4*var(--u));padding:0 .4em;animation:up .7s forwards}
+@keyframes up{to{transform:translateY(-3vh);opacity:0}}
+.t0{background:var(--t0)}.t1{background:var(--t1)}.t2{background:var(--t2)}.t3{background:var(--t3)}
+.clock{font-size:calc(3.4*var(--u));font-variant-numeric:tabular-nums;white-space:nowrap;color:var(--navy)}
+.clock.low{color:var(--bad)}
+
+/* 四步箭頭（簡報 D2 手順卡） */
+.chev{display:flex;gap:.3vh;margin-top:calc(1*var(--u));flex:none}
+.chev span{flex:1 1 auto;color:#fff;font-size:calc(2.4*var(--u));padding:calc(.7*var(--u)) calc(2.2*var(--u)) calc(.7*var(--u)) calc(2.8*var(--u));white-space:nowrap;
+  clip-path:polygon(0 0,calc(100% - 1.6vh) 0,100% 50%,calc(100% - 1.6vh) 100%,0 100%,1.6vh 50%);text-align:center;overflow:hidden;text-overflow:ellipsis}
+.chev span:first-child{clip-path:polygon(0 0,calc(100% - 1.6vh) 0,100% 50%,calc(100% - 1.6vh) 100%,0 100%);padding-left:calc(1.6*var(--u))}
+.chev b{font-size:1.25em;margin-right:.35em}
+.chev small{font-size:.9em;font-weight:700;opacity:.95}
+.k0{background:var(--s0)}.k1{background:var(--s1)}.k2{background:var(--s2)}.k3{background:var(--s3)}
+
+.rule{flex:none;background:var(--cream);border:.4vh solid var(--cream-edge);border-radius:1.6vh;padding:calc(.8*var(--u)) calc(1.6*var(--u));
+  margin-top:calc(1*var(--u));font-size:calc(2.8*var(--u));line-height:1.45}
+
+.qwrap{flex:1;display:flex;flex-direction:column;justify-content:center;min-height:0}
+.ask{font-size:calc(3.2*var(--u));color:var(--muted);text-align:center;margin:0 0 calc(.6*var(--u))}
+.q{font-size:calc(6.4*var(--u));line-height:1.3;text-align:center;margin:0 0 calc(2*var(--u))}
+.q.lines{font-size:calc(4.6*var(--u));line-height:1.35;text-align:left;width:max-content;max-width:100%;margin:0 auto calc(1.6*var(--u))}
+.how{font-size:calc(2.8*var(--u));color:var(--muted);text-align:center;margin:0 0 calc(1.6*var(--u))}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:calc(1.6*var(--u)) calc(2*var(--u))}
+.opts.three{grid-template-columns:1fr 1fr 1fr}
+.opt{background:#fff;border:.6vh solid var(--line);border-radius:2vh;min-height:calc(11*var(--u));display:flex;align-items:center;
+  gap:calc(1.4*var(--u));padding:calc(.8*var(--u)) calc(2*var(--u));font-size:calc(5.2*var(--u));box-shadow:0 .7vh 0 var(--line);transition:opacity .2s}
+.opt .n{flex:none;width:calc(7*var(--u));height:calc(7*var(--u));border-radius:50%;background:var(--navy);color:#fff;display:flex;
+  align-items:center;justify-content:center;font-size:calc(4.2*var(--u));font-weight:900}
+.opt .v{flex:1;text-align:center;white-space:nowrap}
+.opts.long .opt{font-size:calc(4.4*var(--u))}
+.opt.yes{border-color:var(--ok-edge);box-shadow:0 .7vh 0 var(--ok-edge);color:var(--ok)}
+.opt.no{border-color:var(--bad-edge);box-shadow:0 .7vh 0 var(--bad-edge);color:var(--bad)}
+.opt.yes .n{background:var(--ok)}.opt.no .n{background:var(--bad)}
+.revealed .opt{opacity:.25}
+.revealed .opt.ok{opacity:1;border-color:var(--ok-edge);background:var(--ok-bg);box-shadow:0 .7vh 0 var(--ok)}
+.revealed .opt.ok .n{background:var(--ok)}
+.why{font-size:calc(3.4*var(--u));line-height:1.5;background:var(--callout);border:.45vh solid #2a2a2a;border-radius:1.8vh;
+  padding:calc(1*var(--u)) calc(2*var(--u));margin-top:calc(2*var(--u));box-shadow:0 .6vh 0 rgba(0,0,0,.2)}
+.chip{display:inline-block;color:#fff;border-radius:.8vh;padding:0 .3em;margin:0 .1em;font-size:.92em;line-height:1.4}
+.chip.c0{background:var(--s0)}.chip.c1{background:var(--s1)}.chip.c2{background:var(--s2)}.chip.c3{background:var(--s3)}
+
+.bottom{height:calc(9*var(--u));display:flex;align-items:center;gap:calc(1.6*var(--u));flex:none}
+.cd{flex:1;height:calc(2.6*var(--u));background:rgba(255,255,255,.75);border:.3vh solid var(--bar-edge);border-radius:1.5vh;overflow:hidden}
+.cd>div{height:100%;background:var(--s0);width:100%}
+.cd.end>div{background:var(--bad)}
+.cdnum{font-size:calc(4.4*var(--u));width:calc(7*var(--u));text-align:center;font-variant-numeric:tabular-nums;color:var(--navy)}
+.act{font-size:calc(3*var(--u));padding:calc(1.2*var(--u)) calc(3*var(--u));border-radius:999px;border:0;color:#fff;white-space:nowrap;
+  background:linear-gradient(180deg,#ff6236,var(--pill));box-shadow:0 .6vh 0 var(--pill-edge)}
+.tip{font-size:calc(2.4*var(--u));color:var(--muted);white-space:nowrap}
+
+/* ---------- 結算 ---------- */
+#end{align-items:center;justify-content:center;text-align:center;gap:calc(2.6*var(--u))}
+#end h1{font-size:calc(8*var(--u))}
+.podium{display:flex;gap:calc(2.6*var(--u));align-items:flex-end;justify-content:center}
+.pcol{display:flex;flex-direction:column;align-items:center;gap:calc(.8*var(--u));font-size:calc(3.4*var(--u));color:var(--navy)}
+.pbar{width:calc(18*var(--u));border-radius:1.6vh 1.6vh 0 0;color:#fff;display:flex;align-items:flex-start;justify-content:center;
+  padding-top:calc(1.2*var(--u));font-size:calc(5.6*var(--u));font-weight:900;box-shadow:inset 0 -1vh 0 rgba(0,0,0,.18)}
+.endbtns{display:flex;gap:calc(2.4*var(--u))}
+</style>
+</head>
+<body>
+
+<!-- 封面＋設定 -->
+<section class="screen" id="home">
+  <p class="eyebrow">第四章 整式的加減　4.2 整式的加法與減法</p>
+  <h1>整式加減大挑戰</h1>
+  <span class="pill">把長長的式子變短！</span>
+  <div class="routes" id="routes"></div>
+  <div class="setrow"><span>隊伍數目</span><div class="seg" id="setTeams"></div></div>
+  <div class="setrow"><span>題目</span><div class="seg" id="setLen"></div></div>
+  <div class="setrow"><span>每題思考時間</span><div class="seg" id="setSec"></div></div>
+  <div style="display:flex;gap:2vw">
+    <button class="big" id="go">開始（Space）</button>
+    <button class="big ghost" id="fs">全螢幕（F）</button>
+  </div>
+  <div class="keys"><kbd>Space</kbd> 揭曉／下一題　<kbd>1</kbd>–<kbd>4</kbd> 該隊 +10（或點隊伍分數）　<kbd>Shift</kbd>＋數字 扣 10　<kbd>←</kbd> 上一題</div>
+</section>
+
+<!-- 遊戲畫面 -->
+<section class="screen hidden" id="game">
+  <div class="top">
+    <div class="bar" id="bar"></div>
+    <div class="prog" id="prog"></div>
+    <div class="teams" id="teams"></div>
+    <div class="clock" id="clock"></div>
+  </div>
+  <div class="chev" id="chev"></div>
+  <div class="rule hidden" id="rule"></div>
+  <div class="qwrap" id="qwrap">
+    <p class="ask hidden" id="ask"></p>
+    <p class="q" id="q"></p>
+    <p class="how" id="how"></p>
+    <div class="opts" id="opts"></div>
+    <div class="why hidden" id="why"></div>
+  </div>
+  <div class="bottom">
+    <div class="cdnum" id="cdnum"></div>
+    <div class="cd" id="cd"><div id="cdbar"></div></div>
+    <span class="tip" id="tip"></span>
+    <button class="act" id="act"></button>
+  </div>
+</section>
+
+<!-- 結算 -->
+<section class="screen hidden" id="end">
+  <h1 class="title">🏆 最終成績</h1>
+  <div class="podium" id="podium"></div>
+  <div class="endbtns">
+    <button class="big" id="again">再玩一次</button>
+    <button class="big ghost" id="back">回到設定</button>
+  </div>
+</section>
+
+<script>
+// ---------- 題庫：由 build_game_4.2.py 注入（與手機版同一套；驗算見 驗算_第四章_整式的加減.md 文末）----------
+const LEVELS=/*BANK*/[
+ {
+  "key": "合併同類項",
+  "short": "合併",
+  "sec": "4.2-1",
+  "steps": [
+   "找",
+   "移",
+   "加",
+   "查"
+  ],
+  "tips": [
+   "用 ①②③ 標出同類項",
+   "連符號一起搬",
+   "係數相加，字母和指數照抄",
+   "還有同類項嗎？"
+  ],
+  "rule": "同類項：字母相同，指數也相同。合併：係數相加，字母和指數照抄。",
+  "qs": [
+   {
+    "id": "1a",
+    "t": "yn",
+    "core": 1,
+    "q": "$-6mn^2$　與　$n^2m$",
+    "a": "是",
+    "why": "字母都是 $m$、$n$；$m$ 的指數都是 1，$n$ 的指數都是 2。字母次序不同沒關係。"
+   },
+   {
+    "id": "1b",
+    "t": "mc",
+    "core": 1,
+    "q": "$a^2+a^2$ ＝ ？",
+    "a": "$2a^2$",
+    "o": [
+     "$a^4$",
+     "$2a^4$",
+     "$a^2$"
+    ],
+    "why": "[[加]] 係數 1＋1＝2，字母和指數照抄：$2a^2$。指數不相加，不是 $a^4$。"
+   },
+   {
+    "id": "1c",
+    "t": "mc",
+    "q": "$-7ab+6ab$ ＝ ？",
+    "a": "$-ab$",
+    "o": [
+     "$-1$",
+     "$ab$",
+     "$-13ab$"
+    ],
+    "why": "[[加]] 係數 $-7+6=-1$，$-1ab$ 寫成 $-ab$。字母 $ab$ 照抄，不會消失。"
+   },
+   {
+    "id": "1d",
+    "t": "mc",
+    "core": 1,
+    "q": "$3a+2b$ ＝ ？",
+    "a": "不能再合併",
+    "o": [
+     "$5ab$",
+     "$5a$",
+     "$5b$"
+    ],
+    "why": "$3a$ 和 $2b$ 字母不同，不是同類項，絕對不能合併成 $5ab$！答案就是原樣照抄。"
+   },
+   {
+    "id": "1e",
+    "t": "mc",
+    "core": 1,
+    "q": "合併同類項：$3x-4y-5x+y$",
+    "a": "$-2x-3y$",
+    "o": [
+     "$-2x-4y$",
+     "$8x-3y$",
+     "$-2x-5y$"
+    ],
+    "why": "[[找]] $3x$①　$-4y$②　$-5x$①　$+y$②　[[加]] $x$ 項 $3-5=-2$；$y$ 項 $-4+1=-3$。最後的 $y$ 係數是 1，不是 0。"
+   },
+   {
+    "id": "1f",
+    "t": "mc",
+    "q": "合併同類項：$2x^2-3x+5-2x^2+x$",
+    "a": "$-2x+5$",
+    "o": [
+     "$4x^2-2x+5$",
+     "$-4x+5$",
+     "$-2x-5$"
+    ],
+    "why": "[[加]] $x^2$ 項 $2-2=0$，$0x^2$ 等於 0，不用寫；$x$ 項 $-3+1=-2$；常數 5 照抄。"
+   }
+  ]
+ },
+ {
+  "key": "去括號",
+  "short": "去括號",
+  "sec": "4.2-2",
+  "steps": [
+   "看",
+   "乘",
+   "定號",
+   "合"
+  ],
+  "tips": [
+   "括號前面是什麼？",
+   "乘括號內每一項",
+   "括號前是「−」，每一項都變號",
+   "再合併同類項"
+  ],
+  "rule": "括號前是「＋」：各項全部不變號；是「−」：各項全部變號；是一個數：每一項都要乘。",
+  "qs": [
+   {
+    "id": "2a",
+    "t": "mc",
+    "core": 1,
+    "q": "去括號：$-(x-3)$",
+    "a": "$-x+3$",
+    "o": [
+     "$-x-3$",
+     "$x-3$",
+     "$x+3$"
+    ],
+    "why": "[[看]] 括號前是「−」，沒有寫數字，就是乘 $-1$。[[定號]] 每一項都變號：$-x+3$。"
+   },
+   {
+    "id": "2b",
+    "t": "mc",
+    "core": 1,
+    "q": "去括號：$a-(b-c)$",
+    "a": "$a-b+c$",
+    "o": [
+     "$a-b-c$",
+     "$a+b-c$",
+     "$a+b+c$"
+    ],
+    "why": "[[定號]] 括號前是「−」，括號內的第二項 $-c$ 也要變號，變成 $+c$。"
+   },
+   {
+    "id": "2c",
+    "t": "mc",
+    "core": 1,
+    "q": "去括號：$2(x-3)$",
+    "a": "$2x-6$",
+    "o": [
+     "$2x-3$",
+     "$2x+6$",
+     "$x-6$"
+    ],
+    "why": "[[乘]] 2 乘括號內每一項：$2×x=2x$，$2×(-3)=-6$。最後一項最容易漏乘。"
+   },
+   {
+    "id": "2d",
+    "t": "mc",
+    "q": "去括號：$-3(a+4)$",
+    "a": "$-3a-12$",
+    "o": [
+     "$-3a+12$",
+     "$-3a+4$",
+     "$3a-12$"
+    ],
+    "why": "[[乘]] 括號外的數連符號是 $-3$：$(-3)×a=-3a$，$(-3)×4=-12$。"
+   },
+   {
+    "id": "2e",
+    "t": "mc",
+    "core": 1,
+    "q": "化簡：$5x-(2x-1)$",
+    "a": "$3x+1$",
+    "o": [
+     "$3x-1$",
+     "$7x-1$",
+     "$-3x+1$"
+    ],
+    "why": "[[定號]] $-(2x-1)$ 得 $-2x+1$。[[合]] $5x-2x+1=3x+1$。"
+   },
+   {
+    "id": "2f",
+    "t": "line",
+    "q": "下面的化簡，哪一行出錯？<br>$(3y-2)-2(4-y)$<br>第 1 行　$=3y-2-8-2y$<br>第 2 行　$=y-10$",
+    "a": "第 1 行",
+    "o": [
+     "第 1 行",
+     "第 2 行",
+     "沒有錯"
+    ],
+    "why": "第 1 行：$(-2)×(-y)$ 得 $+2y$，不是 $-2y$。正確是 $3y-2-8+2y=5y-10$。"
+   }
+  ]
+ },
+ {
+  "key": "整式的加減",
+  "short": "加減",
+  "sec": "4.2-3",
+  "steps": [
+   "括",
+   "去",
+   "合",
+   "代"
+  ],
+  "tips": [
+   "每個整式先加括號",
+   "去括號",
+   "合併同類項",
+   "化簡完才代入"
+  ],
+  "rule": "有括號就先去括號，再合併同類項。求和或差：每個整式先加括號。要求值：化簡完才代入。",
+  "qs": [
+   {
+    "id": "3a",
+    "t": "mc",
+    "core": 1,
+    "q": "計算：$(2x+5y)-(x-3y)$",
+    "a": "$x+8y$",
+    "o": [
+     "$x+2y$",
+     "$3x+8y$",
+     "$x-8y$"
+    ],
+    "why": "[[去]] $-(x-3y)$ 得 $-x+3y$。[[合]] $2x-x+5y+3y=x+8y$。"
+   },
+   {
+    "id": "3b",
+    "t": "mc",
+    "core": 1,
+    "long": 1,
+    "q": "求 $2a+b$ 與 $a-3b$ 的<u>差</u>，應該怎樣列式？",
+    "a": "$(2a+b)-(a-3b)$",
+    "o": [
+     "$2a+b-a-3b$",
+     "$(2a+b)+(a-3b)$",
+     "$(a-3b)-(2a+b)$"
+    ],
+    "why": "[[括]] 求差：每個整式先加括號，中間寫「−」。漏了括號，$-3b$ 就不會變號。"
+   },
+   {
+    "id": "3c",
+    "t": "mc",
+    "q": "求 $4m-n$ 與 $2m+3n$ 的<u>和</u>。",
+    "a": "$6m+2n$",
+    "o": [
+     "$2m-4n$",
+     "$6m+4n$",
+     "$6m-2n$"
+    ],
+    "why": "[[括]] $(4m-n)+(2m+3n)$。[[去]] 括號前是「＋」，各項不變號。[[合]] $6m+2n$。"
+   },
+   {
+    "id": "3d",
+    "t": "mc",
+    "core": 1,
+    "q": "計算：$3(a^2-b)-(2a^2-3b)$",
+    "a": "$a^2$",
+    "o": [
+     "$a^2-6b$",
+     "$5a^2-6b$",
+     "$a^2+6b$"
+    ],
+    "why": "[[去]] $3a^2-3b-2a^2+3b$。[[合]] $a^2$ 項 $3-2=1$；$b$ 項 $-3+3=0$，不用寫。結果是 $a^2$。"
+   },
+   {
+    "id": "3e",
+    "t": "mc",
+    "core": 1,
+    "q": "先化簡，再求值：$(3x-2)-(x-4)$，其中 $x=-3$",
+    "a": "$-4$",
+    "o": [
+     "$-12$",
+     "$8$",
+     "$4$"
+    ],
+    "why": "[[去]][[合]] $3x-2-x+4=2x+2$。[[代]] 負數加括號：$2×(-3)+2=-4$。"
+   },
+   {
+    "id": "3f",
+    "t": "mc",
+    "q": "一個多項式加上 $x-4$，得到 $3x+2$。這個多項式是？",
+    "a": "$2x+6$",
+    "o": [
+     "$2x-2$",
+     "$4x-2$",
+     "$-2x-6$"
+    ],
+    "why": "[[括]] 所求＝$(3x+2)-(x-4)$。[[去]] $3x+2-x+4$。[[合]] $2x+6$。"
+   }
+  ]
+ }
+]/*END*/;
+const TEAM_NAMES=['紅隊','藍隊','綠隊','黃隊'];
+const TOTAL_TIME=300;
+
+// ---------- 數學式：字母斜體、^n 上標、真減號 ----------
+function fmt(s){
+  let out='',i=0;
+  const plain=()=>out.replace(/<[^>]+>/g,'').trimEnd();
+  while(i<s.length){
+    const ch=s[i];
+    if(ch==='^'){let d='';i++;while(i<s.length&&/\d/.test(s[i])){d+=s[i];i++;}out+='<sup>'+d+'</sup>';continue;}
+    if(/[a-z]/.test(ch)) out+='<i>'+ch+'</i>';
+    else if(ch==='-'||ch==='+'){const p=plain();const un=p===''||/[(\[=×]$/.test(p);out+=un?(ch==='-'?'−':'+'):(ch==='-'?' − ':' + ');}
+    else if(ch==='='||ch==='×') out+=' '+ch+' ';
+    else out+=ch;
+    i++;
+  }
+  return out.trim();
+}
+function M(t,L){
+  t=String(t);
+  if(L) t=t.replace(/\[\[(.+?)\]\]/g,(_,s)=>`<span class="chip c${Math.max(0,L.steps.indexOf(s))}">${s}</span>`);
+  return t.replace(/\$(.+?)\$/g,(_,e)=>'<span class="m">'+fmt(e)+'</span>');
+}
+const plainLen=s=>String(s).replace(/[$^]/g,'').length;
+const $=id=>document.getElementById(id);
+
+// ---------- 設定 ----------
+const CFG={teams:2,len:'core',sec:15};
+const nCore=LEVELS.reduce((s,l)=>s+l.qs.filter(q=>q.core).length,0), nAll=LEVELS.reduce((s,l)=>s+l.qs.length,0);
+function seg(id,key,items){
+  const el=$(id);
+  el.innerHTML=items.map(([v,t])=>`<button data-v="${v}">${t}</button>`).join('');
+  const sync=()=>el.querySelectorAll('button').forEach(b=>b.classList.toggle('on',String(CFG[key])===b.dataset.v));
+  el.querySelectorAll('button').forEach(b=>b.onclick=()=>{CFG[key]=isNaN(+b.dataset.v)?b.dataset.v:+b.dataset.v;sync();});
+  sync();
+}
+seg('setTeams','teams',[[2,'2 隊'],[3,'3 隊'],[4,'4 隊']]);
+seg('setLen','len',[['core',`5 分鐘版（${nCore} 題）`],['all',`完整版（${nAll} 題）`]]);
+seg('setSec','sec',[[10,'10 秒'],[15,'15 秒'],[20,'20 秒'],[30,'30 秒']]);
+$('routes').innerHTML=LEVELS.map((l,i)=>`<div><b class="lv${i}">${i+1}</b>${l.key}：${l.steps.join(' → ')}</div>`).join('');
+
+// ---------- 狀態 ----------
+let S=null;
+function show(id){['home','game','end'].forEach(s=>$(s).classList.toggle('hidden',s!==id));}
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function start(){
+  const list=[];
+  LEVELS.forEach((L,li)=>{
+    const qs=L.qs.filter(q=>CFG.len==='all'||q.core);
+    qs.forEach((Q,qi)=>list.push({L,li,Q,first:qi===0,
+      opts:Q.t==='yn'?['是','不是']:(Q.t==='line'?Q.o.slice():shuffle([Q.a,...Q.o]))}));
+  });
+  if(S)clearInterval(S.cdTimer);
+  S={list,i:0,scores:Array(CFG.teams).fill(0),t:TOTAL_TIME,revealed:false,cd:0,cdTimer:null};
+  clearInterval(window._clk);
+  window._clk=setInterval(()=>{if($('game').classList.contains('hidden'))return;S.t=Math.max(0,S.t-1);drawClock();},1000);
+  show('game'); drawTeams(); render();
+}
+function mmss(t){return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');}
+function drawClock(){const c=$('clock');c.textContent='⏱ '+mmss(S.t);c.classList.toggle('low',S.t<=30);}
+function drawTeams(){
+  $('teams').innerHTML=S.scores.map((s,k)=>`<button class="team t${k}" data-k="${k}" title="點一下 +10；Shift＋點 −10">${TEAM_NAMES[k]}<b>${s}</b></button>`).join('');
+  $('teams').querySelectorAll('.team').forEach(b=>b.onclick=e=>addScore(+b.dataset.k,e.shiftKey?-10:10));
+}
+function addScore(k,d){
+  if(!S||k>=S.scores.length)return;
+  S.scores[k]=Math.max(0,S.scores[k]+d);
+  drawTeams();
+  if(d>0){const b=$('teams').children[k];b.classList.remove('pop');void b.offsetWidth;b.classList.add('pop');}
+}
+
+function render(){
+  const it=S.list[S.i],{L,li,Q}=it;
+  S.revealed=false;
+  $('bar').innerHTML=LEVELS.map((l,i)=>`<span class="st ${i===li?'on':''}">${l.short}</span>`).join('<span class="ar">→</span>');
+  $('prog').textContent=`第 ${S.i+1} / ${S.list.length} 題`;
+  $('chev').innerHTML=L.steps.map((s,k)=>`<span class="k${k}"><b>${s}</b><small>${L.tips[k]}</small></span>`).join('');
+  $('rule').classList.toggle('hidden',!it.first);
+  $('rule').innerHTML=it.first?'💡 '+M(L.rule):'';
+  const yn=Q.t==='yn', line=Q.t==='line';
+  $('ask').classList.toggle('hidden',!yn);
+  $('ask').textContent=yn?'下面兩個項是不是同類項？':'';
+  $('q').className='q'+(line?' lines':'');
+  $('q').innerHTML=M(Q.q);
+  $('how').innerHTML=yn?'舉手作答：👍 是　　👎 不是':(line?'舉手指作答：1、2 或 3 隻手指':'舉手指作答：1、2、3 或 4 隻手指');
+  const o=$('opts');
+  o.className='opts'+(line?' three':'')+((Q.long||it.opts.some(v=>plainLen(v)>9))?' long':'');
+  o.innerHTML=it.opts.map((v,k)=>{
+    const cls=yn?(v==='是'?'yes':'no'):'';
+    const n=yn?(v==='是'?'👍':'👎'):(k+1);
+    return `<div class="opt ${cls} ${v===Q.a?'ok':''}"><span class="n">${n}</span><span class="v">${yn?v:M(v)}</span></div>`;
+  }).join('');
+  $('qwrap').classList.remove('revealed');
+  $('why').classList.add('hidden');
+  $('act').textContent='揭曉答案（Space）';
+  $('tip').textContent='';
+  drawClock(); startCountdown();
+}
+
+function startCountdown(){
+  clearInterval(S.cdTimer);
+  S.cd=CFG.sec;const total=CFG.sec,bar=$('cdbar'),cd=$('cd');
+  cd.classList.remove('end');bar.style.transition='none';bar.style.width='100%';
+  $('cdnum').textContent=S.cd;
+  requestAnimationFrame(()=>requestAnimationFrame(()=>{bar.style.transition=`width ${total}s linear`;bar.style.width='0%';}));
+  S.cdTimer=setInterval(()=>{
+    S.cd--;$('cdnum').textContent=Math.max(0,S.cd);
+    if(S.cd<=0){clearInterval(S.cdTimer);cd.classList.add('end');beep();$('cdnum').textContent='⏰';}
+  },1000);
+}
+let actx=null;
+function beep(){try{actx=actx||new (window.AudioContext||window.webkitAudioContext)();const o=actx.createOscillator(),g=actx.createGain();
+  o.frequency.value=880;g.gain.value=.15;o.connect(g);g.connect(actx.destination);o.start();o.stop(actx.currentTime+.25);}catch(e){}}
+
+function reveal(){
+  if(S.revealed)return;
+  S.revealed=true;clearInterval(S.cdTimer);
+  const bar=$('cdbar');bar.style.transition='none';bar.style.width=getComputedStyle(bar).width;
+  const {Q,L}=S.list[S.i];
+  $('qwrap').classList.add('revealed');
+  $('why').innerHTML='💬 '+M(Q.why,L);
+  $('why').classList.remove('hidden');
+  $('act').textContent=S.i===S.list.length-1?'看最終成績（Space）':'下一題（Space）';
+  $('tip').textContent='答對的隊伍：點分數或按 1–'+S.scores.length+' 加 10 分';
+}
+function next(){
+  if(!S.revealed){reveal();return;}
+  if(S.i<S.list.length-1){S.i++;render();}else finish();
+}
+function prev(){if(S.i>0){S.i--;render();}}
+
+function finish(){
+  clearInterval(S.cdTimer);
+  const max=Math.max(10,...S.scores);
+  const order=S.scores.map((s,k)=>({s,k})).sort((a,b)=>b.s-a.s);
+  const medals=['🥇','🥈','🥉','　'];
+  let rank=0;
+  $('podium').innerHTML=order.map((x,idx)=>{
+    if(idx>0&&x.s<order[idx-1].s)rank=idx;
+    return `<div class="pcol"><span style="font-size:calc(6*var(--u))">${medals[rank]}</span>
+      <div class="pbar t${x.k}" style="height:calc(${12+36*x.s/max}*var(--u))">${x.s}</div><span>${TEAM_NAMES[x.k]}</span></div>`;
+  }).join('');
+  show('end');
+}
+function toggleFS(){if(!document.fullscreenElement)document.documentElement.requestFullscreen?.();else document.exitFullscreen?.();}
+
+$('go').onclick=start;$('fs').onclick=toggleFS;
+$('act').onclick=next;$('again').onclick=start;$('back').onclick=()=>show('home');
+
+document.addEventListener('keydown',e=>{
+  const onHome=!$('home').classList.contains('hidden'),onGame=!$('game').classList.contains('hidden');
+  if(e.key==='f'||e.key==='F'){toggleFS();return;}
+  if(e.code==='Space'||e.key==='Enter'||e.key==='ArrowRight'||e.key==='PageDown'){
+    e.preventDefault();
+    if(onHome)start();else if(onGame)next();
+    return;
+  }
+  if(onGame&&(e.key==='ArrowLeft'||e.key==='PageUp')){e.preventDefault();prev();return;}
+  if(onGame){
+    const map={'1':0,'2':1,'3':2,'4':3,'!':0,'@':1,'#':2,'$':3};
+    const code=e.code&&e.code.startsWith('Digit')?+e.code.slice(5)-1:(e.code&&e.code.startsWith('Numpad')?+e.code.slice(6)-1:map[e.key]);
+    if(code>=0&&code<4){e.preventDefault();addScore(code,e.shiftKey?-10:10);}
+  }
+});
+</script>
+</body>
+</html>

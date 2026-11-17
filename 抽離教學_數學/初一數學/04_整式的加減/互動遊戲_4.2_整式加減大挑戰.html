@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>整式加減大挑戰</title>
+<style>
+/* 視覺語言對齊 簡報_4.2-1_合併同類項：深色封面＋橘紅膠囊、天空像素雲底、淺藍路線列、
+   四色步驟箭頭（藍／青／綠／橙）、黃底黑框對話框、紅錯綠對雙卡。 */
+:root{
+  --ink:#1c2a44; --muted:#4d5d78; --navy:#1f3c78;
+  --sky1:#8fcff3; --sky2:#e9f6fd;
+  --bar:#d6ecfb; --bar-edge:#5b9bd5;
+  --s0:#3b78d8; --s1:#1f9e9a; --s2:#43a047; --s3:#ef8a22;
+  --l0:#3b6fd4; --l1:#c2367f; --l2:#2f9e55;
+  --pill:#ee4a24; --pill-edge:#b8320f;
+  --ok:#2e9b45; --ok-bg:#e3f6e1; --ok-edge:#4cb860;
+  --bad:#c62828; --bad-bg:#fde4e1; --bad-edge:#e05656;
+  --callout:#ffe264; --callout-edge:#2a2a2a;
+  --cream:#fff6d8; --cream-edge:#f0a030;
+  --card:#ffffff; --line:#a9c1da;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{color:var(--ink);font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC","Heiti TC",sans-serif;font-size:18px;
+  font-weight:700;min-height:100vh;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='420' height='260' shape-rendering='crispEdges'%3E%3Cg fill='%23fff' fill-opacity='.75'%3E%3Crect x='48' y='40' width='56' height='8'/%3E%3Crect x='32' y='48' width='96' height='8'/%3E%3Crect x='16' y='56' width='136' height='16'/%3E%3Crect x='8' y='72' width='160' height='8'/%3E%3Crect x='268' y='150' width='40' height='8'/%3E%3Crect x='252' y='158' width='80' height='8'/%3E%3Crect x='240' y='166' width='120' height='16'/%3E%3C/g%3E%3C/svg%3E") 0 0/420px 260px repeat,
+    linear-gradient(180deg,var(--sky1) 0%,#c4e6f8 45%,var(--sky2) 100%) fixed;}
+.wrap{max-width:520px;margin:0 auto;padding:12px 16px 140px}
+.hidden{display:none!important}
+
+/* 數學式：與介面同一黑體，字母斜體、上標、真減號 */
+.m{white-space:nowrap;font-weight:700}
+.m i{font-style:italic;padding-right:.04em}
+.m sup{font-size:.68em;line-height:0}
+
+/* ---------- 封面（簡報第 1 頁） ---------- */
+.cover{border-radius:20px;padding:18px 18px 22px;color:#fff;text-align:center;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.035) 0 28px,transparent 28px 56px),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.18) 0 2px,transparent 2px 28px),
+    #25272b;
+  box-shadow:0 6px 0 #111}
+.cover .eyebrow{font-size:13px;text-align:left;opacity:.9;margin:0 0 14px;font-weight:400}
+.cover h1{font-size:44px;line-height:1.15;margin:0 0 16px;letter-spacing:2px;font-weight:900;text-shadow:0 3px 0 #000}
+.pill{display:inline-block;background:linear-gradient(180deg,#ff6236,var(--pill));color:#fff;border-radius:999px;
+  padding:9px 22px;font-size:20px;font-weight:900;box-shadow:0 4px 0 var(--pill-edge)}
+
+/* ---------- 標題（深藍字＋白描邊，簡報各頁標題） ---------- */
+.title{color:var(--navy);font-weight:900;text-align:center;margin:18px 0 10px;font-size:26px;
+  text-shadow:2px 0 #fff,-2px 0 #fff,0 2px #fff,0 -2px #fff,2px 2px #fff,-2px -2px #fff,2px -2px #fff,-2px 2px #fff,0 4px 0 rgba(31,60,120,.25)}
+
+/* ---------- 面板（簡報彩框卡片） ---------- */
+.panel{background:rgba(255,255,255,.92);border:3px solid var(--bar-edge);border-radius:16px;padding:12px 14px;box-shadow:0 4px 0 rgba(31,60,120,.18)}
+.route{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.route li{display:flex;gap:12px;align-items:center}
+.node{flex:none;width:52px;height:52px;border-radius:50%;color:#fff;font-size:24px;font-weight:900;display:flex;
+  align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.25);box-shadow:0 0 0 3px #fff,0 4px 0 3px rgba(0,0,0,.18)}
+.route .nm{font-size:18px}
+.route small{display:block;color:var(--muted);font-size:13px;font-weight:400;margin-top:2px}
+.lv0{background:var(--l0)}.lv1{background:var(--l1)}.lv2{background:var(--l2)}
+
+/* 四步箭頭（簡報 D2 手順卡 chevron） */
+.chev{display:flex;gap:2px;margin-top:5px}
+.chev span{color:#fff;font-size:14px;font-weight:900;padding:4px 14px 4px 16px;white-space:nowrap;
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,0 100%,9px 50%)}
+.chev span:first-child{clip-path:polygon(0 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,0 100%);padding-left:10px}
+.k0{background:var(--s0)}.k1{background:var(--s1)}.k2{background:var(--s2)}.k3{background:var(--s3)}
+.chev.big span{font-size:17px;padding:7px 16px 7px 20px;flex:1;text-align:center}
+.chev.big span:first-child{padding-left:12px}
+
+.rules{font-size:15px;line-height:1.7;font-weight:400;margin:12px 0 0}
+.rules b{font-weight:900}
+
+/* 按鈕：橘紅膠囊＋像素厚底 */
+.btn{display:block;width:100%;min-height:58px;border:0;border-radius:999px;margin-top:14px;cursor:pointer;
+  background:linear-gradient(180deg,#ff6236,var(--pill));color:#fff;font:inherit;font-size:21px;font-weight:900;
+  box-shadow:0 5px 0 var(--pill-edge)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--pill-edge)}
+.btn.ghost{background:#fff;color:var(--navy);box-shadow:0 5px 0 var(--bar-edge);border:3px solid var(--bar-edge)}
+
+/* ---------- 遊戲 HUD：淺藍路線列（簡報頁頂「找 → 移 → 加 → 查」列） ---------- */
+.hud{position:sticky;top:0;z-index:5;padding:8px 0 8px;margin:-12px 0 0;
+  background:linear-gradient(180deg,var(--sky1) 70%,rgba(143,207,243,0))}
+.bar{background:linear-gradient(180deg,#e6f4fd,var(--bar));border:3px solid var(--bar-edge);border-radius:14px;
+  padding:6px 8px;display:flex;justify-content:center;align-items:center;gap:4px;font-size:15px;white-space:nowrap}
+.bar .st{padding:2px 7px;border-radius:7px;border:2px solid transparent;color:var(--muted)}
+.bar .st.on{color:var(--ink);border-color:#f3c623;background:#fff8cf;box-shadow:0 0 0 3px rgba(243,198,35,.35)}
+.bar .st.done{color:var(--ok)}
+.bar .ar{color:var(--muted)}
+.hudrow{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:0 2px}
+.timer{font-variant-numeric:tabular-nums;font-size:22px}
+.timer.low{color:var(--bad)}
+.streak{color:#c25e00;font-size:16px;min-width:80px;text-align:center}
+.score{font-size:20px}
+.blocks{display:grid;gap:3px;margin-top:8px}
+.blocks i{height:9px;background:rgba(255,255,255,.75);border:1px solid rgba(31,60,120,.25)}
+.blocks i.r{background:var(--ok-edge);border-color:var(--ok)}
+.blocks i.w{background:var(--bad-edge);border-color:var(--bad)}
+
+.rule{background:var(--cream);border:3px solid var(--cream-edge);border-radius:14px;padding:9px 12px;margin:10px 0 0;
+  font-size:16px;line-height:1.6;font-weight:700;display:flex;gap:8px}
+.rule .ic{font-size:22px;line-height:1.2}
+
+/* 題目卡：彩色框頭＋白身 */
+.qcard{margin-top:12px;border:4px solid var(--lv);border-radius:18px;background:var(--lv);box-shadow:0 5px 0 rgba(0,0,0,.18)}
+.qhead{color:#fff;font-size:15px;padding:6px 12px 7px;display:flex;justify-content:space-between}
+.qbody{background:#f7fbff;border-radius:13px;padding:16px 14px 14px}
+.qtext{font-size:22px;line-height:1.75;margin:0}
+.qtext .m{font-size:1.08em}
+.ask{font-size:16px;color:var(--muted);margin:0 0 4px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.opts.one{grid-template-columns:1fr}
+.opt{min-height:62px;border-radius:14px;border:3px solid var(--line);background:#fff;box-shadow:0 4px 0 var(--line);
+  font:inherit;font-size:21px;font-weight:700;color:var(--ink);cursor:pointer;padding:8px 6px}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.opt.yes{color:var(--ok);border-color:var(--ok-edge);box-shadow:0 4px 0 var(--ok-edge)}
+.opt.no{color:var(--bad);border-color:var(--bad-edge);box-shadow:0 4px 0 var(--bad-edge)}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok-edge);box-shadow:0 4px 0 var(--ok);color:var(--ok)}
+.opt.bad{background:var(--bad-bg);border-color:var(--bad-edge);box-shadow:0 4px 0 var(--bad);color:var(--bad)}
+.opt[disabled]{cursor:default}
+
+/* 步驟字卡（解說裡的 [加]） */
+.chip{display:inline-block;color:#fff;border-radius:6px;padding:0 6px;margin:0 2px;font-size:.9em;line-height:1.45}
+.chip.c0{background:var(--s0)}.chip.c1{background:var(--s1)}.chip.c2{background:var(--s2)}.chip.c3{background:var(--s3)}
+
+/* 回饋：底部卡片＋黃色對話框 */
+.fb{position:fixed;left:0;right:0;bottom:0;padding:12px 14px 16px;z-index:10;transform:translateY(115%);transition:transform .2s}
+.fb.show{transform:none}
+.fb .in{max-width:520px;margin:0 auto;border-radius:18px;padding:12px 14px;font-size:17px;line-height:1.6}
+.fb.ok .in{background:var(--ok-bg);border:4px solid var(--ok-edge);color:var(--ok);box-shadow:0 5px 0 var(--ok)}
+.fb.bad .in{background:#fff;border:4px solid var(--bad-edge);box-shadow:0 5px 0 var(--bad)}
+.fb .big{font-size:22px;font-weight:900}
+.fb.bad .big{color:var(--bad)}
+.callout{background:var(--callout);border:3px solid var(--callout-edge);border-radius:14px;padding:8px 12px;margin-top:8px;
+  font-size:17px;line-height:1.65;color:var(--ink);position:relative}
+.callout::before{content:"💬 ";}
+.fb .btn{margin-top:12px;min-height:52px;font-size:19px}
+
+/* ---------- 結算（簡報「今日帶走」頁） ---------- */
+.result{text-align:center}
+.medal{font-size:64px;margin:6px 0 0;line-height:1.1}
+.bigscore{font-size:56px;font-weight:900;color:var(--navy);margin:0;
+  text-shadow:3px 0 #fff,-3px 0 #fff,0 3px #fff,0 -3px #fff,3px 3px #fff,-3px -3px #fff,3px -3px #fff,-3px 3px #fff}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;background:#fff;border:3px solid var(--bar-edge);border-radius:14px;overflow:hidden}
+.tbl td{padding:9px 12px;border-bottom:2px solid #dbe8f5;text-align:left;font-size:16px}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.take{text-align:left;font-size:16px;line-height:1.75}
+.take h2{margin:0 0 4px;font-size:20px;color:var(--navy)}
+.take p{margin:2px 0}
+.must{margin-top:10px;background:#fffbe0;border:4px solid #222;border-radius:4px;padding:8px 12px;font-weight:900;line-height:1.6;text-align:left;
+  box-shadow:0 0 0 4px #fff27a}
+.review{text-align:left;margin-top:12px}
+.review .item{background:#fff;border:3px solid var(--bad-edge);border-radius:14px;padding:10px 12px;margin-top:10px;line-height:1.65;font-size:16px}
+.hint{font-size:15px;color:var(--muted);margin:10px 0 0;font-weight:400}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="fb" id="fb"><div class="in" id="fbin"></div></div>
+
+<script>
+// ---------- 題庫：由 build_game_4.2.py 注入（驗算見 驗算_第四章_整式的加減.md 文末）----------
+const LEVELS=/*BANK*/[
+ {
+  "key": "合併同類項",
+  "short": "合併",
+  "sec": "4.2-1",
+  "steps": [
+   "找",
+   "移",
+   "加",
+   "查"
+  ],
+  "tips": [
+   "用 ①②③ 標出同類項",
+   "連符號一起搬",
+   "係數相加，字母和指數照抄",
+   "還有同類項嗎？"
+  ],
+  "rule": "同類項：字母相同，指數也相同。合併：係數相加，字母和指數照抄。",
+  "qs": [
+   {
+    "id": "1a",
+    "t": "yn",
+    "core": 1,
+    "q": "$-6mn^2$　與　$n^2m$",
+    "a": "是",
+    "why": "字母都是 $m$、$n$；$m$ 的指數都是 1，$n$ 的指數都是 2。字母次序不同沒關係。"
+   },
+   {
+    "id": "1b",
+    "t": "mc",
+    "core": 1,
+    "q": "$a^2+a^2$ ＝ ？",
+    "a": "$2a^2$",
+    "o": [
+     "$a^4$",
+     "$2a^4$",
+     "$a^2$"
+    ],
+    "why": "[[加]] 係數 1＋1＝2，字母和指數照抄：$2a^2$。指數不相加，不是 $a^4$。"
+   },
+   {
+    "id": "1c",
+    "t": "mc",
+    "q": "$-7ab+6ab$ ＝ ？",
+    "a": "$-ab$",
+    "o": [
+     "$-1$",
+     "$ab$",
+     "$-13ab$"
+    ],
+    "why": "[[加]] 係數 $-7+6=-1$，$-1ab$ 寫成 $-ab$。字母 $ab$ 照抄，不會消失。"
+   },
+   {
+    "id": "1d",
+    "t": "mc",
+    "core": 1,
+    "q": "$3a+2b$ ＝ ？",
+    "a": "不能再合併",
+    "o": [
+     "$5ab$",
+     "$5a$",
+     "$5b$"
+    ],
+    "why": "$3a$ 和 $2b$ 字母不同，不是同類項，絕對不能合併成 $5ab$！答案就是原樣照抄。"
+   },
+   {
+    "id": "1e",
+    "t": "mc",
+    "core": 1,
+    "q": "合併同類項：$3x-4y-5x+y$",
+    "a": "$-2x-3y$",
+    "o": [
+     "$-2x-4y$",
+     "$8x-3y$",
+     "$-2x-5y$"
+    ],
+    "why": "[[找]] $3x$①　$-4y$②　$-5x$①　$+y$②　[[加]] $x$ 項 $3-5=-2$；$y$ 項 $-4+1=-3$。最後的 $y$ 係數是 1，不是 0。"
+   },
+   {
+    "id": "1f",
+    "t": "mc",
+    "q": "合併同類項：$2x^2-3x+5-2x^2+x$",
+    "a": "$-2x+5$",
+    "o": [
+     "$4x^2-2x+5$",
+     "$-4x+5$",
+     "$-2x-5$"
+    ],
+    "why": "[[加]] $x^2$ 項 $2-2=0$，$0x^2$ 等於 0，不用寫；$x$ 項 $-3+1=-2$；常數 5 照抄。"
+   }
+  ]
+ },
+ {
+  "key": "去括號",
+  "short": "去括號",
+  "sec": "4.2-2",
+  "steps": [
+   "看",
+   "乘",
+   "定號",
+   "合"
+  ],
+  "tips": [
+   "括號前面是什麼？",
+   "乘括號內每一項",
+   "括號前是「−」，每一項都變號",
+   "再合併同類項"
+  ],
+  "rule": "括號前是「＋」：各項全部不變號；是「−」：各項全部變號；是一個數：每一項都要乘。",
+  "qs": [
+   {
+    "id": "2a",
+    "t": "mc",
+    "core": 1,
+    "q": "去括號：$-(x-3)$",
+    "a": "$-x+3$",
+    "o": [
+     "$-x-3$",
+     "$x-3$",
+     "$x+3$"
+    ],
+    "why": "[[看]] 括號前是「−」，沒有寫數字，就是乘 $-1$。[[定號]] 每一項都變號：$-x+3$。"
+   },
+   {
+    "id": "2b",
+    "t": "mc",
+    "core": 1,
+    "q": "去括號：$a-(b-c)$",
+    "a": "$a-b+c$",
+    "o": [
+     "$a-b-c$",
+     "$a+b-c$",
+     "$a+b+c$"
+    ],
+    "why": "[[定號]] 括號前是「−」，括號內的第二項 $-c$ 也要變號，變成 $+c$。"
+   },
+   {
+    "id": "2c",
+    "t": "mc",
+    "core": 1,
+    "q": "去括號：$2(x-3)$",
+    "a": "$2x-6$",
+    "o": [
+     "$2x-3$",
+     "$2x+6$",
+     "$x-6$"
+    ],
+    "why": "[[乘]] 2 乘括號內每一項：$2×x=2x$，$2×(-3)=-6$。最後一項最容易漏乘。"
+   },
+   {
+    "id": "2d",
+    "t": "mc",
+    "q": "去括號：$-3(a+4)$",
+    "a": "$-3a-12$",
+    "o": [
+     "$-3a+12$",
+     "$-3a+4$",
+     "$3a-12$"
+    ],
+    "why": "[[乘]] 括號外的數連符號是 $-3$：$(-3)×a=-3a$，$(-3)×4=-12$。"
+   },
+   {
+    "id": "2e",
+    "t": "mc",
+    "core": 1,
+    "q": "化簡：$5x-(2x-1)$",
+    "a": "$3x+1$",
+    "o": [
+     "$3x-1$",
+     "$7x-1$",
+     "$-3x+1$"
+    ],
+    "why": "[[定號]] $-(2x-1)$ 得 $-2x+1$。[[合]] $5x-2x+1=3x+1$。"
+   },
+   {
+    "id": "2f",
+    "t": "line",
+    "q": "下面的化簡，哪一行出錯？<br>$(3y-2)-2(4-y)$<br>第 1 行　$=3y-2-8-2y$<br>第 2 行　$=y-10$",
+    "a": "第 1 行",
+    "o": [
+     "第 1 行",
+     "第 2 行",
+     "沒有錯"
+    ],
+    "why": "第 1 行：$(-2)×(-y)$ 得 $+2y$，不是 $-2y$。正確是 $3y-2-8+2y=5y-10$。"
+   }
+  ]
+ },
+ {
+  "key": "整式的加減",
+  "short": "加減",
+  "sec": "4.2-3",
+  "steps": [
+   "括",
+   "去",
+   "合",
+   "代"
+  ],
+  "tips": [
+   "每個整式先加括號",
+   "去括號",
+   "合併同類項",
+   "化簡完才代入"
+  ],
+  "rule": "有括號就先去括號，再合併同類項。求和或差：每個整式先加括號。要求值：化簡完才代入。",
+  "qs": [
+   {
+    "id": "3a",
+    "t": "mc",
+    "core": 1,
+    "q": "計算：$(2x+5y)-(x-3y)$",
+    "a": "$x+8y$",
+    "o": [
+     "$x+2y$",
+     "$3x+8y$",
+     "$x-8y$"
+    ],
+    "why": "[[去]] $-(x-3y)$ 得 $-x+3y$。[[合]] $2x-x+5y+3y=x+8y$。"
+   },
+   {
+    "id": "3b",
+    "t": "mc",
+    "core": 1,
+    "long": 1,
+    "q": "求 $2a+b$ 與 $a-3b$ 的<u>差</u>，應該怎樣列式？",
+    "a": "$(2a+b)-(a-3b)$",
+    "o": [
+     "$2a+b-a-3b$",
+     "$(2a+b)+(a-3b)$",
+     "$(a-3b)-(2a+b)$"
+    ],
+    "why": "[[括]] 求差：每個整式先加括號，中間寫「−」。漏了括號，$-3b$ 就不會變號。"
+   },
+   {
+    "id": "3c",
+    "t": "mc",
+    "q": "求 $4m-n$ 與 $2m+3n$ 的<u>和</u>。",
+    "a": "$6m+2n$",
+    "o": [
+     "$2m-4n$",
+     "$6m+4n$",
+     "$6m-2n$"
+    ],
+    "why": "[[括]] $(4m-n)+(2m+3n)$。[[去]] 括號前是「＋」，各項不變號。[[合]] $6m+2n$。"
+   },
+   {
+    "id": "3d",
+    "t": "mc",
+    "core": 1,
+    "q": "計算：$3(a^2-b)-(2a^2-3b)$",
+    "a": "$a^2$",
+    "o": [
+     "$a^2-6b$",
+     "$5a^2-6b$",
+     "$a^2+6b$"
+    ],
+    "why": "[[去]] $3a^2-3b-2a^2+3b$。[[合]] $a^2$ 項 $3-2=1$；$b$ 項 $-3+3=0$，不用寫。結果是 $a^2$。"
+   },
+   {
+    "id": "3e",
+    "t": "mc",
+    "core": 1,
+    "q": "先化簡，再求值：$(3x-2)-(x-4)$，其中 $x=-3$",
+    "a": "$-4$",
+    "o": [
+     "$-12$",
+     "$8$",
+     "$4$"
+    ],
+    "why": "[[去]][[合]] $3x-2-x+4=2x+2$。[[代]] 負數加括號：$2×(-3)+2=-4$。"
+   },
+   {
+    "id": "3f",
+    "t": "mc",
+    "q": "一個多項式加上 $x-4$，得到 $3x+2$。這個多項式是？",
+    "a": "$2x+6$",
+    "o": [
+     "$2x-2$",
+     "$4x-2$",
+     "$-2x-6$"
+    ],
+    "why": "[[括]] 所求＝$(3x+2)-(x-4)$。[[去]] $3x+2-x+4$。[[合]] $2x+6$。"
+   }
+  ]
+ }
+]/*END*/;
+const TOTAL_TIME=300;            // 5 分鐘
+const TOTAL_Q=LEVELS.reduce((s,l)=>s+l.qs.length,0);
+
+// ---------- 數學式：字母斜體、^n 上標、真減號、運算符前後留空 ----------
+function fmt(s){
+  let out='',i=0;
+  const plain=()=>out.replace(/<[^>]+>/g,'').trimEnd();
+  while(i<s.length){
+    const ch=s[i];
+    if(ch==='^'){let d='';i++;while(i<s.length&&/\d/.test(s[i])){d+=s[i];i++;}out+='<sup>'+d+'</sup>';continue;}
+    if(/[a-z]/.test(ch)) out+='<i>'+ch+'</i>';
+    else if(ch==='-'||ch==='+'){const p=plain();const un=p===''||/[(\[=×]$/.test(p);out+=un?(ch==='-'?'−':'+'):(ch==='-'?' − ':' + ');}
+    else if(ch==='='||ch==='×') out+=' '+ch+' ';
+    else out+=ch;
+    i++;
+  }
+  return out.trim();
+}
+function M(t,L){
+  t=String(t);
+  if(L) t=t.replace(/\[\[(.+?)\]\]/g,(_,s)=>`<span class="chip c${Math.max(0,L.steps.indexOf(s))}">${s}</span>`);
+  return t.replace(/\$(.+?)\$/g,(_,e)=>'<span class="m">'+fmt(e)+'</span>');
+}
+const plainLen=s=>String(s).replace(/[$^]/g,'').length;
+const chev=(L,big)=>`<div class="chev${big?' big':''}">${L.steps.map((s,k)=>`<span class="k${k}">${s}</span>`).join('')}</div>`;
+
+// ---------- 狀態 ----------
+let S;
+const app=document.getElementById('app'),fb=document.getElementById('fb'),fbin=document.getElementById('fbin');
+function shuffle(a){a=a.slice();for(let i=a.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]];}return a;}
+
+function home(){
+  hideFb();
+  app.innerHTML=`
+   <div class="cover">
+     <p class="eyebrow">第四章 整式的加減　4.2 整式的加法與減法</p>
+     <h1>整式加減<br>大挑戰</h1>
+     <span class="pill">把長長的式子變短！</span>
+   </div>
+   <h2 class="title">今日闖關路線</h2>
+   <div class="panel">
+     <ul class="route">${LEVELS.map((l,i)=>`<li><span class="node lv${i}">${i+1}</span>
+       <div><span class="nm">${l.key}</span><small>${l.sec}・${l.qs.length} 題</small>${chev(l)}</div></li>`).join('')}</ul>
+     <p class="rules">⏱ <b>5 分鐘</b>闖 3 關、共 ${TOTAL_Q} 題。<br>⭐ 答對 <b>+10</b>；連續答對 3 題起，每題多 <b>+5</b>。</p>
+   </div>
+   <button class="btn" id="go">開始挑戰 ▶</button>`;
+  document.getElementById('go').onclick=start;
+  window.scrollTo(0,0);
+}
+
+function start(){
+  clearInterval(S&&S.tick);
+  S={lv:0,qi:0,score:0,streak:0,best:0,right:0,done:0,marks:[],per:LEVELS.map(()=>0),wrong:[],t:TOTAL_TIME,over:false,
+     order:LEVELS.map(l=>shuffle(l.qs.map((_,i)=>i)))};
+  S.tick=setInterval(()=>{S.t--;drawTimer();if(S.t<=0)finish(true);},1000);
+  render();
+}
+function mmss(t){t=Math.max(0,t);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');}
+function drawTimer(){const el=document.getElementById('tm');if(el){el.textContent='⏱ '+mmss(S.t);el.classList.toggle('low',S.t<=30);}}
+
+function render(){
+  if(S.over)return;
+  const L=LEVELS[S.lv],Q=L.qs[S.order[S.lv][S.qi]];
+  const yn=Q.t==='yn';
+  const opts=yn?['是','不是']:(Q.t==='line'?Q.o.slice():shuffle([Q.a,...Q.o]));
+  const one=!yn&&(Q.long||Q.t==='line'||opts.some(o=>plainLen(o)>7));
+  app.innerHTML=`
+   <div class="hud">
+     <div class="bar">${LEVELS.map((l,i)=>`<span class="st ${i===S.lv?'on':i<S.lv?'done':''}">${i<S.lv?'✔':''}${l.short}</span>`).join('<span class="ar">→</span>')}</div>
+     <div class="hudrow"><span class="timer" id="tm"></span><span class="streak">${S.streak>=2?'🔥 連對 '+S.streak:''}</span><span class="score">⭐ ${S.score}</span></div>
+     <div class="blocks" style="grid-template-columns:repeat(${TOTAL_Q},1fr)">${Array.from({length:TOTAL_Q},(_,k)=>`<i class="${S.marks[k]||''}"></i>`).join('')}</div>
+   </div>
+   ${chev(L,true)}
+   ${S.qi===0?`<div class="rule"><span class="ic">💡</span><span>${M(L.rule)}</span></div>`:''}
+   <div class="qcard" style="--lv:var(--l${S.lv})">
+     <div class="qhead"><span>第 ${S.lv+1} 關　${L.key}</span><span>${S.qi+1} / ${L.qs.length}</span></div>
+     <div class="qbody">
+       ${yn?'<p class="ask">下面兩個項是不是同類項？</p>':''}
+       <p class="qtext">${M(Q.q)}</p>
+       <div class="opts ${one?'one':''}">
+         ${opts.map(o=>`<button class="opt ${yn?(o==='是'?'yes':'no'):''}" data-v="${encodeURIComponent(o)}">${yn?(o==='是'?'✔ 是':'✘ 不是'):M(o)}</button>`).join('')}
+       </div>
+     </div>
+   </div>`;
+  drawTimer();
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(b,decodeURIComponent(b.dataset.v),Q,L));
+  window.scrollTo(0,0);
+}
+
+function answer(btn,v,Q,L){
+  if(S.over||S.locked)return;
+  S.locked=true;
+  app.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(decodeURIComponent(b.dataset.v)===Q.a)b.classList.add('ok');});
+  const k=S.done; S.done++;
+  if(v===Q.a){
+    S.marks[k]='r'; S.streak++; S.best=Math.max(S.best,S.streak); S.right++; S.per[S.lv]++;
+    const gain=10+(S.streak>=3?5:0); S.score+=gain;
+    showFb(true,`<span class="big">✔ 答對！+${gain}</span>${S.streak>=3?'　🔥 連對 '+S.streak:''}`);
+    setTimeout(next,900);
+  }else{
+    S.marks[k]='w'; btn.classList.add('bad'); S.streak=0; S.wrong.push({Q,L});
+    showFb(false,`<div class="big">✘ 正確答案：${M(Q.a)}</div><div class="callout">${M(Q.why,L)}</div><button class="btn" id="nx">明白了，下一題</button>`);
+    document.getElementById('nx').onclick=next;
+  }
+}
+function showFb(ok,html){fb.className='fb show '+(ok?'ok':'bad');fbin.innerHTML=html;}
+function hideFb(){fb.className='fb';}
+
+function next(){
+  if(S.over)return;
+  S.locked=false; hideFb();
+  S.qi++;
+  if(S.qi>=LEVELS[S.lv].qs.length){S.lv++;S.qi=0;}
+  if(S.lv>=LEVELS.length){finish(false);return;}
+  render();
+}
+
+function finish(timeUp){
+  if(S.over)return;
+  S.over=true; clearInterval(S.tick); hideFb();
+  const used=TOTAL_TIME-Math.max(0,S.t), pct=S.right/TOTAL_Q;
+  const medal=pct>=0.9?'🏆':pct>=0.7?'🥇':pct>=0.5?'🥈':'💪';
+  const msg=pct>=0.9?'整式加減高手！':pct>=0.7?'好厲害，差少少就滿分！':pct>=0.5?'不錯，再玩一次會更好！':S.wrong.length?'看看下面的錯題，再挑戰一次！':'再挑戰一次，看看能闖到第幾關！';
+  app.innerHTML=`<div class="result">
+    <div class="medal">${medal}</div>
+    <h2 class="title" style="margin:4px 0">${timeUp?'⏰ 時間到！':'🎉 全部完成！'}</h2>
+    <p class="bigscore">${S.score} 分</p>
+    <div class="hint" style="margin:0">${msg}</div>
+    <table class="tbl">
+      <tr><td>答對</td><td>${S.right} / ${TOTAL_Q}</td></tr>
+      ${LEVELS.map((l,i)=>`<tr><td>第 ${i+1} 關　${l.key}</td><td>${S.per[i]} / ${l.qs.length}</td></tr>`).join('')}
+      <tr><td>最長連對</td><td>${S.best}</td></tr>
+      <tr><td>用時</td><td>${mmss(used)}</td></tr>
+    </table>
+    <p class="hint">舉起手機給老師看你的成績 📱</p>
+    <div class="panel take" style="margin-top:12px">
+      <h2>今日帶走</h2>
+      ${LEVELS.map(l=>`<p>📦 ${l.key}：${l.steps.join(' → ')}</p>`).join('')}
+      <div class="must">最少要能說出：<br>括號前是「−」，<u>每一項</u>都要變號！</div>
+    </div>
+    ${S.wrong.length?`<div class="review"><h2 class="title" style="font-size:22px;margin:16px 0 0">錯題重溫</h2>${S.wrong.map(({Q,L})=>`<div class="item">${Q.t==='yn'?'是不是同類項？':''}${M(Q.q)}<br>→ <b>${M(Q.a)}</b><div class="callout">${M(Q.why,L)}</div></div>`).join('')}</div>`:''}
+    <button class="btn" id="again">再玩一次</button>
+    <button class="btn ghost" id="home">回到首頁</button>
+  </div>`;
+  document.getElementById('again').onclick=start;
+  document.getElementById('home').onclick=home;
+  window.scrollTo(0,0);
+}
+
+home();
+</script>
+</body>
+</html>
