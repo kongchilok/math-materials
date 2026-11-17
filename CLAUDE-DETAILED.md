@@ -131,4 +131,4 @@ QB-10 只查它有沒有答案節；題目卷的 QB-10 則去配對的教師卷�
 ## 4. 附註
 - 交付檔與其 build 腳本放同一單元資料夾；**build 腳本是成品的源頭，要保留**，只清暫存。
 - 詳細 SOP：`~\.claude\skills\<skill>\SKILL.md`。
-- 教學設計研究依據：`G:\我的雲端硬碟\2ndBrain\每日筆記\2.0\`（平常不用讀，teaching-designs.md 已濃縮）。
+- 教學設計研究依據：`G:\My Drive\2ndBrain\每日筆記\2.0\`（平常不用讀，teaching-designs.md 已濃縮）。
