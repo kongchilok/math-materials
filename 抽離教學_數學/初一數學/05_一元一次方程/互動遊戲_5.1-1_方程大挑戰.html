@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<title>方程大挑戰</title>
+<style>
+/* 視覺語言對齊 簡報_5.1-1_方程與方程的解：深綠封面（#34493F）、鼠尾草綠卡片（#DCE6DF／#5E8574）、
+   綠點標題；遊戲元件（路線列、四色步驟箭頭、黃色對話框、紅錯綠對）沿用 4.2 遊戲。 */
+:root{
+  --ink:#202a26; --muted:#4e5c55; --head:#2e4a40;
+  --bg1:#c9dcd0; --bg2:#f1f4f1;
+  --bar:#dce6df; --bar-edge:#5e8574;
+  --s0:#3b78d8; --s1:#1f9e9a; --s2:#43a047; --s3:#ef8a22;
+  --l0:#3b6fd4; --l1:#b0407e; --l2:#c7731e;
+  --pill:#3f6656; --pill-hi:#55806d; --pill-edge:#253f33;
+  --ok:#2e7d45; --ok-bg:#e1f2e3; --ok-edge:#4caf68;
+  --bad:#c62828; --bad-bg:#fde4e1; --bad-edge:#e05656;
+  --callout:#ffe264; --callout-edge:#2a2a2a;
+  --cream:#fff6d8; --cream-edge:#d9a43a;
+  --line:#b5c8bb;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0}
+body{color:var(--ink);font-family:"Microsoft JhengHei","PingFang TC","Noto Sans TC","Heiti TC",sans-serif;font-size:18px;
+  font-weight:700;min-height:100vh;
+  background:
+    radial-gradient(circle,rgba(255,255,255,.55) 1.6px,transparent 1.8px) 0 0/22px 22px,
+    linear-gradient(180deg,var(--bg1) 0%,#dfeae3 45%,var(--bg2) 100%) fixed;}
+.wrap{max-width:520px;margin:0 auto;padding:12px 16px 140px}
+.hidden{display:none!important}
+
+/* 數學式：與介面同一黑體，字母斜體、上標、分數、真減號 */
+.m{white-space:nowrap;font-weight:700}
+.m i{font-style:italic;padding-right:.1em}
+.m sup{font-size:.68em;line-height:0}
+.fr{display:inline-flex;flex-direction:column;vertical-align:middle;text-align:center;font-size:.82em;line-height:1.15;margin:0 .1em}
+.fr>span:first-child{border-bottom:.09em solid currentColor;padding:0 .2em}
+
+/* ---------- 封面（簡報第 1 頁） ---------- */
+.cover{border-radius:20px;padding:18px 18px 22px;color:#f2f7f4;text-align:center;
+  background:
+    repeating-linear-gradient(90deg,rgba(255,255,255,.04) 0 28px,transparent 28px 56px),
+    repeating-linear-gradient(0deg,rgba(0,0,0,.12) 0 2px,transparent 2px 28px),
+    #34493f;
+  box-shadow:0 6px 0 #1f2c26}
+.cover .eyebrow{font-size:13px;text-align:left;color:#c9d6ce;margin:0 0 14px;font-weight:400}
+.cover h1{font-size:46px;line-height:1.15;margin:0 0 14px;letter-spacing:2px;font-weight:900;text-shadow:0 3px 0 #1a2420}
+.cover .hook{font-size:16px;color:#c9d6ce;margin:0 0 14px;line-height:1.5}
+.pill{display:inline-block;background:#f2f7f4;color:var(--head);border-radius:999px;
+  padding:9px 22px;font-size:20px;font-weight:900;box-shadow:0 4px 0 #9fb5a8}
+
+/* ---------- 標題（綠點＋深綠字，簡報各頁標題） ---------- */
+.title{color:var(--head);font-weight:900;margin:18px 0 10px;font-size:24px;display:flex;align-items:center;gap:10px}
+.title::before{content:"";width:16px;height:16px;border-radius:50%;background:var(--bar-edge);flex:none}
+.title.c{justify-content:center}
+.title.c::before{display:none}
+
+/* ---------- 面板（簡報綠框卡片） ---------- */
+.panel{background:rgba(255,255,255,.94);border:3px solid var(--bar-edge);border-radius:16px;padding:12px 14px;box-shadow:0 4px 0 rgba(46,74,64,.18)}
+.route{list-style:none;margin:0;padding:0;display:grid;gap:12px}
+.route li{display:flex;gap:12px;align-items:center}
+.node{flex:none;width:52px;height:52px;border-radius:50%;color:#fff;font-size:24px;font-weight:900;display:flex;
+  align-items:center;justify-content:center;border:3px solid rgba(0,0,0,.2);box-shadow:0 0 0 3px #fff,0 4px 0 3px rgba(0,0,0,.15)}
+.route .nm{font-size:18px}
+.route small{display:block;color:var(--muted);font-size:13px;font-weight:400;margin-top:2px}
+.lv0{background:var(--l0)}.lv1{background:var(--l1)}.lv2{background:var(--l2)}
+
+/* 四步箭頭 */
+.chev{display:flex;gap:2px;margin-top:5px}
+.chev span{color:#fff;font-size:14px;font-weight:900;padding:4px 14px 4px 16px;white-space:nowrap;
+  clip-path:polygon(0 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,0 100%,9px 50%)}
+.chev span:first-child{clip-path:polygon(0 0,calc(100% - 9px) 0,100% 50%,calc(100% - 9px) 100%,0 100%);padding-left:10px}
+.k0{background:var(--s0)}.k1{background:var(--s1)}.k2{background:var(--s2)}.k3{background:var(--s3)}
+.chev.big span{font-size:16px;padding:7px 12px 7px 18px;flex:1;text-align:center}
+.chev.big span:first-child{padding-left:12px}
+
+.rules{font-size:15px;line-height:1.7;font-weight:400;margin:12px 0 0}
+.rules b{font-weight:900}
+
+/* 按鈕：深綠膠囊＋厚底 */
+.btn{display:block;width:100%;min-height:58px;border:0;border-radius:999px;margin-top:14px;cursor:pointer;
+  background:linear-gradient(180deg,var(--pill-hi),var(--pill));color:#fff;font:inherit;font-size:21px;font-weight:900;
+  box-shadow:0 5px 0 var(--pill-edge)}
+.btn:active{transform:translateY(3px);box-shadow:0 2px 0 var(--pill-edge)}
+.btn.ghost{background:#fff;color:var(--head);box-shadow:0 5px 0 var(--bar-edge);border:3px solid var(--bar-edge)}
+
+/* ---------- 遊戲 HUD ---------- */
+.hud{position:sticky;top:0;z-index:5;padding:8px 0 8px;margin:-12px 0 0;
+  background:linear-gradient(180deg,var(--bg1) 70%,rgba(201,220,208,0))}
+.bar{background:linear-gradient(180deg,#eef4f0,var(--bar));border:3px solid var(--bar-edge);border-radius:14px;
+  padding:6px 8px;display:flex;justify-content:center;align-items:center;gap:4px;font-size:15px;white-space:nowrap}
+.bar .st{padding:2px 7px;border-radius:7px;border:2px solid transparent;color:var(--muted)}
+.bar .st.on{color:var(--ink);border-color:#f3c623;background:#fff8cf;box-shadow:0 0 0 3px rgba(243,198,35,.35)}
+.bar .st.done{color:var(--ok)}
+.bar .ar{color:var(--muted)}
+.hudrow{display:flex;justify-content:space-between;align-items:center;margin-top:8px;padding:0 2px}
+.timer{font-variant-numeric:tabular-nums;font-size:22px}
+.timer.low{color:var(--bad)}
+.streak{color:#b35400;font-size:16px;min-width:80px;text-align:center}
+.score{font-size:20px}
+.blocks{display:grid;gap:3px;margin-top:8px}
+.blocks i{height:9px;background:rgba(255,255,255,.8);border:1px solid rgba(46,74,64,.25)}
+.blocks i.r{background:var(--ok-edge);border-color:var(--ok)}
+.blocks i.w{background:var(--bad-edge);border-color:var(--bad)}
+
+.rule{background:var(--cream);border:3px solid var(--cream-edge);border-radius:14px;padding:9px 12px;margin:10px 0 0;
+  font-size:16px;line-height:1.6;font-weight:700;display:flex;gap:8px}
+.rule .ic{font-size:22px;line-height:1.2}
+
+/* 題目卡：彩色框頭＋白身 */
+.qcard{margin-top:12px;border:4px solid var(--lv);border-radius:18px;background:var(--lv);box-shadow:0 5px 0 rgba(0,0,0,.16)}
+.qhead{color:#fff;font-size:15px;padding:6px 12px 7px;display:flex;justify-content:space-between}
+.qbody{background:#fbfdfb;border-radius:13px;padding:16px 14px 14px}
+.qtext{font-size:22px;line-height:1.75;margin:0}
+.qtext.long{font-size:19px;line-height:1.7}
+.qtext .m{font-size:1.08em}
+.ask{font-size:17px;color:var(--muted);margin:0 0 4px}
+.opts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.opts.one{grid-template-columns:1fr}
+.opt{min-height:62px;border-radius:14px;border:3px solid var(--line);background:#fff;box-shadow:0 4px 0 var(--line);
+  font:inherit;font-size:21px;font-weight:700;color:var(--ink);cursor:pointer;padding:8px 8px;display:flex;align-items:center;gap:8px}
+.opt .n{flex:none;font-size:20px;color:var(--head)}
+.opt .v{flex:1;text-align:center}
+.opt:active{transform:translateY(3px);box-shadow:0 1px 0 var(--line)}
+.opt.yes{color:var(--ok);border-color:var(--ok-edge);box-shadow:0 4px 0 var(--ok-edge);justify-content:center}
+.opt.no{color:var(--bad);border-color:var(--bad-edge);box-shadow:0 4px 0 var(--bad-edge);justify-content:center}
+.opt.ok{background:var(--ok-bg);border-color:var(--ok-edge);box-shadow:0 4px 0 var(--ok);color:var(--ok)}
+.opt.bad{background:var(--bad-bg);border-color:var(--bad-edge);box-shadow:0 4px 0 var(--bad);color:var(--bad)}
+.opt[disabled]{cursor:default}
+
+.chip{display:inline-block;color:#fff;border-radius:6px;padding:0 6px;margin:0 2px;font-size:.9em;line-height:1.45}
+.chip.c0{background:var(--s0)}.chip.c1{background:var(--s1)}.chip.c2{background:var(--s2)}.chip.c3{background:var(--s3)}
+
+/* 回饋：底部卡片＋黃色對話框 */
+.fb{position:fixed;left:0;right:0;bottom:0;padding:12px 14px 16px;z-index:10;transform:translateY(115%);transition:transform .2s}
+.fb.show{transform:none}
+.fb .in{max-width:520px;margin:0 auto;border-radius:18px;padding:12px 14px;font-size:17px;line-height:1.6}
+.fb.ok .in{background:var(--ok-bg);border:4px solid var(--ok-edge);color:var(--ok);box-shadow:0 5px 0 var(--ok)}
+.fb.bad .in{background:#fff;border:4px solid var(--bad-edge);box-shadow:0 5px 0 var(--bad)}
+.fb .big{font-size:22px;font-weight:900}
+.fb.bad .big{color:var(--bad)}
+.callout{background:var(--callout);border:3px solid var(--callout-edge);border-radius:14px;padding:8px 12px;margin-top:8px;
+  font-size:17px;line-height:1.7;color:var(--ink);position:relative}
+.callout::before{content:"💬 ";}
+.fb .btn{margin-top:12px;min-height:52px;font-size:19px}
+
+/* ---------- 結算（簡報「今日帶走」頁） ---------- */
+.result{text-align:center}
+.medal{font-size:64px;margin:6px 0 0;line-height:1.1}
+.bigscore{font-size:56px;font-weight:900;color:var(--head);margin:0}
+.tbl{width:100%;border-collapse:separate;border-spacing:0;margin:12px 0;background:#fff;border:3px solid var(--bar-edge);border-radius:14px;overflow:hidden}
+.tbl td{padding:9px 12px;border-bottom:2px solid #e2ebe5;text-align:left;font-size:16px}
+.tbl tr:last-child td{border-bottom:0}
+.tbl td:last-child{text-align:right;font-variant-numeric:tabular-nums}
+.take{text-align:left;font-size:16px;line-height:1.75}
+.take h2{margin:0 0 4px;font-size:20px;color:var(--head)}
+.take p{margin:2px 0}
+.must{margin-top:10px;background:#34493f;color:#f2f7f4;border-radius:12px;padding:10px 14px;font-weight:900;line-height:1.65;text-align:left}
+.must small{display:block;color:#c9d6ce;font-size:14px}
+.review{text-align:left;margin-top:12px}
+.review .item{background:#fff;border:3px solid var(--bad-edge);border-radius:14px;padding:10px 12px;margin-top:10px;line-height:1.7;font-size:16px}
+.hint{font-size:15px;color:var(--muted);margin:10px 0 0;font-weight:400}
+</style>
+</head>
+<body>
+<div class="wrap" id="app"></div>
+<div class="fb" id="fb"><div class="in" id="fbin"></div></div>
+
+<script>
+// ---------- 題庫：由 build_game_5.1-1.py 注入（驗算見 驗算_第五章_一元一次方程.md 文末）----------
+// 選項次序與題號在 build 腳本定死，與投影版、講義紀錄表的 ①②③④ 一致；這裡不重排。
+const LEVELS=/*BANK*/[
+ {
+  "key": "方程與一元一次方程",
+  "short": "判斷",
+  "sec": "對應練習第 1、6 題",
+  "steps": [
+   "等號",
+   "未知數",
+   "一元",
+   "一次"
+  ],
+  "tips": [
+   "有沒有「＝」？",
+   "有沒有字母？",
+   "只有一個未知數？",
+   "次數是 1？"
+  ],
+  "rule": "方程：含有未知數的等式。一元一次方程：只有一個未知數，次數是 1，分母沒有未知數。",
+  "qs": [
+   {
+    "id": "1a",
+    "num": 1,
+    "t": "yn",
+    "core": 1,
+    "ask": "是不是方程？",
+    "q": "$2x+1=7$",
+    "a": "是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[等號]] 有「＝」；[[未知數]] 有 $x$。含有未知數的等式，就是方程。"
+   },
+   {
+    "id": "1b",
+    "num": 2,
+    "t": "yn",
+    "core": 1,
+    "ask": "是不是方程？",
+    "q": "$3+4=7$",
+    "a": "不是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[等號]] 有「＝」，但 [[未知數]] 沒有字母。它只是等式，不是方程。"
+   },
+   {
+    "id": "1c",
+    "num": 3,
+    "t": "yn",
+    "core": 1,
+    "ask": "是不是方程？",
+    "q": "$5x-2$",
+    "a": "不是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[等號]] 沒有「＝」。它只是代數式，不是方程。"
+   },
+   {
+    "id": "1d",
+    "num": 4,
+    "t": "yn",
+    "core": 1,
+    "ask": "是不是一元一次方程？",
+    "q": "$x+y=10$",
+    "a": "不是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "它是方程，但 [[一元]] 有 $x$、$y$ 兩個未知數，不是只有一個。"
+   },
+   {
+    "id": "1e",
+    "num": 5,
+    "t": "yn",
+    "core": 1,
+    "ask": "是不是一元一次方程？",
+    "q": "$x^2=9$",
+    "a": "不是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "它是方程，但 [[一次]] $x$ 的次數是 2，不是 1。"
+   },
+   {
+    "id": "1f",
+    "num": 6,
+    "t": "yn",
+    "ask": "是不是一元一次方程？",
+    "q": "$F(x,3)=4$",
+    "a": "是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[一元]] 只有 $x$；[[一次]] 次數是 1；分母是 3，沒有未知數。所以是一元一次方程。"
+   },
+   {
+    "id": "1g",
+    "num": 7,
+    "t": "yn",
+    "ask": "這句話對不對？",
+    "q": "等式都是方程。",
+    "a": "不對",
+    "opts": [
+     "對",
+     "不對"
+    ],
+    "why": "$3+4=7$ 是等式，但沒有未知數，不是方程。方程一定是等式；等式不一定是方程。"
+   }
+  ]
+ },
+ {
+  "key": "列方程",
+  "short": "列方程",
+  "sec": "對應練習第 2、4 題",
+  "steps": [
+   "找",
+   "設",
+   "表示",
+   "列"
+  ],
+  "tips": [
+   "找相等關係",
+   "設未知數",
+   "用 $x$ 表示其他量",
+   "兩邊各寫一個式子"
+  ],
+  "rule": "比……多：＋　比……少：−　是……的 3 倍：×3　等於、一樣多：＝。比 $x$ 少 5 是 $x-5$，不是 $5-x$。",
+  "qs": [
+   {
+    "id": "2a",
+    "num": 8,
+    "t": "mc",
+    "core": 1,
+    "q": "$x$ 的 3 倍加上 4 等於 19。",
+    "a": "$3x+4=19$",
+    "opts": [
+     "$4x+3=19$",
+     "$3(x+4)=19$",
+     "$3x+4=19$",
+     "$x+3+4=19$"
+    ],
+    "why": "[[列]] 「$x$ 的 3 倍」是 $3x$，「加上 4」是 $+4$，「等於」寫＝。先乘 3 再加 4，不用括號。"
+   },
+   {
+    "id": "2b",
+    "num": 9,
+    "t": "mc",
+    "core": 1,
+    "q": "比 $x$ 少 5 的數等於 12。",
+    "a": "$x-5=12$",
+    "opts": [
+     "$x+5=12$",
+     "$5-x=12$",
+     "$5x=12$",
+     "$x-5=12$"
+    ],
+    "why": "「比 $x$ 少 5」是由 $x$ 減去 5：$x-5$。$5-x$ 次序反了。"
+   },
+   {
+    "id": "2c",
+    "num": 10,
+    "t": "mc",
+    "q": "$x$ 的一半等於 $x$ 減 6。",
+    "a": "$F(x,2)=x-6$",
+    "opts": [
+     "$F(x,2)=x-6$",
+     "$F(x,2)-6=x$",
+     "$F(x,2)=6-x$",
+     "$2x=x-6$"
+    ],
+    "why": "「一半」是除以 2：$F(x,2)$。「$x$ 減 6」是 $x-6$，次序不能反。"
+   },
+   {
+    "id": "2d",
+    "num": 11,
+    "t": "mc",
+    "core": 1,
+    "q": "甲種筆每枝 3 元，乙種筆每枝 5 元。用 46 元買了兩種筆共 12 枝。設甲種筆買了 $x$ 枝。",
+    "a": "$3x+5(12-x)=46$",
+    "opts": [
+     "$3x+5x=46$",
+     "$3x+5(12-x)=46$",
+     "$3x+5(x-12)=46$",
+     "$5x+3(12-x)=46$"
+    ],
+    "why": "[[設]] 甲 $x$ 枝。[[表示]] 乙 $(12-x)$ 枝。[[列]] 甲的錢＋乙的錢＝46：$3x+5(12-x)=46$。",
+    "long": 1
+   },
+   {
+    "id": "2e",
+    "num": 12,
+    "t": "mc",
+    "core": 1,
+    "q": "第一堆書有 50 本，第二堆有 20 本。從第一堆搬 $x$ 本到第二堆，兩堆就一樣多。",
+    "a": "$50-x=20+x$",
+    "opts": [
+     "$50+x=20-x$",
+     "$50-x=20$",
+     "$50-x=20+x$",
+     "$50-x=2x$"
+    ],
+    "why": "[[表示]] 搬完後，第一堆 $(50-x)$ 本，第二堆 $(20+x)$ 本。[[找]] 「一樣多」寫＝。",
+    "long": 1
+   },
+   {
+    "id": "2f",
+    "num": 13,
+    "t": "mc",
+    "q": "某班有 40 人，女生人數比男生人數的 2 倍少 5 人。設男生有 $x$ 人。",
+    "a": "$x+(2x-5)=40$",
+    "opts": [
+     "$x+2x+5=40$",
+     "$x+(5-2x)=40$",
+     "$2x-5=40$",
+     "$x+(2x-5)=40$"
+    ],
+    "why": "[[表示]] 女生是男生的 2 倍少 5：$(2x-5)$ 人。[[列]] 男生＋女生＝40。",
+    "long": 1
+   }
+  ]
+ },
+ {
+  "key": "方程的解",
+  "short": "解",
+  "sec": "對應練習第 3、5、6–9 題",
+  "steps": [
+   "代入",
+   "左邊",
+   "右邊",
+   "比較"
+  ],
+  "tips": [
+   "把數值代入 $x$",
+   "左邊算一次",
+   "右邊算一次",
+   "相等才是解"
+  ],
+  "rule": "檢驗一個數是不是方程的解：代入後，左邊算一次，右邊算一次，再比較。左右相等，才是解。",
+  "qs": [
+   {
+    "id": "3a",
+    "num": 14,
+    "t": "yn",
+    "core": 1,
+    "q": "$x=3$ 是不是方程 $4x-5=7$ 的解？",
+    "a": "是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[左邊]] $4×3-5=7$。[[右邊]] 是 7。[[比較]] 左右相等，所以是解。",
+    "sub": 1
+   },
+   {
+    "id": "3b",
+    "num": 15,
+    "t": "yn",
+    "core": 1,
+    "q": "$x=1$ 是不是方程 $5x+2=3x+6$ 的解？",
+    "a": "不是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[左邊]] $5×1+2=7$。[[右邊]] $3×1+6=9$。[[比較]] 7 和 9 不相等，所以不是解。",
+    "sub": 1
+   },
+   {
+    "id": "3c",
+    "num": 16,
+    "t": "yn",
+    "q": "$x=2$ 是不是方程 $5x+2=3x+6$ 的解？",
+    "a": "是",
+    "opts": [
+     "是",
+     "不是"
+    ],
+    "why": "[[左邊]] $5×2+2=12$。[[右邊]] $3×2+6=12$。[[比較]] 相等，所以是解。",
+    "sub": 1
+   },
+   {
+    "id": "3d",
+    "num": 17,
+    "t": "mc",
+    "core": 1,
+    "q": "$x=-2$、$x=3$ 中，哪一個是方程 $2x-1=3x+1$ 的解？",
+    "a": "$x=-2$",
+    "opts": [
+     "$x=-2$",
+     "$x=3$",
+     "兩個都是",
+     "兩個都不是"
+    ],
+    "why": "[[代入]] 負數要加括號。$x=-2$：左邊 $2×(-2)-1=-5$，右邊 $3×(-2)+1=-5$，相等。$x=3$：左邊 5，右邊 10，不相等。"
+   },
+   {
+    "id": "3e",
+    "num": 18,
+    "t": "yn",
+    "ask": "這句話對不對？",
+    "q": "方程 $x+1=3$ 的解是 $x=2$。",
+    "a": "對",
+    "opts": [
+     "對",
+     "不對"
+    ],
+    "why": "[[代入]] [[左邊]] $2+1=3$，[[比較]] 等於右邊 3，所以 $x=2$ 是解。"
+   },
+   {
+    "id": "3f",
+    "num": 19,
+    "t": "mc",
+    "core": 1,
+    "q": "已知 $x=2$ 是方程 $3x+a=10$ 的解。$a$ ＝ ？",
+    "a": "$4$",
+    "opts": [
+     "$8$",
+     "$4$",
+     "$16$",
+     "$-4$"
+    ],
+    "why": "[[代入]] 把 $x=2$ 代入：$3×2+a=10$，即 $6+a=10$，所以 $a=4$。"
+   },
+   {
+    "id": "3g",
+    "num": 20,
+    "t": "mc",
+    "q": "若 $x^{m-1}+4=0$ 是關於 $x$ 的一元一次方程，$m$ ＝ ？",
+    "a": "$2$",
+    "opts": [
+     "$2$",
+     "$1$",
+     "$3$",
+     "$0$"
+    ],
+    "why": "一元一次方程中，$x$ 的次數要是 1：$m-1=1$，所以 $m=2$。"
+   },
+   {
+    "id": "3h",
+    "num": 21,
+    "t": "mc",
+    "q": "下面哪一個方程的解是 $x=-3$？",
+    "a": "$x+5=2$",
+    "opts": [
+     "$2x=6$",
+     "$x+3=3$",
+     "$x-5=2$",
+     "$x+5=2$"
+    ],
+    "why": "[[代入]] $x=-3$：$-3+5=2$，左右相等。其他三個代入後，左右都不相等。"
+   }
+  ]
+ }
+]/*END*/;
+const TOTAL_TIME=300;            // 5 分鐘
+const TOTAL_Q=LEVELS.reduce((s,l)=>s+l.qs.length,0);
+const CIRC='①②③④';
+
+// ---------- 數學式：字母斜體、^n／^{…} 上標、F(p,q) 分數、真減號、運算符前後留空 ----------
+function fmt(s){
+  const fr=[];
+  s=s.replace(/F\(([^,()]+),([^()]+)\)/g,(_,p,q)=>{fr.push([p,q]);return '@'+(fr.length-1)+'@';});
+  let out='',i=0;
+  const plain=()=>out.replace(/<[^>]+>/g,'').trimEnd();
+  while(i<s.length){
+    const ch=s[i];
+    if(ch==='@'){const j=s.indexOf('@',i+1);out+=s.slice(i,j+1);i=j+1;continue;}
+    if(ch==='^'){
+      if(s[i+1]==='{'){const j=s.indexOf('}',i);out+='<sup>'+s.slice(i+2,j).replace(/[a-z]/g,'<i>$&</i>').replace(/-/g,'−')+'</sup>';i=j+1;continue;}
+      let d='';i++;while(i<s.length&&/\d/.test(s[i])){d+=s[i];i++;}out+='<sup>'+d+'</sup>';continue;}
+    if(/[a-z]/.test(ch)) out+='<i>'+ch+'</i>';
+    else if(ch==='-'||ch==='+'){const p=plain();const un=p===''||/[(\[=×]$/.test(p);out+=un?(ch==='-'?'−':'+'):(ch==='-'?' − ':' + ');}
+    else if(ch==='='||ch==='×') out+=' '+ch+' ';
+    else out+=ch;
+    i++;
+  }
+  return out.trim().replace(/@(\d+)@/g,(_,k)=>`<span class="fr"><span>${fmt(fr[k][0])}</span><span>${fmt(fr[k][1])}</span></span>`);
+}
+function M(t,L){
+  t=String(t);
+  if(L) t=t.replace(/\[\[(.+?)\]\]/g,(_,s)=>`<span class="chip c${Math.max(0,L.steps.indexOf(s))}">${s}</span>`);
+  return t.replace(/\$(.+?)\$/g,(_,e)=>'<span class="m">'+fmt(e)+'</span>');
+}
+const plainLen=s=>String(s).replace(/[$^{}]|F\(|[(),]/g,'').length;
+const chev=(L,big)=>`<div class="chev${big?' big':''}">${L.steps.map((s,k)=>`<span class="k${k}">${s}</span>`).join('')}</div>`;
+
+// ---------- 狀態 ----------
+let S;
+const app=document.getElementById('app'),fb=document.getElementById('fb'),fbin=document.getElementById('fbin');
+
+function home(){
+  hideFb();
+  app.innerHTML=`
+   <div class="cover">
+     <p class="eyebrow">第五章 一元一次方程　5.1 方程（第 1 課時）</p>
+     <h1>方程<br>大挑戰</h1>
+     <p class="hook">方程、列方程、方程的解——<br>三關一次過！</p>
+     <span class="pill">用「＝」把兩邊連起來</span>
+   </div>
+   <h2 class="title">今日闖關路線</h2>
+   <div class="panel">
+     <ul class="route">${LEVELS.map((l,i)=>`<li><span class="node lv${i}">${i+1}</span>
+       <div><span class="nm">${l.key}</span><small>${l.qs.length} 題・${l.sec}</small>${chev(l)}</div></li>`).join('')}</ul>
+     <p class="rules">⏱ <b>5 分鐘</b>闖 3 關、共 ${TOTAL_Q} 題。<br>⭐ 答對 <b>+10</b>；連續答對 3 題起，每題多 <b>+5</b>。<br>📝 每題在紀錄表圈下你的答案。</p>
+   </div>
+   <button class="btn" id="go">開始挑戰 ▶</button>`;
+  document.getElementById('go').onclick=start;
+  window.scrollTo(0,0);
+}
+
+function start(){
+  clearInterval(S&&S.tick);
+  S={lv:0,qi:0,score:0,streak:0,best:0,right:0,done:0,marks:[],per:LEVELS.map(()=>0),wrong:[],t:TOTAL_TIME,over:false};
+  S.tick=setInterval(()=>{S.t--;drawTimer();if(S.t<=0)finish(true);},1000);
+  render();
+}
+function mmss(t){t=Math.max(0,t);return Math.floor(t/60)+':'+String(t%60).padStart(2,'0');}
+function drawTimer(){const el=document.getElementById('tm');if(el){el.textContent='⏱ '+mmss(S.t);el.classList.toggle('low',S.t<=30);}}
+
+function render(){
+  if(S.over)return;
+  const L=LEVELS[S.lv],Q=L.qs[S.qi];
+  const yn=Q.t==='yn', opts=Q.opts;
+  const one=!yn&&(Q.long||opts.some(o=>plainLen(o)>9||/[一-鿿]{4,}/.test(o)));
+  app.innerHTML=`
+   <div class="hud">
+     <div class="bar">${LEVELS.map((l,i)=>`<span class="st ${i===S.lv?'on':i<S.lv?'done':''}">${i<S.lv?'✔':''}${l.short}</span>`).join('<span class="ar">→</span>')}</div>
+     <div class="hudrow"><span class="timer" id="tm"></span><span class="streak">${S.streak>=2?'🔥 連對 '+S.streak:''}</span><span class="score">⭐ ${S.score}</span></div>
+     <div class="blocks" style="grid-template-columns:repeat(${TOTAL_Q},1fr)">${Array.from({length:TOTAL_Q},(_,k)=>`<i class="${S.marks[k]||''}"></i>`).join('')}</div>
+   </div>
+   ${chev(L,true)}
+   ${S.qi===0?`<div class="rule"><span class="ic">💡</span><span>${M(L.rule)}</span></div>`:''}
+   <div class="qcard" style="--lv:var(--l${S.lv})">
+     <div class="qhead"><span>第 ${Q.num} 題　${L.key}</span><span>${S.qi+1} / ${L.qs.length}</span></div>
+     <div class="qbody">
+       ${Q.ask?`<p class="ask">${Q.ask}</p>`:''}
+       <p class="qtext ${Q.long?'long':''}">${M(Q.q)}</p>
+       <div class="opts ${one?'one':''}">
+         ${opts.map((o,k)=>yn
+           ?`<button class="opt ${k===0?'yes':'no'}" data-v="${encodeURIComponent(o)}">${k===0?'✔':'✘'} ${o}</button>`
+           :`<button class="opt" data-v="${encodeURIComponent(o)}"><span class="n">${CIRC[k]}</span><span class="v">${M(o)}</span></button>`).join('')}
+       </div>
+     </div>
+   </div>`;
+  drawTimer();
+  app.querySelectorAll('.opt').forEach(b=>b.onclick=()=>answer(b,decodeURIComponent(b.dataset.v),Q,L));
+  window.scrollTo(0,0);
+}
+
+function answer(btn,v,Q,L){
+  if(S.over||S.locked)return;
+  S.locked=true;
+  app.querySelectorAll('.opt').forEach(b=>{b.disabled=true;if(decodeURIComponent(b.dataset.v)===Q.a)b.classList.add('ok');});
+  const k=S.done; S.done++;
+  const label=Q.t==='yn'?Q.a:CIRC[Q.opts.indexOf(Q.a)]+' '+M(Q.a);
+  if(v===Q.a){
+    S.marks[k]='r'; S.streak++; S.best=Math.max(S.best,S.streak); S.right++; S.per[S.lv]++;
+    const gain=10+(S.streak>=3?5:0); S.score+=gain;
+    showFb(true,`<span class="big">✔ 答對！+${gain}</span>${S.streak>=3?'　🔥 連對 '+S.streak:''}`);
+    setTimeout(next,900);
+  }else{
+    S.marks[k]='w'; btn.classList.add('bad'); S.streak=0; S.wrong.push({Q,L});
+    showFb(false,`<div class="big">✘ 正確答案：${label}</div><div class="callout">${M(Q.why,L)}</div><button class="btn" id="nx">明白了，下一題</button>`);
+    document.getElementById('nx').onclick=next;
+  }
+}
+function showFb(ok,html){fb.className='fb show '+(ok?'ok':'bad');fbin.innerHTML=html;}
+function hideFb(){fb.className='fb';}
+
+function next(){
+  if(S.over)return;
+  S.locked=false; hideFb();
+  S.qi++;
+  if(S.qi>=LEVELS[S.lv].qs.length){S.lv++;S.qi=0;}
+  if(S.lv>=LEVELS.length){finish(false);return;}
+  render();
+}
+
+function finish(timeUp){
+  if(S.over)return;
+  S.over=true; clearInterval(S.tick); hideFb();
+  const used=TOTAL_TIME-Math.max(0,S.t), pct=S.right/TOTAL_Q;
+  const medal=pct>=0.9?'🏆':pct>=0.7?'🥇':pct>=0.5?'🥈':'💪';
+  const msg=pct>=0.9?'方程高手！':pct>=0.7?'好厲害，差少少就滿分！':pct>=0.5?'不錯，再玩一次會更好！':S.wrong.length?'看看下面的錯題，再挑戰一次！':'再挑戰一次，看看能闖到第幾關！';
+  app.innerHTML=`<div class="result">
+    <div class="medal">${medal}</div>
+    <h2 class="title c" style="margin:4px 0">${timeUp?'⏰ 時間到！':'🎉 全部完成！'}</h2>
+    <p class="bigscore">${S.score} 分</p>
+    <div class="hint" style="margin:0">${msg}</div>
+    <table class="tbl">
+      <tr><td>答對</td><td>${S.right} / ${TOTAL_Q}</td></tr>
+      ${LEVELS.map((l,i)=>`<tr><td>第 ${i+1} 關　${l.key}</td><td>${S.per[i]} / ${l.qs.length}</td></tr>`).join('')}
+      <tr><td>最長連對</td><td>${S.best}</td></tr>
+      <tr><td>用時</td><td>${mmss(used)}</td></tr>
+    </table>
+    <p class="hint">把成績寫在紀錄表最下面，再舉起手機給老師看 📱</p>
+    <div class="panel take" style="margin-top:12px">
+      <h2>今日帶走</h2>
+      <p>📦 方程：含有未知數的等式。</p>
+      <p>📦 方程的解：使左右兩邊相等的未知數的值。</p>
+      <p>📦 一元一次方程：一個未知數、次數是 1。</p>
+      <div class="must"><small>最少要能說出：</small>檢驗一個數是不是解：代入，左邊算一次，右邊算一次，再比較。</div>
+    </div>
+    ${S.wrong.length?`<div class="review"><h2 class="title" style="font-size:22px;margin:16px 0 0">錯題重溫</h2>${S.wrong.map(({Q,L})=>`<div class="item">第 ${Q.num} 題　${Q.ask?Q.ask+' ':''}${M(Q.q)}<br>→ <b>${Q.t==='yn'?Q.a:CIRC[Q.opts.indexOf(Q.a)]+' '+M(Q.a)}</b><div class="callout">${M(Q.why,L)}</div></div>`).join('')}</div>`:''}
+    <button class="btn" id="again">再玩一次</button>
+    <button class="btn ghost" id="home">回到首頁</button>
+  </div>`;
+  document.getElementById('again').onclick=start;
+  document.getElementById('home').onclick=home;
+  window.scrollTo(0,0);
+}
+
+home();
+</script>
+</body>
+</html>
